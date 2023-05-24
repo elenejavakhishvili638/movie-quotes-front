@@ -8,8 +8,19 @@
                      <a class="mt-[32px] justify-center items-center flex w-109 h-38 rounded-[4px] text-white text-base border-none bg-red" >{{ $t("texts.get_started") }}</a>
                  </div>
             </div>
-            <div class="flex h-[500px] lg:h-[1000px] bg-center bg-fixed bg-cover bg-no-repeat lg:pt-[413px] lg:pl-[239px] lg:justify-start lg:items-start justify-center items-center" >
-                 <!-- <img src="" /> -->
+            <div :style="{ backgroundImage: `url(${image1})`}" class="flex h-[500px] lg:h-[1000px] bg-center bg-fixed bg-cover bg-no-repeat lg:pt-[413px] lg:pl-[239px] lg:justify-start lg:items-start justify-center items-center" >
+                <div class="w-[305px] lg:w-[761px] lg:leading-[75px] text-xl lg:text-[50px] font-bold">
+                  <h1 class="mb-[10px]" >- “You have to leave somethig behind to go forward”</h1>
+                  <p class="text-base lg:text-[30px]" >Interstellar, 2014</p>
+                </div>
+            </div>
+            <div :style="{ backgroundImage: `url(${image2})`}" class="flex h-[500px] lg:h-[1000px] bg-center bg-fixed bg-cover bg-no-repeat lg:pt-[413px] lg:pl-[239px] lg:justify-start lg:items-start justify-center items-center" >
+                <div class="w-[305px] lg:w-[761px] lg:leading-[75px] text-xl lg:text-[50px] font-bold">
+                  <h1 class="mb-[10px]" >- “You have to leave somethig behind to go forward”</h1>
+                  <p class="text-base lg:text-[30px]" >Interstellar, 2014</p>
+                </div>
+            </div>
+            <div :style="{ backgroundImage: `url(${image3})`}" class="flex h-[500px] lg:h-[1000px] bg-center bg-fixed bg-cover bg-no-repeat lg:pt-[413px] lg:pl-[239px] lg:justify-start lg:items-start justify-center items-center" >
                 <div class="w-[305px] lg:w-[761px] lg:leading-[75px] text-xl lg:text-[50px] font-bold">
                   <h1 class="mb-[10px]" >- “You have to leave somethig behind to go forward”</h1>
                   <p class="text-base lg:text-[30px]" >Interstellar, 2014</p>
@@ -24,8 +35,18 @@
 
 import TheFooter from "../components/TheFooter.vue"
 import TheHeader from "../components/TheHeader.vue"
+import image1 from '../assets/images/image1.png';
+import image2 from "../assets/images/image2.png"
+import image3 from "../assets/images/image3.png"
 
 export default {
-    components: {TheFooter, TheHeader}
+    components: {TheFooter, TheHeader},
+    data () {
+        return {
+            image1,
+            image2,
+            image3
+        }
+    }
 }
 </script>
