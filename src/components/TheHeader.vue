@@ -17,7 +17,7 @@
             </div>
             <div class="flex" >
                 <button class="mr-[8px] justify-center items-center flex w-72 h-32 border border-white rounded-[4px] text-white text-sm" >{{ $t("texts.log_in") }}</button>
-                <button class="justify-center items-center flex px-[10px] h-32 rounded-[4px] text-white text-sm border-none bg-red" >{{ $t("texts.sign_up") }}</button>
+                <button @click="register" class="justify-center items-center flex px-[10px] h-32 rounded-[4px] text-white text-sm border-none bg-red" >{{ $t("texts.sign_up") }}</button>
             </div>
         </div>
     </div>
@@ -54,6 +54,12 @@ export default {
     return {
       Vector,
     }
+  },
+  props: {
+    register: {
+      type: Function,
+      
+    },
   },
 }
 </script>
