@@ -10,12 +10,12 @@ configure({
       messages: {
         required: 'This field is required',
         email: 'This input is not in email format',
-        min: '{field} must have at least 0:{min} symbols'
+        minmax: '{field} must be between 0:{min} and 1:{max} characters',
+        same_as_password: 'Password should be the same',
+        lowercase_and_numbers_only: 'Only number and lower case latin symbols should be used'
       },
       names: {
-        // For English version, This will be auto generated according to the keys.
-        // so best practice would be to write correct names in rules from the start.
-        // no need to write custom names property for english version.
+        password_confirmation: 'Password'
       }
     },
     ka: {
@@ -23,12 +23,15 @@ configure({
       messages: {
         required: 'გთხოვთ შეავსოთ მოცემული ველი',
         email: 'თქვენს მიერ შეყვანილი ტექსტი არ აკმაყოფილებს მეილის ფორმატს',
-        min: '{field} უნდა შეიცავდეს მინიმუმ 0:{min} სიმბოლოს'
+        minmax: '{field} უნდა შეიცავდეს მინიმუმ 0:{min} და მაქსიმუმ 1:{max} სიმბოლოს',
+        same_as_password: 'პაროლი არ ემთხვევა',
+        lowercase_and_numbers_only: 'ტექსტი უნდა შეიცავდეს მხოლოდ ლათინურ სიმბოლოებს და ციფრებს'
       },
       names: {
         password: 'პაროლი',
         username: 'მომხმარებლის სახელი',
-        email: 'მეილი'
+        email: 'მეილი',
+        password_confirmation: 'პაროლი'
       }
     }
   })
