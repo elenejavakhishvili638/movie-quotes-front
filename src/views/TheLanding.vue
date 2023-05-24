@@ -5,7 +5,7 @@
                 <the-header></the-header>
                  <div class="mt-[136px] flex flex-col items-center justify-center text-2xl break " >
                      <h1 class="text-cream text-center lg:text-[60px] lg:w-[703px] lg:leading-[90px] w-[281px]">Find any quote in <br/> millions of movie lines</h1>
-                     <a class="mt-[32px] justify-center items-center flex w-109 h-38 rounded-[4px] text-white text-base border-none bg-red" >Get started</a>
+                     <a class="mt-[32px] justify-center items-center flex w-109 h-38 rounded-[4px] text-white text-base border-none bg-red" >{{ $t("texts.get_started") }}</a>
                  </div>
             </div>
             <div class="flex h-[500px] lg:h-[1000px] bg-center bg-fixed bg-cover bg-no-repeat lg:pt-[413px] lg:pl-[239px] lg:justify-start lg:items-start justify-center items-center" >

@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 
-import getters from './getters'
 import actions from './actions'
 
 export const useLanguageStore = defineStore({
@@ -9,6 +8,5 @@ export const useLanguageStore = defineStore({
     currentLanguage: 'en',
     display: 'Eng'
   }),
-  getters,
   actions
 })
