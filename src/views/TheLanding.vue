@@ -15,6 +15,16 @@
                   <p class="text-base lg:text-[30px]" >Interstellar, 2014</p>
                 </div>
             </div>
+            <the-footer></the-footer>
         </div>
     </div>
 </template>
+
+<script>
+
+import TheFooter from "../components/TheFooter.vue"
+
+export default {
+    components: {TheFooter}
+}
+</script>
