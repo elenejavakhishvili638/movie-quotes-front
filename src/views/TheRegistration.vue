@@ -5,14 +5,14 @@
                 <h1 class="text-2xl mb-[12px] font-medium" >Register</h1>
                 <p class="text-base text-[#6C757D] font-normal" >start your journey!</p>
             </div>
-            <CustomForm>
-                <the-input name="username" type="text"  label="Name" placeholder="Enter your name" ></the-input>
+            <CustomForm  @submit="onSubmit" >
+                <the-input name="username" type="text"  label="Name" placeholder="Enter your name" validate="required" :value="authStore.$state.form.username" @input="handleInput"></the-input>
 
-                <the-input name="email" type="email" label="Email" placeholder="Enter your email" ></the-input>
+                <the-input name="email" type="email" label="Email" placeholder="Enter your email" validate="required" :value="authStore.$state.form.email" @input="handleInput"></the-input>
 
-                <the-input name="password" type="password" label="Password" placeholder="Password" ></the-input>
+                <the-input name="password" type="password" label="Password" placeholder="Password" validate="required" :value="authStore.$state.form.password" @input="handleInput"></the-input>
 
-                <the-input name="password_confirmation" type="password" label="Confirm Password" placeholder="Password" ></the-input>
+                <the-input name="password_confirmation" type="password" label="Confirm Password" placeholder="Password" validate="required" :value="authStore.$state.form.password_confirmation" @input="handleInput"></the-input>
                 <the-button>Get started</the-button>
             </CustomForm>
             <button type="submit" class="w-[360px] border border-white rounded-[8px] h-[38px]" >G Sign up with Google</button>
@@ -29,8 +29,25 @@
 import {Form} from "vee-validate"
 import TheButton from "../components/TheButton.vue";
 import TheInput from "../components/TheInput.vue"
+import { useAuthStore } from '../stores/registration/index';
 
 export default {
+    setup() {
+    const authStore = useAuthStore();
+
+    const handleInput = (payload) => {
+        authStore.setUser(payload)
+    }
+
+    const onSubmit = () => {
+        authStore.registerUser(authStore.$state.form)
+    }
+    return {
+        authStore,
+        handleInput,
+        onSubmit
+    }
+  },
     components: {
         CustomForm: Form,
         TheInput,
