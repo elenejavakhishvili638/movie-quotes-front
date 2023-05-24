@@ -1,0 +1,15 @@
+{
+    "account": "პროფილის შექმნა",
+    "text": "დაიწყე შენი მოგზაურობა!",
+    "name": "სახელი",
+    "name_placeholder": "სახელი",
+    "email": "ელ-ფოსტა",
+    "email_placeholder": " ელ-ფოსტის მისამართი",
+    "password": "პაროლი",
+    "password_placeholder": "პაროლი",
+    "confirm_password": "გაიმეორე პაროლი",
+    "confirm_password_placeholder": "პაროლი",
+    "get_started": "დაწყება",
+    "google": "დარეგისტრირდი გუგლიდან",
+    "have_account": "უკვე გაქვს ექაუნთი?"
+}
