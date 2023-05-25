@@ -19,6 +19,6 @@ defineRule('email', (value) => {
   return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value)
 })
 
-defineRule('same_as_password', (value, [otherValue]) => {
-  return value === otherValue
+defineRule('same_as_password', (value, [otherValue], { values }) => {
+  return value === values[otherValue]
 })
