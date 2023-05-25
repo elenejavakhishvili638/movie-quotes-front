@@ -7,17 +7,22 @@
 </template>
 
 <script>
-import {Field, ErrorMessage} from "vee-validate"
+import {Field, ErrorMessage} from "vee-validate";
 
 export default {
-    props: ['placeholder','label', 'name', 'type', 'value', 'validate'],
+    props: ['placeholder', 'label', 'name', 'type', 'value', 'validate'],
     components: {
         Field,
         ErrorMessage
     },
-    methods: {
-        handleInput(value, name) {
-        this.$emit('input', { name, value })
+    setup(props, context) {
+        const handleInput = (value, name) => {
+            context.emit('input', { name, value });
+        }
+
+        return {
+            ...props,
+            handleInput
         }
     }
 }
