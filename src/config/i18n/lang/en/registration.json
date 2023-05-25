@@ -1,0 +1,15 @@
+{
+    "account": "Create an account",
+    "text": "Start your journey!",
+    "name": "Name",
+    "name_placeholder": "At least 3 & max.15 lower case characters",
+    "email": "Email",
+    "email_placeholder": "Enter your email",
+    "password": "Password",
+    "password_placeholder": "At least 8 & max.15 lower case characters",
+    "confirm_password": "Confirm password",
+    "confirm_password_placeholder": "Confirm password",
+    "get_started": "Get Started",
+    "google": "Sign up with Google",
+    "have_account": "Already have an account?"
+}
