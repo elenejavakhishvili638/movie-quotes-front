@@ -1,9 +1,11 @@
 import texts from './texts.json'
 import registration from './registration.json'
+import login from './login.json'
 
 const translations = {
   texts,
-  registration
+  registration,
+  login
 }
 
 export default translations

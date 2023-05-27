@@ -2,25 +2,25 @@
     <section @click.stop class="h-screen md:w-[601px] md:h-[562px] md:rounded-[10px]" >
         <div class="text-white flex flex-col px-[44px] items-center justify-center pt-[73px]" >
             <div class="text-center mb-[32px]" >
-                <h1 class="text-2xl mb-[12px] font-medium" >Log in to your account</h1>
-                <p class="text-base text-[#6C757D] font-normal" >Welcome back! Please enter your details.</p>
+                <h1 class="text-2xl mb-[12px] font-medium" >{{ $t("login.log_in") }}</h1>
+                <p class="text-base text-[#6C757D] font-normal" >{{ $t("login.text") }}</p>
             </div>
             <CustomForm @submit="onSubmit" >
-                <the-input v-model="formData.username" validate="required" name="username" type="text" label="Email" placeholder="Enter your email"></the-input>
-                <the-input v-model="formData.password" validate="required" name="password" type="password" label="Password" placeholder="Password"></the-input>
+                <the-input v-model="formData.username" validate="required" name="username" type="text" :label="$t('login.email')" :placeholder="$t('login.email_placeholder')"></the-input>
+                <the-input v-model="formData.password" validate="required" name="password" type="password" :label="$t('login.password')" :placeholder="$t('login.password_placeholder')"></the-input>
                 <div class=" w-[360px] flex justify-between mb-[16px]" >
                     <div class="flex justify-center" >
                         <input type="checkbox" />
-                        <label class="ml-[8px]" >Remeber me</label>
+                        <label class="ml-[8px]" >{{ $t('login.remember_me') }}</label>
                     </div>
-                    <a class="text-[#0D6EFD]" >Forgot password</a>
+                    <a class="text-[#0D6EFD]" >{{ $t('login.forgot_password') }}</a>
                 </div>
-                <the-button>Sign in</the-button>
+                <the-button>{{ $t('login.sign_in') }}</the-button>
             </CustomForm>
-            <button class="w-[360px] border border-white rounded-[8px] h-[38px]" >G Sign in with Google</button>
+            <button class="w-[360px] border border-white rounded-[8px] h-[38px]" >G {{ $t('login.google') }}</button>
             <div class=" mt-[32px] flex items-center justify-center" >
-                <p class=" text-[#6C757D] mr-[4px]" >Don't have an account</p>
-                <a class="text-[#0D6EFD]" >Sign up</a>
+                <p class=" text-[#6C757D] mr-[4px]" >{{ $t('login.google') }}</p>
+                <a class="text-[#0D6EFD]" >{{ $t('login.sign_up') }}</a>
             </div>
         </div>
     </section>
