@@ -20,5 +20,8 @@ defineRule('email', (value) => {
 })
 
 defineRule('same_as_password', (value, [otherValue], { values }) => {
+  console.log('value:', value)
+  console.log('otherValue:', otherValue)
+  console.log('values:', values)
   return value === values[otherValue]
 })

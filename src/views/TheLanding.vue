@@ -3,9 +3,12 @@
         <form-layout :close="closeRegistration" v-if="showRegistration" >
             <the-registration></the-registration>
         </form-layout>
+        <form-layout :close="closeLogin" v-if="showLogin" >
+            <the-login></the-login>
+        </form-layout>
         <div class="bg-background flex flex-col justify-between" >
             <div class="lg:pb-[212px] pb-[100px]" >
-                <the-header :register="register" ></the-header>
+                <the-header :register="register" :login="login" ></the-header>
                  <div class="mt-[136px] flex flex-col items-center justify-center text-2xl break " >
                      <h1 class="text-cream text-center lg:text-[60px] lg:w-[703px] lg:leading-[90px] w-[281px]">Find any quote in <br/> millions of movie lines</h1>
                      <a class="mt-[32px] justify-center items-center flex w-109 h-38 rounded-[4px] text-white text-base border-none bg-red" >{{ $t("texts.get_started") }}</a>
@@ -42,16 +45,19 @@ import image1 from '../assets/images/image1.png';
 import image2 from "../assets/images/image2.png";
 import image3 from "../assets/images/image3.png";
 import TheRegistration from "./TheRegistration.vue";
+import TheLogin from "./TheLogin.vue"
 import FormLayout from "../components/FormLayout.vue";
 import { useRouter, useRoute } from 'vue-router';
 
 export default {
-    components: {TheFooter, TheHeader, TheRegistration, FormLayout},
+    components: {TheFooter, TheHeader, TheRegistration, FormLayout, TheLogin},
     setup() {
         const image1Ref = ref(image1);
         const image2Ref = ref(image2);
         const image3Ref = ref(image3);
         const showRegistration = ref(false);
+        const showLogin = ref(false);
+
 
         const router = useRouter();
         const route = useRoute();
@@ -64,8 +70,23 @@ export default {
             }
         };
 
+        const login =() => {
+            if (window.innerWidth < 768) { 
+                router.push('/log-in'); 
+            } else {
+                showLogin.value = true;
+            }
+        };
+
         const closeRegistration = () => {
             showRegistration.value = false;
+            if (route.params.modal) {
+                router.push('/'); 
+            }
+        };
+
+        const closeLogin = () => {
+            showLogin.value = false;
             if (route.params.modal) {
                 router.push('/'); 
             }
@@ -74,8 +95,10 @@ export default {
         watch(() => route.params.modal, (modal) => {
             if (modal && window.innerWidth >= 768) { 
                 showRegistration.value = true;
+                showLogin.value = true;
             } else {
                 showRegistration.value = false;
+                showLogin.value = false;
             }
         });
 
@@ -85,7 +108,10 @@ export default {
             image3: image3Ref,
             showRegistration,
             register,
-            closeRegistration
+            closeRegistration,
+            showLogin,
+            login,
+            closeLogin
         };
     },
 }

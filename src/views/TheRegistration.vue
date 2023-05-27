@@ -6,13 +6,14 @@
                 <p class="text-base text-[#6C757D] font-normal" >{{ $t("registration.text") }}</p>
             </div>
             <CustomForm  @submit="onSubmit" >
-                <the-input name="username" type="text"  :label="$t('registration.name')" :placeholder="$t('registration.name_placeholder')" validate="required|minmax:3,15|lowercase_and_numbers_only" :value="authStore.$state.form.username" @input="handleInput"></the-input>
+                <the-input v-model="formData.username" name="username" type="text"  :label="$t('registration.name')" :placeholder="$t('registration.name_placeholder')" validate="required|minmax:3,15|lowercase_and_numbers_only"></the-input>
 
-                <the-input name="email" type="email" :label="$t('registration.email')" :placeholder="$t('registration.email_placeholder')" validate="required|email" :value="authStore.$state.form.email" @input="handleInput"></the-input>
+                <the-input v-model="formData.email" name="email" type="email" :label="$t('registration.email')" :placeholder="$t('registration.email_placeholder')" validate="required|email"></the-input>
 
-                <the-input name="password" type="password" :label="$t('registration.password')" :placeholder="$t('registration.password_placeholder')" validate="required|lowercase_and_numbers_only|minmax:8,15" :value="authStore.$state.form.password" @input="handleInput"></the-input>
+                <the-input v-model="formData.password" name="password" type="password" :label="$t('registration.password')" :placeholder="$t('registration.password_placeholder')" validate="required|lowercase_and_numbers_only|minmax:8,15"></the-input>
 
-                <the-input name="password_confirmation" type="password" :label="$t('registration.confirm_password')" :placeholder="$t('registration.confirm_password_placeholder')" validate="required|same_as_password:password" :value="authStore.$state.form.password_confirmation" @input="handleInput"></the-input>
+                <the-input v-model="formData.password_confirmation" name="password_confirmation" type="password" :label="$t('registration.confirm_password')" :placeholder="$t('registration.confirm_password_placeholder')" validate="required"></the-input>
+
                 <the-button>{{ $t('registration.get_started') }}</the-button>
             </CustomForm>
             <button type="submit" class="w-[360px] border border-white rounded-[8px] h-[38px]" >G {{ $t('registration.google') }}</button>
@@ -35,17 +36,13 @@ export default {
     setup() {
     const authStore = useAuthStore();
 
-    const handleInput = (payload) => {
-        authStore.setUser(payload)
-    }
-
     const onSubmit = () => {
         authStore.registerUser(authStore.$state.form)
     }
     return {
         authStore,
-        handleInput,
-        onSubmit
+        onSubmit,
+        formData: authStore.$state.form
     }
   },
     components: {
