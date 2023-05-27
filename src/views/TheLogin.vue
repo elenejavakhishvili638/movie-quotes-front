@@ -5,9 +5,9 @@
                 <h1 class="text-2xl mb-[12px] font-medium" >Log in to your account</h1>
                 <p class="text-base text-[#6C757D] font-normal" >Welcome back! Please enter your details.</p>
             </div>
-            <CustomForm>
-                <the-input validate="required" name="username" type="text" label="Email" placeholder="Enter your email"></the-input>
-                <the-input validate="required" name="password" type="password" label="Password" placeholder="Password"></the-input>
+            <CustomForm @submit="onSubmit" >
+                <the-input v-model="formData.username" validate="required" name="username" type="text" label="Email" placeholder="Enter your email"></the-input>
+                <the-input v-model="formData.password" validate="required" name="password" type="password" label="Password" placeholder="Password"></the-input>
                 <div class=" w-[360px] flex justify-between mb-[16px]" >
                     <div class="flex justify-center" >
                         <input type="checkbox" />
@@ -30,8 +30,22 @@
 import {Form} from "vee-validate"
 import TheButton from "../components/TheButton.vue";
 import TheInput from "../components/TheInput.vue"
+import { useLoginStore } from '../stores/login/index';
+
 
 export default {
+    setup() {
+    const loginStore = useLoginStore();
+
+    const onSubmit = () => {
+        loginStore.loginUser(loginStore.$state.login)
+    }
+    return {
+        loginStore,
+        onSubmit,
+        formData: loginStore.$state.login
+    }
+  },
     components: {
         CustomForm: Form,
         TheInput,
