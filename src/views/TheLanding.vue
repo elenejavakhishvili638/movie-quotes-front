@@ -47,7 +47,7 @@ import image3 from "../assets/images/image3.png";
 import TheRegistration from "./TheRegistration.vue";
 import TheLogin from "./TheLogin.vue"
 import FormLayout from "../components/FormLayout.vue";
-import { useRouter, useRoute } from 'vue-router';
+import {  useRoute } from 'vue-router';
 
 export default {
     components: {TheFooter, TheHeader, TheRegistration, FormLayout, TheLogin},
@@ -58,38 +58,22 @@ export default {
         const showRegistration = ref(false);
         const showLogin = ref(false);
 
-
-        const router = useRouter();
         const route = useRoute();
 
         const register = () => {
-            if (window.innerWidth < 768) { 
-                router.push('/sign-up'); 
-            } else {
-                showRegistration.value = true;
-            }
+            showRegistration.value = true;
         };
 
         const login =() => {
-            if (window.innerWidth < 768) { 
-                router.push('/log-in'); 
-            } else {
-                showLogin.value = true;
-            }
+            showLogin.value = true;
         };
 
         const closeRegistration = () => {
             showRegistration.value = false;
-            if (route.params.modal) {
-                router.push('/'); 
-            }
         };
 
         const closeLogin = () => {
             showLogin.value = false;
-            if (route.params.modal) {
-                router.push('/'); 
-            }
         };
 
         watch(() => route.params.modal, (modal) => {
