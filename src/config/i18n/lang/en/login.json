@@ -1,0 +1,14 @@
+{
+    "log_in": "Log in to your account",
+    "text": "Log in to your account",
+    "email": "Email",
+    "email_placeholder": "Enter your email",
+    "password":  "Password",
+    "password_placeholder": "Password",
+    "remember_me": "Rememer me",
+    "forgot_password": "Forgot password",
+    "sign_in": "Sign in",
+    "google": "Sign in with Google",
+    "account": "Don't have an account",
+    "sign_up": "Sign up"
+}

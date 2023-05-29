@@ -1,0 +1,14 @@
+{
+    "log_in": "პროფილში შესვლა",
+    "text": "გთხოვთ შეიყვანოთ თქვენი დეტალები.",
+    "email": "ელ-ფოსტა",
+    "email_placeholder": "ელ-ფოსტა",
+    "password":  "პაროლი",
+    "password_placeholder": "პაროლი",
+    "remember_me": "დამახსოვრება",
+    "forgot_password": "დაგავიწყდა",
+    "sign_in": "შესვლა",
+    "google": "გუგლიდან შესვლა",
+    "account": "უკვე გაქვს ანგარიში?",
+    "sign_up": "შესვლა"
+}
