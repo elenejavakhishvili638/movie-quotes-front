@@ -14,20 +14,20 @@
                      <a class="mt-[32px] justify-center items-center flex w-109 h-38 rounded-[4px] text-white text-base border-none bg-red" >{{ $t("texts.get_started") }}</a>
                  </div>
             </div>
-            <div :style="{ backgroundImage: `url(${image1})`}" class="flex h-[500px] lg:h-[1200px] bg-center bg-fixed bg-cover bg-no-repeat lg:pt-[413px] lg:pl-[239px] lg:justify-start lg:items-start justify-center items-center" >
-                <div class="w-[305px] lg:w-[761px] lg:leading-[75px] text-xl lg:text-[50px] font-bold">
+            <div :style="{ backgroundImage: `url(${image1})`}" class="flex h-[500px] lg:h-[1200px] bg-center md:bg-center bg-cover bg-no-repeat lg:pt-[413px] lg:pl-[239px] lg:justify-start lg:items-start justify-center items-center" >
+                <div class="w-[305px] text-white lg:w-[761px] lg:leading-[75px] text-xl lg:text-[50px] font-bold">
                   <h1 class="mb-[10px]" >- “You have to leave somethig behind to go forward”</h1>
                   <p class="text-base lg:text-[30px]" >Interstellar, 2014</p>
                 </div>
             </div>
-            <div :style="{ backgroundImage: `url(${image2})`}" class="flex h-[500px] lg:h-[1200px] bg-center bg-fixed bg-cover bg-no-repeat lg:pt-[413px] lg:pl-[239px] lg:justify-start lg:items-start justify-center items-center" >
-                <div class="w-[305px] lg:w-[761px] lg:leading-[75px] text-xl lg:text-[50px] font-bold">
-                  <h1 class="mb-[10px]" >- “I think we’re just gonna have to be secretly in love with earch other and leave it that”</h1>
-                  <p class="text-base lg:text-[30px]" >The Royal Tenenbaums,2001 </p>
+            <div :style="{ backgroundImage: `url(${image3})`}" class="flex h-[500px] lg:h-[1000px] bg-center md:bg-center bg-cover bg-fixed bg-no-repeat lg:pt-[413px] lg:pl-[239px] lg:justify-start lg:items-start justify-center items-center" >
+                <div class="w-[305px] text-white lg:w-[761px] lg:leading-[75px] text-xl lg:text-[50px] font-bold">
+                    <h1 class="mb-[10px] " >- “I think we’re just gonna have to be secretly in love with earch other and leave it that”</h1>
+                    <p class="text-base lg:text-[30px]" >The Royal Tenenbaums,2001 </p>
                 </div>
             </div>
-            <div :style="{ backgroundImage: `url(${image3})`}" class="flex h-[500px] lg:h-[1200px] bg-center bg-fixed bg-cover bg-no-repeat lg:pt-[413px] lg:pl-[239px] lg:justify-start lg:items-start justify-center items-center" >
-                <div class="w-[305px] lg:w-[761px] lg:leading-[75px] text-xl lg:text-[50px] font-bold">
+            <div :style="{ backgroundImage: `url(${image2})`}" class="flex h-[500px] lg:h-[1000px] bg-right md:bg-center bg-cover bg-fixed bg-no-repeat lg:pt-[413px] lg:pl-[239px] lg:justify-start lg:items-start justify-center items-center" >
+                <div class="w-[305px] text-white lg:w-[761px] lg:leading-[75px] text-xl lg:text-[50px] font-bold">
                   <h1 class="mb-[10px]" >- “I think we’re just gonna have to be secretly in love with earch other and leave it that”</h1>
                   <p class="text-base lg:text-[30px]" >The Royal Tenenbaums,2001 </p>
                 </div>
