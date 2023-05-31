@@ -5,7 +5,7 @@
                 <h1 class="text-2xl mb-[12px] font-medium" >{{ $t("registration.account") }}</h1>
                 <p class="text-base text-[#6C757D] font-normal" >{{ $t("registration.text") }}</p>
             </div>
-            <CustomForm  @submit="onSubmit" >
+            <CustomForm  @submit="onSubmit">
                 <the-input v-model="formData.username" name="username" type="text"  :label="$t('registration.name')" :placeholder="$t('registration.name_placeholder')" validate="required|minmax:3,15|lowercase_and_numbers_only"></the-input>
 
                 <the-input v-model="formData.email" name="email" type="email" :label="$t('registration.email')" :placeholder="$t('registration.email_placeholder')" validate="required|email"></the-input>
@@ -14,6 +14,7 @@
 
                 <the-input v-model="formData.password_confirmation" name="password_confirmation" type="password" :label="$t('registration.confirm_password')" :placeholder="$t('registration.confirm_password_placeholder')" validate="required"></the-input>
 
+                <!-- |same_as_password:${formData.password}` -->
                 <the-button>{{ $t('registration.get_started') }}</the-button>
             </CustomForm>
             <button type="submit" class="w-[360px] border border-white rounded-[8px] h-[38px]" >G {{ $t('registration.google') }}</button>
@@ -33,11 +34,12 @@ import TheInput from "../components/TheInput.vue"
 import { useAuthStore } from '../stores/registration/index';
 
 export default {
-    setup() {
+    setup(props) {
     const authStore = useAuthStore();
 
     const onSubmit = () => {
         authStore.registerUser(authStore.$state.form)
+        props.closeRegistration()   
     }
     return {
         authStore,
@@ -50,6 +52,8 @@ export default {
         TheInput,
         TheButton
     },
+    props: ['closeRegistration']
+
 }
 </script>
 
