@@ -12,7 +12,30 @@ export async function loginUser(data) {
   try {
     await axios.get('/sanctum/csrf-cookie')
     await axios.post('/api/login', data, { withCredentials: true })
-    await axios.get('/api/user')
+    const user = await axios.get('/api/user')
+    console.log(user)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function registerWithGoogle() {
+  try {
+    const response = await axios.get('api/auth/redirect', { withCredentials: true })
+    if (response.data.url) {
+      window.location.href = response.data.url
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function loginWithGoogle() {
+  try {
+    const response = await axios.get('api/auth/redirect', { withCredentials: true })
+    if (response.data.url) {
+      window.location.href = response.data.url
+    }
   } catch (error) {
     console.log(error)
   }

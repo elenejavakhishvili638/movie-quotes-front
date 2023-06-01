@@ -17,7 +17,7 @@
                 </div>
                 <the-button>{{ $t('login.sign_in') }}</the-button>
             </CustomForm>
-            <button class="w-[360px] border border-white rounded-[8px] h-[38px]" >G {{ $t('login.google') }}</button>
+            <button @click="googleSignIn" class="w-[360px] border border-white rounded-[8px] h-[38px]" >G {{ $t('login.google') }}</button>
             <div class="mb-[53px] mt-[32px] flex items-center justify-center" >
                 <p class=" text-[#6C757D] mr-[4px]" >{{ $t('login.google') }}</p>
                 <a class="text-[#0D6EFD]" >{{ $t('login.sign_up') }}</a>
@@ -31,20 +31,33 @@ import {Form} from "vee-validate"
 import TheButton from "../components/TheButton.vue";
 import TheInput from "../components/TheInput.vue"
 import { useLoginStore } from '../stores/login/index';
+import { useRouter } from 'vue-router';
 
 
 export default {
     setup(props) {
     const loginStore = useLoginStore();
+    const router = useRouter()
 
-    const onSubmit = () => {
-        loginStore.loginUser(loginStore.$state.login)
-        props.closeLogin()
+    const onSubmit = async () => {
+        try {
+            await loginStore.loginUser(loginStore.$state.login);
+            props.closeLogin();
+            router.push('/news-feed');
+        } catch (error) {
+            console.error('Failed to login:', error);
+        }
+    };
+
+
+    const googleSignIn = () => {
+        loginStore.loginWithGoogle()
     }
     return {
         loginStore,
         onSubmit,
-        formData: loginStore.$state.login
+        formData: loginStore.$state.login,
+        googleSignIn
     }
   },
     components: {

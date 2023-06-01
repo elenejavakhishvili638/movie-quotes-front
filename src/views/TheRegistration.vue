@@ -17,7 +17,7 @@
                 <!-- |same_as_password:${formData.password}` -->
                 <the-button>{{ $t('registration.get_started') }}</the-button>
             </CustomForm>
-            <button type="submit" class="w-[360px] border border-white rounded-[8px] h-[38px]" >G {{ $t('registration.google') }}</button>
+            <button @click="googleSignUp" class="flex justify-center items-center w-[360px] border border-white rounded-[8px] h-[38px]" ><img :src="google" class="mr-[8px]" /> {{ $t('registration.google') }}</button>
             <div class="mb-[53px] mt-[32px] flex items-center justify-center" >
                 <p class=" text-[#6C757D] mr-[4px]" >{{$t('registration.have_account')}}</p>
                 <a class="text-[#0D6EFD]" >{{ $t("texts.log_in") }}</a>
@@ -32,6 +32,7 @@ import {Form} from "vee-validate"
 import TheButton from "../components/TheButton.vue";
 import TheInput from "../components/TheInput.vue"
 import { useAuthStore } from '../stores/registration/index';
+import google from "../assets/images/logos/google.png"
 
 export default {
     setup(props) {
@@ -41,10 +42,16 @@ export default {
         authStore.registerUser(authStore.$state.form)
         props.closeRegistration()   
     }
+
+    const googleSignUp = () => {
+        authStore.registerWithGoogle()
+    }
     return {
         authStore,
         onSubmit,
-        formData: authStore.$state.form
+        formData: authStore.$state.form,
+        google,
+        googleSignUp
     }
   },
     components: {

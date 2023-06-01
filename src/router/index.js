@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import TheLanding from '../views/TheLanding.vue'
-
+import NewsFeed from '../views/NewsFeed.vue'
 import axios from '../config/axios'
 
 const router = createRouter({
@@ -12,9 +12,9 @@ const router = createRouter({
       component: TheLanding
     },
     {
-      path: '/user',
-      name: 'User',
-      component: TheLanding,
+      path: '/news-feed',
+      name: 'feed',
+      component: NewsFeed,
       meta: { requiresAuth: true }
     },
     {
@@ -43,9 +43,15 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth) {
-    next('/')
+router.beforeEach(async (to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    try {
+      const response = await axios.get('/api/user')
+      console.log(response)
+      next()
+    } catch (error) {
+      next('/')
+    }
   } else {
     next()
   }
