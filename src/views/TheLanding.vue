@@ -1,7 +1,12 @@
 <template>
     <div>
         <form-layout :close="closeRegistration" v-if="showRegistration" >
-            <the-registration :closeRegistration="closeRegistration" ></the-registration>
+            <the-registration :closeRegistration="closeRegistration" :openModal="openModal" ></the-registration>
+        </form-layout>
+        <form-layout :close="closeModal" v-if="showModal">
+            <the-modal :icon="email" text="Please check your email and follow the instructions to activate your account." >
+                <a :href="'mailto:' + email" class=" text-center w-[190px] rounded-[8px] bg-red text-white h-[38px] pt-[5px]">Go to my email</a>
+            </the-modal>
         </form-layout>
         <form-layout :close="closeLogin" v-if="showLogin" >
             <the-login  :closeLogin="closeLogin"></the-login>
@@ -48,15 +53,19 @@ import TheRegistration from "./TheRegistration.vue";
 import TheLogin from "./TheLogin.vue"
 import FormLayout from "../components/FormLayout.vue";
 import {  useRoute } from 'vue-router';
+import TheModal from "../components/TheModal.vue"
+import email from "../assets/images/logos/email.png"
+
 
 export default {
-    components: {TheFooter, TheHeader, TheRegistration, FormLayout, TheLogin},
+    components: {TheFooter, TheHeader, TheRegistration, FormLayout, TheLogin, TheModal},
     setup() {
         const image1Ref = ref(image1);
         const image2Ref = ref(image2);
         const image3Ref = ref(image3);
         const showRegistration = ref(false);
         const showLogin = ref(false);
+        const showModal = ref(false);
 
         const route = useRoute();
 
@@ -75,6 +84,14 @@ export default {
         const closeLogin = () => {
             showLogin.value = false;
         };
+
+        const openModal = () => {
+            showModal.value = true;
+        }
+
+        const closeModal = () => {
+            showModal.value = false;
+        }
 
         watch(() => route.params.modal, (modal) => {
             if (modal && window.innerWidth >= 768) { 
@@ -95,7 +112,11 @@ export default {
             closeRegistration,
             showLogin,
             login,
-            closeLogin
+            closeLogin,
+            showModal,
+            closeModal,
+            openModal,
+            email
         };
     },
 }

@@ -1,11 +1,11 @@
 <template>
-    <section @click.stop class="h-screen md:w-[601px] md:h-auto md:rounded-[10px]" >
+    <section @click.stop class="h-screen md:w-[601px] md:h-auto md:rounded-[10px] overflow-scroll" >
         <div class=" text-white flex flex-col px-[44px] items-center justify-center pt-[73px]" >
             <div class="text-center mb-[32px]" >
                 <h1 class="text-2xl mb-[12px] font-medium" >{{ $t("registration.account") }}</h1>
                 <p class="text-base text-[#6C757D] font-normal" >{{ $t("registration.text") }}</p>
             </div>
-            <CustomForm  @submit="onSubmit">
+            <CustomForm  @submit="onSubmit" v-slot="{meta}">
                 <the-input v-model="formData.username" name="username" type="text"  :label="$t('registration.name')" :placeholder="$t('registration.name_placeholder')" validate="required|minmax:3,15|lowercase_and_numbers_only"></the-input>
 
                 <the-input v-model="formData.email" name="email" type="email" :label="$t('registration.email')" :placeholder="$t('registration.email_placeholder')" validate="required|email"></the-input>
@@ -15,7 +15,7 @@
                 <the-input v-model="formData.password_confirmation" name="password_confirmation" type="password" :label="$t('registration.confirm_password')" :placeholder="$t('registration.confirm_password_placeholder')" validate="required"></the-input>
 
                 <!-- |same_as_password:${formData.password}` -->
-                <the-button>{{ $t('registration.get_started') }}</the-button>
+                <the-button type="submit" :disabled="!meta.valid" >{{ $t('registration.get_started') }}</the-button>
             </CustomForm>
             <button @click="googleSignUp" class="flex justify-center items-center w-[360px] border border-white rounded-[8px] h-[38px]" ><img :src="google" class="mr-[8px]" /> {{ $t('registration.google') }}</button>
             <div class="mb-[53px] mt-[32px] flex items-center justify-center" >
@@ -34,13 +34,15 @@ import TheInput from "../components/TheInput.vue"
 import { useAuthStore } from '../stores/registration/index';
 import google from "../assets/images/logos/google.png"
 
+
+
 export default {
     setup(props) {
     const authStore = useAuthStore();
 
     const onSubmit = () => {
         authStore.registerUser(authStore.$state.form)
-        props.closeRegistration()   
+        props.showModal()
     }
 
     const googleSignUp = () => {
@@ -51,7 +53,7 @@ export default {
         onSubmit,
         formData: authStore.$state.form,
         google,
-        googleSignUp
+        googleSignUp,
     }
   },
     components: {
