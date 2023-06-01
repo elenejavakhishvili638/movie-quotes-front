@@ -13,7 +13,7 @@
                         <input type="checkbox" name="remember"/>
                         <label class="ml-[8px]" >{{ $t('login.remember_me') }}</label>
                     </div>
-                    <a class="text-[#0D6EFD]" >{{ $t('login.forgot_password') }}?</a>
+                    <p @click="openModal" class="text-[#0D6EFD] cursor-pointer" >{{ $t('login.forgot_password') }}?</p>
                 </div>
                 <the-button>{{ $t('login.sign_in') }}</the-button>
             </CustomForm>
@@ -32,12 +32,19 @@ import TheButton from "../components/TheButton.vue";
 import TheInput from "../components/TheInput.vue"
 import { useLoginStore } from '../stores/login/index';
 import { useRouter } from 'vue-router';
-
+import { ref } from 'vue';
+import FormLayout from "../components/FormLayout.vue";
+import TheModal from "../components/TheModal.vue"
 
 export default {
-    setup(props) {
+    setup(props, { emit }) {
     const loginStore = useLoginStore();
     const router = useRouter()
+    const showModal = ref(false);
+
+    const openModal = () => {
+        emit('changeModal', 'forgot-password');
+    }
 
     const onSubmit = async () => {
         try {
@@ -57,13 +64,17 @@ export default {
         loginStore,
         onSubmit,
         formData: loginStore.$state.login,
-        googleSignIn
+        googleSignIn,
+        showModal,
+        openModal,
+        FormLayout,
+        TheModal
     }
   },
     components: {
         CustomForm: Form,
         TheInput,
-        TheButton
+        TheButton,
     },
     props: ['closeLogin']
 }

@@ -14,7 +14,8 @@
             </the-modal>
         </form-layout>
         <form-layout :close="closeLogin" v-if="showLogin" >
-            <the-login  :closeLogin="closeLogin"></the-login>
+            <the-login v-if="modalState === 'login'"   @changeModal="handleModalChange"  :closeLogin="closeLogin"></the-login>
+            <forgot-password v-else-if="modalState === 'forgot-password'" @changeModal="handleModalChange" ></forgot-password>>
         </form-layout>
         <div class="bg-background flex flex-col justify-between" >
             <div class="lg:pb-[212px] pb-[100px]" >
@@ -62,9 +63,10 @@ import TheModal from "../components/TheModal.vue"
 import email from "../assets/images/logos/email.png"
 import verified from "../assets/images/logos/verifed.png"
 import {useEmailStore} from "../stores/email/index"
+import ForgotPassword from '../components/ForgotPassword.vue';
 
 export default {
-    components: {TheFooter, TheHeader, TheRegistration, FormLayout, TheLogin, TheModal},
+    components: {TheFooter, TheHeader, TheRegistration, FormLayout, TheLogin, TheModal, ForgotPassword},
     setup() {
         const image1Ref = ref(image1);
         const image2Ref = ref(image2);
@@ -73,6 +75,7 @@ export default {
         const showLogin = ref(false);
         const showModal = ref(false);
         const store = useEmailStore()
+        const modalState = ref('login');
 
         const route = useRoute();
 
@@ -82,6 +85,7 @@ export default {
 
         const login =() => {
             showLogin.value = true;
+            modalState.value = 'login';
         };
 
         const closeRegistration = () => {
@@ -99,6 +103,10 @@ export default {
         const closeModal = () => {
             showModal.value = false;
         }
+
+        const handleModalChange = (state) => {
+            modalState.value = state;
+        };
 
         watch(() => route.params.modal, (modal) => {
             if (modal && window.innerWidth >= 768) { 
@@ -125,7 +133,9 @@ export default {
             openModal,
             email,
             emailVerified: store.emailVerified,
-            verified
+            verified,
+            handleModalChange,
+            modalState
         };
     },
 }
