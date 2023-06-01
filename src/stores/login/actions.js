@@ -1,4 +1,4 @@
-import { loginUser, loginWithGoogle } from '../../services'
+import { loginUser, loginWithGoogle, logout } from '../../services'
 
 export default {
   setUser(payload) {
@@ -18,6 +18,14 @@ export default {
   async loginWithGoogle() {
     try {
       await loginWithGoogle()
+    } catch (error) {
+      console.log(error)
+    }
+  },
+
+  async logout() {
+    try {
+      await logout()
     } catch (error) {
       console.log(error)
     }

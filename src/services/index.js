@@ -40,3 +40,12 @@ export async function loginWithGoogle() {
     console.log(error)
   }
 }
+
+export async function logout() {
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+    await axios.post('/api/logout', { withCredentials: true })
+  } catch (error) {
+    console.log(error)
+  }
+}

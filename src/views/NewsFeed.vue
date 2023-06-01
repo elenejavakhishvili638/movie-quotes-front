@@ -6,15 +6,16 @@
 </template>
 
 <script>
-import axios from '../config/axios'
+import { useLoginStore } from '../stores/login/index';
 
 export default {
     setup() {
+        const loginStore = useLoginStore();
+
 
         const logout = async() => {
             try {
-                await axios.get('/sanctum/csrf-cookie')
-                await axios.post('/api/logout', { withCredentials: true })
+                await loginStore.logout();
             } catch (error) {
                 console.log(error)
             }
