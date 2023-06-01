@@ -10,10 +10,10 @@
                 <the-input v-model="formData.password" validate="required" name="password" type="password" :label="$t('login.password')" :placeholder="$t('login.password_placeholder')"></the-input>
                 <div class=" w-[360px] flex justify-between mb-[16px]" >
                     <div class="flex justify-center" >
-                        <input type="checkbox" />
+                        <input type="checkbox" name="remember"/>
                         <label class="ml-[8px]" >{{ $t('login.remember_me') }}</label>
                     </div>
-                    <a class="text-[#0D6EFD]" >{{ $t('login.forgot_password') }}</a>
+                    <a class="text-[#0D6EFD]" >{{ $t('login.forgot_password') }}?</a>
                 </div>
                 <the-button>{{ $t('login.sign_in') }}</the-button>
             </CustomForm>
