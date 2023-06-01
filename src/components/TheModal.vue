@@ -1,6 +1,6 @@
 <template>
-    <div class="h-screen w-full md:rounded-[10px] overflow-scroll md:w-[538px] md:h-[414px] bg flex flex-col justify-center items-center rounded-[10px]" >
-            <img :src="logo" />
+    <div class="h-screen w-full md:rounded-[10px] md:w-[538px] md:h-[414px] bg flex flex-col justify-center items-center rounded-[10px]" >
+            <img :src="logo" class="mb-[21px]" />
             <h1 class="text-white text-[32px] font-medium mb-[21px]" >Thank you!</h1>
             <p class=" w-[357px] text-center text-white text-[16px] mb-[40px]" >{{ modalText }}</p>
             <slot></slot>
@@ -11,7 +11,6 @@
 export default {
     props: ['text', 'icon'],
     setup(props) {
-        console.log(props)
         return {
             logo: props.icon,
             modalText: props.text

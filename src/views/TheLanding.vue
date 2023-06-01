@@ -8,6 +8,11 @@
                 <a :href="'mailto:' + email" class=" text-center w-[190px] rounded-[8px] bg-red text-white h-[38px] pt-[5px]">Go to my email</a>
             </the-modal>
         </form-layout>
+        <form-layout :close="closeModal" v-if="emailVerified">
+            <the-modal :icon="verified" text="Your account has been activated." >
+                <router-link to="/news-feed" class=" text-center w-[190px] rounded-[8px] bg-red text-white h-[38px] pt-[5px]" >Go to news feed</router-link>
+            </the-modal>
+        </form-layout>
         <form-layout :close="closeLogin" v-if="showLogin" >
             <the-login  :closeLogin="closeLogin"></the-login>
         </form-layout>
@@ -55,7 +60,8 @@ import FormLayout from "../components/FormLayout.vue";
 import {  useRoute } from 'vue-router';
 import TheModal from "../components/TheModal.vue"
 import email from "../assets/images/logos/email.png"
-
+import verified from "../assets/images/logos/verifed.png"
+import {useEmailStore} from "../stores/email/index"
 
 export default {
     components: {TheFooter, TheHeader, TheRegistration, FormLayout, TheLogin, TheModal},
@@ -66,6 +72,7 @@ export default {
         const showRegistration = ref(false);
         const showLogin = ref(false);
         const showModal = ref(false);
+        const store = useEmailStore()
 
         const route = useRoute();
 
@@ -116,7 +123,9 @@ export default {
             showModal,
             closeModal,
             openModal,
-            email
+            email,
+            emailVerified: store.emailVerified,
+            verified
         };
     },
 }

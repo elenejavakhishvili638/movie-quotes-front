@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import TheLanding from '../views/TheLanding.vue'
 import NewsFeed from '../views/NewsFeed.vue'
 import axios from '../config/axios'
+import { useEmailStore } from '../stores/email/index'
 
 const router = createRouter({
   // history: createWebHistory(import.meta.env.BASE_URL),
@@ -55,6 +56,16 @@ router.beforeEach(async (to, from, next) => {
   } else {
     next()
   }
+})
+
+router.beforeEach(async (to, from, next) => {
+  const store = useEmailStore()
+
+  if (to.query.email_verified) {
+    store.setEmailVerified(true)
+  }
+
+  next()
 })
 
 export default router

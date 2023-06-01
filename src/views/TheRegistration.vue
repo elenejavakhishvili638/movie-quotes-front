@@ -42,11 +42,14 @@ export default {
 
     const onSubmit = () => {
         authStore.registerUser(authStore.$state.form)
-        props.showModal()
+        props.openModal()
+        props.closeRegistration()
     }
 
     const googleSignUp = () => {
         authStore.registerWithGoogle()
+        console.log(props)
+
     }
     return {
         authStore,
@@ -61,7 +64,7 @@ export default {
         TheInput,
         TheButton
     },
-    props: ['closeRegistration']
+    props: ['closeRegistration', 'openModal']
 
 }
 </script>
