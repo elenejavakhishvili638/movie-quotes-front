@@ -10,7 +10,7 @@
           Enter the email and we’ll send an email with instructions to reset your password
         </p>
       </div>
-      <CustomForm>
+      <CustomForm @submit="onSubmit" v-slot="{ meta }">
         <the-input
           v-model="formData.email"
           validate="required|email"
@@ -19,8 +19,8 @@
           :label="$t('login.email')"
           :placeholder="$t('login.email_placeholder')"
         ></the-input>
+        <the-button type="submit" :disabled="!meta.valid">Send instructions</the-button>
       </CustomForm>
-      <the-button @click="submit">Send instructions</the-button>
       <div
         @click="openModal"
         class="mb-[53px] gap-[11px] flex items-center justify-center text-[#6C757D] font-normal"
@@ -45,6 +45,7 @@ export default {
     TheButton,
     TheInput
   },
+  props: ['closeLogin', 'openEmailForPassword'],
   setup(props, { emit }) {
     const passwordResetStore = usePasswordResetStore()
 
@@ -52,9 +53,11 @@ export default {
       emit('changeModal', 'login')
     }
 
-    const submit = async () => {
+    const onSubmit = async () => {
       try {
         await passwordResetStore.sendEmail(passwordResetStore.$state.verifyEmail)
+        props.openEmailForPassword()
+        props.closeLogin()
       } catch (error) {
         console.error(error)
       }
@@ -63,7 +66,7 @@ export default {
       openModal,
       back,
       formData: passwordResetStore.$state.verifyEmail,
-      submit
+      onSubmit
     }
   }
 }

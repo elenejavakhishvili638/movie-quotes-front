@@ -19,7 +19,7 @@
       </the-modal>
     </form-layout>
     <form-layout :close="closeModal" v-if="emailVerified">
-      <the-modal :icon="verified" text="Your account has been activated.">
+      <the-modal :icon="verified" header="Thank you!" text="Your account has been activated.">
         <router-link
           to="/news-feed"
           class="text-center w-[190px] rounded-[8px] bg-red text-white h-[38px] pt-[5px]"
@@ -36,8 +36,25 @@
       <forgot-password
         v-else-if="modalState === 'forgot-password'"
         @changeModal="handleModalChange"
+        :closeLogin="closeLogin"
+        :openEmailForPassword="openEmailForPassword"
       ></forgot-password
       >>
+    </form-layout>
+    <form-layout :close="closeEmailForPassword" v-if="emailForPassword">
+      <the-modal
+        :icon="email"
+        header="Check your email"
+        footer="Skip, I’ll confirm later"
+        text="We have sent a password recover instructions to your email"
+        :close="closeEmailForPassword"
+      >
+        <a
+          :href="'mailto:' + email"
+          class="text-center w-[190px] rounded-[8px] bg-red text-white h-[38px] pt-[5px]"
+          >Go to my email</a
+        >
+      </the-modal>
     </form-layout>
     <div class="bg-background flex flex-col justify-between">
       <div class="lg:pb-[212px] pb-[100px]">
@@ -134,7 +151,8 @@ export default {
     const showLogin = ref(false)
     const showModal = ref(false)
     const store = useEmailStore()
-    const modalState = ref('login')
+    const modalState = ref('')
+    const emailForPassword = ref(false)
 
     const route = useRoute()
 
@@ -161,6 +179,14 @@ export default {
 
     const closeModal = () => {
       showModal.value = false
+    }
+
+    const openEmailForPassword = () => {
+      emailForPassword.value = true
+    }
+
+    const closeEmailForPassword = () => {
+      emailForPassword.value = false
     }
 
     const handleModalChange = (state) => {
@@ -197,7 +223,10 @@ export default {
       emailVerified: store.emailVerified,
       verified,
       handleModalChange,
-      modalState
+      modalState,
+      openEmailForPassword,
+      closeEmailForPassword,
+      emailForPassword
     }
   }
 }

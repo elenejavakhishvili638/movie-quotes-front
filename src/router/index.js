@@ -73,4 +73,14 @@ router.beforeEach(async (to, from, next) => {
   next()
 })
 
+router.beforeEach(async (to, from, next) => {
+  const store = useEmailStore()
+
+  if (to.query.email) {
+    store.setEmail(true)
+  }
+
+  next()
+})
+
 export default router

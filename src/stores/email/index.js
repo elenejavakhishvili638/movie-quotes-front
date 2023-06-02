@@ -5,7 +5,8 @@ import actions from './actions'
 export const useEmailStore = defineStore({
   id: 'verificaiton',
   state: () => ({
-    emailVerified: false
+    emailVerified: false,
+    email: false
   }),
   actions
 })
