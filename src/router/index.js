@@ -40,6 +40,11 @@ const router = createRouter({
             next()
           })
       }
+    },
+    {
+      path: '/reset-password/:token',
+      component: TheLanding,
+      props: true
     }
   ]
 })

@@ -8,7 +8,6 @@ export default {
 
   async loginUser(payload) {
     try {
-      console.log(payload)
       await loginUser(payload)
     } catch (error) {
       console.error('Error during login', error)

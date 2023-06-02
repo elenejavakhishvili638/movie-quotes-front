@@ -52,8 +52,12 @@ export default {
       emit('changeModal', 'login')
     }
 
-    const submit = () => {
-      console.log(passwordResetStore.$state)
+    const submit = async () => {
+      try {
+        await passwordResetStore.sendEmail(passwordResetStore.$state.verifyEmail)
+      } catch (error) {
+        console.error(error)
+      }
     }
     return {
       openModal,
