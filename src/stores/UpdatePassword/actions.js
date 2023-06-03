@@ -6,10 +6,12 @@ export default {
     const { name, value } = payload
     this.verifyEmail[name] = value
   },
+
   updatePasswordForm(payload) {
     const { name, value } = payload
     this.updatePassword[name] = value
   },
+
   async sendEmail(payload) {
     try {
       await sendEmail(payload)
@@ -17,6 +19,7 @@ export default {
       console.error(error)
     }
   },
+
   async updatePassword(payload) {
     try {
       await updatePassword(payload)

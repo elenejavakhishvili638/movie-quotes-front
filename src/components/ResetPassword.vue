@@ -56,7 +56,7 @@ export default {
     TheButton,
     TheInput
   },
-  props: ['showLogin', 'closeResetPassword'],
+  props: ['showLogin', 'closeResetPassword', 'openSuccessModal'],
   setup(props) {
     const passwordResetStore = usePasswordResetStore()
 
@@ -72,11 +72,12 @@ export default {
         const formData = ref({
           password: passwordResetStore.$state.updatePassword.password,
           password_confirmation: passwordResetStore.$state.updatePassword.password_confirmation,
-          email: route.query.email[0],
+          email: route.query.email,
           token: route.params.token
         })
-        console.log(passwordResetStore.$state.updatePassword)
         await passwordResetStore.updatePassword(formData.value)
+        props.closeResetPassword()
+        props.openSuccessModal()
       } catch (error) {
         console.error(error)
       }

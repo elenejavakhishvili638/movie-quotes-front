@@ -2,7 +2,7 @@
   <div
     class="h-screen w-full md:rounded-[10px] md:w-[538px] md:h-[414px] bg flex flex-col justify-center items-center rounded-[10px]"
   >
-    <img :src="logo" class="mb-[21px]" />
+    <img :src="logo" class="mb-[21px] mt-[40px]" />
     <h1 class="text-white text-[32px] font-medium mb-[21px]">{{ modalHeader }}</h1>
     <p class="w-[357px] text-center text-white text-[16px] mb-[40px]">{{ modalText }}</p>
     <slot></slot>

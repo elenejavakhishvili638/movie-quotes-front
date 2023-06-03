@@ -46,7 +46,18 @@
         @changeModal="handleModalChange"
         :showLogin="login"
         :closeResetPassword="changeEmailValue"
+        :openSuccessModal="openSuccessModal"
       ></reset-password>
+    </form-layout>
+    <form-layout :close="closeSuccessModal" v-if="successModal">
+      <the-modal :icon="verified" header="Success!" text="Your Password changed successfully">
+        <p
+          @click="login"
+          class="text-center w-[190px] rounded-[8px] bg-red text-white h-[38px] pt-[5px]"
+        >
+          Log in
+        </p>
+      </the-modal>
     </form-layout>
     <form-layout :close="closeEmailForPassword" v-if="emailForPassword">
       <the-modal
@@ -124,7 +135,7 @@
 </template>
 
 <script>
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import TheFooter from '../components/TheFooter.vue'
 import TheHeader from '../components/TheHeader.vue'
 import image1 from '../assets/images/image1.png'
@@ -133,7 +144,7 @@ import image3 from '../assets/images/image3.png'
 import TheRegistration from './TheRegistration.vue'
 import TheLogin from './TheLogin.vue'
 import FormLayout from '../components/FormLayout.vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import TheModal from '../components/TheModal.vue'
 import email from '../assets/images/logos/email.png'
 import verified from '../assets/images/logos/verifed.png'
@@ -153,22 +164,27 @@ export default {
     ResetPassword
   },
   setup() {
+    const route = useRoute()
+    const router = useRouter()
     const image1Ref = ref(image1)
     const image2Ref = ref(image2)
     const image3Ref = ref(image3)
     const showRegistration = ref(false)
     const showLogin = ref(false)
     const showModal = ref(false)
+    const successModal = ref(false)
     const store = useEmailStore()
     const modalState = ref('')
     const emailForPassword = ref(false)
-    // const showResetPassword = ref(false)
-
-    const route = useRoute()
 
     const changeEmailValue = () => {
-      console.log(store.email)
-      store.updateEmail()
+      router.push({
+        path: route.path,
+        query: {
+          ...route.query,
+          modal: 'false'
+        }
+      })
     }
 
     const register = () => {
@@ -196,6 +212,14 @@ export default {
       showModal.value = false
     }
 
+    const openSuccessModal = () => {
+      successModal.value = true
+    }
+
+    const closeSuccessModal = () => {
+      successModal.value = false
+    }
+
     const openEmailForPassword = () => {
       emailForPassword.value = true
     }
@@ -207,10 +231,6 @@ export default {
     const handleModalChange = (state) => {
       modalState.value = state
     }
-
-    // const closeResetPassword = () => {
-    //   showResetPassword.value = true
-    // }
 
     watch(
       () => route.params.modal,
@@ -224,6 +244,8 @@ export default {
         }
       }
     )
+
+    const emailForPasswordReset = computed(() => store.email)
 
     return {
       image1: image1Ref,
@@ -246,8 +268,11 @@ export default {
       openEmailForPassword,
       closeEmailForPassword,
       emailForPassword,
-      emailForPasswordReset: store.email,
-      changeEmailValue
+      emailForPasswordReset,
+      changeEmailValue,
+      openSuccessModal,
+      closeSuccessModal,
+      successModal
     }
   }
 }

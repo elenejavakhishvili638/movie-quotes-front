@@ -8,6 +8,7 @@ export const usePasswordResetStore = defineStore({
     verifyEmail: {
       email: ''
     },
+
     updatePassword: {
       password: '',
       password_confirmation: ''
