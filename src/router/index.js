@@ -63,21 +63,23 @@ router.beforeEach(async (to, from, next) => {
   }
 })
 
+// router.beforeEach(async (to, from, next) => {
+//   const store = useEmailStore()
+
+//   if (to.query.email_verified) {
+//     store.setEmailVerified(true)
+//   }
+
+//   next()
+// })
+
 router.beforeEach(async (to, from, next) => {
   const store = useEmailStore()
-
-  if (to.query.email_verified) {
-    store.setEmailVerified(true)
-  }
-
-  next()
-})
-
-router.beforeEach(async (to, from, next) => {
-  const store = useEmailStore()
-
-  if (to.query.email) {
+  if (to.query.email && to.query.email[1] === 'true') {
     store.setEmail(true)
+  }
+  if (to.query.email && to.query.email[1] === 'false') {
+    store.setEmail(false)
   }
 
   next()

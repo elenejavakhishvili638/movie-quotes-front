@@ -58,3 +58,12 @@ export async function sendEmail(data) {
     console.log(error)
   }
 }
+
+export async function updatePassword(data) {
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+    await axios.post('/api/reset-password', data, { withCredentials: true })
+  } catch (error) {
+    console.log(error)
+  }
+}

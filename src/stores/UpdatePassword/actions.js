@@ -1,4 +1,4 @@
-import { sendEmail } from '../../services'
+import { sendEmail, updatePassword } from '../../services'
 
 export default {
   verifyEmail(payload) {
@@ -6,16 +6,22 @@ export default {
     const { name, value } = payload
     this.verifyEmail[name] = value
   },
-  updatePassword(payload) {
+  updatePasswordForm(payload) {
     const { name, value } = payload
     this.updatePassword[name] = value
   },
   async sendEmail(payload) {
     try {
-      // console.log(payload)
       await sendEmail(payload)
     } catch (error) {
-      console.error('Error during login', error)
+      console.error(error)
+    }
+  },
+  async updatePassword(payload) {
+    try {
+      await updatePassword(payload)
+    } catch (error) {
+      console.error(error)
     }
   }
 }

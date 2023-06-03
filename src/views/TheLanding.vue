@@ -41,6 +41,13 @@
       ></forgot-password
       >>
     </form-layout>
+    <form-layout :close="changeEmailValue" v-if="emailForPasswordReset">
+      <reset-password
+        @changeModal="handleModalChange"
+        :showLogin="login"
+        :closeResetPassword="changeEmailValue"
+      ></reset-password>
+    </form-layout>
     <form-layout :close="closeEmailForPassword" v-if="emailForPassword">
       <the-modal
         :icon="email"
@@ -132,6 +139,7 @@ import email from '../assets/images/logos/email.png'
 import verified from '../assets/images/logos/verifed.png'
 import { useEmailStore } from '../stores/email/index'
 import ForgotPassword from '../components/ForgotPassword.vue'
+import ResetPassword from '../components/ResetPassword.vue'
 
 export default {
   components: {
@@ -141,7 +149,8 @@ export default {
     FormLayout,
     TheLogin,
     TheModal,
-    ForgotPassword
+    ForgotPassword,
+    ResetPassword
   },
   setup() {
     const image1Ref = ref(image1)
@@ -153,8 +162,14 @@ export default {
     const store = useEmailStore()
     const modalState = ref('')
     const emailForPassword = ref(false)
+    // const showResetPassword = ref(false)
 
     const route = useRoute()
+
+    const changeEmailValue = () => {
+      console.log(store.email)
+      store.updateEmail()
+    }
 
     const register = () => {
       showRegistration.value = true
@@ -193,6 +208,10 @@ export default {
       modalState.value = state
     }
 
+    // const closeResetPassword = () => {
+    //   showResetPassword.value = true
+    // }
+
     watch(
       () => route.params.modal,
       (modal) => {
@@ -226,7 +245,9 @@ export default {
       modalState,
       openEmailForPassword,
       closeEmailForPassword,
-      emailForPassword
+      emailForPassword,
+      emailForPasswordReset: store.email,
+      changeEmailValue
     }
   }
 }
