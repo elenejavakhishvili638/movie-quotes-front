@@ -5,9 +5,9 @@
   >
     <div class="text-white flex flex-col px-[44px] items-center justify-center pt-[73px]">
       <div class="text-center mb-[32px]">
-        <h1 class="text-2xl mb-[12px] font-medium">Forgot Password?</h1>
+        <h1 class="text-2xl mb-[12px] font-medium">{{ $t('updatePassword.header') }}</h1>
         <p class="w-[274px] md:w-[313px] text-base text-[#6C757D] font-[14px]">
-          Enter the email and we’ll send an email with instructions to reset your password
+          {{ $t('updatePassword.text') }}
         </p>
       </div>
       <CustomForm @submit="onSubmit" v-slot="{ meta }">
@@ -19,14 +19,16 @@
           :label="$t('login.email')"
           :placeholder="$t('login.email_placeholder')"
         ></the-input>
-        <the-button type="submit" :disabled="!meta.valid">Send instructions</the-button>
+        <the-button type="submit" :disabled="!meta.valid">{{
+          $t('updatePassword.button')
+        }}</the-button>
       </CustomForm>
       <div
         @click="openModal"
         class="mb-[53px] gap-[11px] flex items-center justify-center text-[#6C757D] font-normal"
       >
         <img :src="back" />
-        Back to log in
+        {{ $t('updatePassword.button_two') }}
       </div>
     </div>
   </section>

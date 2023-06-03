@@ -5,9 +5,9 @@
   >
     <div class="text-white flex flex-col px-[44px] items-center justify-center pt-[73px]">
       <div class="text-center mb-[32px]">
-        <h1 class="text-2xl mb-[12px] font-medium">Create new password</h1>
+        <h1 class="text-2xl mb-[12px] font-medium">{{ $t('updatePassword.header_two') }}</h1>
         <p class="w-[274px] md:w-[313px] text-base text-[#6C757D] font-[14px]">
-          Your new password must be different from previous used passwords
+          {{ $t('updatePassword.text_two') }}
         </p>
       </div>
       <CustomForm @submit="onSubmit" v-slot="{ meta }">
@@ -28,14 +28,16 @@
           :placeholder="$t('registration.confirm_password_placeholder')"
           validate="required|confirmed:password"
         ></the-input>
-        <the-button type="submit" :disabled="!meta.valid">Reset password</the-button>
+        <the-button type="submit" :disabled="!meta.valid">{{
+          $t('updatePassword.button_three')
+        }}</the-button>
       </CustomForm>
       <div
         @click="openModal"
         class="cursor-pointer mb-[53px] gap-[11px] flex items-center justify-center text-[#6C757D] font-normal"
       >
         <img :src="back" />
-        Back to log in
+        {{ $t('updatePassword.button_two') }}
       </div>
     </div>
   </section>

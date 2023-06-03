@@ -7,23 +7,20 @@
       ></the-registration>
     </form-layout>
     <form-layout :close="closeModal" v-if="showModal">
-      <the-modal
-        :icon="email"
-        text="Please check your email and follow the instructions to activate your account."
-      >
+      <the-modal :icon="email" :text="$t('modals.text')">
         <a
           :href="'mailto:' + email"
           class="text-center w-[190px] rounded-[8px] bg-red text-white h-[38px] pt-[5px]"
-          >Go to my email</a
+          >{{ $t('modals.button') }}</a
         >
       </the-modal>
     </form-layout>
     <form-layout :close="closeModal" v-if="emailVerified">
-      <the-modal :icon="verified" header="Thank you!" text="Your account has been activated.">
+      <the-modal :icon="verified" :header="$t('modals.header')" :text="$t('modals.text_two')">
         <router-link
           to="/news-feed"
           class="text-center w-[190px] rounded-[8px] bg-red text-white h-[38px] pt-[5px]"
-          >Go to news feed</router-link
+          >{{ $t('modals.button_two') }}</router-link
         >
       </the-modal>
     </form-layout>
@@ -38,8 +35,7 @@
         @changeModal="handleModalChange"
         :closeLogin="closeLogin"
         :openEmailForPassword="openEmailForPassword"
-      ></forgot-password
-      >>
+      ></forgot-password>
     </form-layout>
     <form-layout :close="changeEmailValue" v-if="emailForPasswordReset">
       <reset-password
@@ -50,27 +46,27 @@
       ></reset-password>
     </form-layout>
     <form-layout :close="closeSuccessModal" v-if="successModal">
-      <the-modal :icon="verified" header="Success!" text="Your Password changed successfully">
+      <the-modal :icon="verified" :header="$t('modals.header_two')" :text="$t('modals.text_three')">
         <p
           @click="login"
           class="text-center w-[190px] rounded-[8px] bg-red text-white h-[38px] pt-[5px]"
         >
-          Log in
+          {{ $t('modals.button_three') }}
         </p>
       </the-modal>
     </form-layout>
     <form-layout :close="closeEmailForPassword" v-if="emailForPassword">
       <the-modal
         :icon="email"
-        header="Check your email"
-        footer="Skip, I’ll confirm later"
-        text="We have sent a password recover instructions to your email"
+        :header="$t('modals.header_three')"
+        :footer="$t('modals.footer')"
+        :text="$t('modals.text_four')"
         :close="closeEmailForPassword"
       >
         <a
           :href="'mailto:' + email"
           class="text-center w-[190px] rounded-[8px] bg-red text-white h-[38px] pt-[5px]"
-          >Go to my email</a
+          >{{ $t('modals.button') }}</a
         >
       </the-modal>
     </form-layout>
