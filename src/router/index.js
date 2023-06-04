@@ -51,27 +51,6 @@ const router = createRouter({
   ]
 })
 
-// router.beforeEach(async (to, from, next) => {
-//   if (to.matched.some((record) => record.meta.requiresAuth)) {
-//     try {
-//       const response = await axios.get('/api/user')
-//       console.log(response)
-//       next()
-//     } catch (error) {
-//       next('/')
-//     }
-//   } else if (to.matched.some((record) => record.meta.guest)) {
-//     try {
-//       await axios.get('/api/user')
-//       next('/news-feed')
-//     } catch (error) {
-//       next()
-//     }
-//   } else {
-//     next()
-//   }
-// })
-
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore()
 
