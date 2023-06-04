@@ -100,6 +100,7 @@ import home from '../assets/images/logos/home.png'
 import movie from '../assets/images/logos/movie.png'
 import LanguageComponent from './LanguageComponent.vue'
 import { useLoginStore } from '../stores/login/index'
+import { useRouter } from 'vue-router'
 
 export default {
   props: ['searchBar'],
@@ -108,12 +109,13 @@ export default {
     const searchOpen = ref(false)
     const notificationOpen = ref(false)
     const menuOpen = ref(false)
-
     const loginStore = useLoginStore()
+    const router = useRouter()
 
     const logout = async () => {
       try {
         await loginStore.logout()
+        router.replace('/')
       } catch (error) {
         console.log(error)
       }
