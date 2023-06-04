@@ -78,22 +78,7 @@
         <img :src="search" />
       </button>
       <button @click="toggleNotification" class="cursor-pointer"><img :src="bell" /></button>
-      <div class="ml-[10px] flex justify-center items-center">
-        <div @click="toggleLang" class="flex items-center gap-[10px]">
-          <p class="text-white">{{ language.display }}</p>
-          <img :src="Vector" />
-        </div>
-
-        <div
-          v-show="showLang"
-          class="absolute border-1 top-[7%] bg-slate-500 px-[50px] py-[10px] rounded-[8px]"
-        >
-          <div class="flex flex-col gap-[10px]">
-            <button class="text-white" @click="changeLanguage('en', 'Eng')">Eng</button>
-            <button class="text-white" @click="changeLanguage('ka', 'ქარ')">ქარ</button>
-          </div>
-        </div>
-      </div>
+      <language-component></language-component>
       <button
         @click="logout"
         class="hidden md:block mr-[8px] justify-center items-center w-72 h-32 border border-white rounded-[4px] text-white text-sm"
@@ -113,27 +98,15 @@ import arrow from '../assets/images/logos/arrow.png'
 import polygon from '../assets/images/logos/polygon.png'
 import home from '../assets/images/logos/home.png'
 import movie from '../assets/images/logos/movie.png'
-import { useLanguageStore } from '../stores/language/index'
-import Vector from '../assets/images/logos/Vector.png'
+import LanguageComponent from './LanguageComponent.vue'
 
 export default {
   props: ['searchBar'],
+  components: { LanguageComponent },
   setup(props) {
     const searchOpen = ref(false)
     const notificationOpen = ref(false)
     const menuOpen = ref(false)
-
-    const language = useLanguageStore()
-    const showLang = ref(false)
-
-    const changeLanguage = (newLanguage, display) => {
-      showLang.value = false
-      language.setLanguage({ newLanguage, display })
-    }
-
-    const toggleLang = () => {
-      showLang.value = !showLang.value
-    }
 
     const toggleSearch = () => {
       searchOpen.value = true
@@ -171,12 +144,7 @@ export default {
       home,
       search,
       arrow,
-      polygon,
-      changeLanguage,
-      toggleLang,
-      language,
-      showLang,
-      Vector
+      polygon
     }
   }
 }

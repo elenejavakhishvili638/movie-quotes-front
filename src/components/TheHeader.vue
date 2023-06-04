@@ -2,22 +2,7 @@
   <div class="flex justify-between lg:px-[70px] px-[16px] pt-[24px] items-center">
     <h2 class="text-cream">MOVIE QUOTES</h2>
     <div class="flex items-center">
-      <div class="mr-[10px] md:mr-[40px] flex justify-center items-center">
-        <div @click="toggleLang" class="flex items-center gap-[10px]">
-          <p class="text-white">{{ language.display }}</p>
-          <img :src="Vector" />
-        </div>
-
-        <div
-          v-show="showLang"
-          class="absolute border-1 top-[7%] bg-slate-500 px-[50px] py-[10px] rounded-[8px]"
-        >
-          <div class="flex flex-col gap-[10px]">
-            <button class="text-white" @click="changeLanguage('en', 'Eng')">Eng</button>
-            <button class="text-white" @click="changeLanguage('ka', 'ქარ')">ქარ</button>
-          </div>
-        </div>
-      </div>
+      <language-component class="mr-[20px]"></language-component>
       <div class="flex">
         <button
           @click="register"
@@ -40,8 +25,10 @@
 import Vector from '../assets/images/logos/Vector.png'
 import { useLanguageStore } from '../stores/language/index'
 import { ref } from 'vue'
+import LanguageComponent from './LanguageComponent.vue'
 
 export default {
+  components: { LanguageComponent },
   setup() {
     const language = useLanguageStore()
     const showLang = ref(false)
