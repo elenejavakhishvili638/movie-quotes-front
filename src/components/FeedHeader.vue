@@ -99,6 +99,7 @@ import polygon from '../assets/images/logos/polygon.png'
 import home from '../assets/images/logos/home.png'
 import movie from '../assets/images/logos/movie.png'
 import LanguageComponent from './LanguageComponent.vue'
+import { useLoginStore } from '../stores/login/index'
 
 export default {
   props: ['searchBar'],
@@ -107,6 +108,16 @@ export default {
     const searchOpen = ref(false)
     const notificationOpen = ref(false)
     const menuOpen = ref(false)
+
+    const loginStore = useLoginStore()
+
+    const logout = async () => {
+      try {
+        await loginStore.logout()
+      } catch (error) {
+        console.log(error)
+      }
+    }
 
     const toggleSearch = () => {
       searchOpen.value = true
@@ -144,7 +155,8 @@ export default {
       home,
       search,
       arrow,
-      polygon
+      polygon,
+      logout
     }
   }
 }
