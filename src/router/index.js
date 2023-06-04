@@ -3,6 +3,7 @@ import TheLanding from '../views/TheLanding.vue'
 import NewsFeed from '../views/NewsFeed.vue'
 import axios from '../config/axios'
 import { useEmailStore } from '../stores/email/index'
+import { useUserStore } from '../stores/user/index'
 
 const router = createRouter({
   // history: createWebHistory(import.meta.env.BASE_URL),
@@ -10,7 +11,8 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      component: TheLanding
+      component: TheLanding,
+      meta: { guest: true }
     },
     {
       path: '/news-feed',
@@ -49,14 +51,45 @@ const router = createRouter({
   ]
 })
 
+// router.beforeEach(async (to, from, next) => {
+//   if (to.matched.some((record) => record.meta.requiresAuth)) {
+//     try {
+//       const response = await axios.get('/api/user')
+//       console.log(response)
+//       next()
+//     } catch (error) {
+//       next('/')
+//     }
+//   } else if (to.matched.some((record) => record.meta.guest)) {
+//     try {
+//       await axios.get('/api/user')
+//       next('/news-feed')
+//     } catch (error) {
+//       next()
+//     }
+//   } else {
+//     next()
+//   }
+// })
+
 router.beforeEach(async (to, from, next) => {
+  const userStore = useUserStore()
+
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    try {
-      const response = await axios.get('/api/user')
-      console.log(response)
+    await userStore.fetchUser()
+
+    if (userStore.user) {
       next()
-    } catch (error) {
+    } else {
       next('/')
+    }
+  } else if (to.matched.some((record) => record.meta.guest)) {
+    await userStore.fetchUser()
+
+    if (userStore.user) {
+      next('/news-feed')
+    } else {
+      next()
     }
   } else {
     next()
