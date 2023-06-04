@@ -59,11 +59,7 @@ export default {
       language,
       changeLanguage,
       showLang,
-      toggleLang
-    }
-  },
-  data() {
-    return {
+      toggleLang,
       Vector
     }
   },
