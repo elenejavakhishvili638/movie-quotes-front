@@ -53,7 +53,9 @@
       </button>
       <div class="mb-[53px] mt-[32px] flex items-center justify-center">
         <p class="text-[#6C757D] mr-[4px]">{{ $t('registration.have_account') }}</p>
-        <a class="text-[#0D6EFD]">{{ $t('texts.log_in') }}</a>
+        <p @click="openLogin" class="text-[#0D6EFD] border-b border-[#0D6EFD]">
+          {{ $t('texts.log_in') }}
+        </p>
       </div>
     </div>
   </section>
@@ -76,6 +78,11 @@ export default {
       props.closeRegistration()
     }
 
+    const openLogin = () => {
+      props.closeRegistration()
+      props.login()
+    }
+
     const googleSignUp = () => {
       authStore.registerWithGoogle()
       console.log(props)
@@ -85,7 +92,8 @@ export default {
       onSubmit,
       formData: authStore.$state.form,
       google,
-      googleSignUp
+      googleSignUp,
+      openLogin
     }
   },
   components: {
@@ -93,7 +101,7 @@ export default {
     TheInput,
     TheButton
   },
-  props: ['closeRegistration', 'openModal']
+  props: ['closeRegistration', 'openModal', 'login']
 }
 </script>
 

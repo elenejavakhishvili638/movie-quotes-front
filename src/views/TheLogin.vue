@@ -27,7 +27,7 @@
             <input type="checkbox" name="remember" />
             <label class="ml-[8px]">{{ $t('login.remember_me') }}</label>
           </div>
-          <p @click="openModal" class="text-[#0D6EFD] cursor-pointer">
+          <p @click="openModal" class="text-[#0D6EFD] cursor-pointer border-b border-[#0D6EFD]">
             {{ $t('login.forgot_password') }}?
           </p>
         </div>
@@ -37,8 +37,10 @@
         G {{ $t('login.google') }}
       </button>
       <div class="mb-[53px] mt-[32px] flex items-center justify-center">
-        <p class="text-[#6C757D] mr-[4px]">{{ $t('login.google') }}</p>
-        <a class="text-[#0D6EFD]">{{ $t('login.sign_up') }}</a>
+        <p class="text-[#6C757D] mr-[4px]">{{ $t('login.account') }}?</p>
+        <p @click="openSignup" class="text-[#0D6EFD] border-b border-[#0D6EFD]">
+          {{ $t('login.sign_up') }}
+        </p>
       </div>
     </div>
   </section>
@@ -64,6 +66,11 @@ export default {
       emit('changeModal', 'forgot-password')
     }
 
+    const openSignup = () => {
+      props.closeLogin()
+      props.register()
+    }
+
     const onSubmit = async () => {
       try {
         await loginStore.loginUser(loginStore.$state.login)
@@ -85,7 +92,8 @@ export default {
       showModal,
       openModal,
       FormLayout,
-      TheModal
+      TheModal,
+      openSignup
     }
   },
   components: {
@@ -93,7 +101,7 @@ export default {
     TheInput,
     TheButton
   },
-  props: ['closeLogin']
+  props: ['closeLogin', 'register']
 }
 </script>
 

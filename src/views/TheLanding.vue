@@ -4,6 +4,7 @@
       <the-registration
         :closeRegistration="closeRegistration"
         :openModal="openModal"
+        :login="login"
       ></the-registration>
     </form-layout>
     <form-layout :close="closeModal" v-if="showModal">
@@ -29,6 +30,7 @@
         v-if="modalState === 'login'"
         @changeModal="handleModalChange"
         :closeLogin="closeLogin"
+        :register="register"
       ></the-login>
       <forgot-password
         v-else-if="modalState === 'forgot-password'"
