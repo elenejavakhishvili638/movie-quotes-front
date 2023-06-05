@@ -25,6 +25,9 @@ export const theme = {
     },
     backgroundRepeat: {
       parallax: 'no-repeat'
+    },
+    gridTemplateColumns: {
+      fill: 'repeat(auto-fill, minmax(300px, 1fr))'
     }
   }
 }

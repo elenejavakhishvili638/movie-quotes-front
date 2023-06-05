@@ -14,7 +14,7 @@ const userStore = useUserStore()
 const route = useRoute()
 
 const homeImage = computed(() => (route.path === '/news-feed' ? activeHouse : home))
-const movieImage = computed(() => (route.path === '/movies' ? activeCamera : movie))
+const movieImage = computed(() => (route.path === '/movie-list' ? activeCamera : movie))
 
 const user = computed(() => userStore.$state.user)
 </script>
@@ -33,9 +33,9 @@ const user = computed(() => userStore.$state.user)
         <img :src="homeImage" />
         <router-link to="news-feed"> News feed </router-link>
       </div>
-      <div class="flex items-center gap-[30px]">
+      <div class="flex items-center gap-[30px]" @click="props.close">
         <img :src="movieImage" />
-        <router-link to=""> List of movies </router-link>
+        <router-link to="movie-list"> List of movies </router-link>
       </div>
       <slot></slot>
     </div>
