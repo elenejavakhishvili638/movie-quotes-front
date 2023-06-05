@@ -5,12 +5,11 @@ import bell from '../assets/images/logos/bell.png'
 import search from '../assets/images/logos/search.png'
 import arrow from '../assets/images/logos/arrow.png'
 import polygon from '../assets/images/logos/polygon.png'
-import home from '../assets/images/logos/home.png'
-import movie from '../assets/images/logos/movie.png'
 import LanguageComponent from './LanguageComponent.vue'
 import { useLoginStore } from '../stores/login/index'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../stores/user'
+import ProfileSidebar from './ProfileSidebar.vue'
 
 const props = defineProps(['searchBar'])
 
@@ -63,29 +62,14 @@ const closeMenu = () => {
       class="absolute md:hidden left-0 top-0 w-[382px] h-[658px] bg-[#11101A] rounded-r-[12px]"
     >
       <div class="text-white pt-[40px] pl-[45px]">
-        <div class="flex items-center mb-[40px]">
-          <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px]" alt="name" />
-          <div class="flex flex-col ml-[16px]">
-            <p>Maia Nakashidze</p>
-            <p>Edit your profile</p>
-          </div>
-        </div>
-        <div>
-          <div class="flex items-center mb-[40px] gap-[30px]" @click="closeMenu">
-            <img :src="home" />
-            <router-link to="news-feed"> News feed </router-link>
-          </div>
-          <div class="flex items-center gap-[30px]">
-            <img :src="movie" />
-            <router-link to=""> List of movies </router-link>
-          </div>
+        <profile-sidebar :close="closeMenu">
           <button
             @click="logout"
             class="md:block mt-[40px] mr-[8px] justify-center items-center w-72 h-32 border border-white rounded-[4px] text-white text-sm"
           >
             Log out
           </button>
-        </div>
+        </profile-sidebar>
       </div>
     </div>
     <div v-if="searchOpen" class="absolute top-0 left-0 h-[774px] bg-[#12101A] w-full">

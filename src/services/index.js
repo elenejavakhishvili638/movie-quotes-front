@@ -67,3 +67,12 @@ export async function updatePassword(data) {
     console.log(error)
   }
 }
+
+export async function fetchMovies() {
+  try {
+    const response = await axios.get('/api/movies')
+    return response
+  } catch (error) {
+    console.log(error)
+  }
+}
