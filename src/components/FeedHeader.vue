@@ -1,3 +1,57 @@
+<script setup>
+import { ref } from 'vue'
+import menu from '../assets/images/logos/menu.png'
+import bell from '../assets/images/logos/bell.png'
+import search from '../assets/images/logos/search.png'
+import arrow from '../assets/images/logos/arrow.png'
+import polygon from '../assets/images/logos/polygon.png'
+import home from '../assets/images/logos/home.png'
+import movie from '../assets/images/logos/movie.png'
+import LanguageComponent from './LanguageComponent.vue'
+import { useLoginStore } from '../stores/login/index'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '../stores/user'
+
+const props = defineProps(['searchBar'])
+
+const searchOpen = ref(false)
+const notificationOpen = ref(false)
+const menuOpen = ref(false)
+const loginStore = useLoginStore()
+const router = useRouter()
+const userStore = useUserStore()
+
+const logout = async () => {
+  try {
+    await loginStore.logout()
+    userStore.setLoggedOut(true)
+    router.replace('/')
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const toggleSearch = () => {
+  searchOpen.value = true
+}
+
+const closeSearch = () => {
+  searchOpen.value = false
+}
+
+const toggleNotification = () => {
+  notificationOpen.value = !notificationOpen.value
+}
+
+const openMenu = () => {
+  menuOpen.value = true
+}
+
+const closeMenu = () => {
+  menuOpen.value = false
+}
+</script>
+
 <template>
   <div
     class="bg-[#22203033] h-[86px] flex justify-between items-center pl-[36px] pr-[50px] md:px-[69px]"
@@ -71,7 +125,7 @@
     </div>
     <div class="flex items-center md:gap-[40px]">
       <button
-        v-if="searchBarState"
+        v-if="props.searchBar"
         @click="toggleSearch"
         class="mr-[21px] cursor-pointer md:hidden"
       >
@@ -88,78 +142,3 @@
     </div>
   </div>
 </template>
-
-<script>
-import { ref } from 'vue'
-import menu from '../assets/images/logos/menu.png'
-import bell from '../assets/images/logos/bell.png'
-import search from '../assets/images/logos/search.png'
-import arrow from '../assets/images/logos/arrow.png'
-import polygon from '../assets/images/logos/polygon.png'
-import home from '../assets/images/logos/home.png'
-import movie from '../assets/images/logos/movie.png'
-import LanguageComponent from './LanguageComponent.vue'
-import { useLoginStore } from '../stores/login/index'
-import { useRouter } from 'vue-router'
-
-export default {
-  props: ['searchBar'],
-  components: { LanguageComponent },
-  setup(props) {
-    const searchOpen = ref(false)
-    const notificationOpen = ref(false)
-    const menuOpen = ref(false)
-    const loginStore = useLoginStore()
-    const router = useRouter()
-
-    const logout = async () => {
-      try {
-        await loginStore.logout()
-        router.replace('/')
-      } catch (error) {
-        console.log(error)
-      }
-    }
-
-    const toggleSearch = () => {
-      searchOpen.value = true
-    }
-
-    const closeSearch = () => {
-      searchOpen.value = false
-    }
-
-    const toggleNotification = () => {
-      notificationOpen.value = !notificationOpen.value
-    }
-
-    const openMenu = () => {
-      menuOpen.value = true
-    }
-
-    const closeMenu = () => {
-      menuOpen.value = false
-    }
-
-    return {
-      searchOpen,
-      notificationOpen,
-      menuOpen,
-      searchBarState: props.searchBar,
-      toggleNotification,
-      toggleSearch,
-      closeSearch,
-      closeMenu,
-      openMenu,
-      menu,
-      bell,
-      movie,
-      home,
-      search,
-      arrow,
-      polygon,
-      logout
-    }
-  }
-}
-</script>

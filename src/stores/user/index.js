@@ -5,7 +5,8 @@ import actions from './actions'
 export const useUserStore = defineStore({
   id: 'user',
   state: () => ({
-    user: null
+    user: null,
+    loggedOut: false
   }),
   actions
 })

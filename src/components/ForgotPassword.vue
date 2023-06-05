@@ -1,3 +1,34 @@
+<script setup>
+import { Form } from 'vee-validate'
+import TheButton from './TheButton.vue'
+import TheInput from './TheInput.vue'
+import back from '../assets/images/logos/back.png'
+import { usePasswordResetStore } from '../stores/UpdatePassword/index'
+import { computed } from 'vue'
+
+const props = defineProps(['closeLogin', 'openEmailForPassword'])
+
+const emit = defineEmits(['changeModal'])
+
+const passwordResetStore = usePasswordResetStore()
+
+const openModal = () => {
+  emit('changeModal', 'login')
+}
+
+const onSubmit = async () => {
+  try {
+    await passwordResetStore.sendEmail(passwordResetStore.$state.verifyEmail)
+    props.openEmailForPassword()
+    props.closeLogin()
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const formData = computed(() => passwordResetStore.$state.verifyEmail)
+</script>
+
 <template>
   <section
     @click.stop
@@ -10,7 +41,7 @@
           {{ $t('updatePassword.text') }}
         </p>
       </div>
-      <CustomForm @submit="onSubmit" v-slot="{ meta }">
+      <Form @submit="onSubmit" v-slot="{ meta }">
         <the-input
           v-model="formData.email"
           validate="required|email"
@@ -22,7 +53,7 @@
         <the-button type="submit" :disabled="!meta.valid">{{
           $t('updatePassword.button')
         }}</the-button>
-      </CustomForm>
+      </Form>
       <div
         @click="openModal"
         class="mb-[53px] gap-[11px] flex items-center justify-center text-[#6C757D] font-normal"
@@ -33,46 +64,6 @@
     </div>
   </section>
 </template>
-
-<script>
-import { Form } from 'vee-validate'
-import TheButton from './TheButton.vue'
-import TheInput from './TheInput.vue'
-import back from '../assets/images/logos/back.png'
-import { usePasswordResetStore } from '../stores/UpdatePassword/index'
-
-export default {
-  components: {
-    CustomForm: Form,
-    TheButton,
-    TheInput
-  },
-  props: ['closeLogin', 'openEmailForPassword'],
-  setup(props, { emit }) {
-    const passwordResetStore = usePasswordResetStore()
-
-    const openModal = () => {
-      emit('changeModal', 'login')
-    }
-
-    const onSubmit = async () => {
-      try {
-        await passwordResetStore.sendEmail(passwordResetStore.$state.verifyEmail)
-        props.openEmailForPassword()
-        props.closeLogin()
-      } catch (error) {
-        console.error(error)
-      }
-    }
-    return {
-      openModal,
-      back,
-      formData: passwordResetStore.$state.verifyEmail,
-      onSubmit
-    }
-  }
-}
-</script>
 
 <style scoped>
 section {

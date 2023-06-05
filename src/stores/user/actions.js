@@ -1,6 +1,9 @@
 import axios from '../../config/axios'
 
 export default {
+  setLoggedOut(value) {
+    this.loggedOut = value
+  },
   setUser(userData) {
     this.user = userData
   },

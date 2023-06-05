@@ -1,3 +1,38 @@
+<script setup>
+import { Form } from 'vee-validate'
+import TheButton from '../components/TheButton.vue'
+import TheInput from '../components/TheInput.vue'
+import { useAuthStore } from '../stores/registration/index'
+import google from '../assets/images/logos/google.png'
+import { computed } from 'vue'
+
+const props = defineProps({
+  closeRegistration: Function,
+  openModal: Function,
+  login: Function
+})
+
+const authStore = useAuthStore()
+
+const onSubmit = () => {
+  authStore.registerUser(authStore.$state.form)
+  props.openModal()
+  props.closeRegistration()
+}
+
+const openLogin = () => {
+  props.closeRegistration()
+  props.login()
+}
+
+const googleSignUp = () => {
+  authStore.registerWithGoogle()
+  console.log(props)
+}
+
+const formData = computed(() => authStore.$state.form)
+</script>
+
 <template>
   <section @click.stop class="h-screen md:w-[601px] md:h-auto md:rounded-[10px] overflow-scroll">
     <div class="text-white flex flex-col px-[44px] items-center justify-center pt-[73px]">
@@ -5,7 +40,7 @@
         <h1 class="text-2xl mb-[12px] font-medium">{{ $t('registration.account') }}</h1>
         <p class="text-base text-[#6C757D] font-normal">{{ $t('registration.text') }}</p>
       </div>
-      <CustomForm @submit="onSubmit" v-slot="{ meta }">
+      <Form @submit="onSubmit" v-slot="{ meta }">
         <the-input
           v-model="formData.username"
           name="username"
@@ -44,7 +79,7 @@
         <the-button type="submit" :disabled="!meta.valid">{{
           $t('registration.get_started')
         }}</the-button>
-      </CustomForm>
+      </Form>
       <button
         @click="googleSignUp"
         class="flex justify-center items-center w-[360px] border border-white rounded-[8px] h-[38px]"
@@ -60,50 +95,6 @@
     </div>
   </section>
 </template>
-
-<script>
-import { Form } from 'vee-validate'
-import TheButton from '../components/TheButton.vue'
-import TheInput from '../components/TheInput.vue'
-import { useAuthStore } from '../stores/registration/index'
-import google from '../assets/images/logos/google.png'
-
-export default {
-  setup(props) {
-    const authStore = useAuthStore()
-
-    const onSubmit = () => {
-      authStore.registerUser(authStore.$state.form)
-      props.openModal()
-      props.closeRegistration()
-    }
-
-    const openLogin = () => {
-      props.closeRegistration()
-      props.login()
-    }
-
-    const googleSignUp = () => {
-      authStore.registerWithGoogle()
-      console.log(props)
-    }
-    return {
-      authStore,
-      onSubmit,
-      formData: authStore.$state.form,
-      google,
-      googleSignUp,
-      openLogin
-    }
-  },
-  components: {
-    CustomForm: Form,
-    TheInput,
-    TheButton
-  },
-  props: ['closeRegistration', 'openModal', 'login']
-}
-</script>
 
 <style scoped>
 section {

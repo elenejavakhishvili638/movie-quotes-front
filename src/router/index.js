@@ -65,7 +65,7 @@ router.beforeEach(async (to, from, next) => {
   } else if (to.matched.some((record) => record.meta.guest)) {
     await userStore.fetchUser()
 
-    if (userStore.user) {
+    if (userStore.user && !userStore.loggedOut) {
       next('/news-feed')
     } else {
       next()

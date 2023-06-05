@@ -1,3 +1,47 @@
+<script setup>
+import { Form } from 'vee-validate'
+import TheButton from '../components/TheButton.vue'
+import TheInput from '../components/TheInput.vue'
+import { useLoginStore } from '../stores/login/index'
+import { useRouter } from 'vue-router'
+import { computed } from 'vue'
+
+const props = defineProps({
+  closeLogin: Function,
+  register: Function
+})
+
+const emit = defineEmits(['changeModal'])
+
+const loginStore = useLoginStore()
+const router = useRouter()
+
+const openModal = () => {
+  emit('changeModal', 'forgot-password')
+}
+
+const openSignup = () => {
+  props.closeLogin()
+  props.register()
+}
+
+const onSubmit = async () => {
+  try {
+    await loginStore.loginUser(loginStore.$state.login)
+    props.closeLogin()
+    router.push('/news-feed')
+  } catch (error) {
+    console.error('Failed to login:', error)
+  }
+}
+
+const googleSignIn = () => {
+  loginStore.loginWithGoogle()
+}
+
+const formData = computed(() => loginStore.$state.login)
+</script>
+
 <template>
   <section @click.stop class="h-screen md:w-[601px] md:h-auto md:rounded-[10px]">
     <div class="text-white flex flex-col px-[44px] items-center justify-center pt-[73px]">
@@ -5,7 +49,7 @@
         <h1 class="text-2xl mb-[12px] font-medium">{{ $t('login.log_in') }}</h1>
         <p class="text-base text-[#6C757D] font-normal">{{ $t('login.text') }}</p>
       </div>
-      <CustomForm @submit="onSubmit" v-slot="{ meta }">
+      <Form @submit="onSubmit" v-slot="{ meta }">
         <the-input
           v-model="formData.username"
           validate="required"
@@ -32,7 +76,7 @@
           </p>
         </div>
         <the-button :disabled="!meta.valid">{{ $t('login.sign_in') }}</the-button>
-      </CustomForm>
+      </Form>
       <button @click="googleSignIn" class="w-[360px] border border-white rounded-[8px] h-[38px]">
         G {{ $t('login.google') }}
       </button>
@@ -45,65 +89,6 @@
     </div>
   </section>
 </template>
-
-<script>
-import { Form } from 'vee-validate'
-import TheButton from '../components/TheButton.vue'
-import TheInput from '../components/TheInput.vue'
-import { useLoginStore } from '../stores/login/index'
-import { useRouter } from 'vue-router'
-import { ref } from 'vue'
-import FormLayout from '../components/FormLayout.vue'
-import TheModal from '../components/TheModal.vue'
-
-export default {
-  setup(props, { emit }) {
-    const loginStore = useLoginStore()
-    const router = useRouter()
-    const showModal = ref(false)
-
-    const openModal = () => {
-      emit('changeModal', 'forgot-password')
-    }
-
-    const openSignup = () => {
-      props.closeLogin()
-      props.register()
-    }
-
-    const onSubmit = async () => {
-      try {
-        await loginStore.loginUser(loginStore.$state.login)
-        props.closeLogin()
-        router.push('/news-feed')
-      } catch (error) {
-        console.error('Failed to login:', error)
-      }
-    }
-
-    const googleSignIn = () => {
-      loginStore.loginWithGoogle()
-    }
-    return {
-      loginStore,
-      onSubmit,
-      formData: loginStore.$state.login,
-      googleSignIn,
-      showModal,
-      openModal,
-      FormLayout,
-      TheModal,
-      openSignup
-    }
-  },
-  components: {
-    CustomForm: Form,
-    TheInput,
-    TheButton
-  },
-  props: ['closeLogin', 'register']
-}
-</script>
 
 <style scoped>
 section {

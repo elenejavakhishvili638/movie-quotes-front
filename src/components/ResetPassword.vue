@@ -1,3 +1,42 @@
+<script setup>
+import { Form } from 'vee-validate'
+import TheButton from './TheButton.vue'
+import TheInput from './TheInput.vue'
+import back from '../assets/images/logos/back.png'
+import { usePasswordResetStore } from '../stores/UpdatePassword/index'
+import { ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
+
+const props = defineProps(['showLogin', 'closeResetPassword', 'openSuccessModal'])
+
+const passwordResetStore = usePasswordResetStore()
+
+const openModal = () => {
+  props.closeResetPassword()
+  props.showLogin()
+}
+
+const route = useRoute()
+
+const onSubmit = async () => {
+  try {
+    const formData = ref({
+      password: passwordResetStore.$state.updatePassword.password,
+      password_confirmation: passwordResetStore.$state.updatePassword.password_confirmation,
+      email: route.query.email,
+      token: route.params.token
+    })
+    await passwordResetStore.updatePassword(formData.value)
+    props.closeResetPassword()
+    props.openSuccessModal()
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const formData = computed(() => passwordResetStore.$state.updatePassword)
+</script>
+
 <template>
   <section
     @click.stop
@@ -10,7 +49,7 @@
           {{ $t('updatePassword.text_two') }}
         </p>
       </div>
-      <CustomForm @submit="onSubmit" v-slot="{ meta }">
+      <Form @submit="onSubmit" v-slot="{ meta }">
         <the-input
           v-model="formData.password"
           name="password"
@@ -31,7 +70,7 @@
         <the-button type="submit" :disabled="!meta.valid">{{
           $t('updatePassword.button_three')
         }}</the-button>
-      </CustomForm>
+      </Form>
       <div
         @click="openModal"
         class="cursor-pointer mb-[53px] gap-[11px] flex items-center justify-center text-[#6C757D] font-normal"
@@ -42,57 +81,6 @@
     </div>
   </section>
 </template>
-
-<script>
-import { Form } from 'vee-validate'
-import TheButton from './TheButton.vue'
-import TheInput from './TheInput.vue'
-import back from '../assets/images/logos/back.png'
-import { usePasswordResetStore } from '../stores/UpdatePassword/index'
-import { ref } from 'vue'
-import { useRoute } from 'vue-router'
-
-export default {
-  components: {
-    CustomForm: Form,
-    TheButton,
-    TheInput
-  },
-  props: ['showLogin', 'closeResetPassword', 'openSuccessModal'],
-  setup(props) {
-    const passwordResetStore = usePasswordResetStore()
-
-    const openModal = () => {
-      props.closeResetPassword()
-      props.showLogin()
-    }
-
-    const route = useRoute()
-
-    const onSubmit = async () => {
-      try {
-        const formData = ref({
-          password: passwordResetStore.$state.updatePassword.password,
-          password_confirmation: passwordResetStore.$state.updatePassword.password_confirmation,
-          email: route.query.email,
-          token: route.params.token
-        })
-        await passwordResetStore.updatePassword(formData.value)
-        props.closeResetPassword()
-        props.openSuccessModal()
-      } catch (error) {
-        console.error(error)
-      }
-    }
-    return {
-      openModal,
-      back,
-      formData: passwordResetStore.$state.updatePassword,
-      onSubmit
-    }
-  }
-}
-</script>
 
 <style scoped>
 section {

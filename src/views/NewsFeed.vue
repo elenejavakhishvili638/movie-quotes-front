@@ -1,3 +1,7 @@
+<script setup>
+import FeedHeader from '../components/FeedHeader.vue'
+</script>
+
 <template>
   <div class="background min-h-screen pb-[32px]">
     <!-- <p>news feed</p> -->
@@ -5,17 +9,6 @@
     <feed-header :searchBar="true"></feed-header>
   </div>
 </template>
-
-<script>
-import FeedHeader from '../components/FeedHeader.vue'
-
-export default {
-  components: { FeedHeader },
-  setup() {
-    return {}
-  }
-}
-</script>
 
 <style scoped>
 .background {
