@@ -11,7 +11,7 @@ configure({
         required: 'This field is required',
         email: 'This input is not in email format',
         minmax: '{field} must be between 0:{min} and 1:{max} characters',
-        same_as_password: 'Password should be the same',
+        confirmed: 'Password should be the same',
         lowercase_and_numbers_only: 'Only number and lower case latin symbols should be used'
       },
       names: {
@@ -24,7 +24,7 @@ configure({
         required: 'გთხოვთ შეავსოთ მოცემული ველი',
         email: 'თქვენს მიერ შეყვანილი ტექსტი არ აკმაყოფილებს მეილის ფორმატს',
         minmax: '{field} უნდა შეიცავდეს მინიმუმ 0:{min} და მაქსიმუმ 1:{max} სიმბოლოს',
-        same_as_password: 'პაროლი არ ემთხვევა',
+        confirmed: 'პაროლი არ ემთხვევა',
         lowercase_and_numbers_only: 'ტექსტი უნდა შეიცავდეს მხოლოდ ლათინურ სიმბოლოებს და ციფრებს'
       },
       names: {

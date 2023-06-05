@@ -1,4 +1,4 @@
-import { registerUser } from '../../services'
+import { registerUser, registerWithGoogle } from '../../services'
 
 export default {
   setUser(payload) {
@@ -14,6 +14,13 @@ export default {
       this.form.password = ''
       this.form.password_confirmation = ''
       console.log(this.form)
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  async registerWithGoogle() {
+    try {
+      await registerWithGoogle()
     } catch (error) {
       console.log(error)
     }

@@ -1,64 +1,103 @@
-<template>
-    <section @click.stop class="h-screen md:w-[601px] md:h-auto md:rounded-[10px]" >
-        <div class=" text-white flex flex-col px-[44px] items-center justify-center pt-[73px]" >
-            <div class="text-center mb-[32px]" >
-                <h1 class="text-2xl mb-[12px] font-medium" >{{ $t("registration.account") }}</h1>
-                <p class="text-base text-[#6C757D] font-normal" >{{ $t("registration.text") }}</p>
-            </div>
-            <CustomForm  @submit="onSubmit">
-                <the-input v-model="formData.username" name="username" type="text"  :label="$t('registration.name')" :placeholder="$t('registration.name_placeholder')" validate="required|minmax:3,15|lowercase_and_numbers_only"></the-input>
+<script setup>
+import { Form } from 'vee-validate'
+import TheButton from '../components/TheButton.vue'
+import TheInput from '../components/TheInput.vue'
+import { useAuthStore } from '../stores/registration/index'
+import google from '../assets/images/logos/google.png'
+import { computed } from 'vue'
 
-                <the-input v-model="formData.email" name="email" type="email" :label="$t('registration.email')" :placeholder="$t('registration.email_placeholder')" validate="required|email"></the-input>
+const props = defineProps({
+  closeRegistration: Function,
+  openModal: Function,
+  login: Function
+})
 
-                <the-input v-model="formData.password" name="password" type="password" :label="$t('registration.password')" :placeholder="$t('registration.password_placeholder')" validate="required|lowercase_and_numbers_only|minmax:8,15"></the-input>
+const authStore = useAuthStore()
 
-                <the-input v-model="formData.password_confirmation" name="password_confirmation" type="password" :label="$t('registration.confirm_password')" :placeholder="$t('registration.confirm_password_placeholder')" validate="required"></the-input>
-
-                <!-- |same_as_password:${formData.password}` -->
-                <the-button>{{ $t('registration.get_started') }}</the-button>
-            </CustomForm>
-            <button type="submit" class="w-[360px] border border-white rounded-[8px] h-[38px]" >G {{ $t('registration.google') }}</button>
-            <div class="mb-[53px] mt-[32px] flex items-center justify-center" >
-                <p class=" text-[#6C757D] mr-[4px]" >{{$t('registration.have_account')}}</p>
-                <a class="text-[#0D6EFD]" >{{ $t("texts.log_in") }}</a>
-            </div>
-        </div>
-    </section>
-</template>
-
-<script>
-
-import {Form} from "vee-validate"
-import TheButton from "../components/TheButton.vue";
-import TheInput from "../components/TheInput.vue"
-import { useAuthStore } from '../stores/registration/index';
-
-export default {
-    setup(props) {
-    const authStore = useAuthStore();
-
-    const onSubmit = () => {
-        authStore.registerUser(authStore.$state.form)
-        props.closeRegistration()   
-    }
-    return {
-        authStore,
-        onSubmit,
-        formData: authStore.$state.form
-    }
-  },
-    components: {
-        CustomForm: Form,
-        TheInput,
-        TheButton
-    },
-    props: ['closeRegistration']
-
+const onSubmit = () => {
+  authStore.registerUser(authStore.$state.form)
+  props.openModal()
+  props.closeRegistration()
 }
+
+const openLogin = () => {
+  props.closeRegistration()
+  props.login()
+}
+
+const googleSignUp = () => {
+  authStore.registerWithGoogle()
+  console.log(props)
+}
+
+const formData = computed(() => authStore.$state.form)
 </script>
+
+<template>
+  <section @click.stop class="h-screen md:w-[601px] md:h-auto md:rounded-[10px] overflow-scroll">
+    <div class="text-white flex flex-col px-[44px] items-center justify-center pt-[73px]">
+      <div class="text-center mb-[32px]">
+        <h1 class="text-2xl mb-[12px] font-medium">{{ $t('registration.account') }}</h1>
+        <p class="text-base text-[#6C757D] font-normal">{{ $t('registration.text') }}</p>
+      </div>
+      <Form @submit="onSubmit" v-slot="{ meta }">
+        <the-input
+          v-model="formData.username"
+          name="username"
+          type="text"
+          :label="$t('registration.name')"
+          :placeholder="$t('registration.name_placeholder')"
+          validate="required|minmax:3,15|lowercase_and_numbers_only"
+        ></the-input>
+
+        <the-input
+          v-model="formData.email"
+          name="email"
+          type="email"
+          :label="$t('registration.email')"
+          :placeholder="$t('registration.email_placeholder')"
+          validate="required|email"
+        ></the-input>
+
+        <the-input
+          v-model="formData.password"
+          name="password"
+          type="password"
+          :label="$t('registration.password')"
+          :placeholder="$t('registration.password_placeholder')"
+          validate="required|lowercase_and_numbers_only|minmax:8,15"
+        ></the-input>
+
+        <the-input
+          v-model="formData.password_confirmation"
+          name="password_confirmation"
+          type="password"
+          :label="$t('registration.confirm_password')"
+          :placeholder="$t('registration.confirm_password_placeholder')"
+          validate="required|confirmed:password"
+        ></the-input>
+        <the-button type="submit" :disabled="!meta.valid">{{
+          $t('registration.get_started')
+        }}</the-button>
+      </Form>
+      <button
+        @click="googleSignUp"
+        class="flex justify-center items-center w-[360px] border border-white rounded-[8px] h-[38px]"
+      >
+        <img :src="google" class="mr-[8px]" /> {{ $t('registration.google') }}
+      </button>
+      <div class="mb-[53px] mt-[32px] flex items-center justify-center">
+        <p class="text-[#6C757D] mr-[4px]">{{ $t('registration.have_account') }}</p>
+        <p @click="openLogin" class="text-[#0D6EFD] border-b border-[#0D6EFD]">
+          {{ $t('texts.log_in') }}
+        </p>
+      </div>
+    </div>
+  </section>
+</template>
 
 <style scoped>
 section {
-    background: linear-gradient(187.16deg, #181623 0.07%, #191725 51.65%, #0D0B14 98.75%);
+  background: linear-gradient(187.16deg, #181623 0.07%, #191725 51.65%, #0d0b14 98.75%);
 }
 </style>

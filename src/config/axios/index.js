@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+axios.defaults.withCredentials = true
+
 export default axios.create({
   baseURL: 'http://localhost:8000/',
   headers: {
@@ -8,5 +10,3 @@ export default axios.create({
     Accept: 'application/json'
   }
 })
-
-axios.defaults.withCredentials = true

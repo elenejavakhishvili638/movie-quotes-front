@@ -19,11 +19,9 @@ defineRule('email', (value) => {
   return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value)
 })
 
-defineRule('same_as_password', (value, otherValue) => {
-  console.log('value:', value)
-  console.log('otherValue:', otherValue)
-  if (value !== otherValue) {
-    return false
+defineRule('confirmed', (value, [target], ctx) => {
+  if (value === ctx.form[target]) {
+    return true
   }
-  return true
+  return false
 })

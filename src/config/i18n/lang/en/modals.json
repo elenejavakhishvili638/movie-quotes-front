@@ -1,0 +1,13 @@
+{
+    "text": "Please check your email and follow the instructions to activate your account.",
+    "button": "Go to my email",
+    "header": "Thank you!",
+    "text_two": "Your account has been activated.",
+    "button_two": "Go to news feed",
+    "header_two":"Success!" ,
+    "text_three": "Your Password changed successfully",
+    "button_three": "Log in",
+    "header_three": "Check your email",
+    "footer": "Skip, I’ll confirm later",
+    "text_four": "We have sent a password recover instructions to your email"
+}
