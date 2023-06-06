@@ -5,19 +5,22 @@ import write from '../assets/images/logos/write.png'
 import search from '../assets/images/logos/search.png'
 import close from '../assets/images/logos/close.png'
 import FeedHeader from '../components/FeedHeader.vue'
-import { useMoviesStore } from '../stores/movies/index'
+import { useQuotesStore } from '../stores/quotes/index'
 import { onMounted, computed, ref } from 'vue'
 import { useUserStore } from '../stores/user/index'
 import ProfileSidebar from '../components/ProfileSidebar.vue'
+import ThePost from '../components/ThePost.vue'
+import { useLanguageStore } from '../stores/language/index'
 
 const increaseSearch = ref(false)
 const addQuote = ref(false)
 const userStore = useUserStore()
+const languageStore = useLanguageStore()
 
-const moviesStore = useMoviesStore()
+const quotesStore = useQuotesStore()
 onMounted(async () => {
-  await moviesStore.fetchMovies()
-  console.log(userStore.$state.user)
+  await quotesStore.fetchQuotes()
+  console.log(quotesStore.quoteList)
 })
 
 const increase = () => {
@@ -33,7 +36,9 @@ const closeQuote = () => {
   addQuote.value = false
 }
 
+const language = computed(() => languageStore.currentLanguage)
 const user = computed(() => userStore.$state.user)
+const quotes = computed(() => quotesStore.state)
 </script>
 
 <template>
@@ -63,14 +68,13 @@ const user = computed(() => userStore.$state.user)
             <!-- select -->
             <p>movie</p>
             <the-button class="w-full">Post</the-button>
-            <!-- <button>Post</button> -->
           </form>
         </div>
       </div>
     </form-layout>
     <feed-header :searchBar="true"></feed-header>
-    <div class="md:flex md:ml-[40px] lg:ml[70px]">
-      <div class="hidden md:block text-white">
+    <div class="md:flex md:ml-[40px] lg:ml-[70px]">
+      <div class="hidden md:block text-white width-[233px]">
         <profile-sidebar></profile-sidebar>
       </div>
       <div class="md:ml-[100px] 2xl:ml-[228px] md:mt-[22px]">
@@ -101,8 +105,15 @@ const user = computed(() => userStore.$state.user)
             />
           </div>
         </div>
-        <!-- center the post -->
-        <!-- <the-post></the-post> -->
+        <div v-for="quote in quotes" :key="quote.id">
+          <the-post
+            :quote="quote.body && quote.body[language]"
+            :movie="quote.movie && quote.movie.title && quote.movie.title[language]"
+            :user="quote.movie && quote.movie.user && quote.movie.user.username"
+            :poster="quote.image"
+            :year="quote.movie && quote.movie.year"
+          ></the-post>
+        </div>
       </div>
     </div>
   </div>

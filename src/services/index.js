@@ -12,8 +12,8 @@ export async function loginUser(data) {
   try {
     await axios.get('/sanctum/csrf-cookie')
     await axios.post('/api/login', data, { withCredentials: true })
-    const user = await axios.get('/api/user')
-    console.log(user)
+    await axios.get('/api/user')
+    // console.log(user)
   } catch (error) {
     console.log(error)
   }
@@ -76,6 +76,15 @@ export async function fetchMovies(searchTerm) {
     } else {
       response = await axios.get('/api/movies')
     }
+    return response
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function fetchQuotes() {
+  try {
+    const response = await axios.get('/api/quotes')
     return response
   } catch (error) {
     console.log(error)
