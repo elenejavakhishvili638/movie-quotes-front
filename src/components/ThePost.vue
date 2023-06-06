@@ -6,8 +6,10 @@ const props = defineProps(['quote', 'movie', 'user', 'poster', 'year'])
 </script>
 
 <template>
-  <div class="bg-black flex justify-center text-white mb-[32px] md:w-[500px] xl:w-[938px]">
-    <div class="w-[358px] my-[28px]">
+  <div
+    class="bg-[#11101A] rounded-[12px] flex justify-center text-white mb-[32px] md:w-[500px] xl:w-[938px]"
+  >
+    <div class="w-[358px] my-[28px] md:w-[452px] xl:w-[890px]">
       <div class="flex items-center mb-[14px]">
         <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px]" alt="name" />
         <p class="ml-[16px]">{{ props.user }}</p>
@@ -18,8 +20,11 @@ const props = defineProps(['quote', 'movie', 'user', 'poster', 'year'])
             props.year
           }})
         </p>
-        <img class="bg-[#D9D9D9] rounded-[10px] w-[358px] h-[200px]" alt="film" />
-        <div class="flex my-[19px]">
+        <img
+          class="bg-[#D9D9D9] rounded-[10px] w-[358px] h-[200px] md:w-full md:h-[501px]"
+          alt="film"
+        />
+        <div class="flex my-[19px] border-b border-color pb-[26px]">
           <div class="flex mr-[24px]">
             <p>10</p>
             <img class="ml-[12px]" :src="comment" />
@@ -30,33 +35,26 @@ const props = defineProps(['quote', 'movie', 'user', 'poster', 'year'])
           </div>
         </div>
       </div>
-      <div class="border-t border-b border-border-color pt-[16px] pb-[24px]">
-        <div class="flex items-center mb-[14px]">
-          <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px]" alt="name" />
-          <p class="ml-[16px]">Maia Nakashidze</p>
+      <div class="pt-[16px] pb-[24px]">
+        <div class="flex">
+          <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px] mr-[24px]" alt="name" />
+          <div class="flex flex-col items-start mb-[14px] border-b border-color pb-[24px]">
+            <p>Maia Nakashidze</p>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque nunc vel massa
+              facilisis consequat elit morbi convallis convallis.
+            </p>
+          </div>
         </div>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque nunc vel massa
-          facilisis consequat elit morbi convallis convallis. Volutpat vitae et nisl et. Adipiscing
-          enim integer mi leo nisl. Arcu vitae mauris odio eget.
-        </p>
       </div>
-      <div class="border-t border-b border-border-color pt-[16px] pb-[24px]">
-        <div class="flex items-center mb-[14px]">
-          <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px]" alt="name" />
-          <p class="ml-[16px]">Maia Nakashidze</p>
-        </div>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque nunc vel massa
-          facilisis consequat elit morbi convallis convallis. Volutpat vitae et nisl et. Adipiscing
-          enim integer mi leo nisl. Arcu vitae mauris odio eget.
-        </p>
-      </div>
-      <div class="flex items-center mt-[16px]">
+      <div class="flex items-center">
         <div class="flex items-center mr-[12px]">
           <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px]" alt="name" />
         </div>
-        <input class="bg-[#24222F] w-[306px] pl-[16px] h-[40px]" placeholder="Write a comment" />
+        <input
+          class="bg-[#24222F] w-[306px] pl-[16px] h-[40px] rounded-[10px] md:w-full"
+          placeholder="Write a comment"
+        />
       </div>
     </div>
   </div>

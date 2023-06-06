@@ -20,7 +20,7 @@ const languageStore = useLanguageStore()
 const quotesStore = useQuotesStore()
 onMounted(async () => {
   await quotesStore.fetchQuotes()
-  console.log(quotesStore.quoteList)
+  // console.log(quotesStore.quoteList)
 })
 
 const increase = () => {
