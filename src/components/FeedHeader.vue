@@ -86,7 +86,7 @@ const closeMenu = () => {
       </div>
     </div>
     <div v-if="notificationOpen" class="text-white">
-      <img class="absolute right-6 top-16 md:right-60" :src="polygon" />
+      <img class="absolute right-[6.3rem] top-16 md:right-[17.5rem]" :src="polygon" />
       <div
         class="absolute mt-[86px] rounded-[12px] top-[0] right-0 h-[750px] bg-black w-full md:w-[428px] 2xl:w-[961px] md:right-16 px-[35px] pt-[27px]"
       >

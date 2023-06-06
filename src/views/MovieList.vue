@@ -2,20 +2,33 @@
 import FeedHeader from '../components/FeedHeader.vue'
 import com from '../assets/images/logos/com.png'
 import search from '../assets/images/logos/search.png'
-import { onMounted, computed } from 'vue'
+import { onMounted, computed, ref, watch } from 'vue'
 import { useMoviesStore } from '../stores/movies/index'
 import { useLanguageStore } from '../stores/language/index'
 import ProfileSidebar from '../components/ProfileSidebar.vue'
 
 const moviesStore = useMoviesStore()
 const languageStore = useLanguageStore()
+const searchTerm = ref('')
 
 onMounted(async () => {
   await moviesStore.fetchMovies()
-  console.log(languageStore.$state.currentLanguage)
+  console.log(moviesStore.state)
 })
+
+const fetchMovies = async () => {
+  if (searchTerm.value) {
+    await moviesStore.fetchMovies(searchTerm.value)
+  }
+}
+
+watch(searchTerm, (newTerm) => {
+  moviesStore.fetchMovies(newTerm)
+})
+
 const movies = computed(() => moviesStore.state)
 const listLength = computed(() => movies.value.length)
+const language = computed(() => languageStore.currentLanguage)
 </script>
 
 <template>
@@ -36,8 +49,12 @@ const listLength = computed(() => movies.value.length)
           <div class="flex items-center">
             <div class="mr-[21px] hidden md:flex md:ml-[24px]">
               <img :src="search" class="mr-[16px]" />
-              <!-- <p>Search</p> -->
-              <input placeholder="Search" class="bg-transparent outline-none w-[91px]" />
+              <input
+                v-model="searchTerm"
+                @input="fetchMovies"
+                placeholder="Search"
+                class="bg-transparent outline-none w-[91px]"
+              />
             </div>
             <button class="w-[127px] h-[38px] rounded-[4px] bg-red">Add movie</button>
           </div>
@@ -51,7 +68,7 @@ const listLength = computed(() => movies.value.length)
             />
             <div class="mt-[16px] w-[358px]">
               <h1 class="mb-[16px] text-[24px]">
-                {{ movie.title[languageStore.$state.currentLanguage] }}
+                {{ movie.title && movie.title[language] }} ({{ movie.year }})
               </h1>
               <div class="flex items-center gap-[12px]">
                 <p>10</p>

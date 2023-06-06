@@ -1,11 +1,10 @@
 import { fetchMovies } from '../../services'
 
 export default {
-  async fetchMovies() {
+  async fetchMovies(searchTerm) {
     try {
-      const response = await fetchMovies()
+      const response = await fetchMovies(searchTerm)
       this.movieList = response.data
-      console.log(this.movieList)
     } catch (error) {
       console.error(error)
     }
