@@ -25,7 +25,7 @@ const user = computed(() => userStore.$state.user)
       <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px]" alt="name" />
       <div class="flex flex-col ml-[16px]">
         <p>{{ user.username }}</p>
-        <p>Edit your profile</p>
+        <router-link to="my-profile">Edit your profile</router-link>
       </div>
     </div>
     <div class="mt-[40px]">
