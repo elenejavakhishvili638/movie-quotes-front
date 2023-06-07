@@ -13,7 +13,7 @@ const searchTerm = ref('')
 
 onMounted(async () => {
   await moviesStore.fetchMovies()
-  console.log(moviesStore.state)
+  // console.log(moviesStore.state)
 })
 
 const fetchMovies = async () => {

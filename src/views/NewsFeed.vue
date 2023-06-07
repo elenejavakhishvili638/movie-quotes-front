@@ -5,8 +5,9 @@ import write from '../assets/images/logos/write.png'
 import search from '../assets/images/logos/search.png'
 import close from '../assets/images/logos/close.png'
 import FeedHeader from '../components/FeedHeader.vue'
+import arrow from '../assets/images/logos/arrow.png'
 import { useQuotesStore } from '../stores/quotes/index'
-import { onMounted, computed, ref } from 'vue'
+import { onMounted, computed, ref, watch } from 'vue'
 import { useUserStore } from '../stores/user/index'
 import ProfileSidebar from '../components/ProfileSidebar.vue'
 import ThePost from '../components/ThePost.vue'
@@ -16,11 +17,22 @@ const increaseSearch = ref(false)
 const addQuote = ref(false)
 const userStore = useUserStore()
 const languageStore = useLanguageStore()
-
+const searchTerm = ref('')
 const quotesStore = useQuotesStore()
+const searchOpen = ref(false)
+
 onMounted(async () => {
   await quotesStore.fetchQuotes()
-  // console.log(quotesStore.quoteList)
+})
+
+const fetchQuotes = async () => {
+  if (searchTerm.value) {
+    await quotesStore.fetchQuotes(searchTerm.value)
+  }
+}
+
+watch(searchTerm, (newTerm) => {
+  quotesStore.fetchQuotes(newTerm)
 })
 
 const increase = () => {
@@ -36,6 +48,14 @@ const closeQuote = () => {
   addQuote.value = false
 }
 
+const toggleSearch = () => {
+  searchOpen.value = true
+}
+
+const closeSearch = () => {
+  searchOpen.value = false
+}
+
 const language = computed(() => languageStore.currentLanguage)
 const user = computed(() => userStore.$state.user)
 const quotes = computed(() => quotesStore.state)
@@ -43,8 +63,6 @@ const quotes = computed(() => quotesStore.state)
 
 <template>
   <div class="background min-h-screen pb-[32px]" @click="decrease">
-    <!-- <p>news feed</p> -->
-    <!-- <button @click="logout">logout</button> -->
     <form-layout v-if="addQuote">
       <div
         class="md:top-[8%] md:left-[35%] xl:left-[28%] 2xl:left-[24%] xl:w-[601px] 2xl:w-[961px] absolute text-white bg-[#11101A] h-[722px] w-[428px] rounded-[12px]"
@@ -72,7 +90,7 @@ const quotes = computed(() => quotesStore.state)
         </div>
       </div>
     </form-layout>
-    <feed-header :searchBar="true"></feed-header>
+    <feed-header :toggleSearch="toggleSearch" :searchBar="true"></feed-header>
     <div class="md:flex md:ml-[40px] lg:ml-[70px]">
       <div class="hidden md:block text-white width-[233px]">
         <profile-sidebar></profile-sidebar>
@@ -92,17 +110,39 @@ const quotes = computed(() => quotesStore.state)
 
           <div
             :class="{ 'md:border-b pb-[17px] pt-[5px] md:w-[258px] xl:w-[688px]': increaseSearch }"
-            class="mr-[21px] hidden md:flex md:ml-[24px]"
+            class="mr-[21px] hidden md:flex md:ml-[24px] text-white"
             @click.stop="increase"
           >
             <img :src="search" class="mr-[16px]" />
             <input
+              v-model="searchTerm"
+              @input="fetchQuotes"
               :placeholder="
                 increaseSearch ? 'Enter @ to search movies, Enter # to search quotes ' : 'Search by'
               "
               class="bg-transparent outline-none w-[91px]"
               :class="{ 'md:w-full': increaseSearch }"
             />
+          </div>
+          <div
+            v-if="searchOpen"
+            class="absolute top-0 left-0 h-[774px] bg-[#12101A] w-full text-white"
+          >
+            <div class="border-b border-[#EFEFEF]">
+              <div class="my-[24px] ml-[32px] flex items-center">
+                <img @click="closeSearch" :src="arrow" class="mr-[26px]" />
+                <input
+                  placeholder="Search"
+                  v-model="searchTerm"
+                  @input="fetchQuotes"
+                  class="bg-transparent outline-none"
+                />
+              </div>
+            </div>
+            <div class="text-[#CED4DA] text-base opacity-[0.6] mt-[26px] ml-[74px]">
+              <p>Enter <span class="text-white opacity-[1] mb-[22px]">@</span> to search movies</p>
+              <p>Enter @ to search movies</p>
+            </div>
           </div>
         </div>
         <div v-for="quote in quotes" :key="quote.id">

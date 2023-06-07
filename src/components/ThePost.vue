@@ -16,7 +16,7 @@ const props = defineProps(['quote', 'movie', 'user', 'poster', 'year'])
       </div>
       <div>
         <p class="mb-[16px]">
-          “{{ props.quote }}”movie- <span class="text-cream">{{ props.movie }}.</span> ({{
+          “{{ props.quote }}” movie - <span class="text-cream">{{ props.movie }}.</span> ({{
             props.year
           }})
         </p>
@@ -37,9 +37,11 @@ const props = defineProps(['quote', 'movie', 'user', 'poster', 'year'])
       </div>
       <div class="pt-[16px] pb-[24px]">
         <div class="flex">
-          <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px] mr-[24px]" alt="name" />
           <div class="flex flex-col items-start mb-[14px] border-b border-color pb-[24px]">
-            <p>Maia Nakashidze</p>
+            <div class="flex items-center mb-[24px]">
+              <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px] mr-[24px]" alt="name" />
+              <p>Maia Nakashidze</p>
+            </div>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque nunc vel massa
               facilisis consequat elit morbi convallis convallis.

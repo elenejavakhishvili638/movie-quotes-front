@@ -82,9 +82,14 @@ export async function fetchMovies(searchTerm) {
   }
 }
 
-export async function fetchQuotes() {
+export async function fetchQuotes(searchTerm) {
   try {
-    const response = await axios.get('/api/quotes')
+    let response
+    if (searchTerm) {
+      response = await axios.get(`/api/quotes?search=${searchTerm}`)
+    } else {
+      response = await axios.get('/api/quotes')
+    }
     return response
   } catch (error) {
     console.log(error)

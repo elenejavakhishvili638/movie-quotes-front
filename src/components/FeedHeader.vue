@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import menu from '../assets/images/logos/menu.png'
 import bell from '../assets/images/logos/bell.png'
 import search from '../assets/images/logos/search.png'
-import arrow from '../assets/images/logos/arrow.png'
+// import arrow from '../assets/images/logos/arrow.png'
 import polygon from '../assets/images/logos/polygon.png'
 import LanguageComponent from './LanguageComponent.vue'
 import { useLoginStore } from '../stores/login/index'
@@ -11,9 +11,8 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from '../stores/user'
 import ProfileSidebar from './ProfileSidebar.vue'
 
-const props = defineProps(['searchBar'])
+const props = defineProps(['searchBar', 'toggleSearch'])
 
-const searchOpen = ref(false)
 const notificationOpen = ref(false)
 const menuOpen = ref(false)
 const loginStore = useLoginStore()
@@ -28,14 +27,6 @@ const logout = async () => {
   } catch (error) {
     console.log(error)
   }
-}
-
-const toggleSearch = () => {
-  searchOpen.value = true
-}
-
-const closeSearch = () => {
-  searchOpen.value = false
 }
 
 const toggleNotification = () => {
@@ -72,19 +63,6 @@ const closeMenu = () => {
         </profile-sidebar>
       </div>
     </div>
-    <div v-if="searchOpen" class="absolute top-0 left-0 h-[774px] bg-[#12101A] w-full">
-      <div class="border-b border-[#EFEFEF]">
-        <div class="my-[24px] ml-[32px] flex items-center">
-          <img @click="closeSearch" :src="arrow" class="mr-[26px]" />
-          <input placeholder="Search" class="bg-transparent outline-none" />
-          <!-- <the-input class=" bg-transparent" placeholder="Search" ></the-input> -->
-        </div>
-      </div>
-      <div class="text-[#CED4DA] text-base opacity-[0.6] mt-[26px] ml-[74px]">
-        <p>Enter <span class="text-white opacity-[1] mb-[22px]">@</span> to search movies</p>
-        <p>Enter @ to search movies</p>
-      </div>
-    </div>
     <div v-if="notificationOpen" class="text-white">
       <img class="absolute right-[6.3rem] top-16 md:right-[17.5rem]" :src="polygon" />
       <div
@@ -110,7 +88,7 @@ const closeMenu = () => {
     <div class="flex items-center md:gap-[40px]">
       <button
         v-if="props.searchBar"
-        @click="toggleSearch"
+        @click="props.toggleSearch"
         class="mr-[21px] cursor-pointer md:hidden"
       >
         <img :src="search" />
