@@ -6,10 +6,15 @@ import { onMounted, computed, ref, watch } from 'vue'
 import { useMoviesStore } from '../stores/movies/index'
 import { useLanguageStore } from '../stores/language/index'
 import ProfileSidebar from '../components/ProfileSidebar.vue'
+import { useUserStore } from '../stores/user/index'
+import FormLayout from '../components/FormLayout.vue'
+import NewMovie from '../components/NewMovie.vue'
 
 const moviesStore = useMoviesStore()
 const languageStore = useLanguageStore()
 const searchTerm = ref('')
+const userStore = useUserStore()
+const addMovie = ref(false)
 
 onMounted(async () => {
   await moviesStore.fetchMovies()
@@ -26,13 +31,24 @@ watch(searchTerm, (newTerm) => {
   moviesStore.fetchMovies(newTerm)
 })
 
+const openMovie = () => {
+  addMovie.value = true
+}
+const closeMovie = () => {
+  addMovie.value = false
+}
+
 const movies = computed(() => moviesStore.state)
 const listLength = computed(() => movies.value.length)
 const language = computed(() => languageStore.currentLanguage)
+const user = computed(() => userStore.$state.user)
 </script>
 
 <template>
   <div class="background min-h-screen pb-[32px]">
+    <form-layout v-if="addMovie">
+      <new-movie :username="user.username" :closeMovie="closeMovie"></new-movie>
+    </form-layout>
     <feed-header :searchBar="false"></feed-header>
     <div class="md:flex md:ml-[40px] lg:ml[70px]">
       <div class="hidden md:block text-white sm:w-[25%]">
@@ -56,7 +72,9 @@ const language = computed(() => languageStore.currentLanguage)
                 class="bg-transparent outline-none w-[91px]"
               />
             </div>
-            <button class="w-[127px] h-[38px] rounded-[4px] bg-red">Add movie</button>
+            <button class="w-[127px] h-[38px] rounded-[4px] bg-red" @click="openMovie">
+              Add movie
+            </button>
           </div>
         </div>
         <div class="text-white grid gap-[50px] md:grid-cols-fill">
