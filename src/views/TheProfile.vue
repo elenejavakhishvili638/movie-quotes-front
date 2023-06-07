@@ -9,7 +9,6 @@ import { computed } from 'vue'
 const userStore = useUserStore()
 
 const user = computed(() => userStore.$state.user)
-console.log(user)
 </script>
 
 <template>
@@ -20,7 +19,11 @@ console.log(user)
         <profile-sidebar></profile-sidebar>
       </div>
       <my-profile class="md:hidden" :username="user.username" :email="user.email"></my-profile>
-      <bigger-profile class="hidden md:block"></bigger-profile>
+      <bigger-profile
+        class="hidden md:block"
+        :username="user.username"
+        :email="user.email"
+      ></bigger-profile>
     </div>
   </div>
 </template>
