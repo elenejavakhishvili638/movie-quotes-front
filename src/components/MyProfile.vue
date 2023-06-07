@@ -1,6 +1,17 @@
 <script setup>
 import arrow from '../assets/images/logos/arrow.png'
 const props = defineProps(['username', 'email'])
+import { ref } from 'vue'
+
+const fileInput = ref(null)
+
+const triggerFileInput = () => {
+  fileInput.value.click()
+}
+
+const onFileChange = (e) => {
+  console.log(e)
+}
 </script>
 
 <template>
@@ -15,7 +26,14 @@ const props = defineProps(['username', 'email'])
           alt="pic"
           :src="arrow"
         />
-        <p class="text-[20px]">Upload new photo</p>
+        <input
+          type="file"
+          id="file-input"
+          ref="fileInput"
+          style="display: none"
+          @change="onFileChange"
+        />
+        <p class="text-[20px] font-normal" @click="triggerFileInput">Upload my photo</p>
       </div>
       <div class="w-[364px] flex flex-col gap-[31px]">
         <div>

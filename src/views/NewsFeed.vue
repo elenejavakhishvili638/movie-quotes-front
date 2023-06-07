@@ -1,9 +1,7 @@
 <script setup>
 import FormLayout from '../components/FormLayout.vue'
-import TheButton from '../components/TheButton.vue'
 import write from '../assets/images/logos/write.png'
 import search from '../assets/images/logos/search.png'
-import close from '../assets/images/logos/close.png'
 import FeedHeader from '../components/FeedHeader.vue'
 import arrow from '../assets/images/logos/arrow.png'
 import { useQuotesStore } from '../stores/quotes/index'
@@ -12,6 +10,7 @@ import { useUserStore } from '../stores/user/index'
 import ProfileSidebar from '../components/ProfileSidebar.vue'
 import ThePost from '../components/ThePost.vue'
 import { useLanguageStore } from '../stores/language/index'
+import NewQuote from '../components/NewQuote.vue'
 
 const increaseSearch = ref(false)
 const addQuote = ref(false)
@@ -64,31 +63,7 @@ const quotes = computed(() => quotesStore.state)
 <template>
   <div class="background min-h-screen pb-[32px]" @click="decrease">
     <form-layout v-if="addQuote">
-      <div
-        class="md:top-[8%] md:left-[35%] xl:left-[28%] 2xl:left-[24%] xl:w-[601px] 2xl:w-[961px] absolute text-white bg-[#11101A] h-[722px] w-[428px] rounded-[12px]"
-      >
-        <div
-          class="flex items-center justify-between border-b border-[#EFEFEF33] py-[25px] px-[54px]"
-        >
-          <div></div>
-          <h1>write new quote</h1>
-          <img @click="closeQuote" :src="close" />
-        </div>
-        <div class="p-[35px]">
-          <div class="flex items-center gap-[16px]">
-            <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px]" alt="name" />
-            <p>{{ user.username }}</p>
-          </div>
-          <form class="flex flex-col mt-[37px] gap-[16px]">
-            <textarea></textarea>
-            <textarea></textarea>
-            <input type="file" />
-            <!-- select -->
-            <p>movie</p>
-            <the-button class="w-full">Post</the-button>
-          </form>
-        </div>
-      </div>
+      <new-quote :username="user.username" :closeQuote="closeQuote"></new-quote>
     </form-layout>
     <feed-header :toggleSearch="toggleSearch" :searchBar="true"></feed-header>
     <div class="md:flex md:ml-[40px] lg:ml-[70px]">
