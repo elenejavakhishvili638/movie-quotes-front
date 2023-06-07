@@ -18,7 +18,12 @@ const user = computed(() => userStore.$state.user)
       <div class="hidden md:block text-white sm:w-[25%]">
         <profile-sidebar></profile-sidebar>
       </div>
-      <my-profile class="md:hidden" :username="user.username" :email="user.email"></my-profile>
+      <my-profile
+        class="md:hidden"
+        :username="user.username"
+        :email="user.email"
+        :user="user"
+      ></my-profile>
       <bigger-profile
         class="hidden md:block"
         :username="user.username"

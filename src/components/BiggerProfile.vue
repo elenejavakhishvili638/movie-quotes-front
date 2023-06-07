@@ -31,8 +31,17 @@ const cancelButtons = () => {
 const formData = computed(() => updateUserStore.form)
 
 const openUsername = () => {
-  console.log('emaik', props.email, 'name', props.username)
   newUsername.value = true
+  openButtons.value = true
+}
+
+const openEmail = () => {
+  newEmail.value = true
+  openButtons.value = true
+}
+
+const openPassword = () => {
+  newPassword.value = true
   openButtons.value = true
 }
 </script>
@@ -58,7 +67,7 @@ const openUsername = () => {
             <label class="mb-[8px]">Username</label>
             <div class="flex gap-[33px]">
               <Field
-                name="username"
+                name="oldName"
                 type="text"
                 :value="props.username"
                 class="w-[528px] h-[48px] rounded-[5px] px-[9px] py-[17px] outline-none bg-[#CED4DA]"
@@ -79,25 +88,49 @@ const openUsername = () => {
             <label class="mb-[8px]">Email</label>
             <div class="flex gap-[33px]">
               <Field
-                name="email"
+                name="oldEmail"
                 type="email"
                 :value="props.email"
                 class="w-[528px] h-[48px] rounded-[5px] px-[9px] py-[17px] outline-none bg-[#CED4DA]"
               />
               <!-- <Field /> -->
-              <button type="button" class="text-[#CED4DA]">Edit</button>
+              <button type="button" class="text-[#CED4DA]" @click="openEmail">Edit</button>
+            </div>
+            <div v-if="newEmail" class="flex flex-col mt-[56px]">
+              <label class="mb-[8px]">New Email</label>
+              <Field
+                name="email"
+                type="email"
+                :value="formData.email"
+                class="w-[528px] h-[48px] rounded-[5px] px-[9px] py-[17px] outline-none bg-[#CED4DA]"
+              />
             </div>
           </div>
           <div class="flex flex-col mb-[157px]">
             <label class="mb-[8px]">Password</label>
             <div class="flex gap-[33px]">
               <Field
-                name="password"
+                name="oldPassword"
                 type="password"
                 class="w-[528px] h-[48px] rounded-[5px] px-[9px] py-[17px] outline-none bg-[#CED4DA]"
               />
-              <!-- <Field /> -->
-              <button type="button" class="text-[#CED4DA]">Edit</button>
+              <button type="button" class="text-[#CED4DA]" @click="openPassword">Edit</button>
+            </div>
+            <div v-if="newPassword" class="flex flex-col mt-[56px]">
+              <label class="mb-[8px]">New Password</label>
+              <Field
+                name="password"
+                type="password"
+                :value="formData.password"
+                class="w-[528px] h-[48px] rounded-[5px] px-[9px] py-[17px] outline-none bg-[#CED4DA]"
+              />
+              <label class="mb-[8px] mt-[56px]">Confirm new password</label>
+              <Field
+                name="password_confirmation"
+                type="password_confirmation"
+                :value="formData.password_confirmation"
+                class="w-[528px] h-[48px] rounded-[5px] px-[9px] py-[17px] outline-none bg-[#CED4DA]"
+              />
             </div>
           </div>
         </div>
