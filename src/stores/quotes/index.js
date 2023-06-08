@@ -6,9 +6,7 @@ import getters from './getters'
 export const useQuotesStore = defineStore({
   id: 'Quote',
   state: () => ({
-    quoteList: {
-      quotes: []
-    }
+    quoteList: []
   }),
   getters,
   actions

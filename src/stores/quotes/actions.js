@@ -3,8 +3,10 @@ import { fetchQuotes } from '../../services'
 export default {
   async fetchQuotes(searchTerm) {
     try {
+      if (this.quoteList.length > 0 && !searchTerm) {
+        return
+      }
       const response = await fetchQuotes(searchTerm)
-      // console.log(response.data, this.quoteList)
       this.quoteList = response.data
     } catch (error) {
       console.error(error)
