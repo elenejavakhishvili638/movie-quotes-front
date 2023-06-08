@@ -144,8 +144,14 @@ const openPassword = () => {
         </div>
       </div>
       <div v-if="openButtons" class="flex gap-[26px] self-end">
-        <button type="button" @click="cancelButtons">Cancel</button>
-        <button>Save changes</button>
+        <button class="text-[20px] text-[#CED4DA]" type="button" @click="cancelButtons">
+          Cancel
+        </button>
+        <button
+          class="bg-[#E31221] rounded-[5px] px-[17px] py-[9px] h-[48px] w-[160px] text-[20px]"
+        >
+          Save changes
+        </button>
       </div>
     </Form>
   </div>
