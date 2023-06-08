@@ -182,10 +182,12 @@ const emailVerified = computed(() => store.emailVerified)
             Find any quote in <br />
             millions of movie lines
           </h1>
-          <a
+          <button
+            @click="login"
             class="mt-[32px] justify-center items-center flex w-109 h-38 rounded-[4px] text-white text-base border-none bg-red"
-            >{{ $t('texts.get_started') }}</a
           >
+            {{ $t('texts.get_started') }}
+          </button>
         </div>
       </div>
       <div

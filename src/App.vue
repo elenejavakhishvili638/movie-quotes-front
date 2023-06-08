@@ -1,9 +1,9 @@
 <template>
-  <div class="w-screen" >
+  <div class="w-screen">
     <router-view v-slot="slotProps">
       <transition name="route" mode="out-in">
-          <component :is="slotProps.Component"></component>
-        </transition>
+        <component :is="slotProps.Component"></component>
+      </transition>
     </router-view>
   </div>
 </template>
@@ -17,10 +17,10 @@
   opacity: 0;
 }
 .route-enter-active {
-  transition: all 0.2s ease-out;
+  transition: all 0.3s ease-out;
 }
 .route-leave-active {
-  transition: all 0.2s ease-in;
+  transition: all 0.3s ease-in;
 }
 .route-enter-to,
 .route-leave-from {
