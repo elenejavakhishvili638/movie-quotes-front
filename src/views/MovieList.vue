@@ -79,19 +79,23 @@ const user = computed(() => userStore.$state.user)
         </div>
         <div class="text-white grid gap-[50px] md:grid-cols-fill">
           <div v-for="movie in movies" :key="movie.id" class="mb-[60px]">
-            <img
-              alt="movie"
-              src="{{ movie.image }}"
-              class="border-red sm:w-[358px] md:w-[440px] h-[302px] rounded-[12px] bg-slate-400"
-            />
-            <div class="mt-[16px] w-[358px]">
-              <h1 class="mb-[16px] text-[24px]">
-                {{ movie.title && movie.title[language] }} ({{ movie.year }})
-              </h1>
-              <div class="flex items-center gap-[12px]">
-                <p>10</p>
-                <img :src="com" />
-              </div>
+            <div v-if="movie.id">
+              <router-link :to="{ name: 'movie', params: { id: movie.id } }">
+                <img
+                  alt="movie"
+                  src="{{ movie.image }}"
+                  class="border-red sm:w-[358px] md:w-[440px] h-[302px] rounded-[12px] bg-slate-400"
+                />
+                <div class="mt-[16px] w-[358px]">
+                  <h1 class="mb-[16px] text-[24px]">
+                    {{ movie.title && movie.title[language] }} ({{ movie.year }})
+                  </h1>
+                  <div class="flex items-center gap-[12px]">
+                    <p>10</p>
+                    <img :src="com" />
+                  </div>
+                </div>
+              </router-link>
             </div>
           </div>
         </div>

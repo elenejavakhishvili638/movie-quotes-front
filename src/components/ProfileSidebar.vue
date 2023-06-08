@@ -22,10 +22,10 @@ const user = computed(() => userStore.$state.user)
 <template>
   <div>
     <div class="flex items-center mb-[14px] mt-[32px]">
-      <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px]" alt="name" />
+      <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px] lg:w-[60px] lg:h-[60px]" alt="name" />
       <div class="flex flex-col ml-[16px]">
-        <p>{{ user.username }}</p>
-        <router-link to="my-profile">Edit your profile</router-link>
+        <p class="text-[24px]">{{ user.username }}</p>
+        <router-link :to="{ name: 'profile' }">Edit your profile</router-link>
       </div>
     </div>
     <div class="mt-[40px]">

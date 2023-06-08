@@ -82,6 +82,15 @@ export async function fetchMovies(searchTerm) {
   }
 }
 
+export async function fetchMovie(id) {
+  try {
+    let response = await axios.get(`/api/movie/${id}`)
+    return response
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export async function fetchQuotes(searchTerm) {
   try {
     let response

@@ -8,7 +8,8 @@ export const useMoviesStore = defineStore({
   state: () => ({
     movieList: {
       movies: []
-    }
+    },
+    movie: {}
   }),
   getters,
   actions
