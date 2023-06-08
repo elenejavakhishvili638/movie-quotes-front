@@ -20,8 +20,11 @@ const searchTerm = ref('')
 const quotesStore = useQuotesStore()
 const searchOpen = ref(false)
 
+const user = computed(() => userStore.$state.user)
+
 onMounted(async () => {
   await quotesStore.fetchQuotes()
+  console.log(user.value)
 })
 
 const fetchQuotes = async () => {
@@ -56,7 +59,6 @@ const closeSearch = () => {
 }
 
 const language = computed(() => languageStore.currentLanguage)
-const user = computed(() => userStore.$state.user)
 const quotes = computed(() => quotesStore.state)
 </script>
 

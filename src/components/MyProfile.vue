@@ -1,6 +1,6 @@
 <script setup>
 import arrow from '../assets/images/logos/arrow.png'
-const props = defineProps(['username', 'email'])
+const props = defineProps(['username', 'email', 'google'])
 import { ref } from 'vue'
 
 const fileInput = ref(null)

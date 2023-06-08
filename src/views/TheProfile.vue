@@ -20,12 +20,14 @@ const user = computed(() => userStore.$state.user)
       </div>
       <my-profile
         class="md:hidden"
+        :google="user.google_id"
         :username="user.username"
         :email="user.email"
         :user="user"
       ></my-profile>
       <bigger-profile
         class="hidden md:block"
+        :google="user.google_id"
         :username="user.username"
         :email="user.email"
       ></bigger-profile>

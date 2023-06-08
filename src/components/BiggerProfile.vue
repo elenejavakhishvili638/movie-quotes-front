@@ -3,7 +3,7 @@ import arrow from '../assets/images/logos/arrow.png'
 import { ref, computed } from 'vue'
 import { useUpdateUserStore } from '../stores/updateUser/index'
 import { Form, Field } from 'vee-validate'
-const props = defineProps(['username', 'email'])
+const props = defineProps(['username', 'email', 'google'])
 
 const fileInput = ref(null)
 const newUsername = ref(false)
@@ -62,7 +62,7 @@ const openPassword = () => {
         <p class="text-[20px] font-normal" @click="triggerFileInput">Upload my photo</p>
       </div>
       <div class="bg-[#11101A]">
-        <div class="flex flex-col gap-[56px] text-base">
+        <div class="flex flex-col gap-[56px] text-base pb-[157px]">
           <div class="flex flex-col mt-[197px]">
             <label class="mb-[8px]">Username</label>
             <div class="flex gap-[33px]">
@@ -91,10 +91,18 @@ const openPassword = () => {
                 name="oldEmail"
                 type="email"
                 :value="props.email"
+                :readonly="props.google !== null"
                 class="w-[528px] h-[48px] rounded-[5px] px-[9px] py-[17px] outline-none bg-[#CED4DA]"
               />
               <!-- <Field /> -->
-              <button type="button" class="text-[#CED4DA]" @click="openEmail">Edit</button>
+              <button
+                type="button"
+                class="text-[#CED4DA]"
+                @click="openEmail"
+                v-if="props.google === null"
+              >
+                Edit
+              </button>
             </div>
             <div v-if="newEmail" class="flex flex-col mt-[56px]">
               <label class="mb-[8px]">New Email</label>
@@ -106,7 +114,7 @@ const openPassword = () => {
               />
             </div>
           </div>
-          <div class="flex flex-col mb-[157px]">
+          <div class="flex flex-col" v-if="props.google === null">
             <label class="mb-[8px]">Password</label>
             <div class="flex gap-[33px]">
               <Field
