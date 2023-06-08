@@ -6,9 +6,7 @@ import getters from './getters'
 export const useMoviesStore = defineStore({
   id: 'movie',
   state: () => ({
-    movieList: {
-      movies: []
-    },
+    movieList: [],
     movie: {}
   }),
   getters,

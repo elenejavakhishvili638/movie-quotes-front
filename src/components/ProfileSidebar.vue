@@ -31,11 +31,11 @@ const user = computed(() => userStore.$state.user)
     <div class="mt-[40px]">
       <div class="flex items-center mb-[40px] gap-[30px]" @click="props.close">
         <img :src="homeImage" />
-        <router-link to="news-feed"> News feed </router-link>
+        <router-link :to="{ name: 'feed' }"> News feed </router-link>
       </div>
       <div class="flex items-center gap-[30px]" @click="props.close">
         <img :src="movieImage" />
-        <router-link to="movie-list"> List of movies </router-link>
+        <router-link :to="{ name: 'movies' }"> List of movies </router-link>
       </div>
       <slot></slot>
     </div>
