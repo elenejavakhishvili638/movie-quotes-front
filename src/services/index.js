@@ -91,6 +91,15 @@ export async function fetchMovie(id) {
   }
 }
 
+export async function fetchGenres() {
+  try {
+    let response = await axios.get("/api/genres")
+    return response
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export async function fetchQuotes(searchTerm) {
   try {
     let response
@@ -100,6 +109,20 @@ export async function fetchQuotes(searchTerm) {
       response = await axios.get('/api/quotes')
     }
     return response
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+export async function addMovie(data) {
+  try {
+    console.log(data)
+    await axios.get('/sanctum/csrf-cookie')
+    await axios.post('/api/movie', data, { 
+      headers: { 'Content-Type': 'multipart/form-data' },
+      withCredentials: true 
+    })
   } catch (error) {
     console.log(error)
   }

@@ -7,7 +7,6 @@ import { useMoviesStore } from '../stores/movies/index'
 import { useLanguageStore } from '../stores/language/index'
 import ProfileSidebar from '../components/ProfileSidebar.vue'
 import { useUserStore } from '../stores/user/index'
-import FormLayout from '../components/FormLayout.vue'
 import NewMovie from '../components/NewMovie.vue'
 
 const moviesStore = useMoviesStore()
@@ -15,10 +14,10 @@ const languageStore = useLanguageStore()
 const searchTerm = ref('')
 const userStore = useUserStore()
 const addMovie = ref(false)
+let path =  import.meta.env.VITE_BACKEND_URL
 
 onMounted(async () => {
   await moviesStore.fetchMovies()
-  // console.log(moviesStore.state)
 })
 
 const fetchMovies = async () => {
@@ -45,10 +44,8 @@ const user = computed(() => userStore.$state.user)
 </script>
 
 <template>
-  <div class="background min-h-screen pb-[32px]">
-    <form-layout v-if="addMovie">
-      <new-movie :username="user.username" :closeMovie="closeMovie"></new-movie>
-    </form-layout>
+  <div class="background min-h-[120vh] pb-[32px]">
+    <new-movie v-if="addMovie" :username="user.username" :closeMovie="closeMovie"></new-movie>
     <feed-header :searchBar="false"></feed-header>
     <div class="md:flex md:ml-[40px] lg:ml[70px]">
       <div class="hidden md:block text-white sm:w-[25%]">
@@ -83,8 +80,8 @@ const user = computed(() => userStore.$state.user)
               <router-link :to="{ name: 'movie', params: { id: movie.id } }">
                 <img
                   alt="movie"
-                  src="{{ movie.image }}"
-                  class="border-red sm:w-[358px] md:w-[440px] h-[302px] rounded-[12px] bg-slate-400"
+                  :src="path + '/storage/' +movie.image"
+                  class="border-red sm:w-[358px] md:w-[440px] h-[302px] rounded-[12px] object-contain bg-slate-400"
                 />
                 <div class="mt-[16px] w-[358px]">
                   <h1 class="mb-[16px] text-[24px]">

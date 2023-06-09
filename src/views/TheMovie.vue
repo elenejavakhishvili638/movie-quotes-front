@@ -16,14 +16,17 @@ const moviesStore = useMoviesStore()
 const route = useRoute()
 const languageStore = useLanguageStore()
 const openedModalId = ref(null)
-
 const movie = computed(() => moviesStore.$state.movie)
+
+let imagePath = movie.value.image;  
+let imageUrl = import.meta.env.VITE_BACKEND_URL + '/storage/' + imagePath;
+
 onMounted(async () => {
   const id = route.params.id
   await moviesStore.fetchMovie(id)
-  console.log(movie)
 })
 const quotes = computed(() => movie.value.quotes)
+const genres = computed(() => movie.value.genres)
 
 const openModal = (id) => {
   if (openedModalId.value === id) {
@@ -54,8 +57,8 @@ const language = computed(() => languageStore.currentLanguage)
         <div class="mx-[35px] pb-[32px] md:flex md:gap-[21px]">
           <div>
             <img
-              :src="movie.image"
-              class="w-[358px] h-[302px] xl:w-[809px] xl:h-[441px] rounded-[12px] object-cover mb-[24px]"
+              :src="imageUrl"
+              class="w-[358px] h-[302px] border border-[#DDCCAA] xl:w-[809px] xl:h-[441px] rounded-[12px] object-contain mb-[24px]"
             />
           </div>
           <div class="lg:min-w-[590px]">
@@ -73,11 +76,8 @@ const language = computed(() => languageStore.currentLanguage)
               </div>
             </div>
             <div class="flex gap-[8px] my-[24px]">
-              <div class="px-[11px] py-[6px] bg-[#6C757D] rounded-[4px]">
-                <p class="font-[700] text-[18px]">{{ movie.genre }}</p>
-              </div>
-              <div class="px-[11px] py-[6px] bg-[#6C757D] rounded-[4px]">
-                <p class="font-[700] text-[18px]">{{ movie.genre }}</p>
+              <div class="px-[11px] py-[6px] bg-[#6C757D] rounded-[4px]" v-for="genre in genres" :key="genre.id">
+                <p class="font-[700] text-[18px]">{{ genre.name }}</p>
               </div>
             </div>
             <p class="mb-[20px] text-[#CED4DA] text-[18px] font-[700]">

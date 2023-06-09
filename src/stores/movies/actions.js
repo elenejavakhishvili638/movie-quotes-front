@@ -1,4 +1,4 @@
-import { fetchMovies, fetchMovie } from '../../services'
+import { fetchMovies, fetchMovie, fetchGenres, addMovie } from '../../services'
 
 export default {
   async fetchMovies(searchTerm) {
@@ -24,6 +24,27 @@ export default {
       }
     } catch (error) {
       console.error(error)
+    }
+  },
+
+  async fetchGenres() {
+    try {
+        if (this.genres.length === 0) {
+            const response = await fetchGenres();
+            this.genres = response.data;
+            // console.log(this.genres);
+        }
+    } catch(error) {
+        console.log(error);
+    }
+  },
+
+  async addMovie(data) {
+    // console.log(data)
+    try {
+      await addMovie(data)
+    } catch (err) {
+      console.log(err)
     }
   }
 }
