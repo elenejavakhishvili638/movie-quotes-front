@@ -1,8 +1,8 @@
 <script setup>
-import { Field } from 'vee-validate'
+import { Field, ErrorMessage } from 'vee-validate'
 import { ref, watch } from 'vue'
 
-const props = defineProps(['name', 'modelValue', 'label', 'lang', 'type'])
+const props = defineProps(['name', 'modelValue', 'label', 'lang', 'type', 'validate'])
 const emit = defineEmits(['update:modelValue'])
 
 const internalValue = ref(props.modelValue)
@@ -14,15 +14,17 @@ watch(internalValue, (newValue) => {
 
 <template>
   <div>
-    <div class="relative w-full flex border border-[#6C757D] h-[48px] rounded-[5px] items-center">
+    <div class="relative w-full flex border border-[#6C757D] h-[48px] rounded-[5px] items-center mb-[10px]">
       <p :class="{'text-[#6C757D]': internalValue}" class="ml-[16px]">{{ label }} :</p>
       <Field
         v-model="internalValue"
         :name="props.name"
         :type="props.type"
+        :rules="props.validate"
         class="bg-transparent outline-none h-[48px] px-[16px] py-[9px] w-[600px]"
       />
       <p class="absolute right-5 text-[#6C757D]">{{ lang }}</p>
     </div>
+    <ErrorMessage class="text-[#F15524] text-base ml-[20px]" :name="name" />
   </div>
 </template>

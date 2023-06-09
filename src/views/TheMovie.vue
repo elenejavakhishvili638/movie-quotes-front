@@ -18,13 +18,24 @@ const languageStore = useLanguageStore()
 const openedModalId = ref(null)
 const movie = computed(() => moviesStore.$state.movie)
 
-let imagePath = movie.value.image;  
-let imageUrl = import.meta.env.VITE_BACKEND_URL + '/storage/' + imagePath;
+const thisMovie = ref(null);
+const imagePath = ref(null);
+const imageUrl = ref(null);
 
 onMounted(async () => {
-  const id = route.params.id
-  await moviesStore.fetchMovie(id)
-})
+  const id = route.params.id;
+  thisMovie.value = await moviesStore.fetchMovie(id);
+  
+  if (movie.value && movie.value.image) {
+    imagePath.value = movie.value.image;
+    imageUrl.value = import.meta.env.VITE_BACKEND_URL + '/storage/' + imagePath.value;
+    console.log(imageUrl.value);
+  } else {
+    console.log('Image path is undefined');
+  }
+});
+
+
 const quotes = computed(() => movie.value.quotes)
 const genres = computed(() => movie.value.genres)
 

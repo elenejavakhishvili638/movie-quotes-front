@@ -3,10 +3,11 @@ import close from '../assets/images/logos/close.png'
 import MovieInput from './MovieInput.vue'
 import { useMoviesStore } from '../stores/movies/index'
 import { computed, ref, onMounted } from 'vue'
-import { Form } from 'vee-validate'
+import { Form, Field, ErrorMessage } from 'vee-validate'
 import TheButton from './TheButton.vue'
 import image from '../assets/images/logos/image.png'
 import { useUserStore } from '../stores/user/index'
+import MovieTextarea from './MovieTextarea.vue'
 
 const props = defineProps(['username', 'closeMovie'])
 const fileInput = ref(null)
@@ -104,13 +105,14 @@ imageUrl.value=file
         <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px]" alt="name" />
         <p>{{ props.username }}</p>
       </div>
-      <Form @submit="onSubmit" class="flex flex-col mt-[37px] gap-[24px]">
+      <Form @submit="onSubmit" class="flex flex-col mt-[37px] gap-[24px]" v-slot="{meta}">
         <movie-input
           v-model="movieForm.title.en"
           name="title_en"
           label="Movie name"
           lang="Eng"
           type="text"
+          validate="required"
         ></movie-input>
         <movie-input
           v-model="movieForm.title.ka"
@@ -118,19 +120,22 @@ imageUrl.value=file
           label="ფილმის სახელი"
           lang="ქარ"
           type="text"
+          validate="required"
         ></movie-input>
         <div class="flex gap-[4px] w-full border border-[#6C757D] h-[48px] rounded-[5px] items-center" >
           <div class="text-white text-[14px] ml-[16px] bg-[#6C757D] py-[2px] px-[6px] rounded-[2px]" v-for="(tag, index) in tagGenres" :key="index" >
             {{ tag }}
             <span @click="removeTag(tag)" class="ml-[9px]" >x</span>
           </div> 
-          <input class="bg-transparent outline-none ml-[16px]" @input="filterGenres" v-model="tagGenre"/>
+          <Field name="genre" class="bg-transparent outline-none ml-[16px]" @input="filterGenres" v-model="tagGenre"/>
         </div>
+        <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="genre" />
         <movie-input
           v-model="movieForm.year"
           name="year"
           label="წელი/year"
           type="number"
+          validate="required"
         ></movie-input>
         <movie-input
           v-model="movieForm.director.en"
@@ -138,6 +143,7 @@ imageUrl.value=file
           label="Director"
           lang="Eng"
           type="text"
+          validate="required"
         ></movie-input>
         <movie-input
           v-model="movieForm.director.ka"
@@ -145,26 +151,15 @@ imageUrl.value=file
           label="რეჟისორი"
           lang="ქარ"
           type="text"
+          validate="required"
         ></movie-input>
-        <div class="border border-[#6C757D] h-[86px] flex flex-col relative rounded-[4px]">
-          <p :class="{'text-[#6C757D]': movieForm.description.en}" class="left-4 top-2 pl-4 pt-2">Movie Description :</p>
-          <textarea
-            v-model="movieForm.description.en"
-            name="description_en"
-            class="bg-transparent outline-none w-full pl-[13px] pt-[7px]"
-            rows="4"
-          ></textarea>
-          <p class="absolute right-4 top-2 text-[#6C757D]">Eng</p>
+        <div>
+          <movie-textarea validate="required" name="description_en" rows="4" v-model="movieForm.description.en" label="Movie Description :" :class="{'text-[#6C757D]': movieForm.description.en}" ></movie-textarea>
+          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="description_en" />
         </div>
-        <div  class="border border-[#6C757D] h-[86px] flex flex-col relative rounded-[4px]">
-          <p :class="{'text-[#6C757D]': movieForm.description.ka}" class="left-4 top-2 pl-4 pt-2">ფილმის აღწერა :</p>
-          <textarea
-            v-model="movieForm.description.ka"
-            name="description_ka"
-            class="bg-transparent outline-none w-full pl-[13px] pt-[7px]"
-            rows="4"
-          ></textarea>
-          <p class="absolute right-4 top-2 text-[#6C757D]">ქარ</p>
+        <div>
+          <movie-textarea validate="required" name="description_ka" rows="4" v-model="movieForm.description.ka" label="ფილმის აღწერა :" :class="{'text-[#6C757D]': movieForm.description.ka}" ></movie-textarea>
+          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="description_ka" />
         </div>
         <div
         :class="{'h-[142px] lg:h-[185px]': uploadedImageUrl}"
@@ -193,7 +188,7 @@ imageUrl.value=file
             </button>
           </div>
         </div>
-        <the-button type="submit" class="w-full">Add movie</the-button>
+        <the-button :disabled="!meta.valid" type="submit" class="w-full">Add movie</the-button>
       </Form>
     </div>
   </div>

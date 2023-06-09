@@ -44,7 +44,7 @@ const user = computed(() => userStore.$state.user)
 </script>
 
 <template>
-  <div class="background min-h-[120vh] pb-[32px]">
+  <div class="background min-h-[125vh] pb-[32px]">
     <new-movie v-if="addMovie" :username="user.username" :closeMovie="closeMovie"></new-movie>
     <feed-header :searchBar="false"></feed-header>
     <div class="md:flex md:ml-[40px] lg:ml[70px]">
