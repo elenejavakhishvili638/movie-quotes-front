@@ -127,3 +127,14 @@ export async function addMovie(data) {
     console.log(error)
   }
 }
+
+export async function deleteMovie(id) {
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+    await axios.delete(`/api/movie/${id}`, { 
+      withCredentials: true 
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}

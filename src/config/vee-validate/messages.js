@@ -12,7 +12,8 @@ configure({
         email: 'This input is not in email format',
         minmax: '{field} must be between 0:{min} and 1:{max} characters',
         confirmed: 'Password should be the same',
-        lowercase_and_numbers_only: 'Only number and lower case latin symbols should be used'
+        lowercase_and_numbers_only: 'Only number and lower case latin symbols should be used',
+        arrayNotEmpty: 'This field is required',
       },
       names: {
         password_confirmation: 'Password'
@@ -25,7 +26,8 @@ configure({
         email: 'თქვენს მიერ შეყვანილი ტექსტი არ აკმაყოფილებს მეილის ფორმატს',
         minmax: '{field} უნდა შეიცავდეს მინიმუმ 0:{min} და მაქსიმუმ 1:{max} სიმბოლოს',
         confirmed: 'პაროლი არ ემთხვევა',
-        lowercase_and_numbers_only: 'ტექსტი უნდა შეიცავდეს მხოლოდ ლათინურ სიმბოლოებს და ციფრებს'
+        lowercase_and_numbers_only: 'ტექსტი უნდა შეიცავდეს მხოლოდ ლათინურ სიმბოლოებს და ციფრებს',
+        arrayNotEmpty: 'გთხოვთ შეავსოთ მოცემული ველი'
       },
       names: {
         password: 'პაროლი',

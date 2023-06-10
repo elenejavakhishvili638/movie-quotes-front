@@ -25,3 +25,11 @@ defineRule('confirmed', (value, [target], ctx) => {
   }
   return false
 })
+
+defineRule('arrayNotEmpty', (value, [target]) => {
+  if (target.length === 0) {
+    return false
+  }
+
+  return true;
+});

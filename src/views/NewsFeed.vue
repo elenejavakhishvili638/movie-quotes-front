@@ -24,7 +24,7 @@ const user = computed(() => userStore.$state.user)
 
 onMounted(async () => {
   await quotesStore.fetchQuotes()
-  console.log(user.value)
+  // console.log(user.value)
 })
 
 const fetchQuotes = async () => {
@@ -59,7 +59,7 @@ const closeSearch = () => {
 }
 
 const language = computed(() => languageStore.currentLanguage)
-const quotes = computed(() => quotesStore.state)
+// const quotes = computed(() => quotesStore.state)
 </script>
 
 <template>
@@ -122,7 +122,7 @@ const quotes = computed(() => quotesStore.state)
             </div>
           </div>
         </div>
-        <div v-for="quote in quotes" :key="quote.id">
+        <div v-for="quote in quotesStore.state" :key="quote.id">
           <the-post
             :quote="quote.body && quote.body[language]"
             :movie="quote.movie && quote.movie.title && quote.movie.title[language]"

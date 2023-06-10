@@ -18,6 +18,7 @@ let path =  import.meta.env.VITE_BACKEND_URL
 
 onMounted(async () => {
   await moviesStore.fetchMovies()
+  console.log(moviesStore.state)
 })
 
 const fetchMovies = async () => {
@@ -26,6 +27,7 @@ const fetchMovies = async () => {
   }
 }
 
+  
 watch(searchTerm, (newTerm) => {
   moviesStore.fetchMovies(newTerm)
 })
@@ -37,8 +39,8 @@ const closeMovie = () => {
   addMovie.value = false
 }
 
-const movies = computed(() => moviesStore.state)
-const listLength = computed(() => movies.value.length)
+// const movies = computed(() => moviesStore.movieList)
+
 const language = computed(() => languageStore.currentLanguage)
 const user = computed(() => userStore.$state.user)
 </script>
@@ -57,7 +59,7 @@ const user = computed(() => userStore.$state.user)
         <div class="flex justify-between">
           <div class="text-white mb-[34px]">
             <h1 class="text-[24px]">My list of movies</h1>
-            <p>{{ `(Total ${listLength})` }}</p>
+            <p>{{ `(Total ${moviesStore.totalMovies})` }}</p>
           </div>
           <div class="flex items-center">
             <div class="mr-[21px] hidden md:flex md:ml-[24px]">
@@ -75,7 +77,7 @@ const user = computed(() => userStore.$state.user)
           </div>
         </div>
         <div class="text-white grid gap-[50px] md:grid-cols-fill">
-          <div v-for="movie in movies" :key="movie.id" class="mb-[60px]">
+          <div v-for="movie in moviesStore.state" :key="movie.id" class="mb-[60px]">
             <div v-if="movie.id">
               <router-link :to="{ name: 'movie', params: { id: movie.id } }">
                 <img

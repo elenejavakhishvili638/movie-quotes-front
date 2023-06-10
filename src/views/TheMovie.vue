@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, computed, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute,useRouter } from 'vue-router'
 import { useMoviesStore } from '../stores/movies/index'
 import FeedHeader from '../components/FeedHeader.vue'
 import { useLanguageStore } from '../stores/language/index'
@@ -14,6 +14,7 @@ import eye from '../assets/images/logos/eye.png'
 
 const moviesStore = useMoviesStore()
 const route = useRoute()
+const router = useRouter()
 const languageStore = useLanguageStore()
 const openedModalId = ref(null)
 const movie = computed(() => moviesStore.$state.movie)
@@ -51,6 +52,19 @@ const closeModal = () => {
   openedModalId.value = null
 }
 
+const deleteMovie = async () => {
+  const id = route.params.id;
+  try{
+    await moviesStore.deleteMovie(id)
+    // moviesStore.movieList = moviesStore.movieList.filter(movie => movie.id !== id)
+    await moviesStore.fetchFullList()
+    console.log(moviesStore.movieList)
+    router.push({ name: 'movies' });
+  }catch(err) {
+    console.log(err)
+  }
+}
+
 const language = computed(() => languageStore.currentLanguage)
 </script>
 
@@ -83,7 +97,7 @@ const language = computed(() => languageStore.currentLanguage)
               >
                 <img :src="pencil" />
                 <div class="border-r border-r-[#6C757D] h-[16px]"></div>
-                <img :src="trash" />
+                <img :src="trash" @click="deleteMovie" />
               </div>
             </div>
             <div class="flex gap-[8px] my-[24px]">

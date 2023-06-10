@@ -23,7 +23,7 @@ const logout = async () => {
   try {
     await loginStore.logout()
     userStore.setLoggedOut(true)
-    router.replace('/')
+    router.push({name: 'home'})
   } catch (error) {
     console.log(error)
   }

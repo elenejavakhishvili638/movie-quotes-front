@@ -25,7 +25,6 @@ const genres = computed(() => movieStore.$state.genres)
 const movieForm = computed(() => movieStore.$state.addedMovie)
 
 onMounted(async() => {
-  console.log(genres.value)
   try {
     await movieStore.fetchGenres()
   } catch(err) {
@@ -52,13 +51,13 @@ const onSubmit = async () => {
     const formData = new FormData();
 
     formData.append('user_id', user.value.id);
+    formData.append('year', movieForm.value.year);
     formData.append('title[en]', movieForm.value.title.en);
     formData.append('title[ka]', movieForm.value.title.ka);
     formData.append('description[en]', movieForm.value.description.en);
     formData.append('description[ka]', movieForm.value.description.ka);
     formData.append('director[en]', movieForm.value.director.en);
     formData.append('director[ka]', movieForm.value.director.ka);
-    formData.append('year', movieForm.value.year);
 
     tagGenreIds.value.forEach((genreId, index) => {
       formData.append(`genres[${index}]`, genreId);
@@ -69,6 +68,8 @@ const onSubmit = async () => {
     }
 
     await movieStore.addMovie(formData);
+    await movieStore.fetchFullList()
+    props.closeMovie()
   } catch (error) {
     console.log(error)
   }
@@ -127,7 +128,7 @@ imageUrl.value=file
             {{ tag }}
             <span @click="removeTag(tag)" class="ml-[9px]" >x</span>
           </div> 
-          <Field name="genre" class="bg-transparent outline-none ml-[16px]" @input="filterGenres" v-model="tagGenre"/>
+          <Field :rules="{arrayNotEmpty: [tagGenres]}" name="genre" class="bg-transparent outline-none ml-[16px]" @input="filterGenres" v-model="tagGenre"/>
         </div>
         <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="genre" />
         <movie-input
@@ -166,14 +167,13 @@ imageUrl.value=file
           class="flex justify-between items-center border border-[#6C757D] w-full h-[82px] rounded-[4px]"
         >
           <img :src="uploadedImageUrl" v-if="uploadedImageUrl" class="ml-[24px] w-[433px] h-[110px] lg:h-[144px] object-contain border border-dashed border-[DDCCAA]" />
- 
           <input
-            type="file"
-            id="file-input"
-            ref="fileInput"
-            style="display: none"
-            @change="onFileChange"
-          />
+              type="file"
+              id="file-input"
+              ref="fileInput"
+              style="display: none"
+              @change="onFileChange"
+            />
           <div class="flex items-center gap-[20px]" :class="{'flex flex-col items-center mr-[24px] lg:mr-[54px] gap-[16px]': uploadedImageUrl}" >
             <div class="flex ml-[16px] items-center">
               <img :src="image" />

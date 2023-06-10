@@ -21,6 +21,7 @@ watch(internalValue, (newValue) => {
         :name="props.name"
         :type="props.type"
         :rules="props.validate"
+        autocomplete="off"
         class="bg-transparent outline-none h-[48px] px-[16px] py-[9px] w-[600px]"
       />
       <p class="absolute right-5 text-[#6C757D]">{{ lang }}</p>
