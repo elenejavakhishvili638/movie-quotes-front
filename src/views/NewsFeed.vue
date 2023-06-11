@@ -82,7 +82,7 @@ const language = computed(() => languageStore.currentLanguage)
             }"
             class="md:items-center md:rounded-[10px] md:pl-[17px] text-white text-base flex ml-[36px] md:ml-0 cursor-pointer md:bg-[#24222F] md:h-[52px]"
           >
-            <img :src="write" class="mr-[12px]" /> Write new quote
+            <img :src="write" class="mr-[12px]" />{{ $t('feed.new_quote') }}
           </div>
 
           <div
@@ -95,7 +95,7 @@ const language = computed(() => languageStore.currentLanguage)
               v-model="searchTerm"
               @input="fetchQuotes"
               :placeholder="
-                increaseSearch ? 'Enter @ to search movies, Enter # to search quotes ' : 'Search by'
+                increaseSearch ?  $t('feed.search_by')  :  $t('feed.search') 
               "
               class="bg-transparent outline-none w-[91px]"
               :class="{ 'md:w-full': increaseSearch }"

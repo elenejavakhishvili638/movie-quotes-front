@@ -58,7 +58,7 @@ const closeMenu = () => {
             @click="logout"
             class="md:block mt-[40px] mr-[8px] justify-center items-center w-72 h-32 border border-white rounded-[4px] text-white text-sm"
           >
-            Log out
+          {{ $t('login.log_out') }}
           </button>
         </profile-sidebar>
       </div>
@@ -97,9 +97,9 @@ const closeMenu = () => {
       <language-component></language-component>
       <button
         @click="logout"
-        class="hidden md:block mr-[8px] justify-center items-center w-72 h-32 border border-white rounded-[4px] text-white text-sm"
+        class="hidden md:block mr-[8px] justify-center items-center w-[80px] h-32 border border-white rounded-[4px] text-white text-sm"
       >
-        Log out
+      {{ $t('login.log_out') }}
       </button>
     </div>
   </div>

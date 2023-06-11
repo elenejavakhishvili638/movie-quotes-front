@@ -10,5 +10,6 @@
     "sign_in": "Sign in",
     "google": "Sign in with Google",
     "account": "Don't have an account",
-    "sign_up": "Sign up"
+    "sign_up": "Sign up",
+    "log_out": "Log out"
 }

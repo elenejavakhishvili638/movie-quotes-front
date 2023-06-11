@@ -58,8 +58,8 @@ const user = computed(() => userStore.$state.user)
       >
         <div class="flex justify-between">
           <div class="text-white mb-[34px]">
-            <h1 class="text-[24px]">My list of movies</h1>
-            <p>{{ `(Total ${moviesStore.totalMovies})` }}</p>
+            <h1 class="text-[24px]">{{ $t('movie.my_list') }}</h1>
+            <p>{{ $t('movie.total') }} ({{ moviesStore.totalMovies }})</p>
           </div>
           <div class="flex items-center">
             <div class="mr-[21px] hidden md:flex md:ml-[24px]">
@@ -67,12 +67,12 @@ const user = computed(() => userStore.$state.user)
               <input
                 v-model="searchTerm"
                 @input="fetchMovies"
-                placeholder="Search"
+                :placeholder="$t('feed.search') "
                 class="bg-transparent outline-none w-[91px]"
               />
             </div>
-            <button class="w-[127px] h-[38px] rounded-[4px] bg-red" @click="openMovie">
-              Add movie
+            <button class="w-[140px] h-[38px] rounded-[4px] bg-red" @click="openMovie">
+              {{ $t('movie.add_movie') }}
             </button>
           </div>
         </div>

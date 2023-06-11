@@ -96,7 +96,7 @@ imageUrl.value=file
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-[25px] px-[54px]">
       <div></div>
-      <h1>Add movie</h1>
+      <h1>{{$t('movie.add_movie')}}</h1>
       <img @click="props.closeMovie" :src="close" />
     </div>
     <div class="p-[35px]">
@@ -126,7 +126,7 @@ imageUrl.value=file
             {{ tag.name }}
             <span @click="removeTag(tag.id)" class="ml-[9px]" >x</span>
           </div> 
-          <Field :rules="{arrayNotEmpty: [tagGenres]}" name="genre" class="bg-transparent outline-none ml-[16px]" @input="filterGenres" v-model="tagGenre"/>
+          <Field  :placeholder="$t('movie.genre')" :rules="{arrayNotEmpty: [tagGenres]}" name="genre" class="bg-transparent outline-none ml-[16px]" @input="filterGenres" v-model="tagGenre"/>
         </div>
         <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="genre" />
         <movie-input
@@ -175,18 +175,18 @@ imageUrl.value=file
           <div class="flex items-center gap-[20px]" :class="{'flex flex-col items-center mr-[24px] lg:mr-[54px] gap-[16px]': uploadedImageUrl}" >
             <div class="flex ml-[16px] items-center">
               <img :src="image" />
-              <p class="text-[20px] font-normal ml-[13px]">Upload image</p>
+              <p class="text-[20px] font-normal ml-[13px]">{{ $t('movie.upload') }}</p>
             </div>
             <button
               type="button"
-              class="bg-[#9747FF66] ml-[16px] w-[101px] h-[42px] mr-[16px] text-[18px] outline-none"
+              class="bg-[#9747FF66] ml-[16px] w-[150px] h-[42px] mr-[16px] text-[18px] outline-none"
               @click="triggerFileInput"
             >
-              Choose file
+            {{ $t('movie.choose') }}
             </button>
           </div>
         </div>
-        <the-button :disabled="!meta.valid" type="submit" class="w-full">Add movie</the-button>
+        <the-button :disabled="!meta.valid" type="submit" class="w-full"> {{ $t('movie.add_movie') }}</the-button>
       </Form>
     </div>
   </div>

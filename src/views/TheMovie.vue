@@ -90,7 +90,7 @@ const user = computed(() => userStore.$state.user)
       </div>
       <div class="flex flex-col mt-[39px] text-white relative">
         <h1 class="hidden md:block text-[24px] font-[500] mb-[33px] ml-[35px]">
-          Movie description
+          {{ $t('movie.movie_desc') }}
         </h1>
         <div class="mx-[35px] pb-[32px] md:flex md:gap-[21px]">
           <div>
@@ -119,7 +119,7 @@ const user = computed(() => userStore.$state.user)
               </div>
             </div>
             <p class="mb-[20px] text-[#CED4DA] text-[18px] font-[700]">
-              Director:
+              {{ $t('movie.director') }}:
               <span class="text-white font-[500]">{{
                 movie.director && movie.director[language]
               }}</span>
@@ -131,18 +131,17 @@ const user = computed(() => userStore.$state.user)
         </div>
         <div class="md:flex md:mb-[40px] items-center">
           <button
-            class="mx-[35px] mb-[32px] md:mb-[0px] w-[127px] h-[38px] rounded-[4px] bg-red"
+            class="mx-[35px] mb-[32px] md:mb-[0px] w-[140px] h-[38px] rounded-[4px] bg-red"
             @click="openMovie"
           >
-            Add quote
+          {{ $t('movie.add_quote') }}
           </button>
           <hr class="mx-[35px] md:hidden" />
           <div
             class="md:flex md:items-center md:border-l md:border-l-[#6C757D] md:pl-[16px] mx-[35px] mb-[35px] mt-[40px] md:mx-[0px] md:mb-[0px] md:mt-[0]"
           >
-            <h1 class="text-[24px]">All Quotes</h1>
             <p class="text-base md:text-[24px] md:ml-[10px]">
-              Total ({{ movie.quotes && movie.quotes.length }})
+              {{ $t('movie.all_quotes') }} ({{ movie.quotes && movie.quotes.length }})
             </p>
           </div>
         </div>
