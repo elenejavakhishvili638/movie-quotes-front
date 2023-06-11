@@ -4,5 +4,7 @@
     "movie_list": "List of movies",
     "new_quote": "Write new quote",
     "search": "Search by",
-    "search_by": "Enter @ to search movies, Enter # to search quotes"
+    "search_by": "Enter {at} to search movies, Enter {hash} to search quotes",
+    "search_movie": "Enter {at} to search movies",
+    "search_quote": "Enter {hash} to search quotes"
 }

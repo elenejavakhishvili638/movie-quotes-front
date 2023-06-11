@@ -104,7 +104,8 @@ export async function fetchQuotes(searchTerm) {
   try {
     let response
     if (searchTerm) {
-      response = await axios.get(`/api/quotes?search=${searchTerm}`)
+      let encodedSearchTerm = encodeURIComponent(searchTerm);
+      response = await axios.get(`/api/quotes?search=${encodedSearchTerm}`)
     } else {
       response = await axios.get('/api/quotes')
     }

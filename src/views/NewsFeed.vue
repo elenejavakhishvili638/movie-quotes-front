@@ -95,7 +95,7 @@ const language = computed(() => languageStore.currentLanguage)
               v-model="searchTerm"
               @input="fetchQuotes"
               :placeholder="
-                increaseSearch ?  $t('feed.search_by')  :  $t('feed.search') 
+                increaseSearch ?  $t('feed.search_by', { at: '@', hash: '#' }) :  $t('feed.search') 
               "
               class="bg-transparent outline-none w-[91px]"
               :class="{ 'md:w-full': increaseSearch }"
@@ -103,13 +103,13 @@ const language = computed(() => languageStore.currentLanguage)
           </div>
           <div
             v-if="searchOpen"
-            class="absolute top-0 left-0 h-[774px] bg-[#12101A] w-full text-white"
+            class="absolute top-0 left-0 h-[774px] bg-[#12101A] w-full text-white md:hidden"
           >
             <div class="border-b border-[#EFEFEF]">
               <div class="my-[24px] ml-[32px] flex items-center">
                 <img @click="closeSearch" :src="arrow" class="mr-[26px]" />
                 <input
-                  placeholder="Search"
+                  :placeholder="$t('feed.search')"
                   v-model="searchTerm"
                   @input="fetchQuotes"
                   class="bg-transparent outline-none"
@@ -117,8 +117,8 @@ const language = computed(() => languageStore.currentLanguage)
               </div>
             </div>
             <div class="text-[#CED4DA] text-base opacity-[0.6] mt-[26px] ml-[74px]">
-              <p>Enter <span class="text-white opacity-[1] mb-[22px]">@</span> to search movies</p>
-              <p>Enter @ to search movies</p>
+              <p>{{ $t('feed.search_movie', { at: '@' }) }}</p>
+              <p>{{ $t('feed.search_quote', { hash: '#' }) }}</p>
             </div>
           </div>
         </div>
