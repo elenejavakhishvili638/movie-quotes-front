@@ -8,22 +8,28 @@ import TheButton from './TheButton.vue'
 import image from '../assets/images/logos/image.png'
 import { useUserStore } from '../stores/user/index'
 import MovieTextarea from './MovieTextarea.vue'
+import { useRoute } from 'vue-router'
 
-const props = defineProps(['username', 'closeMovie'])
+const props = defineProps(['username', 'closeMovie', 'movie'])
 const fileInput = ref(null)
 const movieStore = useMoviesStore()
 const userStore = useUserStore()
-const uploadedImageUrl = ref(null)
-const imageUrl = ref(null)
-const tagGenre = ref('')
-const tagGenres = ref([])
-
+const route = useRoute()
+let path =  import.meta.env.VITE_BACKEND_URL
 
 const user = computed(() => userStore.$state.user)
 const genres = computed(() => movieStore.$state.genres)
-const movieForm = computed(() => movieStore.$state.addedMovie)
+const movieForm = ref(JSON.parse(JSON.stringify(props.movie)))
+const genreNames = movieForm.value.genres.map(genre => genre);
+const imageUrl = ref(movieForm.value.image)
+const tagGenre = ref('')
+const tagGenres = ref([...genreNames])
+const uploadedImageUrl = ref(path + '/storage/' + movieForm.value.image)
+
 
 onMounted(async() => {
+console.log(imageUrl.value)
+
   try {
     await movieStore.fetchGenres()
   } catch(err) {
@@ -45,9 +51,10 @@ const removeTag = (id) => {
 }
 
 const onSubmit = async () => {
+    const id = route.params.id;
   try {
     const formData = new FormData();
-
+    formData.append("_method", "PATCH");
     formData.append('user_id', user.value.id);
     formData.append('year', movieForm.value.year);
     formData.append('title[en]', movieForm.value.title.en);
@@ -65,8 +72,14 @@ const onSubmit = async () => {
       formData.append('image', imageUrl.value);
     }
 
-    await movieStore.addMovie(formData);
-    await movieStore.fetchFullList()
+
+//     for (let pair of formData.entries()) {
+//     console.log(pair[0] + ', ' + pair[1]);
+// }
+
+  
+    await movieStore.editMovie(formData, id);
+    await movieStore.updateMovie(id)
     props.closeMovie()
   } catch (error) {
     console.log(error)
@@ -96,7 +109,7 @@ imageUrl.value=file
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-[25px] px-[54px]">
       <div></div>
-      <h1>Add movie</h1>
+      <h1>Edit movie</h1>
       <img @click="props.closeMovie" :src="close" />
     </div>
     <div class="p-[35px]">

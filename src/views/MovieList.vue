@@ -82,7 +82,7 @@ const user = computed(() => userStore.$state.user)
               <router-link :to="{ name: 'movie', params: { id: movie.id } }">
                 <img
                   alt="movie"
-                  :src="path + '/storage/' +movie.image"
+                  :src="path + '/storage/' + movie.image"
                   class="border-red sm:w-[358px] md:w-[440px] h-[302px] rounded-[12px] object-contain bg-slate-400"
                 />
                 <div class="mt-[16px] w-[358px]">

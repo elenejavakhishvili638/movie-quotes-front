@@ -1,4 +1,4 @@
-import { fetchMovies, fetchMovie, fetchGenres, addMovie, deleteMovie } from '../../services'
+import { fetchMovies, fetchMovie, fetchGenres, addMovie, deleteMovie, editMovie } from '../../services'
 
 export default {
   async fetchMovies(searchTerm) {
@@ -27,6 +27,15 @@ export default {
         const response = await fetchMovie(id)
         this.movie = response.data
       }
+    } catch (error) {
+      console.error(error)
+    }
+  },
+
+  async updateMovie(id) {
+    try {
+      const response = await fetchMovie(id)
+      this.movie = response.data
     } catch (error) {
       console.error(error)
     }
@@ -72,7 +81,17 @@ export default {
     console.log(id)
     try {
       await deleteMovie(id)
-      console.log(this.movieList, this.state)
+      // console.log(this.movieList, this.state)
+    } catch (err) {
+      console.log(err)
+    }
+  },
+
+  async editMovie(data,id) {
+    // console.log(data)
+    try {
+      await editMovie(data, id)
+      // console.log(this.movieList, this.state)
     } catch (err) {
       console.log(err)
     }

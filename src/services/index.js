@@ -117,7 +117,6 @@ export async function fetchQuotes(searchTerm) {
 
 export async function addMovie(data) {
   try {
-    console.log(data)
     await axios.get('/sanctum/csrf-cookie')
     await axios.post('/api/movie', data, { 
       headers: { 'Content-Type': 'multipart/form-data' },
@@ -133,6 +132,18 @@ export async function deleteMovie(id) {
     await axios.get('/sanctum/csrf-cookie')
     await axios.delete(`/api/movie/${id}`, { 
       withCredentials: true 
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function editMovie(data, id) {
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+    await axios.post(`/api/movie/${id}`, data, { 
+      headers: { 'Content-Type': 'multipart/form-data' },
+      withCredentials: true,
     })
   } catch (error) {
     console.log(error)

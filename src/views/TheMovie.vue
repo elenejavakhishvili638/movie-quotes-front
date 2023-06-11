@@ -11,10 +11,13 @@ import ProfileSidebar from '../components/ProfileSidebar.vue'
 import trash from '../assets/images/logos/trash.png'
 import pencil from '../assets/images/logos/pencil.png'
 import eye from '../assets/images/logos/eye.png'
+import EditMovie from '../components/EditMovie.vue'
+import { useUserStore } from '../stores/user/index'
 
 const moviesStore = useMoviesStore()
 const route = useRoute()
 const router = useRouter()
+const userStore = useUserStore()
 const languageStore = useLanguageStore()
 const openedModalId = ref(null)
 const movie = computed(() => moviesStore.$state.movie)
@@ -22,6 +25,8 @@ const movie = computed(() => moviesStore.$state.movie)
 const thisMovie = ref(null);
 const imagePath = ref(null);
 const imageUrl = ref(null);
+const editMovie = ref(false)
+
 
 onMounted(async () => {
   const id = route.params.id;
@@ -36,6 +41,12 @@ onMounted(async () => {
   }
 });
 
+const openMovie = () => {
+  editMovie.value = true
+}
+const closeMovie = () => {
+  editMovie.value = false
+}
 
 const quotes = computed(() => movie.value.quotes)
 const genres = computed(() => movie.value.genres)
@@ -66,10 +77,12 @@ const deleteMovie = async () => {
 }
 
 const language = computed(() => languageStore.currentLanguage)
+const user = computed(() => userStore.$state.user)
 </script>
 
 <template>
-  <div class="background min-h-screen pb-[32px]">
+  <div class="background min-h-[125vh] pb-[32px]">
+    <edit-movie class="z-20" v-if="editMovie" :username="user.username" :movie="movie" :closeMovie="closeMovie"></edit-movie>
     <feed-header :searchBar="false"></feed-header>
     <div class="md:flex md:ml-[40px] lg:ml[70px]">
       <div class="hidden md:block text-white sm:w-[25%] lg:w-[17%]">
@@ -95,7 +108,7 @@ const language = computed(() => languageStore.currentLanguage)
               <div
                 class="w-[144px] h-[40px] bg-[#24222F] rounded-[10px] flex items-center justify-between px-[27px]"
               >
-                <img :src="pencil" />
+                <img :src="pencil" @click="openMovie" />
                 <div class="border-r border-r-[#6C757D] h-[16px]"></div>
                 <img :src="trash" @click="deleteMovie" />
               </div>
