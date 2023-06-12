@@ -1,11 +1,6 @@
 import { loginUser, loginWithGoogle, logout } from '../../services'
 
 export default {
-  setUser(payload) {
-    const { name, value } = payload
-    this.login[name] = value
-  },
-
   async loginUser(payload) {
     try {
       await loginUser(payload)

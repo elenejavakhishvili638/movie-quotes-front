@@ -24,7 +24,6 @@ const user = computed(() => userStore.$state.user)
 
 onMounted(async () => {
   await quotesStore.fetchQuotes()
-  // console.log(user.value)
 })
 
 const fetchQuotes = async () => {
@@ -95,7 +94,7 @@ const language = computed(() => languageStore.currentLanguage)
               v-model="searchTerm"
               @input="fetchQuotes"
               :placeholder="
-                increaseSearch ?  $t('feed.search_by', { at: '@', hash: '#' }) :  $t('feed.search') 
+                increaseSearch ? $t('feed.search_by', { at: '@', hash: '#' }) : $t('feed.search')
               "
               class="bg-transparent outline-none w-[91px]"
               :class="{ 'md:w-full': increaseSearch }"

@@ -78,20 +78,16 @@ export default {
     }
   },
   async deleteMovie(id) {
-    console.log(id)
     try {
       await deleteMovie(id)
-      // console.log(this.movieList, this.state)
     } catch (err) {
       console.log(err)
     }
   },
 
   async editMovie(data,id) {
-    // console.log(data)
     try {
       await editMovie(data, id)
-      // console.log(this.movieList, this.state)
     } catch (err) {
       console.log(err)
     }

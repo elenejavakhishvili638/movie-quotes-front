@@ -15,35 +15,52 @@ const fileInput = ref(null)
 const movieStore = useMoviesStore()
 const userStore = useUserStore()
 const route = useRoute()
-let path =  import.meta.env.VITE_BACKEND_URL
+let path = import.meta.env.VITE_BACKEND_URL
 
 const user = computed(() => userStore.$state.user)
 const genres = computed(() => movieStore.$state.genres)
 const movieForm = ref(JSON.parse(JSON.stringify(props.movie)))
-const genreNames = movieForm.value.genres.map(genre => genre);
+const genreNames = movieForm.value.genres.map((genre) => genre)
 const imageUrl = ref(null)
 const tagGenre = ref('')
 const tagGenres = ref([...genreNames])
 const uploadedImageUrl = ref(path + '/storage/' + movieForm.value.image)
 
+const deepEqual = (obj1, obj2) => {
+  if (obj1 === obj2) return true
 
-onMounted(async() => {
-// console.log(imageUrl.value)
+  if (typeof obj1 !== 'object' || obj1 === null || typeof obj2 !== 'object' || obj2 === null) {
+    return false
+  }
 
+  let keys1 = Object.keys(obj1)
+  let keys2 = Object.keys(obj2)
+
+  if (keys1.length !== keys2.length) return false
+
+  for (let key of keys1) {
+    if (!keys2.includes(key)) return false
+    if (!deepEqual(obj1[key], obj2[key])) return false
+  }
+
+  return true
+}
+
+onMounted(async () => {
   try {
     await movieStore.fetchGenres()
-  } catch(err) {
+  } catch (err) {
     console.log(err)
   }
 })
 
-const filterGenres = async() => {
+const filterGenres = async () => {
   genres.value.forEach((genre) => {
-    if(genre.name.toLowerCase() === tagGenre.value.toLowerCase()) {
-      tagGenres.value.push(genre);
+    if (genre.name.toLowerCase() === tagGenre.value.toLowerCase()) {
+      tagGenres.value.push(genre)
       tagGenre.value = ''
     }
-  });
+  })
 }
 
 const removeTag = (id) => {
@@ -51,33 +68,36 @@ const removeTag = (id) => {
 }
 
 const onSubmit = async () => {
-    const id = route.params.id;
+  if (deepEqual(props.movie, movieForm.value) && !imageUrl.value) {
+    console.log('No changes were made.')
+    return
+  }
+  const id = route.params.id
   try {
-    const formData = new FormData();
-    formData.append("_method", "PATCH");
-    formData.append('user_id', user.value.id);
-    formData.append('year', movieForm.value.year);
-    formData.append('title[en]', movieForm.value.title.en);
-    formData.append('title[ka]', movieForm.value.title.ka);
-    formData.append('description[en]', movieForm.value.description.en);
-    formData.append('description[ka]', movieForm.value.description.ka);
-    formData.append('director[en]', movieForm.value.director.en);
-    formData.append('director[ka]', movieForm.value.director.ka);
+    const formData = new FormData()
+    formData.append('_method', 'PATCH')
+    formData.append('user_id', user.value.id)
+    formData.append('year', movieForm.value.year)
+    formData.append('title[en]', movieForm.value.title.en)
+    formData.append('title[ka]', movieForm.value.title.ka)
+    formData.append('description[en]', movieForm.value.description.en)
+    formData.append('description[ka]', movieForm.value.description.ka)
+    formData.append('director[en]', movieForm.value.director.en)
+    formData.append('director[ka]', movieForm.value.director.ka)
 
     tagGenres.value.forEach((genre, index) => {
-      formData.append(`genres[${index}]`, genre.id);
-    });
+      formData.append(`genres[${index}]`, genre.id)
+    })
 
     if (imageUrl.value) {
-      formData.append('image', imageUrl.value);
+      formData.append('image', imageUrl.value)
     }
 
     for (let pair of formData.entries()) {
-    console.log(pair[0] + ', ' + pair[1]);
-}
+      console.log(pair[0] + ', ' + pair[1])
+    }
 
-  
-    await movieStore.editMovie(formData, id);
+    await movieStore.editMovie(formData, id)
     await movieStore.updateMovie(id)
     props.closeMovie()
   } catch (error) {
@@ -90,14 +110,14 @@ const triggerFileInput = () => {
 }
 
 const onFileChange = (e) => {
-const file = e.target.files[0];
-imageUrl.value=file
+  const file = e.target.files[0]
+  imageUrl.value = file
   if (file) {
-    const reader = new FileReader();
+    const reader = new FileReader()
     reader.onload = (e) => {
-      uploadedImageUrl.value = e.target.result;
-    };
-    reader.readAsDataURL(file);
+      uploadedImageUrl.value = e.target.result
+    }
+    reader.readAsDataURL(file)
   }
 }
 </script>
@@ -108,7 +128,7 @@ imageUrl.value=file
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-[25px] px-[54px]">
       <div></div>
-      <h1>{{$t('movie.edit_movie')}}</h1>
+      <h1>{{ $t('movie.edit_movie') }}</h1>
       <img @click="props.closeMovie" :src="close" />
     </div>
     <div class="p-[35px]">
@@ -116,7 +136,7 @@ imageUrl.value=file
         <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px]" alt="name" />
         <p>{{ props.username }}</p>
       </div>
-      <Form @submit="onSubmit" class="flex flex-col mt-[37px] gap-[24px]" v-slot="{meta}">
+      <Form @submit="onSubmit" class="flex flex-col mt-[37px] gap-[24px]">
         <movie-input
           v-model="movieForm.title.en"
           name="title_en"
@@ -133,12 +153,25 @@ imageUrl.value=file
           type="text"
           validate="required"
         ></movie-input>
-        <div class="flex gap-[4px] w-full border border-[#6C757D] h-[48px] rounded-[5px] items-center" >
-          <div class="text-white text-[14px] ml-[16px] bg-[#6C757D] py-[2px] px-[6px] rounded-[2px]" v-for="(tag, index) in tagGenres" :key="index" >
+        <div
+          class="flex gap-[4px] w-full border border-[#6C757D] h-[48px] rounded-[5px] items-center"
+        >
+          <div
+            class="text-white text-[14px] ml-[16px] bg-[#6C757D] py-[2px] px-[6px] rounded-[2px]"
+            v-for="(tag, index) in tagGenres"
+            :key="index"
+          >
             {{ tag.name }}
-            <span @click="removeTag(tag.id)" class="ml-[9px]" >x</span>
-          </div> 
-          <Field :placeholder="$t('movie.genre')" :rules="{arrayNotEmpty: [tagGenres]}" name="genre" class="bg-transparent outline-none ml-[16px]" @input="filterGenres" v-model="tagGenre"/>
+            <span @click="removeTag(tag.id)" class="ml-[9px]">x</span>
+          </div>
+          <Field
+            :placeholder="$t('movie.genre')"
+            :rules="{ arrayNotEmpty: [tagGenres] }"
+            name="genre"
+            class="bg-transparent outline-none ml-[16px]"
+            @input="filterGenres"
+            v-model="tagGenre"
+          />
         </div>
         <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="genre" />
         <movie-input
@@ -165,40 +198,63 @@ imageUrl.value=file
           validate="required"
         ></movie-input>
         <div>
-          <movie-textarea validate="required" name="description_en" rows="4" v-model="movieForm.description.en" label="Movie Description :" :class="{'text-[#6C757D]': movieForm.description.en}" ></movie-textarea>
+          <movie-textarea
+            validate="required"
+            name="description_en"
+            rows="4"
+            v-model="movieForm.description.en"
+            label="Movie Description :"
+            :class="{ 'text-[#6C757D]': movieForm.description.en }"
+          ></movie-textarea>
           <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="description_en" />
         </div>
         <div>
-          <movie-textarea validate="required" name="description_ka" rows="4" v-model="movieForm.description.ka" label="ფილმის აღწერა :" :class="{'text-[#6C757D]': movieForm.description.ka}" ></movie-textarea>
+          <movie-textarea
+            validate="required"
+            name="description_ka"
+            rows="4"
+            v-model="movieForm.description.ka"
+            label="ფილმის აღწერა :"
+            :class="{ 'text-[#6C757D]': movieForm.description.ka }"
+          ></movie-textarea>
           <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="description_ka" />
         </div>
         <div
-        :class="{'h-[142px] lg:h-[185px]': uploadedImageUrl}"
+          :class="{ 'h-[142px] lg:h-[185px]': uploadedImageUrl }"
           class="flex justify-between items-center border border-[#6C757D] w-full h-[82px] rounded-[4px]"
         >
-          <img :src="uploadedImageUrl" v-if="uploadedImageUrl" class="ml-[24px] w-[433px] h-[110px] lg:h-[144px] object-contain border border-dashed border-[DDCCAA]" />
+          <img
+            :src="uploadedImageUrl"
+            v-if="uploadedImageUrl"
+            class="ml-[24px] w-[433px] h-[110px] lg:h-[144px] object-contain border border-dashed border-[DDCCAA]"
+          />
           <input
-              type="file"
-              id="file-input"
-              ref="fileInput"
-              style="display: none"
-              @change="onFileChange"
-            />
-          <div class="flex items-center gap-[20px]" :class="{'flex flex-col items-center mr-[24px] lg:mr-[54px] gap-[16px]': uploadedImageUrl}" >
+            type="file"
+            id="file-input"
+            ref="fileInput"
+            style="display: none"
+            @change="onFileChange"
+          />
+          <div
+            class="flex items-center gap-[20px]"
+            :class="{
+              'flex flex-col items-center mr-[24px] lg:mr-[54px] gap-[16px]': uploadedImageUrl
+            }"
+          >
             <div class="flex ml-[16px] items-center">
               <img :src="image" />
-              <p class="text-[20px] font-normal ml-[13px]">{{$t('movie.upload')}}</p>
+              <p class="text-[20px] font-normal ml-[13px]">{{ $t('movie.upload') }}</p>
             </div>
             <button
               type="button"
               class="bg-[#9747FF66] ml-[16px] w-[140px] h-[42px] mr-[16px] text-[18px] outline-none"
               @click="triggerFileInput"
             >
-              {{$t('movie.choose')}}
+              {{ $t('movie.choose') }}
             </button>
           </div>
         </div>
-        <the-button :disabled="!meta.valid" type="submit" class="w-full">{{$t('movie.edit_movie')}}</the-button>
+        <the-button type="submit" class="w-full">{{ $t('movie.edit_movie') }}</the-button>
       </Form>
     </div>
   </div>

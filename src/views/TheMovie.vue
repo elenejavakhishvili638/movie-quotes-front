@@ -35,7 +35,6 @@ onMounted(async () => {
   if (movie.value && movie.value.image) {
     imagePath.value = movie.value.image;
     imageUrl.value = import.meta.env.VITE_BACKEND_URL + '/storage/' + imagePath.value;
-    console.log(imageUrl.value);
   } else {
     console.log('Image path is undefined');
   }
@@ -67,9 +66,7 @@ const deleteMovie = async () => {
   const id = route.params.id;
   try{
     await moviesStore.deleteMovie(id)
-    // moviesStore.movieList = moviesStore.movieList.filter(movie => movie.id !== id)
     await moviesStore.fetchFullList()
-    console.log(moviesStore.movieList)
     router.push({ name: 'movies' });
   }catch(err) {
     console.log(err)
@@ -82,13 +79,13 @@ const user = computed(() => userStore.$state.user)
 
 <template>
   <div class="background min-h-[125vh] pb-[32px]">
-    <edit-movie class="z-20" v-if="editMovie" :username="user.username" :movie="movie" :closeMovie="closeMovie"></edit-movie>
+    <EditMovie v-if="editMovie" :username="user.username" :movie="movie" :closeMovie="closeMovie"></EditMovie>
     <feed-header :searchBar="false"></feed-header>
     <div class="md:flex md:ml-[40px] lg:ml[70px]">
       <div class="hidden md:block text-white sm:w-[25%] lg:w-[17%]">
         <profile-sidebar></profile-sidebar>
       </div>
-      <div class="flex flex-col mt-[39px] text-white relative">
+      <div class="flex flex-col mt-[39px] text-white">
         <h1 class="hidden md:block text-[24px] font-[500] mb-[33px] ml-[35px]">
           {{ $t('movie.movie_desc') }}
         </h1>

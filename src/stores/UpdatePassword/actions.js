@@ -2,7 +2,6 @@ import { sendEmail, updatePassword } from '../../services'
 
 export default {
   verifyEmail(payload) {
-    console.log(payload)
     const { name, value } = payload
     this.verifyEmail[name] = value
   },

@@ -14,20 +14,20 @@ const languageStore = useLanguageStore()
 const searchTerm = ref('')
 const userStore = useUserStore()
 const addMovie = ref(false)
-let path =  import.meta.env.VITE_BACKEND_URL
+let path = import.meta.env.VITE_BACKEND_URL
 
 onMounted(async () => {
   await moviesStore.fetchMovies()
-  console.log(moviesStore.state)
 })
 
 const fetchMovies = async () => {
   if (searchTerm.value) {
     await moviesStore.fetchMovies(searchTerm.value)
+  } else {
+    await moviesStore.fetchFullList()
   }
 }
 
-  
 watch(searchTerm, (newTerm) => {
   moviesStore.fetchMovies(newTerm)
 })
@@ -46,7 +46,7 @@ const user = computed(() => userStore.$state.user)
 </script>
 
 <template>
-  <div class="background min-h-[125vh] pb-[32px]">
+  <div class="background min-h-[135vh] pb-[32px]">
     <new-movie v-if="addMovie" :username="user.username" :closeMovie="closeMovie"></new-movie>
     <feed-header :searchBar="false"></feed-header>
     <div class="md:flex md:ml-[40px] lg:ml[70px]">
@@ -67,7 +67,7 @@ const user = computed(() => userStore.$state.user)
               <input
                 v-model="searchTerm"
                 @input="fetchMovies"
-                :placeholder="$t('feed.search') "
+                :placeholder="$t('feed.search')"
                 class="bg-transparent outline-none w-[91px]"
               />
             </div>
@@ -83,7 +83,7 @@ const user = computed(() => userStore.$state.user)
                 <img
                   alt="movie"
                   :src="path + '/storage/' + movie.image"
-                  class="border-red sm:w-[358px] md:w-[440px] h-[302px] rounded-[12px] object-contain bg-slate-400"
+                  class="sm:w-[358px] md:w-[440px] h-[302px] rounded-[12px] object-contain border border-[#DDCCAA]"
                 />
                 <div class="mt-[16px] w-[358px]">
                   <h1 class="mb-[16px] text-[24px]">

@@ -98,7 +98,6 @@ router.beforeEach(async (to, from, next) => {
 
 router.beforeEach(async (to, from, next) => {
   const store = useEmailStore()
-  console.log(store.emailVerified)
   if (to.query.email_verified) {
     store.setEmailVerified(true)
   }

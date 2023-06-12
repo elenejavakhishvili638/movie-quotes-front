@@ -27,7 +27,6 @@ const openLogin = () => {
 
 const googleSignUp = () => {
   authStore.registerWithGoogle()
-  console.log(props)
 }
 
 const formData = computed(() => authStore.$state.form)
