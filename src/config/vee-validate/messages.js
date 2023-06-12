@@ -14,6 +14,8 @@ configure({
         confirmed: 'Password should be the same',
         lowercase_and_numbers_only: 'Only number and lower case latin symbols should be used',
         arrayNotEmpty: 'This field is required',
+        english: 'This field should be in English',
+        georgian: 'This field should be in Georgian'
       },
       names: {
         password_confirmation: 'Password'
@@ -27,7 +29,9 @@ configure({
         minmax: '{field} უნდა შეიცავდეს მინიმუმ 0:{min} და მაქსიმუმ 1:{max} სიმბოლოს',
         confirmed: 'პაროლი არ ემთხვევა',
         lowercase_and_numbers_only: 'ტექსტი უნდა შეიცავდეს მხოლოდ ლათინურ სიმბოლოებს და ციფრებს',
-        arrayNotEmpty: 'გთხოვთ შეავსოთ მოცემული ველი'
+        arrayNotEmpty: 'გთხოვთ შეავსოთ მოცემული ველი',
+        english: 'ველი უნდა შეიცავდეს მხოლოდ ინგლისურ ანბანს',
+        georgian: 'ველი უნდა შეიცავდეს მხოლოდ ქართულ ანბანს'
       },
       names: {
         password: 'პაროლი',

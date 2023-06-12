@@ -92,7 +92,7 @@ export async function fetchMovie(id) {
 
 export async function fetchGenres() {
   try {
-    let response = await axios.get("/api/genres")
+    let response = await axios.get('/api/genres')
     return response
   } catch (error) {
     console.log(error)
@@ -103,7 +103,7 @@ export async function fetchQuotes(searchTerm) {
   try {
     let response
     if (searchTerm) {
-      let encodedSearchTerm = encodeURIComponent(searchTerm);
+      let encodedSearchTerm = encodeURIComponent(searchTerm)
       response = await axios.get(`/api/quotes?search=${encodedSearchTerm}`)
     } else {
       response = await axios.get('/api/quotes')
@@ -114,24 +114,24 @@ export async function fetchQuotes(searchTerm) {
   }
 }
 
-
 export async function addMovie(data) {
   try {
     await axios.get('/sanctum/csrf-cookie')
-    await axios.post('/api/movie', data, { 
+    await axios.post('/api/movie', data, {
       headers: { 'Content-Type': 'multipart/form-data' },
-      withCredentials: true 
+      withCredentials: true
     })
   } catch (error) {
     console.log(error)
+    throw error
   }
 }
 
 export async function deleteMovie(id) {
   try {
     await axios.get('/sanctum/csrf-cookie')
-    await axios.delete(`/api/movie/${id}`, { 
-      withCredentials: true 
+    await axios.delete(`/api/movie/${id}`, {
+      withCredentials: true
     })
   } catch (error) {
     console.log(error)
@@ -141,9 +141,9 @@ export async function deleteMovie(id) {
 export async function editMovie(data, id) {
   try {
     await axios.get('/sanctum/csrf-cookie')
-    await axios.post(`/api/movie/${id}`, data, { 
+    await axios.post(`/api/movie/${id}`, data, {
       headers: { 'Content-Type': 'multipart/form-data' },
-      withCredentials: true,
+      withCredentials: true
     })
   } catch (error) {
     console.log(error)

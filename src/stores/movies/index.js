@@ -26,7 +26,8 @@ export const useMoviesStore = defineStore({
         ka: ''
       },
       image: ''
-    }
+    },
+    errors: {}
   }),
   getters,
   actions

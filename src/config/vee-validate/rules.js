@@ -30,6 +30,13 @@ defineRule('arrayNotEmpty', (value, [target]) => {
   if (target.length === 0) {
     return false
   }
+  return true
+})
 
-  return true;
-});
+defineRule('english', (value) => {
+  return /^[a-zA-Z0-9$@$!%*?&#^-_. +]+$/.test(value)
+})
+
+defineRule('georgian', (value) => {
+  return /^[\u10A0-\u10FF\s0-9$@$!%*?&#^-_. +]+$/.test(value)
+})

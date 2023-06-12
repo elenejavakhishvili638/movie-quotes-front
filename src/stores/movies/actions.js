@@ -1,4 +1,11 @@
-import { fetchMovies, fetchMovie, fetchGenres, addMovie, deleteMovie, editMovie } from '../../services'
+import {
+  fetchMovies,
+  fetchMovie,
+  fetchGenres,
+  addMovie,
+  deleteMovie,
+  editMovie
+} from '../../services'
 
 export default {
   async fetchMovies(searchTerm) {
@@ -43,12 +50,12 @@ export default {
 
   async fetchGenres() {
     try {
-        if (this.genres.length === 0) {
-            const response = await fetchGenres();
-            this.genres = response.data;
-        }
-    } catch(error) {
-        console.log(error);
+      if (this.genres.length === 0) {
+        const response = await fetchGenres()
+        this.genres = response.data
+      }
+    } catch (error) {
+      console.log(error)
     }
   },
 
@@ -72,9 +79,16 @@ export default {
           ka: ''
         },
         image: ''
-      };
-    } catch (err) {
-      console.log(err)
+      }
+      this.errors = {}
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.errors) {
+        console.log(error.response.data.errors)
+        this.errors = error.response.data.errors
+        console.log(this.errors)
+      } else {
+        console.log(error)
+      }
     }
   },
   async deleteMovie(id) {
@@ -85,7 +99,7 @@ export default {
     }
   },
 
-  async editMovie(data,id) {
+  async editMovie(data, id) {
     try {
       await editMovie(data, id)
     } catch (err) {

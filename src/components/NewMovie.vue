@@ -21,6 +21,7 @@ const tagGenres = ref([])
 const user = computed(() => userStore.$state.user)
 const genres = computed(() => movieStore.$state.genres)
 const movieForm = computed(() => movieStore.$state.addedMovie)
+const errors = movieStore.$state.errors
 
 onMounted(async () => {
   try {
@@ -69,6 +70,9 @@ const onSubmit = async () => {
     }
 
     await movieStore.addMovie(formData)
+    if (errors) {
+      return
+    }
     await movieStore.fetchFullList()
     props.closeMovie()
   } catch (error) {
@@ -110,19 +114,19 @@ const onFileChange = (e) => {
       <Form @submit="onSubmit" class="flex flex-col mt-[37px] gap-[24px]">
         <movie-input
           v-model="movieForm.title.en"
-          name="title_en"
+          name="title.en"
           label="Movie name"
           lang="Eng"
           type="text"
-          validate="required"
+          validate="required|english"
         ></movie-input>
         <movie-input
           v-model="movieForm.title.ka"
-          name="title_ka"
+          name="title.ka"
           label="ფილმის სახელი"
           lang="ქარ"
           type="text"
-          validate="required"
+          validate="required|georgian"
         ></movie-input>
         <div
           class="flex gap-[4px] w-full border border-[#6C757D] h-[48px] rounded-[5px] items-center"
@@ -159,41 +163,41 @@ const onFileChange = (e) => {
         ></movie-input>
         <movie-input
           v-model="movieForm.director.en"
-          name="director_en"
+          name="director.en"
           label="Director"
           lang="Eng"
           type="text"
-          validate="required"
+          validate="required|english"
         ></movie-input>
         <movie-input
           v-model="movieForm.director.ka"
-          name="director_ka"
+          name="director.ka"
           label="რეჟისორი"
           lang="ქარ"
           type="text"
-          validate="required"
+          validate="required|georgian"
         ></movie-input>
         <div>
           <movie-textarea
-            validate="required"
-            name="description_en"
+            validate="required|english"
+            name="description.en"
             rows="4"
             v-model="movieForm.description.en"
             label="Movie Description :"
             :class="{ 'text-[#6C757D]': movieForm.description.en }"
           ></movie-textarea>
-          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="description_en" />
+          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="description.en" />
         </div>
         <div>
           <movie-textarea
-            validate="required"
-            name="description_ka"
+            validate="required|georgian"
+            name="description.ka"
             rows="4"
             v-model="movieForm.description.ka"
             label="ფილმის აღწერა :"
             :class="{ 'text-[#6C757D]': movieForm.description.ka }"
           ></movie-textarea>
-          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="description_ka" />
+          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="description.ka" />
         </div>
         <div
           :class="{ 'h-[142px] lg:h-[185px]': uploadedImageUrl }"
@@ -204,7 +208,6 @@ const onFileChange = (e) => {
             v-if="uploadedImageUrl"
             class="ml-[24px] w-[433px] h-[110px] lg:h-[144px] object-contain border border-dashed border-[DDCCAA]"
           />
-          <!-- <Field name="file-input" v-slot="{ field }" rules="image" :class="{ 'field-error': errors['file-input'] }"></Field> -->
           <input
             type="file"
             id="file-input"
@@ -212,8 +215,6 @@ const onFileChange = (e) => {
             style="display: none"
             @change="onFileChange"
           />
-          <!-- <ErrorMessage name="file-input" /> -->
-
           <div
             class="flex items-center gap-[20px]"
             :class="{
