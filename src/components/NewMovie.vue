@@ -3,7 +3,7 @@ import close from '../assets/images/logos/close.png'
 import MovieInput from './MovieInput.vue'
 import { useMoviesStore } from '../stores/movies/index'
 import { computed, ref, onMounted, watch } from 'vue'
-import { Form, useField, ErrorMessage, useForm } from 'vee-validate'
+import { Form, useField, ErrorMessage, useForm, Field } from 'vee-validate'
 import TheButton from './TheButton.vue'
 import image from '../assets/images/logos/image.png'
 import { useUserStore } from '../stores/user/index'
@@ -97,7 +97,7 @@ const triggerFileInput = () => {
   fileInput.value.click()
 }
 
-const onFileChange = (e) => {
+const onFileChange = async (e, handleChange, validate) => {
   const file = e.target.files[0]
   imageUrl.value = file
   if (file) {
@@ -107,6 +107,8 @@ const onFileChange = (e) => {
     }
     reader.readAsDataURL(file)
   }
+  handleChange('true')
+  await validate()
 }
 </script>
 
@@ -147,38 +149,6 @@ const onFileChange = (e) => {
           :remove="removeTag"
           :tagGenres="tagGenres"
         ></genre-component>
-        <!-- <div class="relative">
-          <div
-            class="flex gap-[4px] w-full border border-[#6C757D] h-[48px] rounded-[5px] items-center"
-          >
-            <p @click="openGenreModal" class="ml-[16px] cursor-pointer">Genres:</p>
-            <div
-              class="text-white text-[14px] ml-[16px] bg-[#6C757D] py-[2px] px-[6px] rounded-[2px]"
-              v-for="(tag, index) in tagGenres"
-              :key="index"
-            >
-              {{ tag.name }}
-              <span @click="removeTag(tag.id)" class="ml-[9px]">x</span>
-            </div>
-          </div>
-          <div
-            v-if="genreModal"
-            class="right-[50px] bottom-[-190px] z-10 absolute grid-cols-3 xl:grid-cols-5 gap-4 grid bg-black p-[16px]"
-          >
-            <span @click="closeGenreModal" class="bg-[#728ba1] text-center cursor-pointer">X</span>
-            <div
-              class="text-white text-[14px] bg-[#6C757D] py-[2px] px-[6px] rounded-[2px]"
-              v-for="(tag, index) in genres"
-              :key="index"
-              @click="filterGenres(tag.name)"
-            >
-              {{ tag.name }}
-            </div>
-          </div>
-          <p class="text-[#F15524] text-base ml-[20px]">
-            {{ tagGenresError }}
-          </p>
-        </div> -->
         <movie-input
           v-model="movieForm.year"
           name="year"
@@ -224,41 +194,44 @@ const onFileChange = (e) => {
           ></movie-textarea>
           <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="description.ka" />
         </div>
-        <div
-          :class="{ 'h-[142px] lg:h-[185px]': uploadedImageUrl }"
-          class="flex justify-between items-center border border-[#6C757D] w-full h-[82px] rounded-[4px]"
-        >
-          <img
-            :src="uploadedImageUrl"
-            v-if="uploadedImageUrl"
-            class="ml-[24px] w-[433px] h-[110px] lg:h-[144px] object-contain border border-dashed border-[DDCCAA]"
-          />
-          <input
-            type="file"
-            id="file-input"
-            ref="fileInput"
-            style="display: none"
-            @change="onFileChange"
-          />
+        <Field name="image" v-slot="{ handleChange, validate }" rules="required">
           <div
-            class="flex items-center gap-[20px]"
-            :class="{
-              'flex flex-col items-center mr-[24px] lg:mr-[54px] gap-[16px]': uploadedImageUrl
-            }"
+            :class="{ 'h-[142px] lg:h-[185px]': uploadedImageUrl }"
+            class="flex justify-between items-center border border-[#6C757D] w-full h-[82px] rounded-[4px]"
           >
-            <div class="flex ml-[16px] items-center">
-              <img :src="image" />
-              <p class="text-[20px] font-normal ml-[13px]">{{ $t('movie.upload') }}</p>
-            </div>
-            <button
-              type="button"
-              class="bg-[#9747FF66] ml-[16px] w-[150px] h-[42px] mr-[16px] text-[18px] outline-none"
-              @click="triggerFileInput"
+            <img
+              :src="uploadedImageUrl"
+              v-if="uploadedImageUrl"
+              class="ml-[24px] w-[433px] h-[110px] lg:h-[144px] object-contain border border-dashed border-[DDCCAA]"
+            />
+            <input
+              type="file"
+              id="file-input"
+              ref="fileInput"
+              style="display: none"
+              @change="onFileChange($event, handleChange, validate)"
+            />
+            <div
+              class="flex items-center gap-[20px]"
+              :class="{
+                'flex flex-col items-center mr-[24px] lg:mr-[54px] gap-[16px]': uploadedImageUrl
+              }"
             >
-              {{ $t('movie.choose') }}
-            </button>
+              <div class="flex ml-[16px] items-center">
+                <img :src="image" />
+                <p class="text-[20px] font-normal ml-[13px]">{{ $t('movie.upload') }}</p>
+              </div>
+              <button
+                type="button"
+                class="bg-[#9747FF66] ml-[16px] w-[150px] h-[42px] mr-[16px] text-[18px] outline-none"
+                @click="triggerFileInput"
+              >
+                {{ $t('movie.choose') }}
+              </button>
+            </div>
           </div>
-        </div>
+          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="image" />
+        </Field>
         <the-button type="submit" class="w-full"> {{ $t('movie.add_movie') }}</the-button>
       </Form>
     </div>
