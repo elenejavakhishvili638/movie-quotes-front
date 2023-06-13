@@ -3,15 +3,14 @@ import close from '../assets/images/logos/close.png'
 import MovieInput from './MovieInput.vue'
 import { useMoviesStore } from '../stores/movies/index'
 import { computed, ref, onMounted, watch } from 'vue'
-import { Form, useField, ErrorMessage, useForm, Field } from 'vee-validate'
+import { Form, useField, ErrorMessage, useForm } from 'vee-validate'
 import TheButton from './TheButton.vue'
-import image from '../assets/images/logos/image.png'
 import { useUserStore } from '../stores/user/index'
 import MovieTextarea from './MovieTextarea.vue'
 import GenreComponent from './GenreComponent.vue'
+import MovieImage from './MovieImage.vue'
 
 const props = defineProps(['username', 'closeMovie'])
-const fileInput = ref(null)
 const movieStore = useMoviesStore()
 const userStore = useUserStore()
 const uploadedImageUrl = ref(null)
@@ -44,15 +43,13 @@ onMounted(async () => {
   }
 })
 
-const filterGenres = async (name, handleChange, validate) => {
+const filterGenres = async (name) => {
   genres.value.forEach((genre) => {
     if (genre.name === name) {
       tagGenres.value.push(genre)
     }
   })
   tagGenresField.value = tagGenres.value
-  handleChange(name)
-  await validate()
 }
 
 const removeTag = (id) => {
@@ -96,7 +93,7 @@ const onSubmit = async () => {
   }
 }
 
-const triggerFileInput = () => {
+const triggerFileInput = (fileInput) => {
   fileInput.value.click()
 }
 
@@ -112,17 +109,6 @@ const onFileChange = async (e, handleChange, validate) => {
   }
   handleChange('true')
   await validate()
-}
-
-const onDragOver = (event) => {
-  event.preventDefault()
-  isDragging.value = true
-  event.dataTransfer.dropEffect = 'copy'
-}
-
-const onDragLeave = (event) => {
-  event.preventDefault()
-  isDragging.value = false
 }
 
 const onDrop = async (event, handleChange, validate) => {
@@ -226,47 +212,12 @@ const onDrop = async (event, handleChange, validate) => {
           ></movie-textarea>
           <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="description.ka" />
         </div>
-        <Field name="image" v-slot="{ handleChange, validate }" rules="required">
-          <div
-            @dragover.prevent="onDragOver"
-            @dragleave.prevent="onDragLeave"
-            @drop.prevent="onDrop($event, handleChange, validate)"
-            :class="{ 'h-[142px] lg:h-[185px]': uploadedImageUrl }"
-            class="flex justify-between items-center border border-[#6C757D] w-full h-[82px] rounded-[4px]"
-          >
-            <img
-              :src="uploadedImageUrl"
-              v-if="uploadedImageUrl"
-              class="ml-[24px] w-[433px] h-[110px] lg:h-[144px] object-contain border border-dashed border-[DDCCAA]"
-            />
-            <input
-              type="file"
-              id="file-input"
-              ref="fileInput"
-              style="display: none"
-              @change="onFileChange($event, handleChange, validate)"
-            />
-            <div
-              class="flex items-center gap-[20px]"
-              :class="{
-                'flex flex-col items-center mr-[24px] lg:mr-[54px] gap-[16px]': uploadedImageUrl
-              }"
-            >
-              <div class="flex ml-[16px] items-center">
-                <img :src="image" />
-                <p class="text-[20px] font-normal ml-[13px]">{{ $t('movie.upload') }}</p>
-              </div>
-              <button
-                type="button"
-                class="bg-[#9747FF66] ml-[16px] w-[150px] h-[42px] mr-[16px] text-[18px] outline-none"
-                @click="triggerFileInput"
-              >
-                {{ $t('movie.choose') }}
-              </button>
-            </div>
-          </div>
-          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="image" />
-        </Field>
+        <movie-image
+          :onFileChangeParent="onFileChange"
+          :onDropParent="onDrop"
+          :triggerFileInputParent="triggerFileInput"
+          :uploadedImageUrl="uploadedImageUrl"
+        ></movie-image>
         <the-button type="submit" class="w-full"> {{ $t('movie.add_movie') }}</the-button>
       </Form>
     </div>

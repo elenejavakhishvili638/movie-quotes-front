@@ -5,14 +5,13 @@ import { useMoviesStore } from '../stores/movies/index'
 import { computed, ref, onMounted, watch } from 'vue'
 import { Form, useForm, useField, ErrorMessage } from 'vee-validate'
 import TheButton from './TheButton.vue'
-import image from '../assets/images/logos/image.png'
 import { useUserStore } from '../stores/user/index'
 import MovieTextarea from './MovieTextarea.vue'
 import { useRoute } from 'vue-router'
 import GenreComponent from './GenreComponent.vue'
+import MovieImage from './MovieImage.vue'
 
 const props = defineProps(['username', 'closeMovie', 'movie'])
-const fileInput = ref(null)
 const movieStore = useMoviesStore()
 const userStore = useUserStore()
 const route = useRoute()
@@ -112,17 +111,18 @@ const onSubmit = async () => {
 
     await movieStore.editMovie(formData, id)
     await movieStore.updateMovie(id)
+    await movieStore.fetchFullList()
     props.closeMovie()
   } catch (error) {
     console.log(error)
   }
 }
 
-const triggerFileInput = () => {
+const triggerFileInput = (fileInput) => {
   fileInput.value.click()
 }
 
-const onFileChange = (e) => {
+const onFileChange = async (e, handleChange, validate) => {
   const file = e.target.files[0]
   imageUrl.value = file
   if (file) {
@@ -132,20 +132,11 @@ const onFileChange = (e) => {
     }
     reader.readAsDataURL(file)
   }
+  handleChange('true')
+  await validate()
 }
 
-const onDragOver = (event) => {
-  event.preventDefault()
-  isDragging.value = true
-  event.dataTransfer.dropEffect = 'copy'
-}
-
-const onDragLeave = (event) => {
-  event.preventDefault()
-  isDragging.value = false
-}
-
-const onDrop = async (event) => {
+const onDrop = async (event, handleChange, validate) => {
   event.preventDefault()
   isDragging.value = false
   const files = event.dataTransfer.files
@@ -159,6 +150,8 @@ const onDrop = async (event) => {
     reader.readAsDataURL(file)
     imageUrl.value = file
   }
+  handleChange('true')
+  await validate()
 }
 </script>
 
@@ -244,44 +237,12 @@ const onDrop = async (event) => {
           ></movie-textarea>
           <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="description_ka" />
         </div>
-        <div
-          @dragover.prevent="onDragOver"
-          @dragleave.prevent="onDragLeave"
-          @drop.prevent="onDrop"
-          :class="{ 'h-[142px] lg:h-[185px]': uploadedImageUrl }"
-          class="flex justify-between items-center border border-[#6C757D] w-full h-[82px] rounded-[4px]"
-        >
-          <img
-            :src="uploadedImageUrl"
-            v-if="uploadedImageUrl"
-            class="ml-[24px] w-[433px] h-[110px] lg:h-[144px] object-contain border border-dashed border-[DDCCAA]"
-          />
-          <input
-            type="file"
-            id="file-input"
-            ref="fileInput"
-            style="display: none"
-            @change="onFileChange"
-          />
-          <div
-            class="flex items-center gap-[20px]"
-            :class="{
-              'flex flex-col items-center mr-[24px] lg:mr-[54px] gap-[16px]': uploadedImageUrl
-            }"
-          >
-            <div class="flex ml-[16px] items-center">
-              <img :src="image" />
-              <p class="text-[20px] font-normal ml-[13px]">{{ $t('movie.upload') }}</p>
-            </div>
-            <button
-              type="button"
-              class="bg-[#9747FF66] ml-[16px] w-[140px] h-[42px] mr-[16px] text-[18px] outline-none"
-              @click="triggerFileInput"
-            >
-              {{ $t('movie.choose') }}
-            </button>
-          </div>
-        </div>
+        <movie-image
+          :onFileChangeParent="onFileChange"
+          :onDropParent="onDrop"
+          :triggerFileInputParent="triggerFileInput"
+          :uploadedImageUrl="uploadedImageUrl"
+        ></movie-image>
         <the-button type="submit" class="w-full">{{ $t('movie.edit_movie') }}</the-button>
       </Form>
     </div>
