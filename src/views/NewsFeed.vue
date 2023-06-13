@@ -1,5 +1,5 @@
 <script setup>
-import FormLayout from '../components/FormLayout.vue'
+// import FormLayout from '../components/FormLayout.vue'
 import write from '../assets/images/logos/write.png'
 import search from '../assets/images/logos/search.png'
 import FeedHeader from '../components/FeedHeader.vue'
@@ -24,6 +24,7 @@ const user = computed(() => userStore.$state.user)
 
 onMounted(async () => {
   await quotesStore.fetchQuotes()
+  console.log(quotesStore.state)
 })
 
 const fetchQuotes = async () => {
@@ -63,9 +64,9 @@ const language = computed(() => languageStore.currentLanguage)
 
 <template>
   <div class="background min-h-screen pb-[32px]" @click="decrease">
-    <form-layout v-if="addQuote">
-      <new-quote :username="user.username" :closeQuote="closeQuote"></new-quote>
-    </form-layout>
+    <!-- <form-layout > </form-layout> -->
+    <new-quote v-if="addQuote" :username="user.username" :closeQuote="closeQuote"></new-quote>
+
     <feed-header :toggleSearch="toggleSearch" :searchBar="true"></feed-header>
     <div class="md:flex md:ml-[40px] lg:ml-[70px]">
       <div class="hidden md:block text-white width-[233px]">
@@ -125,7 +126,7 @@ const language = computed(() => languageStore.currentLanguage)
           <the-post
             :quote="quote.body && quote.body[language]"
             :movie="quote.movie && quote.movie.title && quote.movie.title[language]"
-            :user="quote.movie && quote.movie.user && quote.movie.user.username"
+            :user="quote.user && quote.user.username"
             :poster="quote.image"
             :year="quote.movie && quote.movie.year"
           ></the-post>

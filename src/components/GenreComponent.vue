@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { useMoviesStore } from '../stores/movies/index'
+import { ErrorMessage, Field } from 'vee-validate'
 
 const props = defineProps(['error', 'filter', 'remove', 'tagGenres'])
 
@@ -14,6 +15,11 @@ const openGenreModal = () => {
 
 const closeGenreModal = () => {
   genreModal.value = false
+}
+
+const handleClick = (name, handleChange) => {
+  props.filter(name)
+  handleChange('true')
 }
 </script>
 
@@ -30,22 +36,26 @@ const closeGenreModal = () => {
         <span @click="props.remove(tag.id)" class="ml-[9px]">x</span>
       </div>
     </div>
-    <div
-      v-if="genreModal"
-      class="left-[100px] md:left-[200px] bottom-[-180px] h-[200px] w-[250px] z-10 absolute flex flex-col gap-4 bg-black p-[16px] overflow-y-scroll"
-    >
-      <span @click="closeGenreModal" class="bg-[#728ba1] text-center cursor-pointer">X</span>
+    <Field name="genre" v-slot="{ meta, handleChange }" rules="required">
       <div
-        class="text-white text-[14px] bg-[#6C757D] py-[2px] px-[6px] rounded-[2px]"
-        v-for="(tag, index) in genres"
-        :key="index"
-        @click="props.filter(tag.name)"
+        v-if="genreModal"
+        class="left-[100px] md:left-[200px] bottom-[-180px] h-[200px] w-[250px] z-10 absolute flex flex-col gap-4 bg-black p-[16px] overflow-y-scroll"
       >
-        {{ tag.name }}
+        <span @click="closeGenreModal" class="bg-[#728ba1] text-center cursor-pointer">X</span>
+        <div
+          class="text-white text-[14px] bg-[#6C757D] py-[2px] px-[6px] rounded-[2px]"
+          v-for="(tag, index) in genres"
+          :key="index"
+          @click="handleClick(tag.name, handleChange)"
+        >
+          {{ tag.name }}
+        </div>
+        {{ meta }}
       </div>
-    </div>
+    </Field>
     <p class="text-[#F15524] text-base ml-[20px] mt-[16px]">
       {{ props.error }}
     </p>
+    <ErrorMessage class="text-[#F15524] text-base ml-[20px] mt-[16px]" name="genre" />
   </div>
 </template>

@@ -2,24 +2,61 @@
 import close from '../assets/images/logos/close.png'
 import TheButton from '../components/TheButton.vue'
 import { ref, computed, onMounted } from 'vue'
-import image from '../assets/images/logos/image.png'
+import { Form, ErrorMessage, Field } from 'vee-validate'
 import movie from '../assets/images/logos/movie.png'
 import dropdown from '../assets/images/logos/dropdown.png'
 import { useMoviesStore } from '../stores/movies/index'
 import { useLanguageStore } from '../stores/language/index'
+import MovieImage from './MovieImage.vue'
+import QuoteTextarea from './QuoteTextarea.vue'
+import { useQuotesStore } from '../stores/quotes'
 
-const fileInput = ref(null)
+const quoteStore = useQuotesStore()
 const dropDown = ref(false)
 const moviesStore = useMoviesStore()
 const languageStore = useLanguageStore()
-const chosenMovie = ref('Choose movie')
+const text = ref('Choose movie')
+const chosenMovie = ref(null)
+const uploadedImageUrl = ref(null)
+const imageUrl = ref(null)
+const isDragging = ref(false)
 
-const triggerFileInput = () => {
+const quoteForm = computed(() => quoteStore.$state.addedQuote)
+
+const triggerFileInput = (fileInput) => {
   fileInput.value.click()
 }
 
-const onFileChange = (e) => {
-  console.log(e)
+const onFileChange = async (e, handleChange, validate) => {
+  const file = e.target.files[0]
+  imageUrl.value = file
+  if (file) {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      uploadedImageUrl.value = e.target.result
+    }
+    reader.readAsDataURL(file)
+  }
+  handleChange('true')
+  await validate()
+}
+
+const onDrop = async (event, handleChange, validate) => {
+  event.preventDefault()
+  isDragging.value = false
+  const files = event.dataTransfer.files
+
+  if (files.length > 0) {
+    const file = files[0]
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      uploadedImageUrl.value = e.target.result
+    }
+    reader.readAsDataURL(file)
+    imageUrl.value = file
+  }
+  handleChange('true')
+  await validate()
 }
 
 const openDropdown = () => {
@@ -34,16 +71,16 @@ onMounted(async () => {
   await moviesStore.fetchMovies()
 })
 
-const selectMovie = (movie) => {
+const selectMovie = async (movie, handleChange) => {
   dropDown.value = false
   chosenMovie.value = movie
-  console.log(chosenMovie.value)
+  handleChange('true')
 }
 </script>
 
 <template>
   <div
-    class="h-auto top-0 w-full md:top-[8%] md:left-[35%] xl:left-[28%] 2xl:left-[24%] xl:w-[601px] 2xl:w-[961px] absolute text-white bg-[#11101A] md:w-[500px] rounded-[12px]"
+    class="h-auto top-[90px] w-full md:top-[8%] md:left-[35%] xl:left-[28%] 2xl:left-[24%] xl:w-[601px] 2xl:w-[961px] absolute text-white bg-[#11101A] md:w-[500px] rounded-[12px]"
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-[25px] px-[54px]">
       <div></div>
@@ -55,66 +92,59 @@ const selectMovie = (movie) => {
         <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px]" alt="name" />
         <p>{{ props.username }}</p>
       </div>
-      <form class="relative flex flex-col mt-[37px] gap-[16px]">
-        <div class="border border-[#6C757D] h-[86px] flex relative rounded-[4px]">
-          <textarea
-            class="bg-transparent outline-none w-full pl-[13px] pt-[7px]"
+      <Form class="relative flex flex-col mt-[37px] gap-[16px]">
+        <div>
+          <quote-textarea
+            validate="required|english"
+            name="body.en"
             rows="4"
+            v-model="quoteForm.body.en"
             placeholder="Create new quote"
-          ></textarea>
-          <p class="absolute right-4 top-2">Eng</p>
+            lang="Eng"
+          ></quote-textarea>
+          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="body.en" />
         </div>
-        <div class="border border-[#6C757D] h-[86px] flex relative rounded-[4px]">
-          <textarea
-            class="bg-transparent outline-none w-full pl-[13px] pt-[7px]"
+        <div>
+          <quote-textarea
+            validate="required|georgian"
+            name="body.ka"
             rows="4"
+            v-model="quoteForm.body.ka"
             placeholder="ახალი ციტატა"
-          ></textarea>
-          <p class="absolute right-4 top-2">ქარ</p>
+            lang="ქარ"
+          ></quote-textarea>
+          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="body.ka" />
         </div>
-
-        <div
-          class="flex justify-between items-center border border-[#6C757D] w-full h-[82px] rounded-[4px]"
-        >
-          <input
-            type="file"
-            id="file-input"
-            ref="fileInput"
-            style="display: none"
-            @change="onFileChange"
-          />
-          <div class="flex ml-[16px]">
-            <img :src="image" />
-            <p class="text-[16px] font-normal ml-[13px]">Upload image</p>
-          </div>
-          <button
-            type="button"
-            class="bg-[#9747FF66] w-[101px] h-[42px] mr-[16px]"
-            @click="triggerFileInput"
+        <movie-image
+          :onFileChangeParent="onFileChange"
+          :onDropParent="onDrop"
+          :triggerFileInputParent="triggerFileInput"
+          :uploadedImageUrl="uploadedImageUrl"
+        ></movie-image>
+        <Field name="movie" v-slot="{ handleChange }" rules="required">
+          <div
+            @click="openDropdown"
+            class="bg-[#000000] w-full h-[86px] rounded-[4px] flex justify-between items-center"
           >
-            Choose file
-          </button>
-        </div>
-
-        <div
-          @click="openDropdown"
-          class="bg-[#000000] w-full h-[86px] rounded-[4px] flex justify-between items-center"
-        >
-          <div class="flex ml-[16px]">
-            <img :src="movie" />
-            <p class="ml-[13px] text-base">{{ chosenMovie }}</p>
+            <div class="flex ml-[16px]">
+              <img :src="movie" />
+              <p class="ml-[13px] text-base">
+                {{ chosenMovie && chosenMovie.title ? chosenMovie.title[language] : text }}
+              </p>
+            </div>
+            <img :src="dropdown" class="mr-[31px]" />
           </div>
-          <img :src="dropdown" class="mr-[31px]" />
-        </div>
-        <div v-if="dropDown" class="text-white bg-black p-[20px] top-5 bottom-3">
-          <div v-for="movie in movies" :key="movie.id" class="border-b border-b-blue-50 mb-[5px]">
-            <p @click="selectMovie(movie.title[language])">
-              {{ movie.title && movie.title[language] }}
-            </p>
+          <div v-if="dropDown" class="text-white bg-black p-[20px] top-5 bottom-3">
+            <div v-for="movie in movies" :key="movie.id" class="border-b border-b-blue-50 mb-[5px]">
+              <p @click="selectMovie(movie, handleChange)">
+                {{ movie.title && movie.title[language] }}
+              </p>
+            </div>
           </div>
-        </div>
+          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="movie" />
+        </Field>
         <the-button class="w-full h-[48px]">Post</the-button>
-      </form>
+      </Form>
     </div>
   </div>
 </template>
