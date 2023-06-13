@@ -13,11 +13,15 @@ const props = defineProps({
 })
 
 const authStore = useAuthStore()
+const errors = computed(() => authStore.$state.errors)
 
 const onSubmit = () => {
   authStore.registerUser(authStore.$state.form)
-  props.openModal()
-  props.closeRegistration()
+
+  if (Object.keys(errors).length === 0) {
+    props.openModal()
+    props.closeRegistration()
+  }
 }
 
 const openLogin = () => {

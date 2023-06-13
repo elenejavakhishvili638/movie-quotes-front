@@ -83,7 +83,7 @@ const onSubmit = async () => {
     }
 
     await movieStore.addMovie(formData)
-    console.log(errors)
+    // console.log(errors)
     if (Object.keys(errors).length === 0) {
       await movieStore.fetchFullList()
       props.closeMovie()

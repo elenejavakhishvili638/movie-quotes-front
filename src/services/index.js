@@ -5,6 +5,7 @@ export async function registerUser(data) {
     await axios.post('/api/register', data, { withCredentials: true })
   } catch (error) {
     console.log(error)
+    throw error
   }
 }
 
