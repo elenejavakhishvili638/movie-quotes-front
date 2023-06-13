@@ -119,7 +119,7 @@ const emailVerified = computed(() => store.emailVerified)
     <form-layout :close="closeModal" v-if="emailVerified">
       <the-modal :icon="verified" :header="$t('modals.header')" :text="$t('modals.text_two')">
         <router-link
-          to="/news-feed"
+        :to="{ name: 'feed' }"
           class="text-center w-[190px] rounded-[8px] bg-red text-white h-[38px] pt-[5px]"
           >{{ $t('modals.button_two') }}</router-link
         >

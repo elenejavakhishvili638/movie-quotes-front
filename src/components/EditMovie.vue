@@ -8,20 +8,43 @@ import TheButton from './TheButton.vue'
 import image from '../assets/images/logos/image.png'
 import { useUserStore } from '../stores/user/index'
 import MovieTextarea from './MovieTextarea.vue'
+import { useRoute } from 'vue-router'
 
-const props = defineProps(['username', 'closeMovie'])
+const props = defineProps(['username', 'closeMovie', 'movie'])
 const fileInput = ref(null)
 const movieStore = useMoviesStore()
 const userStore = useUserStore()
-const uploadedImageUrl = ref(null)
-const imageUrl = ref(null)
-const tagGenre = ref('')
-const tagGenres = ref([])
+const route = useRoute()
+let path = import.meta.env.VITE_BACKEND_URL
 
 const user = computed(() => userStore.$state.user)
 const genres = computed(() => movieStore.$state.genres)
-const movieForm = computed(() => movieStore.$state.addedMovie)
-const errors = movieStore.$state.errors
+const movieForm = ref(JSON.parse(JSON.stringify(props.movie)))
+const genreNames = movieForm.value.genres.map((genre) => genre)
+const imageUrl = ref(null)
+const tagGenre = ref('')
+const tagGenres = ref([...genreNames])
+const uploadedImageUrl = ref(path + '/storage/' + movieForm.value.image)
+
+const deepEqual = (obj1, obj2) => {
+  if (obj1 === obj2) return true
+
+  if (typeof obj1 !== 'object' || obj1 === null || typeof obj2 !== 'object' || obj2 === null) {
+    return false
+  }
+
+  let keys1 = Object.keys(obj1)
+  let keys2 = Object.keys(obj2)
+
+  if (keys1.length !== keys2.length) return false
+
+  for (let key of keys1) {
+    if (!keys2.includes(key)) return false
+    if (!deepEqual(obj1[key], obj2[key])) return false
+  }
+
+  return true
+}
 
 onMounted(async () => {
   try {
@@ -31,16 +54,12 @@ onMounted(async () => {
   }
 })
 
-const filterGenres = () => {
+const filterGenres = async () => {
   genres.value.forEach((genre) => {
     if (genre.name.toLowerCase() === tagGenre.value.toLowerCase()) {
       tagGenres.value.push(genre)
       tagGenre.value = ''
     }
-    // if(genre.name === name) {
-    //   tagGenres.value.push(genre);
-    //   // tagGenre.value = ''
-    // }
   })
 }
 
@@ -49,9 +68,14 @@ const removeTag = (id) => {
 }
 
 const onSubmit = async () => {
+  if (deepEqual(props.movie, movieForm.value) && !imageUrl.value) {
+    console.log('No changes were made.')
+    return
+  }
+  const id = route.params.id
   try {
     const formData = new FormData()
-
+    formData.append('_method', 'PATCH')
     formData.append('user_id', user.value.id)
     formData.append('year', movieForm.value.year)
     formData.append('title[en]', movieForm.value.title.en)
@@ -69,11 +93,12 @@ const onSubmit = async () => {
       formData.append('image', imageUrl.value)
     }
 
-    await movieStore.addMovie(formData)
-    if (errors) {
-      return
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ', ' + pair[1])
     }
-    await movieStore.fetchFullList()
+
+    await movieStore.editMovie(formData, id)
+    await movieStore.updateMovie(id)
     props.closeMovie()
   } catch (error) {
     console.log(error)
@@ -103,7 +128,7 @@ const onFileChange = (e) => {
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-[25px] px-[54px]">
       <div></div>
-      <h1>{{ $t('movie.add_movie') }}</h1>
+      <h1>{{ $t('movie.edit_movie') }}</h1>
       <img @click="props.closeMovie" :src="close" />
     </div>
     <div class="p-[35px]">
@@ -114,19 +139,19 @@ const onFileChange = (e) => {
       <Form @submit="onSubmit" class="flex flex-col mt-[37px] gap-[24px]">
         <movie-input
           v-model="movieForm.title.en"
-          name="title.en"
+          name="title_en"
           label="Movie name"
           lang="Eng"
           type="text"
-          validate="required|english"
+          validate="required"
         ></movie-input>
         <movie-input
           v-model="movieForm.title.ka"
-          name="title.ka"
+          name="title_ka"
           label="ფილმის სახელი"
           lang="ქარ"
           type="text"
-          validate="required|georgian"
+          validate="required"
         ></movie-input>
         <div
           class="flex gap-[4px] w-full border border-[#6C757D] h-[48px] rounded-[5px] items-center"
@@ -143,16 +168,11 @@ const onFileChange = (e) => {
             :placeholder="$t('movie.genre')"
             :rules="{ arrayNotEmpty: [tagGenres] }"
             name="genre"
-            class="bg-transparent outline-none ml-[16px] h-[48px]"
+            class="bg-transparent outline-none ml-[16px]"
             @input="filterGenres"
             v-model="tagGenre"
           />
         </div>
-        <!-- <div class="grid-cols-3  xl:grid-cols-7 gap-4 grid bg-black p-[16px]" >
-          <div class="text-white text-[14px]  bg-[#6C757D] py-[2px] px-[6px] rounded-[2px]" v-for="(tag, index) in genres" :key="index" @click="filterGenres(tag.name)" >
-            {{ tag.name }}
-          </div> 
-        </div> -->
         <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="genre" />
         <movie-input
           v-model="movieForm.year"
@@ -163,41 +183,41 @@ const onFileChange = (e) => {
         ></movie-input>
         <movie-input
           v-model="movieForm.director.en"
-          name="director.en"
+          name="director_en"
           label="Director"
           lang="Eng"
           type="text"
-          validate="required|english"
+          validate="required"
         ></movie-input>
         <movie-input
           v-model="movieForm.director.ka"
-          name="director.ka"
+          name="director_ka"
           label="რეჟისორი"
           lang="ქარ"
           type="text"
-          validate="required|georgian"
+          validate="required"
         ></movie-input>
         <div>
           <movie-textarea
-            validate="required|english"
-            name="description.en"
+            validate="required"
+            name="description_en"
             rows="4"
             v-model="movieForm.description.en"
             label="Movie Description :"
             :class="{ 'text-[#6C757D]': movieForm.description.en }"
           ></movie-textarea>
-          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="description.en" />
+          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="description_en" />
         </div>
         <div>
           <movie-textarea
-            validate="required|georgian"
-            name="description.ka"
+            validate="required"
+            name="description_ka"
             rows="4"
             v-model="movieForm.description.ka"
             label="ფილმის აღწერა :"
             :class="{ 'text-[#6C757D]': movieForm.description.ka }"
           ></movie-textarea>
-          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="description.ka" />
+          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="description_ka" />
         </div>
         <div
           :class="{ 'h-[142px] lg:h-[185px]': uploadedImageUrl }"
@@ -227,14 +247,14 @@ const onFileChange = (e) => {
             </div>
             <button
               type="button"
-              class="bg-[#9747FF66] ml-[16px] w-[150px] h-[42px] mr-[16px] text-[18px] outline-none"
+              class="bg-[#9747FF66] ml-[16px] w-[140px] h-[42px] mr-[16px] text-[18px] outline-none"
               @click="triggerFileInput"
             >
               {{ $t('movie.choose') }}
             </button>
           </div>
         </div>
-        <the-button type="submit" class="w-full"> {{ $t('movie.add_movie') }}</the-button>
+        <the-button type="submit" class="w-full">{{ $t('movie.edit_movie') }}</the-button>
       </Form>
     </div>
   </div>

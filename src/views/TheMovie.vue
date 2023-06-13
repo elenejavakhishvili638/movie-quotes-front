@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, computed, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute,useRouter } from 'vue-router'
 import { useMoviesStore } from '../stores/movies/index'
 import FeedHeader from '../components/FeedHeader.vue'
 import { useLanguageStore } from '../stores/language/index'
@@ -11,19 +11,44 @@ import ProfileSidebar from '../components/ProfileSidebar.vue'
 import trash from '../assets/images/logos/trash.png'
 import pencil from '../assets/images/logos/pencil.png'
 import eye from '../assets/images/logos/eye.png'
+import EditMovie from '../components/EditMovie.vue'
+import { useUserStore } from '../stores/user/index'
 
 const moviesStore = useMoviesStore()
 const route = useRoute()
+const router = useRouter()
+const userStore = useUserStore()
 const languageStore = useLanguageStore()
 const openedModalId = ref(null)
-
 const movie = computed(() => moviesStore.$state.movie)
+
+const thisMovie = ref(null);
+const imagePath = ref(null);
+const imageUrl = ref(null);
+const editMovie = ref(false)
+
+
 onMounted(async () => {
-  const id = route.params.id
-  await moviesStore.fetchMovie(id)
-  console.log(movie)
-})
+  const id = route.params.id;
+  thisMovie.value = await moviesStore.fetchMovie(id);
+  
+  if (movie.value && movie.value.image) {
+    imagePath.value = movie.value.image;
+    imageUrl.value = import.meta.env.VITE_BACKEND_URL + '/storage/' + imagePath.value;
+  } else {
+    console.log('Image path is undefined');
+  }
+});
+
+const openMovie = () => {
+  editMovie.value = true
+}
+const closeMovie = () => {
+  editMovie.value = false
+}
+
 const quotes = computed(() => movie.value.quotes)
+const genres = computed(() => movie.value.genres)
 
 const openModal = (id) => {
   if (openedModalId.value === id) {
@@ -37,25 +62,38 @@ const closeModal = () => {
   openedModalId.value = null
 }
 
+const deleteMovie = async () => {
+  const id = route.params.id;
+  try{
+    await moviesStore.deleteMovie(id)
+    await moviesStore.fetchFullList()
+    router.push({ name: 'movies' });
+  }catch(err) {
+    console.log(err)
+  }
+}
+
 const language = computed(() => languageStore.currentLanguage)
+const user = computed(() => userStore.$state.user)
 </script>
 
 <template>
-  <div class="background min-h-screen pb-[32px]">
+  <div class="background min-h-[125vh] pb-[32px]">
+    <EditMovie v-if="editMovie" :username="user.username" :movie="movie" :closeMovie="closeMovie"></EditMovie>
     <feed-header :searchBar="false"></feed-header>
     <div class="md:flex md:ml-[40px] lg:ml[70px]">
       <div class="hidden md:block text-white sm:w-[25%] lg:w-[17%]">
         <profile-sidebar></profile-sidebar>
       </div>
-      <div class="flex flex-col mt-[39px] text-white relative">
+      <div class="flex flex-col mt-[39px] text-white">
         <h1 class="hidden md:block text-[24px] font-[500] mb-[33px] ml-[35px]">
-          Movie description
+          {{ $t('movie.movie_desc') }}
         </h1>
         <div class="mx-[35px] pb-[32px] md:flex md:gap-[21px]">
           <div>
             <img
-              :src="movie.image"
-              class="w-[358px] h-[302px] xl:w-[809px] xl:h-[441px] rounded-[12px] object-cover mb-[24px]"
+              :src="imageUrl"
+              class="w-[358px] h-[302px] border border-[#DDCCAA] xl:w-[809px] xl:h-[441px] rounded-[12px] object-contain mb-[24px]"
             />
           </div>
           <div class="lg:min-w-[590px]">
@@ -67,21 +105,18 @@ const language = computed(() => languageStore.currentLanguage)
               <div
                 class="w-[144px] h-[40px] bg-[#24222F] rounded-[10px] flex items-center justify-between px-[27px]"
               >
-                <img :src="pencil" />
+                <img :src="pencil" @click="openMovie" />
                 <div class="border-r border-r-[#6C757D] h-[16px]"></div>
-                <img :src="trash" />
+                <img :src="trash" @click="deleteMovie" />
               </div>
             </div>
             <div class="flex gap-[8px] my-[24px]">
-              <div class="px-[11px] py-[6px] bg-[#6C757D] rounded-[4px]">
-                <p class="font-[700] text-[18px]">{{ movie.genre }}</p>
-              </div>
-              <div class="px-[11px] py-[6px] bg-[#6C757D] rounded-[4px]">
-                <p class="font-[700] text-[18px]">{{ movie.genre }}</p>
+              <div class="px-[11px] py-[6px] bg-[#6C757D] rounded-[4px]" v-for="genre in genres" :key="genre.id">
+                <p class="font-[700] text-[18px]">{{ genre.name }}</p>
               </div>
             </div>
             <p class="mb-[20px] text-[#CED4DA] text-[18px] font-[700]">
-              Director:
+              {{ $t('movie.director') }}:
               <span class="text-white font-[500]">{{
                 movie.director && movie.director[language]
               }}</span>
@@ -93,18 +128,17 @@ const language = computed(() => languageStore.currentLanguage)
         </div>
         <div class="md:flex md:mb-[40px] items-center">
           <button
-            class="mx-[35px] mb-[32px] md:mb-[0px] w-[127px] h-[38px] rounded-[4px] bg-red"
+            class="mx-[35px] mb-[32px] md:mb-[0px] w-[140px] h-[38px] rounded-[4px] bg-red"
             @click="openMovie"
           >
-            Add quote
+          {{ $t('movie.add_quote') }}
           </button>
           <hr class="mx-[35px] md:hidden" />
           <div
             class="md:flex md:items-center md:border-l md:border-l-[#6C757D] md:pl-[16px] mx-[35px] mb-[35px] mt-[40px] md:mx-[0px] md:mb-[0px] md:mt-[0]"
           >
-            <h1 class="text-[24px]">All Quotes</h1>
             <p class="text-base md:text-[24px] md:ml-[10px]">
-              Total ({{ movie.quotes && movie.quotes.length }})
+              {{ $t('movie.all_quotes') }} ({{ movie.quotes && movie.quotes.length }})
             </p>
           </div>
         </div>

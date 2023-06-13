@@ -24,7 +24,6 @@ const user = computed(() => userStore.$state.user)
 
 onMounted(async () => {
   await quotesStore.fetchQuotes()
-  console.log(user.value)
 })
 
 const fetchQuotes = async () => {
@@ -59,7 +58,7 @@ const closeSearch = () => {
 }
 
 const language = computed(() => languageStore.currentLanguage)
-const quotes = computed(() => quotesStore.state)
+// const quotes = computed(() => quotesStore.state)
 </script>
 
 <template>
@@ -82,7 +81,7 @@ const quotes = computed(() => quotesStore.state)
             }"
             class="md:items-center md:rounded-[10px] md:pl-[17px] text-white text-base flex ml-[36px] md:ml-0 cursor-pointer md:bg-[#24222F] md:h-[52px]"
           >
-            <img :src="write" class="mr-[12px]" /> Write new quote
+            <img :src="write" class="mr-[12px]" />{{ $t('feed.new_quote') }}
           </div>
 
           <div
@@ -95,7 +94,7 @@ const quotes = computed(() => quotesStore.state)
               v-model="searchTerm"
               @input="fetchQuotes"
               :placeholder="
-                increaseSearch ? 'Enter @ to search movies, Enter # to search quotes ' : 'Search by'
+                increaseSearch ? $t('feed.search_by', { at: '@', hash: '#' }) : $t('feed.search')
               "
               class="bg-transparent outline-none w-[91px]"
               :class="{ 'md:w-full': increaseSearch }"
@@ -103,13 +102,13 @@ const quotes = computed(() => quotesStore.state)
           </div>
           <div
             v-if="searchOpen"
-            class="absolute top-0 left-0 h-[774px] bg-[#12101A] w-full text-white"
+            class="absolute top-0 left-0 h-[774px] bg-[#12101A] w-full text-white md:hidden"
           >
             <div class="border-b border-[#EFEFEF]">
               <div class="my-[24px] ml-[32px] flex items-center">
                 <img @click="closeSearch" :src="arrow" class="mr-[26px]" />
                 <input
-                  placeholder="Search"
+                  :placeholder="$t('feed.search')"
                   v-model="searchTerm"
                   @input="fetchQuotes"
                   class="bg-transparent outline-none"
@@ -117,12 +116,12 @@ const quotes = computed(() => quotesStore.state)
               </div>
             </div>
             <div class="text-[#CED4DA] text-base opacity-[0.6] mt-[26px] ml-[74px]">
-              <p>Enter <span class="text-white opacity-[1] mb-[22px]">@</span> to search movies</p>
-              <p>Enter @ to search movies</p>
+              <p>{{ $t('feed.search_movie', { at: '@' }) }}</p>
+              <p>{{ $t('feed.search_quote', { hash: '#' }) }}</p>
             </div>
           </div>
         </div>
-        <div v-for="quote in quotes" :key="quote.id">
+        <div v-for="quote in quotesStore.state" :key="quote.id">
           <the-post
             :quote="quote.body && quote.body[language]"
             :movie="quote.movie && quote.movie.title && quote.movie.title[language]"

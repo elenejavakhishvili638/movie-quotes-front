@@ -7,7 +7,6 @@ import { useMoviesStore } from '../stores/movies/index'
 import { useLanguageStore } from '../stores/language/index'
 import ProfileSidebar from '../components/ProfileSidebar.vue'
 import { useUserStore } from '../stores/user/index'
-import FormLayout from '../components/FormLayout.vue'
 import NewMovie from '../components/NewMovie.vue'
 
 const moviesStore = useMoviesStore()
@@ -15,15 +14,17 @@ const languageStore = useLanguageStore()
 const searchTerm = ref('')
 const userStore = useUserStore()
 const addMovie = ref(false)
+let path = import.meta.env.VITE_BACKEND_URL
 
 onMounted(async () => {
   await moviesStore.fetchMovies()
-  // console.log(moviesStore.state)
 })
 
 const fetchMovies = async () => {
   if (searchTerm.value) {
     await moviesStore.fetchMovies(searchTerm.value)
+  } else {
+    await moviesStore.fetchFullList()
   }
 }
 
@@ -38,17 +39,15 @@ const closeMovie = () => {
   addMovie.value = false
 }
 
-const movies = computed(() => moviesStore.state)
-const listLength = computed(() => movies.value.length)
+// const movies = computed(() => moviesStore.movieList)
+
 const language = computed(() => languageStore.currentLanguage)
 const user = computed(() => userStore.$state.user)
 </script>
 
 <template>
-  <div class="background min-h-screen pb-[32px]">
-    <form-layout v-if="addMovie">
-      <new-movie :username="user.username" :closeMovie="closeMovie"></new-movie>
-    </form-layout>
+  <div class="background min-h-[135vh] pb-[32px]">
+    <new-movie v-if="addMovie" :username="user.username" :closeMovie="closeMovie"></new-movie>
     <feed-header :searchBar="false"></feed-header>
     <div class="md:flex md:ml-[40px] lg:ml[70px]">
       <div class="hidden md:block text-white sm:w-[25%]">
@@ -59,8 +58,8 @@ const user = computed(() => userStore.$state.user)
       >
         <div class="flex justify-between">
           <div class="text-white mb-[34px]">
-            <h1 class="text-[24px]">My list of movies</h1>
-            <p>{{ `(Total ${listLength})` }}</p>
+            <h1 class="text-[24px]">{{ $t('movie.my_list') }}</h1>
+            <p>{{ $t('movie.total') }} ({{ moviesStore.totalMovies }})</p>
           </div>
           <div class="flex items-center">
             <div class="mr-[21px] hidden md:flex md:ml-[24px]">
@@ -68,23 +67,23 @@ const user = computed(() => userStore.$state.user)
               <input
                 v-model="searchTerm"
                 @input="fetchMovies"
-                placeholder="Search"
+                :placeholder="$t('feed.search')"
                 class="bg-transparent outline-none w-[91px]"
               />
             </div>
-            <button class="w-[127px] h-[38px] rounded-[4px] bg-red" @click="openMovie">
-              Add movie
+            <button class="w-[140px] h-[38px] rounded-[4px] bg-red" @click="openMovie">
+              {{ $t('movie.add_movie') }}
             </button>
           </div>
         </div>
         <div class="text-white grid gap-[50px] md:grid-cols-fill">
-          <div v-for="movie in movies" :key="movie.id" class="mb-[60px]">
+          <div v-for="movie in moviesStore.state" :key="movie.id" class="mb-[60px]">
             <div v-if="movie.id">
               <router-link :to="{ name: 'movie', params: { id: movie.id } }">
                 <img
                   alt="movie"
-                  src="{{ movie.image }}"
-                  class="border-red sm:w-[358px] md:w-[440px] h-[302px] rounded-[12px] bg-slate-400"
+                  :src="path + '/storage/' + movie.image"
+                  class="sm:w-[358px] md:w-[440px] h-[302px] rounded-[12px] object-contain border border-[#DDCCAA]"
                 />
                 <div class="mt-[16px] w-[358px]">
                   <h1 class="mb-[16px] text-[24px]">

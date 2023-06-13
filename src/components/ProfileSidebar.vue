@@ -25,17 +25,17 @@ const user = computed(() => userStore.$state.user)
       <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px] lg:w-[60px] lg:h-[60px]" alt="name" />
       <div class="flex flex-col ml-[16px]">
         <p class="text-[24px]">{{ user.username }}</p>
-        <router-link :to="{ name: 'profile' }">Edit your profile</router-link>
+        <router-link :to="{ name: 'profile' }">{{ $t('feed.edit_profile') }}</router-link>
       </div>
     </div>
     <div class="mt-[40px]">
       <div class="flex items-center mb-[40px] gap-[30px]" @click="props.close">
         <img :src="homeImage" />
-        <router-link :to="{ name: 'feed' }"> News feed </router-link>
+        <router-link :to="{ name: 'feed' }">{{ $t('feed.news_feed') }}</router-link>
       </div>
       <div class="flex items-center gap-[30px]" @click="props.close">
         <img :src="movieImage" />
-        <router-link :to="{ name: 'movies' }"> List of movies </router-link>
+        <router-link :to="{ name: 'movies' }">{{ $t('feed.movie_list') }}</router-link>
       </div>
       <slot></slot>
     </div>

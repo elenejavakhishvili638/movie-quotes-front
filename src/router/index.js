@@ -14,6 +14,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
+      name: 'home',
       component: TheLanding,
       meta: { guest: true }
     },
@@ -21,25 +22,25 @@ const router = createRouter({
       path: '/news-feed',
       name: 'feed',
       component: NewsFeed,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, requiresVerifiedEmail: true  }
     },
     {
       path: '/movie-list',
       name: 'movies',
       component: MovieList,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, requiresVerifiedEmail: true  }
     },
     {
       path: '/movie/:id',
       name: 'movie',
       component: TheMovie,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, requiresVerifiedEmail: true  }
     },
     {
       path: '/my-profile',
       name: 'profile',
       component: TheProfile,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, requiresVerifiedEmail: true  }
     },
     {
       path: '/email/verify/:id/:hash',
@@ -74,19 +75,18 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   const userStore = useUserStore()
-
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
+  if (to.meta.requiresAuth) {
     await userStore.fetchUser()
 
-    if (userStore.user) {
+    if (userStore.user && userStore.userVerified) {
       next()
     } else {
       next('/')
     }
-  } else if (to.matched.some((record) => record.meta.guest)) {
+  } else if (to.meta.guest) {
     await userStore.fetchUser()
 
-    if (userStore.user && !userStore.loggedOut) {
+    if (userStore.user && userStore.userVerified && !userStore.loggedOut) {
       next('/news-feed')
     } else {
       next()
@@ -98,11 +98,9 @@ router.beforeEach(async (to, from, next) => {
 
 router.beforeEach(async (to, from, next) => {
   const store = useEmailStore()
-
   if (to.query.email_verified) {
     store.setEmailVerified(true)
   }
-
   next()
 })
 
