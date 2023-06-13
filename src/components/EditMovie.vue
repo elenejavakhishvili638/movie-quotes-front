@@ -2,13 +2,14 @@
 import close from '../assets/images/logos/close.png'
 import MovieInput from './MovieInput.vue'
 import { useMoviesStore } from '../stores/movies/index'
-import { computed, ref, onMounted } from 'vue'
-import { Form, Field, ErrorMessage } from 'vee-validate'
+import { computed, ref, onMounted, watch } from 'vue'
+import { Form, useForm, useField, ErrorMessage } from 'vee-validate'
 import TheButton from './TheButton.vue'
 import image from '../assets/images/logos/image.png'
 import { useUserStore } from '../stores/user/index'
 import MovieTextarea from './MovieTextarea.vue'
 import { useRoute } from 'vue-router'
+import GenreComponent from './GenreComponent.vue'
 
 const props = defineProps(['username', 'closeMovie', 'movie'])
 const fileInput = ref(null)
@@ -22,9 +23,20 @@ const genres = computed(() => movieStore.$state.genres)
 const movieForm = ref(JSON.parse(JSON.stringify(props.movie)))
 const genreNames = movieForm.value.genres.map((genre) => genre)
 const imageUrl = ref(null)
-const tagGenre = ref('')
 const tagGenres = ref([...genreNames])
 const uploadedImageUrl = ref(path + '/storage/' + movieForm.value.image)
+const form = useForm()
+
+const {
+  value: tagGenresField,
+  errorMessage: tagGenresError,
+  validate: validateTagGenres
+} = useField('tagGenres', 'arrayNotEmpty', { form })
+
+watch(tagGenres, () => {
+  tagGenresField.value = tagGenres.value
+  validateTagGenres()
+})
 
 const deepEqual = (obj1, obj2) => {
   if (obj1 === obj2) return true
@@ -54,22 +66,22 @@ onMounted(async () => {
   }
 })
 
-const filterGenres = async () => {
+const filterGenres = (name) => {
   genres.value.forEach((genre) => {
-    if (genre.name.toLowerCase() === tagGenre.value.toLowerCase()) {
+    if (genre.name === name) {
       tagGenres.value.push(genre)
-      tagGenre.value = ''
     }
   })
+  tagGenresField.value = tagGenres.value
 }
 
 const removeTag = (id) => {
   tagGenres.value = tagGenres.value.filter((tag) => tag.id !== id)
+  tagGenresField.value = tagGenres.value
 }
 
 const onSubmit = async () => {
   if (deepEqual(props.movie, movieForm.value) && !imageUrl.value) {
-    console.log('No changes were made.')
     return
   }
   const id = route.params.id
@@ -153,27 +165,12 @@ const onFileChange = (e) => {
           type="text"
           validate="required"
         ></movie-input>
-        <div
-          class="flex gap-[4px] w-full border border-[#6C757D] h-[48px] rounded-[5px] items-center"
-        >
-          <div
-            class="text-white text-[14px] ml-[16px] bg-[#6C757D] py-[2px] px-[6px] rounded-[2px]"
-            v-for="(tag, index) in tagGenres"
-            :key="index"
-          >
-            {{ tag.name }}
-            <span @click="removeTag(tag.id)" class="ml-[9px]">x</span>
-          </div>
-          <Field
-            :placeholder="$t('movie.genre')"
-            :rules="{ arrayNotEmpty: [tagGenres] }"
-            name="genre"
-            class="bg-transparent outline-none ml-[16px]"
-            @input="filterGenres"
-            v-model="tagGenre"
-          />
-        </div>
-        <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="genre" />
+        <genre-component
+          :error="tagGenresError"
+          :filter="filterGenres"
+          :remove="removeTag"
+          :tagGenres="tagGenres"
+        ></genre-component>
         <movie-input
           v-model="movieForm.year"
           name="year"

@@ -26,8 +26,8 @@ defineRule('confirmed', (value, [target], ctx) => {
   return false
 })
 
-defineRule('arrayNotEmpty', (value, [target]) => {
-  if (target.length === 0) {
+defineRule('arrayNotEmpty', (value) => {
+  if ((value && value.length === 0) || value === undefined) {
     return false
   }
   return true

@@ -2,12 +2,13 @@
 import close from '../assets/images/logos/close.png'
 import MovieInput from './MovieInput.vue'
 import { useMoviesStore } from '../stores/movies/index'
-import { computed, ref, onMounted } from 'vue'
-import { Form, Field, ErrorMessage } from 'vee-validate'
+import { computed, ref, onMounted, watch } from 'vue'
+import { Form, useField, ErrorMessage, useForm } from 'vee-validate'
 import TheButton from './TheButton.vue'
 import image from '../assets/images/logos/image.png'
 import { useUserStore } from '../stores/user/index'
 import MovieTextarea from './MovieTextarea.vue'
+import GenreComponent from './GenreComponent.vue'
 
 const props = defineProps(['username', 'closeMovie'])
 const fileInput = ref(null)
@@ -15,8 +16,19 @@ const movieStore = useMoviesStore()
 const userStore = useUserStore()
 const uploadedImageUrl = ref(null)
 const imageUrl = ref(null)
-const tagGenre = ref('')
 const tagGenres = ref([])
+const form = useForm()
+
+const {
+  value: tagGenresField,
+  errorMessage: tagGenresError,
+  validate: validateTagGenres
+} = useField('tagGenres', 'arrayNotEmpty', { form })
+
+watch(tagGenres, () => {
+  tagGenresField.value = tagGenres.value
+  validateTagGenres()
+})
 
 const user = computed(() => userStore.$state.user)
 const genres = computed(() => movieStore.$state.genres)
@@ -31,25 +43,26 @@ onMounted(async () => {
   }
 })
 
-const filterGenres = () => {
+const filterGenres = (name) => {
   genres.value.forEach((genre) => {
-    if (genre.name.toLowerCase() === tagGenre.value.toLowerCase()) {
+    if (genre.name === name) {
       tagGenres.value.push(genre)
-      tagGenre.value = ''
     }
-    // if(genre.name === name) {
-    //   tagGenres.value.push(genre);
-    //   // tagGenre.value = ''
-    // }
   })
+  tagGenresField.value = tagGenres.value
 }
 
 const removeTag = (id) => {
   tagGenres.value = tagGenres.value.filter((tag) => tag.id !== id)
+  tagGenresField.value = tagGenres.value
 }
 
 const onSubmit = async () => {
   try {
+    const isTagGenresValid = await validateTagGenres()
+    if (!isTagGenresValid.valid) {
+      return
+    }
     const formData = new FormData()
 
     formData.append('user_id', user.value.id)
@@ -70,11 +83,11 @@ const onSubmit = async () => {
     }
 
     await movieStore.addMovie(formData)
-    if (errors) {
-      return
+    console.log(errors)
+    if (Object.keys(errors).length === 0) {
+      await movieStore.fetchFullList()
+      props.closeMovie()
     }
-    await movieStore.fetchFullList()
-    props.closeMovie()
   } catch (error) {
     console.log(error)
   }
@@ -128,32 +141,44 @@ const onFileChange = (e) => {
           type="text"
           validate="required|georgian"
         ></movie-input>
-        <div
-          class="flex gap-[4px] w-full border border-[#6C757D] h-[48px] rounded-[5px] items-center"
-        >
+        <genre-component
+          :error="tagGenresError"
+          :filter="filterGenres"
+          :remove="removeTag"
+          :tagGenres="tagGenres"
+        ></genre-component>
+        <!-- <div class="relative">
           <div
-            class="text-white text-[14px] ml-[16px] bg-[#6C757D] py-[2px] px-[6px] rounded-[2px]"
-            v-for="(tag, index) in tagGenres"
-            :key="index"
+            class="flex gap-[4px] w-full border border-[#6C757D] h-[48px] rounded-[5px] items-center"
           >
-            {{ tag.name }}
-            <span @click="removeTag(tag.id)" class="ml-[9px]">x</span>
+            <p @click="openGenreModal" class="ml-[16px] cursor-pointer">Genres:</p>
+            <div
+              class="text-white text-[14px] ml-[16px] bg-[#6C757D] py-[2px] px-[6px] rounded-[2px]"
+              v-for="(tag, index) in tagGenres"
+              :key="index"
+            >
+              {{ tag.name }}
+              <span @click="removeTag(tag.id)" class="ml-[9px]">x</span>
+            </div>
           </div>
-          <Field
-            :placeholder="$t('movie.genre')"
-            :rules="{ arrayNotEmpty: [tagGenres] }"
-            name="genre"
-            class="bg-transparent outline-none ml-[16px] h-[48px]"
-            @input="filterGenres"
-            v-model="tagGenre"
-          />
-        </div>
-        <!-- <div class="grid-cols-3  xl:grid-cols-7 gap-4 grid bg-black p-[16px]" >
-          <div class="text-white text-[14px]  bg-[#6C757D] py-[2px] px-[6px] rounded-[2px]" v-for="(tag, index) in genres" :key="index" @click="filterGenres(tag.name)" >
-            {{ tag.name }}
-          </div> 
+          <div
+            v-if="genreModal"
+            class="right-[50px] bottom-[-190px] z-10 absolute grid-cols-3 xl:grid-cols-5 gap-4 grid bg-black p-[16px]"
+          >
+            <span @click="closeGenreModal" class="bg-[#728ba1] text-center cursor-pointer">X</span>
+            <div
+              class="text-white text-[14px] bg-[#6C757D] py-[2px] px-[6px] rounded-[2px]"
+              v-for="(tag, index) in genres"
+              :key="index"
+              @click="filterGenres(tag.name)"
+            >
+              {{ tag.name }}
+            </div>
+          </div>
+          <p class="text-[#F15524] text-base ml-[20px]">
+            {{ tagGenresError }}
+          </p>
         </div> -->
-        <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="genre" />
         <movie-input
           v-model="movieForm.year"
           name="year"
