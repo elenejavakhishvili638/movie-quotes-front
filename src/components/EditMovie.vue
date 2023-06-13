@@ -23,6 +23,7 @@ const genres = computed(() => movieStore.$state.genres)
 const movieForm = ref(JSON.parse(JSON.stringify(props.movie)))
 const genreNames = movieForm.value.genres.map((genre) => genre)
 const imageUrl = ref(null)
+const isDragging = ref(false)
 const tagGenres = ref([...genreNames])
 const uploadedImageUrl = ref(path + '/storage/' + movieForm.value.image)
 const form = useForm()
@@ -132,11 +133,38 @@ const onFileChange = (e) => {
     reader.readAsDataURL(file)
   }
 }
+
+const onDragOver = (event) => {
+  event.preventDefault()
+  isDragging.value = true
+  event.dataTransfer.dropEffect = 'copy'
+}
+
+const onDragLeave = (event) => {
+  event.preventDefault()
+  isDragging.value = false
+}
+
+const onDrop = async (event) => {
+  event.preventDefault()
+  isDragging.value = false
+  const files = event.dataTransfer.files
+
+  if (files.length > 0) {
+    const file = files[0]
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      uploadedImageUrl.value = e.target.result
+    }
+    reader.readAsDataURL(file)
+    imageUrl.value = file
+  }
+}
 </script>
 
 <template>
   <div
-    class="h-auto top-0 w-full md:top-[8%] md:left-[35%] xl:left-[28%] 2xl:left-[24%] xl:w-[601px] 2xl:w-[961px] absolute text-white bg-[#11101A] md:w-[500px] rounded-[12px]"
+    class="h-auto top-[90px] w-full md:top-[8%] md:left-[35%] xl:left-[28%] 2xl:left-[24%] xl:w-[601px] 2xl:w-[961px] absolute text-white bg-[#11101A] md:w-[500px] rounded-[12px]"
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-[25px] px-[54px]">
       <div></div>
@@ -217,6 +245,9 @@ const onFileChange = (e) => {
           <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="description_ka" />
         </div>
         <div
+          @dragover.prevent="onDragOver"
+          @dragleave.prevent="onDragLeave"
+          @drop.prevent="onDrop"
           :class="{ 'h-[142px] lg:h-[185px]': uploadedImageUrl }"
           class="flex justify-between items-center border border-[#6C757D] w-full h-[82px] rounded-[4px]"
         >

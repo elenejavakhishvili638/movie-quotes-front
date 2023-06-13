@@ -50,7 +50,7 @@ const user = computed(() => userStore.$state.user)
     <new-movie v-if="addMovie" :username="user.username" :closeMovie="closeMovie"></new-movie>
     <feed-header :searchBar="false"></feed-header>
     <div class="md:flex md:ml-[40px] lg:ml[70px]">
-      <div class="hidden md:block text-white sm:w-[25%]">
+      <div class="hidden md:block text-white sm:w-[25%] md:ml-[30px]">
         <profile-sidebar></profile-sidebar>
       </div>
       <div

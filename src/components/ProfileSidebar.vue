@@ -28,7 +28,7 @@ const user = computed(() => userStore.$state.user)
         <router-link :to="{ name: 'profile' }">{{ $t('feed.edit_profile') }}</router-link>
       </div>
     </div>
-    <div class="mt-[40px]">
+    <div class="mt-[40px] text-[24px]">
       <div class="flex items-center mb-[40px] gap-[30px]" @click="props.close">
         <img :src="homeImage" />
         <router-link :to="{ name: 'feed' }">{{ $t('feed.news_feed') }}</router-link>

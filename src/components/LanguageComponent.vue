@@ -26,7 +26,7 @@ const toggleLang = () => {
 
     <div
       v-show="showLang"
-      class="absolute border-1 top-[7%] bg-slate-500 px-[50px] py-[10px] rounded-[8px]"
+      class="absolute border-1 top-[80%] bg-slate-500 px-[50px] py-[10px] rounded-[8px]"
     >
       <div class="flex flex-col gap-[10px]">
         <button class="text-white" @click="changeLanguage('en', 'Eng')">Eng</button>

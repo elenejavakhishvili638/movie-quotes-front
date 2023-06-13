@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, computed, ref } from 'vue'
-import { useRoute,useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useMoviesStore } from '../stores/movies/index'
 import FeedHeader from '../components/FeedHeader.vue'
 import { useLanguageStore } from '../stores/language/index'
@@ -22,23 +22,22 @@ const languageStore = useLanguageStore()
 const openedModalId = ref(null)
 const movie = computed(() => moviesStore.$state.movie)
 
-const thisMovie = ref(null);
-const imagePath = ref(null);
-const imageUrl = ref(null);
+const thisMovie = ref(null)
+const imagePath = ref(null)
+const imageUrl = ref(null)
 const editMovie = ref(false)
 
-
 onMounted(async () => {
-  const id = route.params.id;
-  thisMovie.value = await moviesStore.fetchMovie(id);
-  
+  const id = route.params.id
+  thisMovie.value = await moviesStore.fetchMovie(id)
+
   if (movie.value && movie.value.image) {
-    imagePath.value = movie.value.image;
-    imageUrl.value = import.meta.env.VITE_BACKEND_URL + '/storage/' + imagePath.value;
+    imagePath.value = movie.value.image
+    imageUrl.value = import.meta.env.VITE_BACKEND_URL + '/storage/' + imagePath.value
   } else {
-    console.log('Image path is undefined');
+    console.log('Image path is undefined')
   }
-});
+})
 
 const openMovie = () => {
   editMovie.value = true
@@ -63,12 +62,12 @@ const closeModal = () => {
 }
 
 const deleteMovie = async () => {
-  const id = route.params.id;
-  try{
+  const id = route.params.id
+  try {
     await moviesStore.deleteMovie(id)
     await moviesStore.fetchFullList()
-    router.push({ name: 'movies' });
-  }catch(err) {
+    router.push({ name: 'movies' })
+  } catch (err) {
     console.log(err)
   }
 }
@@ -78,8 +77,13 @@ const user = computed(() => userStore.$state.user)
 </script>
 
 <template>
-  <div class="background min-h-[125vh] pb-[32px]">
-    <EditMovie v-if="editMovie" :username="user.username" :movie="movie" :closeMovie="closeMovie"></EditMovie>
+  <div class="background min-h-[135vh] pb-[32px]">
+    <EditMovie
+      v-if="editMovie"
+      :username="user.username"
+      :movie="movie"
+      :closeMovie="closeMovie"
+    ></EditMovie>
     <feed-header :searchBar="false"></feed-header>
     <div class="md:flex md:ml-[40px] lg:ml[70px]">
       <div class="hidden md:block text-white sm:w-[25%] lg:w-[17%]">
@@ -111,7 +115,11 @@ const user = computed(() => userStore.$state.user)
               </div>
             </div>
             <div class="flex gap-[8px] my-[24px]">
-              <div class="px-[11px] py-[6px] bg-[#6C757D] rounded-[4px]" v-for="genre in genres" :key="genre.id">
+              <div
+                class="px-[11px] py-[6px] bg-[#6C757D] rounded-[4px]"
+                v-for="genre in genres"
+                :key="genre.id"
+              >
                 <p class="font-[700] text-[18px]">{{ genre.name }}</p>
               </div>
             </div>
@@ -131,7 +139,7 @@ const user = computed(() => userStore.$state.user)
             class="mx-[35px] mb-[32px] md:mb-[0px] w-[140px] h-[38px] rounded-[4px] bg-red"
             @click="openMovie"
           >
-          {{ $t('movie.add_quote') }}
+            {{ $t('movie.add_quote') }}
           </button>
           <hr class="mx-[35px] md:hidden" />
           <div

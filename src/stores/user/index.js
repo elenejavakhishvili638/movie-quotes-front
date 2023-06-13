@@ -7,7 +7,8 @@ export const useUserStore = defineStore({
   state: () => ({
     user: null,
     loggedOut: false,
-    userVerified: null
+    userVerified: null,
+    googleUser: null
   }),
   actions
 })
