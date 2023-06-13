@@ -43,13 +43,15 @@ onMounted(async () => {
   }
 })
 
-const filterGenres = (name) => {
+const filterGenres = async (name, handleChange, validate) => {
   genres.value.forEach((genre) => {
     if (genre.name === name) {
       tagGenres.value.push(genre)
     }
   })
   tagGenresField.value = tagGenres.value
+  handleChange(name)
+  await validate()
 }
 
 const removeTag = (id) => {

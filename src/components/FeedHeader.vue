@@ -43,7 +43,7 @@ const closeMenu = () => {
 
 <template>
   <div
-    class="bg-[#22203033] h-[86px] flex justify-between items-center pl-[36px] pr-[50px] md:px-[69px]"
+    class="bg-[#22203033] h-[86px] flex justify-between items-center pl-[36px] pr-[50px] md:px-[69px] top-0 sticky w-full"
   >
     <button @click="openMenu" class="cursor-pointer md:hidden"><img :src="menu" /></button>
     <p class="text-cream hidden md:block">MOVIE QUOTES</p>

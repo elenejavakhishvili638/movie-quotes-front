@@ -32,7 +32,7 @@ const closeGenreModal = () => {
     </div>
     <div
       v-if="genreModal"
-      class="right-[50px] bottom-[-190px] z-10 absolute grid-cols-3 xl:grid-cols-5 gap-4 grid bg-black p-[16px]"
+      class="left-[100px] md:left-[200px] bottom-[-180px] h-[200px] w-[250px] z-10 absolute flex flex-col gap-4 bg-black p-[16px] overflow-y-scroll"
     >
       <span @click="closeGenreModal" class="bg-[#728ba1] text-center cursor-pointer">X</span>
       <div
