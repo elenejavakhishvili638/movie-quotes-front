@@ -18,6 +18,7 @@ const uploadedImageUrl = ref(null)
 const imageUrl = ref(null)
 const tagGenres = ref([])
 const form = useForm()
+const isDragging = ref(false)
 
 const {
   value: tagGenresField,
@@ -112,6 +113,35 @@ const onFileChange = async (e, handleChange, validate) => {
   handleChange('true')
   await validate()
 }
+
+const onDragOver = (event) => {
+  event.preventDefault()
+  isDragging.value = true
+  event.dataTransfer.dropEffect = 'copy'
+}
+
+const onDragLeave = (event) => {
+  event.preventDefault()
+  isDragging.value = false
+}
+
+const onDrop = async (event, handleChange, validate) => {
+  event.preventDefault()
+  isDragging.value = false
+  const files = event.dataTransfer.files
+
+  if (files.length > 0) {
+    const file = files[0]
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      uploadedImageUrl.value = e.target.result
+    }
+    reader.readAsDataURL(file)
+    imageUrl.value = file
+  }
+  handleChange('true')
+  await validate()
+}
 </script>
 
 <template>
@@ -198,6 +228,9 @@ const onFileChange = async (e, handleChange, validate) => {
         </div>
         <Field name="image" v-slot="{ handleChange, validate }" rules="required">
           <div
+            @dragover.prevent="onDragOver"
+            @dragleave.prevent="onDragLeave"
+            @drop.prevent="onDrop($event, handleChange, validate)"
             :class="{ 'h-[142px] lg:h-[185px]': uploadedImageUrl }"
             class="flex justify-between items-center border border-[#6C757D] w-full h-[82px] rounded-[4px]"
           >
