@@ -173,3 +173,14 @@ export async function addComment(data, id) {
     console.log(error)
   }
 }
+
+export async function deleteQuote(id) {
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+    await axios.delete(`/api/quote/${id}`, {
+      withCredentials: true
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}

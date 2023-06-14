@@ -14,11 +14,13 @@ import eye from '../assets/images/logos/eye.png'
 import EditMovie from '../components/EditMovie.vue'
 import { useUserStore } from '../stores/user/index'
 import AddQuote from '../components/AddQuote.vue'
+import { useQuotesStore } from '../stores/quotes'
 
 const moviesStore = useMoviesStore()
 const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
+const quoteStore = useQuotesStore()
 const languageStore = useLanguageStore()
 const openedModalId = ref(null)
 const movie = computed(() => moviesStore.$state.movie)
@@ -34,6 +36,7 @@ const quotes = computed(() => movie.value.quotes)
 const genres = computed(() => movie.value.genres)
 
 onMounted(async () => {
+  // look through
   const id = route.params.id
   thisMovie.value = await moviesStore.fetchMovie(id)
   console.log(quotes.value)
@@ -78,6 +81,17 @@ const deleteMovie = async () => {
     await moviesStore.deleteMovie(id)
     await moviesStore.fetchFullList()
     router.push({ name: 'movies' })
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+const deleteQuote = async (id) => {
+  try {
+    console.log(id)
+    await quoteStore.deleteQuote(id)
+    const movieId = route.params.id
+    await moviesStore.updateMovie(movieId)
   } catch (err) {
     console.log(err)
   }
@@ -162,7 +176,7 @@ const user = computed(() => userStore.$state.user)
           <div
             class="md:flex md:items-center md:border-l md:border-l-[#6C757D] md:pl-[16px] mx-[35px] mb-[35px] mt-[40px] md:mx-[0px] md:mb-[0px] md:mt-[0]"
           >
-            <p class="text-base md:text-[24px] md:ml-[10px]">
+            <p class="text-[24px] md:ml-[10px]">
               {{ $t('movie.all_quotes') }} ({{ movie.quotes && movie.quotes.length }})
             </p>
           </div>
@@ -171,20 +185,20 @@ const user = computed(() => userStore.$state.user)
           <div
             v-for="(quote, index) in quotes"
             :key="quote.id"
-            class="md:w-[600px] lg:w-[809px] bg-[#11101A] flex flex-col items-center px-[35px] mb-[37px] md:ml-[35px]"
+            class="relative md:w-[600px] lg:w-[809px] bg-[#11101A] flex flex-col items-center px-[35px] mb-[37px] md:ml-[35px]"
           >
             <div
               class="relative border-b border-b-[#54535A] pb-[24px] mb-[19px] flex flex-col md:flex-row items-center md:w-full"
             >
               <img
                 :src="path + '/storage/' + quote.image"
-                class="md:mr-[34px] md:w-[226px] h-[140px] w-[359px] mt-[20px] mb-[24px] rounded-[2px]"
+                class="md:mr-[34px] md:w-[226px] h-[140px] w-[359px] mt-[20px] mb-[24px] rounded-[2px] object-cover"
               />
               <p class="italic text-[24px] text-center md:text-left">
                 "{{ quote.body && quote.body[language] }}"
               </p>
               <img
-                class="hidden md:block md:absolute right-0 top-6"
+                class="hidden xl:block md:absolute right-0 top-6"
                 :src="dots"
                 @click="openModal(index)"
               />
@@ -192,11 +206,13 @@ const user = computed(() => userStore.$state.user)
             <div
               v-if="index === openedModalId"
               @click="closeModal(index)"
-              class="absolute right-96 h-[200px] w-[250px] rounded-[10px] bg-[#24222F] py-[32px] pl-[40px]"
+              class="absolute xl:top-[50px] xl:right-[-190px] right-[20px] top-5 h-[200px] w-[250px] rounded-[10px] bg-[#24222F] py-[32px] pl-[40px]"
             >
               <p class="flex gap-[10px] mb-[32px]"><img :src="eye" /> Vue Quote</p>
               <p class="flex gap-[10px] mb-[32px]"><img :src="pencil" /> Edit</p>
-              <p class="flex gap-[10px] mb-[32px]"><img :src="trash" /> Delete</p>
+              <p class="flex gap-[10px] mb-[32px]">
+                <img :src="trash" @click="deleteQuote(quote.id)" /> Delete
+              </p>
             </div>
             <div class="flex justify-between items-center w-full mb-[20px]">
               <div class="flex">
@@ -209,7 +225,7 @@ const user = computed(() => userStore.$state.user)
                   <img class="ml-[12px]" :src="heart" />
                 </div>
               </div>
-              <img class="md:hidden" :src="dots" />
+              <img class="xl:hidden" :src="dots" @click="openModal(index)" />
             </div>
           </div>
           <div></div>

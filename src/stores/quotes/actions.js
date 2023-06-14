@@ -1,4 +1,4 @@
-import { fetchQuotes, addQuote, addComment } from '../../services'
+import { fetchQuotes, addQuote, addComment, deleteQuote } from '../../services'
 
 export default {
   async fetchQuotes(searchTerm) {
@@ -44,6 +44,14 @@ export default {
       }
     } catch (error) {
       console.log(this.errors)
+    }
+  },
+
+  async deleteQuote(id) {
+    try {
+      await deleteQuote(id)
+    } catch (error) {
+      console.log(error)
     }
   }
 }
