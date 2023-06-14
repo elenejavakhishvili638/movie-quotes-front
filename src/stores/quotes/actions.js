@@ -1,4 +1,4 @@
-import { fetchQuotes } from '../../services'
+import { fetchQuotes, addQuote } from '../../services'
 
 export default {
   async fetchQuotes(searchTerm) {
@@ -10,6 +10,28 @@ export default {
       this.quoteList = response.data
     } catch (error) {
       console.error(error)
+    }
+  },
+
+  async fetchFullList() {
+    const response = await fetchQuotes()
+    this.quoteList = response.data
+  },
+
+  async addQuote(data) {
+    try {
+      await addQuote(data)
+      this.addedQuote = {
+        user_id: null,
+        movie_id: null,
+        body: {
+          en: '',
+          ka: ''
+        },
+        image: ''
+      }
+    } catch (error) {
+      console.log(this.errors)
     }
   }
 }

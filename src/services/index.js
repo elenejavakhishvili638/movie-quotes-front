@@ -150,3 +150,15 @@ export async function editMovie(data, id) {
     console.log(error)
   }
 }
+
+export async function addQuote(data) {
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+    await axios.post('/api/quote', data, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      withCredentials: true
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}

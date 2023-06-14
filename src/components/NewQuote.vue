@@ -10,7 +10,9 @@ import { useLanguageStore } from '../stores/language/index'
 import MovieImage from './MovieImage.vue'
 import QuoteTextarea from './QuoteTextarea.vue'
 import { useQuotesStore } from '../stores/quotes'
+import { useUserStore } from '../stores/user/index'
 
+const userStore = useUserStore()
 const quoteStore = useQuotesStore()
 const dropDown = ref(false)
 const moviesStore = useMoviesStore()
@@ -20,6 +22,7 @@ const chosenMovie = ref(null)
 const uploadedImageUrl = ref(null)
 const imageUrl = ref(null)
 const isDragging = ref(false)
+const user = computed(() => userStore.$state.user)
 
 const quoteForm = computed(() => quoteStore.$state.addedQuote)
 
@@ -76,6 +79,30 @@ const selectMovie = async (movie, handleChange) => {
   chosenMovie.value = movie
   handleChange('true')
 }
+
+const onSubmit = async () => {
+  try {
+    const formData = new FormData()
+
+    formData.append('user_id', user.value.id)
+    formData.append('body[en]', quoteForm.value.body.en)
+    formData.append('body[ka]', quoteForm.value.body.ka)
+    formData.append('movie_id', chosenMovie.value.id)
+
+    if (imageUrl.value) {
+      formData.append('image', imageUrl.value)
+    }
+
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ': ' + pair[1])
+    }
+    await quoteStore.addQuote(formData)
+    await quoteStore.fetchFullList()
+    props.closeQuote()
+  } catch (error) {
+    console.log(error)
+  }
+}
 </script>
 
 <template>
@@ -92,7 +119,7 @@ const selectMovie = async (movie, handleChange) => {
         <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px]" alt="name" />
         <p>{{ props.username }}</p>
       </div>
-      <Form class="relative flex flex-col mt-[37px] gap-[16px]">
+      <Form class="relative flex flex-col mt-[37px] gap-[16px]" @submit="onSubmit">
         <div>
           <quote-textarea
             validate="required|english"
