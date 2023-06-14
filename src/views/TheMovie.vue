@@ -13,6 +13,7 @@ import pencil from '../assets/images/logos/pencil.png'
 import eye from '../assets/images/logos/eye.png'
 import EditMovie from '../components/EditMovie.vue'
 import { useUserStore } from '../stores/user/index'
+import AddQuote from '../components/AddQuote.vue'
 
 const moviesStore = useMoviesStore()
 const route = useRoute()
@@ -21,15 +22,21 @@ const userStore = useUserStore()
 const languageStore = useLanguageStore()
 const openedModalId = ref(null)
 const movie = computed(() => moviesStore.$state.movie)
+let path = import.meta.env.VITE_BACKEND_URL
 
 const thisMovie = ref(null)
 const imagePath = ref(null)
 const imageUrl = ref(null)
 const editMovie = ref(false)
+const addQuote = ref(false)
+
+const quotes = computed(() => movie.value.quotes)
+const genres = computed(() => movie.value.genres)
 
 onMounted(async () => {
   const id = route.params.id
   thisMovie.value = await moviesStore.fetchMovie(id)
+  console.log(quotes.value)
 
   if (movie.value && movie.value.image) {
     imagePath.value = movie.value.image
@@ -46,8 +53,12 @@ const closeMovie = () => {
   editMovie.value = false
 }
 
-const quotes = computed(() => movie.value.quotes)
-const genres = computed(() => movie.value.genres)
+const openQuote = () => {
+  addQuote.value = true
+}
+const closeQuote = () => {
+  addQuote.value = false
+}
 
 const openModal = (id) => {
   if (openedModalId.value === id) {
@@ -84,6 +95,12 @@ const user = computed(() => userStore.$state.user)
       :movie="movie"
       :closeMovie="closeMovie"
     ></EditMovie>
+    <AddQuote
+      v-if="addQuote"
+      :closeQuote="closeQuote"
+      :username="user.username"
+      :movie="movie"
+    ></AddQuote>
     <feed-header :searchBar="false"></feed-header>
     <div class="md:flex md:ml-[40px] lg:ml[70px]">
       <div class="hidden md:block text-white sm:w-[25%] lg:w-[17%]">
@@ -137,7 +154,7 @@ const user = computed(() => userStore.$state.user)
         <div class="md:flex md:mb-[40px] items-center">
           <button
             class="mx-[35px] mb-[32px] md:mb-[0px] w-[140px] h-[38px] rounded-[4px] bg-red"
-            @click="openMovie"
+            @click="openQuote"
           >
             {{ $t('movie.add_quote') }}
           </button>
@@ -160,7 +177,7 @@ const user = computed(() => userStore.$state.user)
               class="relative border-b border-b-[#54535A] pb-[24px] mb-[19px] flex flex-col md:flex-row items-center md:w-full"
             >
               <img
-                :src="quote.image"
+                :src="path + '/storage/' + quote.image"
                 class="md:mr-[34px] md:w-[226px] h-[140px] w-[359px] mt-[20px] mb-[24px] rounded-[2px]"
               />
               <p class="italic text-[24px] text-center md:text-left">
@@ -184,7 +201,7 @@ const user = computed(() => userStore.$state.user)
             <div class="flex justify-between items-center w-full mb-[20px]">
               <div class="flex">
                 <div class="flex mr-[24px]">
-                  <p>10</p>
+                  <p>{{ quote.comments && quote.comments.length }}</p>
                   <img class="ml-[12px]" :src="comment" />
                 </div>
                 <div class="flex">

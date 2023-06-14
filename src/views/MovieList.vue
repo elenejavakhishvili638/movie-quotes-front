@@ -18,6 +18,7 @@ let path = import.meta.env.VITE_BACKEND_URL
 
 onMounted(async () => {
   await moviesStore.fetchMovies()
+  console.log(moviesStore.$state.movieList)
 })
 
 const fetchMovies = async () => {
