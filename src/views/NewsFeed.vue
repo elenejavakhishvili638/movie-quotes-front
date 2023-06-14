@@ -1,5 +1,4 @@
 <script setup>
-// import FormLayout from '../components/FormLayout.vue'
 import write from '../assets/images/logos/write.png'
 import search from '../assets/images/logos/search.png'
 import FeedHeader from '../components/FeedHeader.vue'
@@ -124,11 +123,13 @@ const language = computed(() => languageStore.currentLanguage)
         </div>
         <div v-for="quote in quotesStore.state" :key="quote.id">
           <the-post
+            :comments="quote.comments"
             :quote="quote.body && quote.body[language]"
             :movie="quote.movie && quote.movie.title && quote.movie.title[language]"
             :user="quote.user && quote.user.username"
             :poster="quote.image"
             :year="quote.movie && quote.movie.year"
+            :id="quote.id"
           ></the-post>
         </div>
       </div>

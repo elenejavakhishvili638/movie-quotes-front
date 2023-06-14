@@ -1,4 +1,4 @@
-import { fetchQuotes, addQuote } from '../../services'
+import { fetchQuotes, addQuote, addComment } from '../../services'
 
 export default {
   async fetchQuotes(searchTerm) {
@@ -29,6 +29,18 @@ export default {
           ka: ''
         },
         image: ''
+      }
+    } catch (error) {
+      console.log(this.errors)
+    }
+  },
+
+  async addComment(data, id) {
+    try {
+      await addComment(data, id)
+      this.addedComment = {
+        body: '',
+        user_id: null
       }
     } catch (error) {
       console.log(this.errors)

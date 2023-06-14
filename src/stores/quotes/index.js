@@ -15,6 +15,10 @@ export const useQuotesStore = defineStore({
         ka: ''
       },
       image: ''
+    },
+    addedComment: {
+      body: '',
+      user_id: null
     }
   }),
   getters,

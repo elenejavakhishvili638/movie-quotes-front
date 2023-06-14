@@ -162,3 +162,14 @@ export async function addQuote(data) {
     console.log(error)
   }
 }
+
+export async function addComment(data, id) {
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+    await axios.post(`/api/quotes/${id}/comments`, data, {
+      withCredentials: true
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
