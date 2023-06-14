@@ -15,6 +15,7 @@ import EditMovie from '../components/EditMovie.vue'
 import { useUserStore } from '../stores/user/index'
 import AddQuote from '../components/AddQuote.vue'
 import { useQuotesStore } from '../stores/quotes'
+import ViewQuote from '../components/ViewQuote.vue'
 
 const moviesStore = useMoviesStore()
 const route = useRoute()
@@ -31,6 +32,8 @@ const imagePath = ref(null)
 const imageUrl = ref(null)
 const editMovie = ref(false)
 const addQuote = ref(false)
+const viewQuote = ref(false)
+const quoteId = ref(null)
 
 const quotes = computed(() => movie.value.quotes)
 const genres = computed(() => movie.value.genres)
@@ -61,6 +64,15 @@ const openQuote = () => {
 }
 const closeQuote = () => {
   addQuote.value = false
+}
+
+const openViewQuote = (id) => {
+  viewQuote.value = true
+  quoteId.value = id
+}
+
+const closeViewQuote = () => {
+  viewQuote.value = false
 }
 
 const openModal = (id) => {
@@ -102,7 +114,7 @@ const user = computed(() => userStore.$state.user)
 </script>
 
 <template>
-  <div class="background min-h-[135vh] pb-[32px]">
+  <div class="background min-h-[200vh] pb-[32px]">
     <EditMovie
       v-if="editMovie"
       :username="user.username"
@@ -115,6 +127,7 @@ const user = computed(() => userStore.$state.user)
       :username="user.username"
       :movie="movie"
     ></AddQuote>
+    <ViewQuote v-if="viewQuote" :closeViewQuote="closeViewQuote" :id="quoteId"></ViewQuote>
     <feed-header :searchBar="false"></feed-header>
     <div class="md:flex md:ml-[40px] lg:ml[70px]">
       <div class="hidden md:block text-white sm:w-[25%] lg:w-[17%]">
@@ -208,7 +221,9 @@ const user = computed(() => userStore.$state.user)
               @click="closeModal(index)"
               class="absolute xl:top-[50px] xl:right-[-190px] right-[20px] top-5 h-[200px] w-[250px] rounded-[10px] bg-[#24222F] py-[32px] pl-[40px]"
             >
-              <p class="flex gap-[10px] mb-[32px]"><img :src="eye" /> Vue Quote</p>
+              <p class="flex gap-[10px] mb-[32px]">
+                <img :src="eye" @click="openViewQuote(quote.id)" /> Vue Quote
+              </p>
               <p class="flex gap-[10px] mb-[32px]"><img :src="pencil" /> Edit</p>
               <p class="flex gap-[10px] mb-[32px]">
                 <img :src="trash" @click="deleteQuote(quote.id)" /> Delete

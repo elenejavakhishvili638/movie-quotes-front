@@ -10,8 +10,8 @@ import { computed, ref } from 'vue'
 const props = defineProps(['quote', 'movie', 'user', 'poster', 'year', 'id', 'comments'])
 const quoteStore = useQuotesStore()
 const userStore = useUserStore()
-const quoteForm = computed(() => quoteStore.$state.addedComment)
-const userI = computed(() => userStore.$state.user)
+const commentForm = computed(() => quoteStore.$state.addedComment)
+const userId = computed(() => userStore.$state.user)
 const src = ref(heart)
 
 let path = import.meta.env.VITE_BACKEND_URL
@@ -27,10 +27,10 @@ const toggleLike = () => {
 const onSubmit = async () => {
   try {
     const data = {
-      body: quoteForm.value.body,
-      user_id: userI.value.id
+      body: commentForm.value.body,
+      user_id: userId.value.id
     }
-    quoteForm.value.body = ''
+    commentForm.value.body = ''
     // console.log(data, props.id)
     await quoteStore.addComment(data, props.id)
   } catch (error) {
@@ -96,7 +96,7 @@ const onSubmit = async () => {
             name="comment"
             type="text"
             autocomplete="off"
-            v-model="quoteForm.body"
+            v-model="commentForm.body"
             rules="required"
           />
         </Form>

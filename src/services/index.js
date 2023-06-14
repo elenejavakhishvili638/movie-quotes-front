@@ -184,3 +184,12 @@ export async function deleteQuote(id) {
     console.log(error)
   }
 }
+
+export async function fetchQuote(id) {
+  try {
+    let response = await axios.get(`/api/quote/${id}`)
+    return response
+  } catch (error) {
+    console.log(error)
+  }
+}
