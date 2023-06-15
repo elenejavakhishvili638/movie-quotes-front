@@ -73,10 +73,6 @@ const onSubmit = async () => {
     if (imageUrl.value) {
       formData.append('image', imageUrl.value)
     }
-
-    // for (let pair of formData.entries()) {
-    //   console.log(pair[0] + ': ' + pair[1])
-    // }
     await quoteStore.addQuote(formData)
     await moviesStore.fetchMovie(props.movie.id)
 
@@ -89,50 +85,50 @@ const onSubmit = async () => {
 
 <template>
   <div
-    class="h-auto top-[10px] w-full md:top-[8%] md:left-[35%] xl:left-[28%] 2xl:left-[24%] xl:w-[601px] 2xl:w-[961px] absolute text-white bg-[#11101A] md:w-[500px] rounded-[12px] z-10"
+    class="h-auto top-2.5 w-full md:top-[8%] xl:w-37 2xl:w-60 absolute text-white bg-modal md:w-31 rounded-xl"
   >
-    <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-[25px] px-[54px]">
+    <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-6 px-14">
       <div></div>
-      <h1 class="text-[24px] font-[500]">Add quote</h1>
+      <h1 class="text-2xl font-medium">Add quote</h1>
       <img @click="props.closeQuote" :src="close" />
     </div>
-    <div class="p-[35px]">
-      <div class="flex items-center gap-[16px]">
-        <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px]" alt="name" />
+    <div class="p-9">
+      <div class="flex items-center gap-4 mb-2.25">
+        <img class="bg-[#D9D9D9] rounded-full w-10 h-10" alt="name" />
         <p>{{ props.username }}</p>
       </div>
       <div
-        class="bg-[#000000] md:bg-transparent min-w-[340px] h-[114px] md:h-[170px] mt-[32px] py-[16px] px-[8px] flex gap-[12px] md:gap-[30px] items-center"
+        class="bg-[#000000] md:bg-transparent min-w-[21rem] h-7 md:h-11 mb-2.25 py-4 px-2 flex gap-3 md:gap-7 items-center"
       >
         <div>
           <img
             :src="path + '/storage/' + movie.image"
-            class="h-[82px] w-[122px] md:h-[158px] md:w-[290px] object-cover rounded-[12px]"
+            class="h-5 w-8 md:h-[10rem] md:w-18 object-cover rounded-xl"
           />
         </div>
         <div>
-          <h1 class="text-[#DDCCAA] text-[16px] lg:text-[24px] font-[400] mb-[8px]">
+          <h1 class="text-[#DDCCAA] text-base lg:text-2xl font-[400] mb-2">
             {{ movie.title && movie.title[language] }}
             ({{ movie.year }})
           </h1>
-          <p class="mb-[8px] text-[#CED4DA] text-[16px] lg:text-[18px] font-[700]">
+          <p class="mb-2 text-[#CED4DA] text-base lg:text-lg font-[700]">
             {{ $t('movie.director') }}:
             <span class="text-white font-[500]">{{
               movie.director && movie.director[language]
             }}</span>
           </p>
-          <div class="flex gap-[4px]">
+          <div class="flex gap-1">
             <div
-              class="px-[8px] py-[4px] bg-[#6C757D] rounded-[4px]"
+              class="px-2 py-1 bg-[#6C757D] rounded"
               v-for="genre in props.movie.genres"
               :key="genre.id"
             >
-              <p class="font-[700] text-[12px] lg:text-[18px]">{{ genre.name }}</p>
+              <p class="font-[700] text-xs lg:text-lg">{{ genre.name }}</p>
             </div>
           </div>
         </div>
       </div>
-      <Form class="relative flex flex-col mt-[37px] gap-[16px]" @submit="onSubmit">
+      <Form class="relative flex flex-col mt-9 gap-4" @submit="onSubmit">
         <div>
           <quote-textarea
             validate="required|english"

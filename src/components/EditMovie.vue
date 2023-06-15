@@ -105,10 +105,6 @@ const onSubmit = async () => {
       formData.append('image', imageUrl.value)
     }
 
-    // for (let pair of formData.entries()) {
-    //   console.log(pair[0] + ', ' + pair[1])
-    // }
-
     await movieStore.editMovie(formData, id)
     props.closeMovie()
   } catch (error) {
@@ -155,19 +151,19 @@ const onDrop = async (event, handleChange, validate) => {
 
 <template>
   <div
-    class="h-auto top-[10px] w-full md:top-[8%] md:left-[35%] xl:left-[28%] 2xl:left-[24%] xl:w-[601px] 2xl:w-[961px] absolute text-white bg-[#11101A] md:w-[500px] rounded-[12px]"
+    class="h-auto top-2.5 w-full md:top-[8%] md:left-[30%] 2xl:left-[24%] xl:w-37 2xl:w-60 absolute text-white bg-modal md:w-31 rounded-xl"
   >
-    <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-[25px] px-[54px]">
+    <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-6 px-14">
       <div></div>
-      <h1>{{ $t('movie.edit_movie') }}</h1>
+      <h1 class="text-2xl font-medium">{{ $t('movie.edit_movie') }}</h1>
       <img @click="props.closeMovie" :src="close" />
     </div>
-    <div class="p-[35px]">
-      <div class="flex items-center gap-[16px]">
-        <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px]" alt="name" />
+    <div class="p-9">
+      <div class="flex items-center mb-2.25 gap-4">
+        <img class="bg-[#D9D9D9] rounded-full w-10 h-10" alt="name" />
         <p>{{ props.username }}</p>
       </div>
-      <Form @submit="onSubmit" class="flex flex-col mt-[37px] gap-[24px]">
+      <Form @submit="onSubmit" class="flex flex-col gap-6">
         <movie-input
           v-model="movieForm.title.en"
           name="title_en"
@@ -222,7 +218,7 @@ const onDrop = async (event, handleChange, validate) => {
             label="Movie Description :"
             :class="{ 'text-[#6C757D]': movieForm.description.en }"
           ></movie-textarea>
-          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="description_en" />
+          <ErrorMessage class="text-[#F15524] text-base ml-5" name="description_en" />
         </div>
         <div>
           <movie-textarea
@@ -233,7 +229,7 @@ const onDrop = async (event, handleChange, validate) => {
             label="ფილმის აღწერა :"
             :class="{ 'text-[#6C757D]': movieForm.description.ka }"
           ></movie-textarea>
-          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="description_ka" />
+          <ErrorMessage class="text-[#F15524] text-base ml-5" name="description_ka" />
         </div>
         <movie-image
           :onFileChangeParent="onFileChange"

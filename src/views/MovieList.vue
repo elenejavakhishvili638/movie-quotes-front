@@ -9,6 +9,7 @@ import ProfileSidebar from '../components/ProfileSidebar.vue'
 import { useUserStore } from '../stores/user/index'
 import NewMovie from '../components/NewMovie.vue'
 import ModalLayout from '../components/ModalLayout.vue'
+import plus from '../assets/images/logos/plus.png'
 
 const moviesStore = useMoviesStore()
 const languageStore = useLanguageStore()
@@ -45,52 +46,53 @@ const user = computed(() => userStore.$state.user)
 </script>
 
 <template>
-  <div class="background min-h-[135vh] pb-[32px]">
+  <div class="background min-h-135 pb-8">
     <modal-layout v-if="addMovie" :close="closeMovie">
       <new-movie :username="user.username" :closeMovie="closeMovie"></new-movie>
     </modal-layout>
     <feed-header :searchBar="false"></feed-header>
-    <div class="md:flex md:ml-[40px] lg:ml[70px]">
-      <div class="hidden md:block text-white sm:w-[25%] md:ml-[30px]">
+    <div class="md:flex md:ml-2.5 lg:ml-4.5">
+      <div class="hidden md:block text-white sm:w-[25%] md:ml-2">
         <profile-sidebar></profile-sidebar>
       </div>
-      <div
-        class="mt-[17px] mx-[35px] md:mr-[70px] text-white flex flex-col justify-center md:w-[75%] md:ml-[128px]"
-      >
-        <div class="flex justify-between">
+      <div class="mt-1 mx-2 md:mr-4.5 text-white flex flex-col justify-center md:w-[75%] md:ml-8">
+        <div class="flex justify-between mb-2">
           <div class="text-white mb-[34px]">
-            <h1 class="text-[24px]">{{ $t('movie.my_list') }}</h1>
+            <h1 class="text-2xl">{{ $t('movie.my_list') }}</h1>
             <p>{{ $t('movie.total') }} ({{ moviesStore.totalMovies }})</p>
           </div>
           <div class="flex items-center">
-            <div class="mr-[21px] hidden md:flex md:ml-[24px]">
-              <img :src="search" class="mr-[16px]" />
+            <div class="mr-2 hidden md:flex md:ml-1.5">
+              <img :src="search" class="mr-1" />
               <input
                 v-model="searchTerm"
                 @input="fetchMovies"
                 :placeholder="$t('feed.search')"
-                class="bg-transparent outline-none w-[91px]"
+                class="bg-transparent outline-none w-5.6"
               />
             </div>
-            <button class="w-[140px] h-[38px] rounded-[4px] bg-red" @click="openMovie">
-              {{ $t('movie.add_movie') }}
+            <button
+              class="w-8.75 h-2.6 rounded bg-red flex items-center justify-center"
+              @click="openMovie"
+            >
+              <img :src="plus" class="pr-2" /> {{ $t('movie.add_movie') }}
             </button>
           </div>
         </div>
-        <div class="text-white grid gap-[50px] md:grid-cols-fill">
-          <div v-for="movie in moviesStore.state" :key="movie.id" class="mb-[60px]">
+        <div class="text-white grid gap-12 md:grid-cols-fill">
+          <div v-for="movie in moviesStore.state" :key="movie.id">
             <div v-if="movie.id">
               <router-link :to="{ name: 'movie', params: { id: movie.id } }">
                 <img
                   alt="movie"
                   :src="path + '/storage/' + movie.image"
-                  class="sm:w-[358px] md:w-[440px] h-[302px] rounded-[12px] object-contain border border-[#DDCCAA]"
+                  class="sm:w-22 md:w-27 h-19 rounded-xl object-contain border border-[#DDCCAA]"
                 />
-                <div class="mt-[16px] w-[358px]">
-                  <h1 class="mb-[16px] text-[24px]">
+                <div class="mt-1 w-22">
+                  <h1 class="mb-1 text-2xl">
                     {{ movie.title && movie.title[language] }} ({{ movie.year }})
                   </h1>
-                  <div class="flex items-center gap-[12px]">
+                  <div class="flex items-center gap-3">
                     <p>10</p>
                     <img :src="com" />
                   </div>

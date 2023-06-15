@@ -60,32 +60,32 @@ const language = computed(() => languageStore.currentLanguage)
 </script>
 
 <template>
-  <div class="background min-h-screen pb-[32px]" @click="decrease">
+  <div class="background min-h-screen pb-8" @click="decrease">
     <new-quote v-if="addQuote" :username="user.username" :closeQuote="closeQuote"></new-quote>
     <feed-header :toggleSearch="toggleSearch" :searchBar="true"></feed-header>
-    <div class="md:flex md:ml-[40px] lg:ml-[70px]">
-      <div class="hidden md:block text-white width-[233px]">
+    <div class="md:flex md:ml-2.5 lg:ml-4.5">
+      <div class="hidden md:block text-white w-14.5">
         <profile-sidebar></profile-sidebar>
       </div>
-      <div class="md:ml-[100px] 2xl:ml-[228px] md:mt-[22px]">
-        <div class="h-[96px] md:h-[52px] flex items-center md:mb-[32px]" @click.stop="increase">
+      <div class="md:ml-6.25 2xl:ml-14.25 md:mt-1">
+        <div class="h-6 md:h-3.25 flex items-center md:mb-2" @click.stop="increase">
           <div
             @click.stop="openQuote"
             :class="{
-              'md:w-[218px] xl:w-[218px]': increaseSearch,
-              'md:w-[350px] xl:w-[778px]': !increaseSearch
+              'md:w-13.625 xl:w-13.625': increaseSearch,
+              'md:w-22 xl:w-48.5': !increaseSearch
             }"
-            class="md:items-center md:rounded-[10px] md:pl-[17px] text-white text-base flex ml-[36px] md:ml-0 cursor-pointer md:bg-[#24222F] md:h-[52px]"
+            class="md:items-center md:rounded-lg md:pl-4 text-white text-base flex ml-[36px] md:ml-[0px] cursor-pointer md:bg-[#24222F] md:h-3.25"
           >
             <img :src="write" class="mr-[12px]" />{{ $t('feed.new_quote') }}
           </div>
 
           <div
-            :class="{ 'md:border-b pb-[17px] pt-[5px] md:w-[258px] xl:w-[688px]': increaseSearch }"
+            :class="{ 'md:border-b pb-4 pt-1 md:w-[258px] xl:w-[688px]': increaseSearch }"
             class="mr-[21px] hidden md:flex md:ml-[24px] text-white"
             @click.stop="increase"
           >
-            <img :src="search" class="mr-[16px]" />
+            <img :src="search" class="mr-0.75" />
             <input
               v-model="searchTerm"
               @input="fetchQuotes"
@@ -98,11 +98,11 @@ const language = computed(() => languageStore.currentLanguage)
           </div>
           <div
             v-if="searchOpen"
-            class="absolute top-0 left-0 h-[774px] bg-[#12101A] w-full text-white md:hidden"
+            class="absolute top-0 left-0 h-48.5 bg-[#12101A] w-full text-white md:hidden"
           >
             <div class="border-b border-[#EFEFEF]">
-              <div class="my-[24px] ml-[32px] flex items-center">
-                <img @click="closeSearch" :src="arrow" class="mr-[26px]" />
+              <div class="my-1.5 ml-2 flex items-center">
+                <img @click="closeSearch" :src="arrow" class="mr-1.5" />
                 <input
                   :placeholder="$t('feed.search')"
                   v-model="searchTerm"
@@ -111,7 +111,7 @@ const language = computed(() => languageStore.currentLanguage)
                 />
               </div>
             </div>
-            <div class="text-[#CED4DA] text-base opacity-[0.6] mt-[26px] ml-[74px]">
+            <div class="text-[#CED4DA] text-base opacity-[0.6] mt-1.5 ml-4.5">
               <p>{{ $t('feed.search_movie', { at: '@' }) }}</p>
               <p>{{ $t('feed.search_quote', { hash: '#' }) }}</p>
             </div>

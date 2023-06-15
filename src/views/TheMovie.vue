@@ -17,6 +17,8 @@ import AddQuote from '../components/AddQuote.vue'
 import { useQuotesStore } from '../stores/quotes'
 import ViewQuote from '../components/ViewQuote.vue'
 import ModalLayout from '../components/ModalLayout.vue'
+import EditQuote from '../components/EditQuote.vue'
+import plus from '../assets/images/logos/plus.png'
 
 const moviesStore = useMoviesStore()
 const route = useRoute()
@@ -32,6 +34,7 @@ const editMovie = ref(false)
 const addQuote = ref(false)
 const viewQuote = ref(false)
 const quoteId = ref(null)
+const editQuote = ref(false)
 
 onMounted(async () => {
   const id = route.params.id
@@ -77,6 +80,15 @@ const closeModal = () => {
   openedModalId.value = null
 }
 
+const openEditQuote = (id) => {
+  editQuote.value = true
+  quoteId.value = id
+}
+
+const closeEditQuote = () => {
+  editQuote.value = false
+}
+
 const deleteMovie = async () => {
   const id = route.params.id
   try {
@@ -104,14 +116,17 @@ const user = computed(() => userStore.$state.user)
 
 <template>
   <div class="background min-h-[200vh] pb-[32px]">
-    <ModalLayout v-if="editMovie" :close="closeMovie">
+    <ModalLayout v-if="editMovie">
       <EditMovie :username="user.username" :movie="movie" :closeMovie="closeMovie"></EditMovie>
     </ModalLayout>
-    <ModalLayout v-if="addQuote" :close="closeQuote">
+    <ModalLayout v-if="addQuote">
       <AddQuote :closeQuote="closeQuote" :username="user.username" :movie="movie"></AddQuote>
     </ModalLayout>
-    <ModalLayout v-if="viewQuote" :close="closeViewQuote">
+    <ModalLayout v-if="viewQuote">
       <ViewQuote :closeViewQuote="closeViewQuote" :id="quoteId" :movie="movie"></ViewQuote>
+    </ModalLayout>
+    <ModalLayout v-if="editQuote">
+      <EditQuote :closeEditQuote="closeEditQuote" :id="quoteId"></EditQuote>
     </ModalLayout>
     <feed-header :searchBar="false"></feed-header>
     <div class="md:flex md:ml-[40px] lg:ml[70px]">
@@ -165,10 +180,10 @@ const user = computed(() => userStore.$state.user)
         </div>
         <div class="md:flex md:mb-[40px] items-center">
           <button
-            class="mx-[35px] mb-[32px] md:mb-[0px] w-[140px] h-[38px] rounded-[4px] bg-red"
+            class="mx-[35px] mb-[32px] md:mb-[0px] w-[140px] h-[38px] rounded-[4px] bg-red flex items-center justify-center"
             @click="openQuote"
           >
-            {{ $t('movie.add_quote') }}
+            <img :src="plus" class="pr-2" /> {{ $t('movie.add_quote') }}
           </button>
           <hr class="mx-[35px] md:hidden" />
           <div
@@ -179,7 +194,7 @@ const user = computed(() => userStore.$state.user)
             </p>
           </div>
         </div>
-        <div v-if="!editMovie && !addQuote && !viewQuote">
+        <div v-if="!editMovie && !addQuote && !viewQuote && !editQuote">
           <div
             v-for="(quote, index) in movie.quotes"
             :key="quote.id"
@@ -209,7 +224,9 @@ const user = computed(() => userStore.$state.user)
               <p class="flex gap-[10px] mb-[32px]">
                 <img :src="eye" @click="openViewQuote(quote.id)" /> Vue Quote
               </p>
-              <p class="flex gap-[10px] mb-[32px]"><img :src="pencil" /> Edit</p>
+              <p class="flex gap-[10px] mb-[32px]">
+                <img :src="pencil" @click="openEditQuote(quote.id)" /> Edit
+              </p>
               <p class="flex gap-[10px] mb-[32px]">
                 <img :src="trash" @click="deleteQuote(quote.id)" /> Delete
               </p>

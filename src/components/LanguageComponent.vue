@@ -19,15 +19,12 @@ const toggleLang = () => {
 
 <template>
   <div class="ml-[10px] flex justify-center items-center">
-    <div @click="toggleLang" class="flex items-center gap-[10px]">
+    <div @click="toggleLang" class="flex items-center gap-2">
       <p class="text-white">{{ language.display }}</p>
       <img :src="Vector" />
     </div>
 
-    <div
-      v-show="showLang"
-      class="absolute border-1 top-[80%] bg-slate-500 px-[50px] py-[10px] rounded-[8px]"
-    >
+    <div v-show="showLang" class="absolute border-1 top-[80%] bg-slate-500 px-12 py-3 rounded-lg">
       <div class="flex flex-col gap-[10px]">
         <button class="text-white" @click="changeLanguage('en', 'Eng')">Eng</button>
         <button class="text-white" @click="changeLanguage('ka', 'ქარ')">ქარ</button>

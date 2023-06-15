@@ -9,7 +9,10 @@ import heart from '../assets/images/logos/heart.png'
 import liked from '../assets/images/logos/liked.png'
 import { useUserStore } from '../stores/user'
 import { Form, Field } from 'vee-validate'
+import { useRoute } from 'vue-router'
+import { useMoviesStore } from '../stores/movies'
 
+const route = useRoute()
 const props = defineProps(['closeViewQuote', 'id', 'movie'])
 const quoteStore = useQuotesStore()
 const userStore = useUserStore()
@@ -17,7 +20,7 @@ let path = import.meta.env.VITE_BACKEND_URL
 const quote = computed(() => quoteStore.$state.quote)
 const commentForm = computed(() => quoteStore.$state.addedComment)
 const userId = computed(() => userStore.$state.user)
-
+const moviesStore = useMoviesStore()
 const src = ref(heart)
 
 const toggleLike = () => {
@@ -43,8 +46,18 @@ const onSubmit = async () => {
       user_id: userId.value.id
     }
     commentForm.value.body = ''
-    // console.log(data, props.id)
     await quoteStore.addComment(data, props.id)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const deleteQuote = async () => {
+  try {
+    await quoteStore.deleteQuote(props.id)
+    const movieId = route.params.id
+    await moviesStore.updateMovie(movieId)
+    props.closeViewQuote()
   } catch (error) {
     console.log(error)
   }
@@ -59,7 +72,7 @@ const onSubmit = async () => {
       <div class="w-[90px] h-[40px] flex items-center justify-between">
         <img :src="pencil" />
         <div class="border-r border-r-[#6C757D] h-[16px]"></div>
-        <img :src="trash" />
+        <img :src="trash" @click="deleteQuote" />
       </div>
       <h1 class="text-[24px] font-[500] hidden md:block">View quote</h1>
       <img @click="props.closeViewQuote" :src="close" />
@@ -68,7 +81,6 @@ const onSubmit = async () => {
       <div class="flex items-center gap-[16px]">
         <img class="bg-[#D9D9D9] rounded-full w-[60px] h-[60px]" alt="name" />
         <p class="text-[20px]">{{ quote.user && quote.user.username }}</p>
-        <!-- {{ quotee.image }} -->
       </div>
       <div
         class="px-[13px] flex justify-between pt-[7px] border border-[#6C757DB2] h-[86px] rounded-[4px]"

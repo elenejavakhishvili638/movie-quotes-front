@@ -41,13 +41,13 @@ const onDrop = async (event, handleChange, validate) => {
       @dragover.prevent="onDragOver"
       @dragleave.prevent="onDragLeave"
       @drop.prevent="onDrop($event, handleChange, validate)"
-      :class="{ 'h-[182px] lg:h-[185px]': uploadedImageUrl }"
-      class="flex justify-between items-center border border-[#6C757D] w-full h-[84px] rounded-[4px]"
+      :class="{ 'h-11.5': uploadedImageUrl }"
+      class="flex justify-between items-center border border-[#6C757D] w-full p-7 rounded"
     >
       <img
         :src="uploadedImageUrl"
         v-if="uploadedImageUrl"
-        class="ml-[24px] w-[177px] lg:w-[433px] h-[110px] lg:h-[144px] object-contain border border-dashed border-[#DDCCAA]"
+        class="ml-1.5 w-11 lg:w-27 h-7 lg:h-9 object-contain border border-dashed border-[#DDCCAA]"
       />
       <input
         type="file"
@@ -57,24 +57,24 @@ const onDrop = async (event, handleChange, validate) => {
         @change="onFileChange($event, handleChange, validate)"
       />
       <div
-        class="flex items-center gap-[20px]"
+        class="flex items-center gap-5"
         :class="{
-          'flex flex-col items-center mr-[24px] lg:mr-[54px] gap-[16px]': uploadedImageUrl
+          'flex flex-col items-center mr-6 lg:mr-[54px] gap-4': uploadedImageUrl
         }"
       >
-        <div class="flex ml-[16px] items-center">
+        <div class="flex pl-4 items-center">
           <img :src="image" />
           <p class="text-[16px] font-normal ml-[13px]">{{ $t('movie.upload') }}</p>
         </div>
         <button
           type="button"
-          class="bg-[#9747FF66] ml-[16px] w-[91px] lg:w-[150px] h-[42px] mr-[16px] text-[18px] outline-none"
+          class="bg-[#9747FF66] w-6 lg:w-12 h-2.6 text-lg outline-none"
           @click="triggerFileInput"
         >
           {{ $t('movie.choose') }}
         </button>
       </div>
     </div>
-    <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="image" />
+    <ErrorMessage class="text-[#F15524] text-base ml-5" name="image" />
   </Field>
 </template>

@@ -25,7 +25,7 @@ const handleClick = (name, handleChange) => {
 
 <template>
   <div class="relative">
-    <div class="flex gap-[4px] w-full border border-[#6C757D] h-[48px] rounded-[5px] items-center">
+    <div class="flex gap-1 w-full border border-[#6C757D] h-12 rounded items-center">
       <p @click="openGenreModal" class="ml-[16px] cursor-pointer">Genres:</p>
       <div
         class="text-white text-[14px] ml-[16px] bg-[#6C757D] py-[2px] px-[6px] rounded-[2px]"

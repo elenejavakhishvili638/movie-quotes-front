@@ -40,44 +40,42 @@ const onSubmit = async () => {
 </script>
 
 <template>
-  <div
-    class="bg-[#11101A] rounded-[12px] flex justify-center text-white mb-[32px] md:w-[500px] xl:w-[938px]"
-  >
-    <div class="w-[358px] my-[28px] md:w-[452px] xl:w-[890px]">
-      <div class="flex items-center mb-[14px]">
-        <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px]" alt="name" />
-        <p class="ml-[16px]">{{ props.user }}</p>
+  <div class="bg-[#11101A] rounded-xl flex justify-center text-white mb-2 md:w-31 xl:w-59">
+    <div class="w-22 my-1.5 md:w-28.25 xl:w-55.5">
+      <div class="flex items-center mb-0.875">
+        <img class="bg-[#D9D9D9] rounded-full w-10 h-10" alt="name" />
+        <p class="ml-1">{{ props.user }}</p>
       </div>
       <div>
-        <p class="mb-[16px]">
+        <p class="mb-1">
           “{{ props.quote }}” movie - <span class="text-cream">{{ props.movie }}.</span> ({{
             props.year
           }})
         </p>
         <img
           :src="path + '/storage/' + props.poster"
-          class="bg-[#D9D9D9] rounded-[10px] w-[358px] h-[200px] md:w-full md:h-[501px]"
+          class="bg-[#D9D9D9] rounded-lg w-22 h-12.5 md:w-full md:h-31"
           alt="film"
         />
-        <div class="flex my-[19px] border-b border-color pb-[26px] text-[20px]">
-          <div class="flex mr-[24px]">
+        <div class="flex my-[19px] border-b border-color pb-6 text-xl">
+          <div class="flex mr-1.5">
             <p>{{ props.comments.length }}</p>
-            <img class="ml-[12px]" :src="comment" />
+            <img class="ml-0.75" :src="comment" />
           </div>
           <div class="flex">
             <p>10</p>
-            <img class="ml-[12px]" :src="src" @click="toggleLike" />
+            <img class="ml-0.75" :src="src" @click="toggleLike" />
           </div>
         </div>
       </div>
-      <div v-for="comment in props.comments" :key="comment.id" class="pt-[16px] pb-[24px]">
+      <div v-for="comment in props.comments" :key="comment.id" class="pt-4 pb-6">
         <div class="flex">
-          <div class="flex w-full flex-col items-start mb-[14px]">
-            <div class="flex items-center mb-[24px]">
-              <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px] mr-[24px]" alt="name" />
+          <div class="flex w-full flex-col items-start mb-0.875">
+            <div class="flex items-center mb-1.5">
+              <img class="bg-[#D9D9D9] rounded-full w-10 h-10 mr-1.5" alt="name" />
               <p>{{ comment.user && comment.user.username }}</p>
             </div>
-            <div class="border-b border-color pb-[24px] w-full">
+            <div class="border-b border-color pb-6 w-full">
               <p>
                 {{ comment.body }}
               </p>
@@ -86,12 +84,12 @@ const onSubmit = async () => {
         </div>
       </div>
       <div class="flex items-center">
-        <div class="flex items-center mr-[12px]">
-          <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px]" alt="name" />
+        <div class="flex items-center mr-0.75">
+          <img class="bg-[#D9D9D9] rounded-full w-10 h-10" alt="name" />
         </div>
-        <Form @submit="onSubmit" class="w-[306px] h-[40px] md:w-full">
+        <Form @submit="onSubmit" class="w-[306px] h-10 md:w-full">
           <Field
-            class="bg-[#24222F] w-[306px] pl-[16px] h-[40px] rounded-[10px] md:w-full outline-none"
+            class="bg-[#24222F] w-19 pl-4 h-10 rounded-lg md:w-full outline-none"
             placeholder="Wrie a comment"
             name="comment"
             type="text"
