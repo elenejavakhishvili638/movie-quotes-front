@@ -105,13 +105,11 @@ const onSubmit = async () => {
       formData.append('image', imageUrl.value)
     }
 
-    for (let pair of formData.entries()) {
-      console.log(pair[0] + ', ' + pair[1])
-    }
+    // for (let pair of formData.entries()) {
+    //   console.log(pair[0] + ', ' + pair[1])
+    // }
 
     await movieStore.editMovie(formData, id)
-    await movieStore.updateMovie(id)
-    await movieStore.fetchFullList()
     props.closeMovie()
   } catch (error) {
     console.log(error)
@@ -157,7 +155,7 @@ const onDrop = async (event, handleChange, validate) => {
 
 <template>
   <div
-    class="h-auto top-[90px] w-full md:top-[8%] md:left-[35%] xl:left-[28%] 2xl:left-[24%] xl:w-[601px] 2xl:w-[961px] absolute text-white bg-[#11101A] md:w-[500px] rounded-[12px]"
+    class="h-auto top-[10px] w-full md:top-[8%] md:left-[35%] xl:left-[28%] 2xl:left-[24%] xl:w-[601px] 2xl:w-[961px] absolute text-white bg-[#11101A] md:w-[500px] rounded-[12px]"
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-[25px] px-[54px]">
       <div></div>

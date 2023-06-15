@@ -10,7 +10,7 @@ import liked from '../assets/images/logos/liked.png'
 import { useUserStore } from '../stores/user'
 import { Form, Field } from 'vee-validate'
 
-const props = defineProps(['closeViewQuote', 'id'])
+const props = defineProps(['closeViewQuote', 'id', 'movie'])
 const quoteStore = useQuotesStore()
 const userStore = useUserStore()
 let path = import.meta.env.VITE_BACKEND_URL
@@ -31,7 +31,6 @@ const toggleLike = () => {
 onMounted(async () => {
   try {
     await quoteStore.fetchQuote(props.id)
-    console.log(quoteStore.quote)
   } catch (error) {
     console.log(error)
   }
@@ -54,7 +53,7 @@ const onSubmit = async () => {
 
 <template>
   <div
-    class="h-auto z-10 w-full md:top-[8%] md:left-[35%] xl:left-[28%] 2xl:left-[24%] xl:w-[601px] 2xl:w-[961px] absolute text-white bg-[#11101A] md:w-[500px] rounded-[12px]"
+    class="h-auto top-[10px] w-full md:top-[8%] md:left-[35%] xl:left-[28%] 2xl:left-[24%] xl:w-[601px] 2xl:w-[961px] absolute text-white bg-[#11101A] md:w-[500px] rounded-[12px]"
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-[25px] px-[32px]">
       <div class="w-[90px] h-[40px] flex items-center justify-between">
@@ -69,6 +68,7 @@ const onSubmit = async () => {
       <div class="flex items-center gap-[16px]">
         <img class="bg-[#D9D9D9] rounded-full w-[60px] h-[60px]" alt="name" />
         <p class="text-[20px]">{{ quote.user && quote.user.username }}</p>
+        <!-- {{ quotee.image }} -->
       </div>
       <div
         class="px-[13px] flex justify-between pt-[7px] border border-[#6C757DB2] h-[86px] rounded-[4px]"

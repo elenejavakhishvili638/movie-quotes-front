@@ -91,6 +91,15 @@ export async function fetchMovie(id) {
   }
 }
 
+export async function fetchAllMovies() {
+  try {
+    let response = await axios.get('/api/all-movies')
+    return response
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export async function fetchGenres() {
   try {
     let response = await axios.get('/api/genres')
@@ -185,11 +194,11 @@ export async function deleteQuote(id) {
   }
 }
 
-export async function fetchQuote(id) {
-  try {
-    let response = await axios.get(`/api/quote/${id}`)
-    return response
-  } catch (error) {
-    console.log(error)
-  }
-}
+// export async function fetchQuote(id) {
+//   try {
+//     let response = await axios.get(`/api/quote/${id}`)
+//     return response
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }

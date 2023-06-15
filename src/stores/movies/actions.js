@@ -4,7 +4,8 @@ import {
   fetchGenres,
   addMovie,
   deleteMovie,
-  editMovie
+  editMovie,
+  fetchAllMovies
 } from '../../services'
 
 export default {
@@ -20,19 +21,25 @@ export default {
     }
   },
 
+  async fetchAllMovies() {
+    const response = await fetchAllMovies()
+    this.allMovies = response.data.data
+  },
+
   async fetchFullList() {
     const response = await fetchMovies()
     this.movieList = response.data
   },
 
   async fetchMovie(id) {
+    const numId = Number(id)
     try {
-      const movieFromList = this.movieList.find((movie) => movie.id === id)
-      if (movieFromList) {
-        this.movie = movieFromList
+      const foundMovie = this.movieList.find((movie) => movie.id === numId)
+      if (foundMovie) {
+        this.movie = foundMovie
       } else {
         const response = await fetchMovie(id)
-        this.movie = response.data
+        this.movie = response.data.data
       }
     } catch (error) {
       console.error(error)
@@ -42,7 +49,8 @@ export default {
   async updateMovie(id) {
     try {
       const response = await fetchMovie(id)
-      this.movie = response.data
+      this.movie = response.data.data
+      console.log(this.movie, response.data.data)
     } catch (error) {
       console.error(error)
     }
@@ -102,6 +110,8 @@ export default {
   async editMovie(data, id) {
     try {
       await editMovie(data, id)
+      await this.updateMovie(id)
+      await this.fetchFullList()
     } catch (err) {
       console.log(err)
     }

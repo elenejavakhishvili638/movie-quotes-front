@@ -23,7 +23,6 @@ const user = computed(() => userStore.$state.user)
 
 onMounted(async () => {
   await quotesStore.fetchQuotes()
-  console.log(quotesStore.state)
 })
 
 const fetchQuotes = async () => {
@@ -58,14 +57,11 @@ const closeSearch = () => {
 }
 
 const language = computed(() => languageStore.currentLanguage)
-// const quotes = computed(() => quotesStore.state)
 </script>
 
 <template>
   <div class="background min-h-screen pb-[32px]" @click="decrease">
-    <!-- <form-layout > </form-layout> -->
     <new-quote v-if="addQuote" :username="user.username" :closeQuote="closeQuote"></new-quote>
-
     <feed-header :toggleSearch="toggleSearch" :searchBar="true"></feed-header>
     <div class="md:flex md:ml-[40px] lg:ml-[70px]">
       <div class="hidden md:block text-white width-[233px]">

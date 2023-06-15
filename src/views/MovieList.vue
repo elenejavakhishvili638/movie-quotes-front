@@ -8,6 +8,7 @@ import { useLanguageStore } from '../stores/language/index'
 import ProfileSidebar from '../components/ProfileSidebar.vue'
 import { useUserStore } from '../stores/user/index'
 import NewMovie from '../components/NewMovie.vue'
+import ModalLayout from '../components/ModalLayout.vue'
 
 const moviesStore = useMoviesStore()
 const languageStore = useLanguageStore()
@@ -18,7 +19,6 @@ let path = import.meta.env.VITE_BACKEND_URL
 
 onMounted(async () => {
   await moviesStore.fetchMovies()
-  console.log(moviesStore.$state.movieList)
 })
 
 const fetchMovies = async () => {
@@ -40,15 +40,15 @@ const closeMovie = () => {
   addMovie.value = false
 }
 
-// const movies = computed(() => moviesStore.movieList)
-
 const language = computed(() => languageStore.currentLanguage)
 const user = computed(() => userStore.$state.user)
 </script>
 
 <template>
   <div class="background min-h-[135vh] pb-[32px]">
-    <new-movie v-if="addMovie" :username="user.username" :closeMovie="closeMovie"></new-movie>
+    <modal-layout v-if="addMovie" :close="closeMovie">
+      <new-movie :username="user.username" :closeMovie="closeMovie"></new-movie>
+    </modal-layout>
     <feed-header :searchBar="false"></feed-header>
     <div class="md:flex md:ml-[40px] lg:ml[70px]">
       <div class="hidden md:block text-white sm:w-[25%] md:ml-[30px]">

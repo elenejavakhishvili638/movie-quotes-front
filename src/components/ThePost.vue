@@ -31,8 +31,8 @@ const onSubmit = async () => {
       user_id: userId.value.id
     }
     commentForm.value.body = ''
-    // console.log(data, props.id)
     await quoteStore.addComment(data, props.id)
+    await quoteStore.fetchFullList()
   } catch (error) {
     console.log(error)
   }

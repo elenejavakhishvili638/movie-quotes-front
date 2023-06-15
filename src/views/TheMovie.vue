@@ -16,6 +16,7 @@ import { useUserStore } from '../stores/user/index'
 import AddQuote from '../components/AddQuote.vue'
 import { useQuotesStore } from '../stores/quotes'
 import ViewQuote from '../components/ViewQuote.vue'
+import ModalLayout from '../components/ModalLayout.vue'
 
 const moviesStore = useMoviesStore()
 const route = useRoute()
@@ -23,32 +24,21 @@ const router = useRouter()
 const userStore = useUserStore()
 const quoteStore = useQuotesStore()
 const languageStore = useLanguageStore()
-const openedModalId = ref(null)
 const movie = computed(() => moviesStore.$state.movie)
 let path = import.meta.env.VITE_BACKEND_URL
 
-const thisMovie = ref(null)
-const imagePath = ref(null)
-const imageUrl = ref(null)
+const openedModalId = ref(null)
 const editMovie = ref(false)
 const addQuote = ref(false)
 const viewQuote = ref(false)
 const quoteId = ref(null)
 
-const quotes = computed(() => movie.value.quotes)
-const genres = computed(() => movie.value.genres)
-
 onMounted(async () => {
-  // look through
   const id = route.params.id
-  thisMovie.value = await moviesStore.fetchMovie(id)
-  console.log(quotes.value)
-
-  if (movie.value && movie.value.image) {
-    imagePath.value = movie.value.image
-    imageUrl.value = import.meta.env.VITE_BACKEND_URL + '/storage/' + imagePath.value
-  } else {
-    console.log('Image path is undefined')
+  try {
+    await moviesStore.fetchMovie(id)
+  } catch (error) {
+    console.log(error)
   }
 })
 
@@ -100,7 +90,6 @@ const deleteMovie = async () => {
 
 const deleteQuote = async (id) => {
   try {
-    console.log(id)
     await quoteStore.deleteQuote(id)
     const movieId = route.params.id
     await moviesStore.updateMovie(movieId)
@@ -115,19 +104,15 @@ const user = computed(() => userStore.$state.user)
 
 <template>
   <div class="background min-h-[200vh] pb-[32px]">
-    <EditMovie
-      v-if="editMovie"
-      :username="user.username"
-      :movie="movie"
-      :closeMovie="closeMovie"
-    ></EditMovie>
-    <AddQuote
-      v-if="addQuote"
-      :closeQuote="closeQuote"
-      :username="user.username"
-      :movie="movie"
-    ></AddQuote>
-    <ViewQuote v-if="viewQuote" :closeViewQuote="closeViewQuote" :id="quoteId"></ViewQuote>
+    <ModalLayout v-if="editMovie" :close="closeMovie">
+      <EditMovie :username="user.username" :movie="movie" :closeMovie="closeMovie"></EditMovie>
+    </ModalLayout>
+    <ModalLayout v-if="addQuote" :close="closeQuote">
+      <AddQuote :closeQuote="closeQuote" :username="user.username" :movie="movie"></AddQuote>
+    </ModalLayout>
+    <ModalLayout v-if="viewQuote" :close="closeViewQuote">
+      <ViewQuote :closeViewQuote="closeViewQuote" :id="quoteId" :movie="movie"></ViewQuote>
+    </ModalLayout>
     <feed-header :searchBar="false"></feed-header>
     <div class="md:flex md:ml-[40px] lg:ml[70px]">
       <div class="hidden md:block text-white sm:w-[25%] lg:w-[17%]">
@@ -140,7 +125,7 @@ const user = computed(() => userStore.$state.user)
         <div class="mx-[35px] pb-[32px] md:flex md:gap-[21px]">
           <div>
             <img
-              :src="imageUrl"
+              :src="path + '/storage/' + movie.image"
               class="w-[358px] h-[302px] border border-[#DDCCAA] xl:w-[809px] xl:h-[441px] rounded-[12px] object-contain mb-[24px]"
             />
           </div>
@@ -161,7 +146,7 @@ const user = computed(() => userStore.$state.user)
             <div class="flex gap-[8px] my-[24px]">
               <div
                 class="px-[11px] py-[6px] bg-[#6C757D] rounded-[4px]"
-                v-for="genre in genres"
+                v-for="genre in movie.genres"
                 :key="genre.id"
               >
                 <p class="font-[700] text-[18px]">{{ genre.name }}</p>
@@ -194,9 +179,9 @@ const user = computed(() => userStore.$state.user)
             </p>
           </div>
         </div>
-        <div>
+        <div v-if="!editMovie && !addQuote && !viewQuote">
           <div
-            v-for="(quote, index) in quotes"
+            v-for="(quote, index) in movie.quotes"
             :key="quote.id"
             class="relative md:w-[600px] lg:w-[809px] bg-[#11101A] flex flex-col items-center px-[35px] mb-[37px] md:ml-[35px]"
           >

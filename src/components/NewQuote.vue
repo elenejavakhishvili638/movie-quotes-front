@@ -67,11 +67,12 @@ const openDropdown = () => {
 }
 
 const props = defineProps(['username', 'closeQuote'])
-const movies = computed(() => moviesStore.$state.movieList)
+const movies = computed(() => moviesStore.$state.allMovies)
 const language = computed(() => languageStore.currentLanguage)
 
 onMounted(async () => {
-  await moviesStore.fetchMovies()
+  await moviesStore.fetchAllMovies()
+  console.log(movies.value)
 })
 
 const selectMovie = async (movie, handleChange) => {
@@ -93,9 +94,6 @@ const onSubmit = async () => {
       formData.append('image', imageUrl.value)
     }
 
-    // for (let pair of formData.entries()) {
-    //   console.log(pair[0] + ': ' + pair[1])
-    // }
     await quoteStore.addQuote(formData)
     await quoteStore.fetchFullList()
     props.closeQuote()
@@ -107,7 +105,7 @@ const onSubmit = async () => {
 
 <template>
   <div
-    class="h-auto top-[90px] w-full md:top-[8%] md:left-[35%] xl:left-[28%] 2xl:left-[24%] xl:w-[601px] 2xl:w-[961px] absolute text-white bg-[#11101A] md:w-[500px] rounded-[12px]"
+    class="h-auto top-[10px] z-10 w-full md:top-[8%] md:left-[35%] xl:left-[28%] 2xl:left-[24%] xl:w-[601px] 2xl:w-[961px] absolute text-white bg-[#11101A] md:w-[500px] rounded-[12px]"
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-[25px] px-[54px]">
       <div></div>
@@ -161,7 +159,10 @@ const onSubmit = async () => {
             </div>
             <img :src="dropdown" class="mr-[31px]" />
           </div>
-          <div v-if="dropDown" class="text-white bg-black p-[20px] top-5 bottom-3">
+          <div
+            v-if="dropDown"
+            class="text-white bg-black p-[20px] top-5 bottom-3 h-60 overflow-y-scroll"
+          >
             <div v-for="movie in movies" :key="movie.id" class="border-b border-b-blue-50 mb-[5px]">
               <p @click="selectMovie(movie, handleChange)">
                 {{ movie.title && movie.title[language] }}
