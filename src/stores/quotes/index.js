@@ -6,7 +6,21 @@ import getters from './getters'
 export const useQuotesStore = defineStore({
   id: 'Quote',
   state: () => ({
-    quoteList: []
+    quoteList: [],
+    quote: {},
+    addedQuote: {
+      user_id: null,
+      movie_id: null,
+      body: {
+        en: '',
+        ka: ''
+      },
+      image: ''
+    },
+    addedComment: {
+      body: '',
+      user_id: null
+    }
   }),
   getters,
   actions

@@ -5,6 +5,7 @@ export async function registerUser(data) {
     await axios.post('/api/register', data, { withCredentials: true })
   } catch (error) {
     console.log(error)
+    throw error
   }
 }
 
@@ -90,6 +91,15 @@ export async function fetchMovie(id) {
   }
 }
 
+export async function fetchAllMovies() {
+  try {
+    let response = await axios.get('/api/all-movies')
+    return response
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export async function fetchGenres() {
   try {
     let response = await axios.get('/api/genres')
@@ -149,3 +159,58 @@ export async function editMovie(data, id) {
     console.log(error)
   }
 }
+
+export async function addQuote(data) {
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+    await axios.post('/api/quote', data, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      withCredentials: true
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function addComment(data, id) {
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+    await axios.post(`/api/quotes/${id}/comments`, data, {
+      withCredentials: true
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function deleteQuote(id) {
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+    await axios.delete(`/api/quote/${id}`, {
+      withCredentials: true
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function editQuote(data, id) {
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+    await axios.post(`/api/quote/${id}`, data, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      withCredentials: true
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+// export async function fetchQuote(id) {
+//   try {
+//     let response = await axios.get(`/api/quote/${id}`)
+//     return response
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }

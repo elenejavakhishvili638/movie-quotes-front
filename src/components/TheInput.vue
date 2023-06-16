@@ -3,11 +3,15 @@ import { Field, ErrorMessage, useField } from 'vee-validate'
 import { ref, watch, computed } from 'vue'
 import error from '../assets/images/logos/error.png'
 import valid from '../assets/images/logos/valid.png'
+import { useAuthStore } from '../stores/registration'
+import { useLanguageStore } from '../stores/language/index'
 
 const props = defineProps(['placeholder', 'label', 'name', 'type', 'validate', 'modelValue'])
 const emit = defineEmits(['update:modelValue'])
-
+const authStore = useAuthStore()
 const internalValue = ref(props.modelValue)
+const errors = computed(() => authStore.$state.errors)
+const languageStore = useLanguageStore()
 
 const { meta } = useField(props.name)
 
@@ -26,6 +30,10 @@ const inputClass = computed(() => {
 })
 
 const img = computed(() => {
+  if (errors.value[props.name]) {
+    return error
+  }
+
   if (meta.touched && meta.valid) {
     return valid
   } else if (meta.touched && !meta.valid) {
@@ -34,6 +42,8 @@ const img = computed(() => {
     return ''
   }
 })
+
+const language = computed(() => languageStore.currentLanguage)
 </script>
 
 <template>
@@ -54,6 +64,9 @@ const img = computed(() => {
       />
       <img class="mr-[12px] absolute right-0" :src="img" />
     </div>
+    <p class="text-[#F15524] text-base ml-[20px] mt-[16px]" v-if="errors">
+      {{ errors[props.name] && errors[props.name][0][language] }}
+    </p>
     <ErrorMessage class="text-[#F15524] text-base mt-[6px] ml-[20px]" :name="name" />
   </div>
 </template>

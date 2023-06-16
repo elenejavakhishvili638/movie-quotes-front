@@ -9,7 +9,8 @@ export const useAuthStore = defineStore({
       email: '',
       password: '',
       password_confirmation: ''
-    }
+    },
+    errors: {}
   }),
   actions
 })

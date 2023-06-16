@@ -1,62 +1,103 @@
 <script setup>
 import comment from '../assets/images/logos/comment.png'
 import heart from '../assets/images/logos/heart.png'
+import liked from '../assets/images/logos/liked.png'
+import { Form, Field } from 'vee-validate'
+import { useQuotesStore } from '../stores/quotes/index'
+import { useUserStore } from '../stores/user'
+import { computed, ref } from 'vue'
 
-const props = defineProps(['quote', 'movie', 'user', 'poster', 'year'])
+const props = defineProps(['quote', 'movie', 'user', 'poster', 'year', 'id', 'comments'])
+const quoteStore = useQuotesStore()
+const userStore = useUserStore()
+const commentForm = computed(() => quoteStore.$state.addedComment)
+const userId = computed(() => userStore.$state.user)
+const src = ref(heart)
+
+let path = import.meta.env.VITE_BACKEND_URL
+
+const toggleLike = () => {
+  if (src.value === heart) {
+    src.value = liked
+  } else {
+    src.value = heart
+  }
+}
+
+const onSubmit = async () => {
+  try {
+    const data = {
+      body: commentForm.value.body,
+      user_id: userId.value.id
+    }
+    commentForm.value.body = ''
+    await quoteStore.addComment(data, props.id)
+    await quoteStore.fetchFullList()
+  } catch (error) {
+    console.log(error)
+  }
+}
 </script>
 
 <template>
-  <div
-    class="bg-[#11101A] rounded-[12px] flex justify-center text-white mb-[32px] md:w-[500px] xl:w-[938px]"
-  >
-    <div class="w-[358px] my-[28px] md:w-[452px] xl:w-[890px]">
-      <div class="flex items-center mb-[14px]">
-        <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px]" alt="name" />
-        <p class="ml-[16px]">{{ props.user }}</p>
+  <div class="bg-[#11101A] rounded-xl flex justify-center text-white mb-2 md:w-31 xl:w-59">
+    <div class="w-22 my-1.5 md:w-28.25 xl:w-55.5">
+      <div class="flex items-center mb-0.875">
+        <img class="bg-[#D9D9D9] rounded-full w-10 h-10" alt="name" />
+        <p class="ml-1">{{ props.user }}</p>
       </div>
       <div>
-        <p class="mb-[16px]">
+        <p class="mb-1">
           “{{ props.quote }}” movie - <span class="text-cream">{{ props.movie }}.</span> ({{
             props.year
           }})
         </p>
         <img
-          class="bg-[#D9D9D9] rounded-[10px] w-[358px] h-[200px] md:w-full md:h-[501px]"
+          :src="path + '/storage/' + props.poster"
+          class="bg-[#D9D9D9] rounded-lg w-22 h-12.5 md:w-full md:h-31"
           alt="film"
         />
-        <div class="flex my-[19px] border-b border-color pb-[26px]">
-          <div class="flex mr-[24px]">
-            <p>10</p>
-            <img class="ml-[12px]" :src="comment" />
+        <div class="flex my-[19px] border-b border-color pb-6 text-xl">
+          <div class="flex mr-1.5">
+            <p>{{ props.comments.length }}</p>
+            <img class="ml-0.75" :src="comment" />
           </div>
           <div class="flex">
             <p>10</p>
-            <img class="ml-[12px]" :src="heart" />
+            <img class="ml-0.75" :src="src" @click="toggleLike" />
           </div>
         </div>
       </div>
-      <div class="pt-[16px] pb-[24px]">
+      <div v-for="comment in props.comments" :key="comment.id" class="pt-4 pb-6">
         <div class="flex">
-          <div class="flex flex-col items-start mb-[14px] border-b border-color pb-[24px]">
-            <div class="flex items-center mb-[24px]">
-              <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px] mr-[24px]" alt="name" />
-              <p>Maia Nakashidze</p>
+          <div class="flex w-full flex-col items-start mb-0.875">
+            <div class="flex items-center mb-1.5">
+              <img class="bg-[#D9D9D9] rounded-full w-10 h-10 mr-1.5" alt="name" />
+              <p>{{ comment.user && comment.user.username }}</p>
             </div>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque nunc vel massa
-              facilisis consequat elit morbi convallis convallis.
-            </p>
+            <div class="border-b border-color pb-6 w-full">
+              <p>
+                {{ comment.body }}
+              </p>
+            </div>
           </div>
         </div>
       </div>
       <div class="flex items-center">
-        <div class="flex items-center mr-[12px]">
-          <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px]" alt="name" />
+        <div class="flex items-center mr-0.75">
+          <img class="bg-[#D9D9D9] rounded-full w-10 h-10" alt="name" />
         </div>
-        <input
-          class="bg-[#24222F] w-[306px] pl-[16px] h-[40px] rounded-[10px] md:w-full"
-          placeholder="Write a comment"
-        />
+        <Form @submit="onSubmit" class="w-[306px] h-10 md:w-full">
+          <Field
+            class="bg-[#24222F] w-19 pl-4 h-10 rounded-lg md:w-full outline-none"
+            placeholder="Wrie a comment"
+            name="comment"
+            type="text"
+            autocomplete="off"
+            v-model="commentForm.body"
+            rules="required"
+          />
+        </Form>
       </div>
     </div>
   </div>

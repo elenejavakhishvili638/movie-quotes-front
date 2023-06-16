@@ -22,25 +22,25 @@ const router = createRouter({
       path: '/news-feed',
       name: 'feed',
       component: NewsFeed,
-      meta: { requiresAuth: true, requiresVerifiedEmail: true  }
+      meta: { requiresAuth: true, requiresVerifiedEmail: true }
     },
     {
       path: '/movie-list',
       name: 'movies',
       component: MovieList,
-      meta: { requiresAuth: true, requiresVerifiedEmail: true  }
+      meta: { requiresAuth: true, requiresVerifiedEmail: true }
     },
     {
       path: '/movie/:id',
       name: 'movie',
       component: TheMovie,
-      meta: { requiresAuth: true, requiresVerifiedEmail: true  }
+      meta: { requiresAuth: true, requiresVerifiedEmail: true }
     },
     {
       path: '/my-profile',
       name: 'profile',
       component: TheProfile,
-      meta: { requiresAuth: true, requiresVerifiedEmail: true  }
+      meta: { requiresAuth: true, requiresVerifiedEmail: true }
     },
     {
       path: '/email/verify/:id/:hash',
