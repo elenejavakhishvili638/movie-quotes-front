@@ -81,7 +81,12 @@ const removeTag = (id) => {
 }
 
 const onSubmit = async () => {
-  if (deepEqual(props.movie, movieForm.value) && !imageUrl.value) {
+  if (
+    deepEqual(props.movie, movieForm.value) &&
+    !imageUrl.value &&
+    Object.keys(tagGenres.value).length === 0
+  ) {
+    console.log('snj')
     return
   }
   const id = route.params.id
@@ -185,6 +190,7 @@ const onDrop = async (event, handleChange, validate) => {
           :filter="filterGenres"
           :remove="removeTag"
           :tagGenres="tagGenres"
+          type="edit"
         ></genre-component>
         <movie-input
           v-model="movieForm.year"
@@ -236,6 +242,7 @@ const onDrop = async (event, handleChange, validate) => {
           :onDropParent="onDrop"
           :triggerFileInputParent="triggerFileInput"
           :uploadedImageUrl="uploadedImageUrl"
+          type="edit"
         ></movie-image>
         <the-button type="submit" class="w-full">{{ $t('movie.edit_movie') }}</the-button>
       </Form>

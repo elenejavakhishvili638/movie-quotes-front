@@ -1,6 +1,6 @@
 <script setup>
 import image from '../assets/images/logos/image.png'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { Field, ErrorMessage } from 'vee-validate'
 
 const fileInput = ref(null)
@@ -9,7 +9,8 @@ const props = defineProps([
   'onFileChangeParent',
   'onDropParent',
   'triggerFileInputParent',
-  'uploadedImageUrl'
+  'uploadedImageUrl',
+  'type'
 ])
 
 const triggerFileInput = () => {
@@ -33,10 +34,14 @@ const onDrop = async (event, handleChange, validate) => {
   event.preventDefault()
   await props.onDropParent(event, handleChange, validate)
 }
+
+const imageRules = computed(() => {
+  return props.type === 'edit' ? '' : 'required'
+})
 </script>
 
 <template>
-  <Field name="image" v-slot="{ handleChange, validate }" rules="required">
+  <Field name="image" v-slot="{ handleChange, validate }" :rules="imageRules">
     <div
       @dragover.prevent="onDragOver"
       @dragleave.prevent="onDragLeave"

@@ -40,6 +40,7 @@ onMounted(async () => {
   const id = route.params.id
   try {
     await moviesStore.fetchMovie(id)
+    console.log(movie.value)
   } catch (error) {
     console.log(error)
   }
@@ -190,13 +191,13 @@ const user = computed(() => userStore.$state.user)
             class="md:flex md:items-center md:border-l md:border-l-[#6C757D] md:pl-[16px] mx-[35px] mb-[35px] mt-[40px] md:mx-[0px] md:mb-[0px] md:mt-[0]"
           >
             <p class="text-[24px] md:ml-[10px]">
-              {{ $t('movie.all_quotes') }} ({{ movie.quotes && movie.quotes.length }})
+              {{ $t('movie.all_quotes') }} ({{ movie.myQuotes && movie.myQuotes.length }})
             </p>
           </div>
         </div>
         <div v-if="!editMovie && !addQuote && !viewQuote && !editQuote">
           <div
-            v-for="(quote, index) in movie.quotes"
+            v-for="(quote, index) in movie.myQuotes"
             :key="quote.id"
             class="relative md:w-[600px] lg:w-[809px] bg-[#11101A] flex flex-col items-center px-[35px] mb-[37px] md:ml-[35px]"
           >

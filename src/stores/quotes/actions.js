@@ -1,4 +1,4 @@
-import { fetchQuotes, addQuote, addComment, deleteQuote } from '../../services'
+import { fetchQuotes, addQuote, addComment, deleteQuote, editQuote } from '../../services'
 import { useMoviesStore } from '../movies'
 
 export default {
@@ -22,8 +22,8 @@ export default {
   async fetchQuote(id) {
     const movieStore = useMoviesStore()
     try {
-      const foundQuote = movieStore.movie.quotes.find((quote) => quote.id === id)
-      console.log(foundQuote)
+      const foundQuote = movieStore.movie.myQuotes.find((quote) => quote.id === id)
+      // console.log(foundQuote)
       if (foundQuote) {
         this.quote = foundQuote
       }
@@ -70,6 +70,20 @@ export default {
       await deleteQuote(id)
     } catch (error) {
       console.log(error)
+    }
+  },
+
+  async editQuote(data, id) {
+    try {
+      await editQuote(data, id)
+      await this.fetchQuote(id)
+      // await this.fetchFullList()
+      console.log(id)
+      for (let [key, value] of data.entries()) {
+        console.log(`${key}: ${value}`)
+      }
+    } catch (err) {
+      console.log(err)
     }
   }
 }

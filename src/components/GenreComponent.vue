@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import { useMoviesStore } from '../stores/movies/index'
 import { ErrorMessage, Field } from 'vee-validate'
 
-const props = defineProps(['error', 'filter', 'remove', 'tagGenres'])
+const props = defineProps(['error', 'filter', 'remove', 'tagGenres', 'type'])
 
 const movieStore = useMoviesStore()
 const genres = computed(() => movieStore.$state.genres)
@@ -21,6 +21,10 @@ const handleClick = (name, handleChange) => {
   props.filter(name)
   handleChange('true')
 }
+
+const genreRule = computed(() => {
+  return props.type === 'edit' ? '' : 'required'
+})
 </script>
 
 <template>
@@ -36,7 +40,7 @@ const handleClick = (name, handleChange) => {
         <span @click="props.remove(tag.id)" class="ml-[9px]">x</span>
       </div>
     </div>
-    <Field name="genre" v-slot="{ meta, handleChange }" rules="required">
+    <Field name="genre" v-slot="{ meta, handleChange }" :rules="genreRule">
       <div
         v-if="genreModal"
         class="left-[100px] md:left-[200px] bottom-[-180px] h-[200px] w-[250px] z-10 absolute flex flex-col gap-4 bg-black p-[16px] overflow-y-scroll"

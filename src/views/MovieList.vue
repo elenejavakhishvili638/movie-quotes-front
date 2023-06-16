@@ -93,7 +93,7 @@ const user = computed(() => userStore.$state.user)
                     {{ movie.title && movie.title[language] }} ({{ movie.year }})
                   </h1>
                   <div class="flex items-center gap-3">
-                    <p>10</p>
+                    <p>{{ movie.myQuotes && movie.myQuotes.length }}</p>
                     <img :src="com" />
                   </div>
                 </div>

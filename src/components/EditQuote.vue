@@ -9,27 +9,77 @@ import { Form, ErrorMessage } from 'vee-validate'
 import MovieImage from './MovieImage.vue'
 import QuoteTextarea from './QuoteTextarea.vue'
 import TheButton from '../components/TheButton.vue'
+import { useUserStore } from '../stores/user/index'
 
 const props = defineProps(['closeEditQuote', 'id', 'movie'])
 const route = useRoute()
+const userStore = useUserStore()
 let path = import.meta.env.VITE_BACKEND_URL
 const quoteStore = useQuotesStore()
 const moviesStore = useMoviesStore()
 const quote = computed(() => quoteStore.$state.quote)
+const user = computed(() => userStore.$state.user)
+const quoteForm = ref(null)
 const imageUrl = ref(null)
 const isDragging = ref(false)
-const uploadedImageUrl = ref(path + '/storage/' + quote.value.image)
+const uploadedImageUrl = ref(null)
 
 onMounted(async () => {
   try {
     await quoteStore.fetchQuote(props.id)
-    console.log(quote.value)
+    quoteForm.value = JSON.parse(JSON.stringify(quote.value))
+    uploadedImageUrl.value = path + '/storage/' + (quoteForm.value && quoteForm.value.image)
   } catch (error) {
     console.log(error)
   }
 })
 
-const onSubmit = async () => {}
+const deepEqual = (obj1, obj2) => {
+  if (obj1 === obj2) return true
+
+  if (typeof obj1 !== 'object' || obj1 === null || typeof obj2 !== 'object' || obj2 === null) {
+    return false
+  }
+
+  let keys1 = Object.keys(obj1)
+  let keys2 = Object.keys(obj2)
+
+  if (keys1.length !== keys2.length) return false
+
+  for (let key of keys1) {
+    if (!keys2.includes(key)) return false
+    if (!deepEqual(obj1[key], obj2[key])) return false
+  }
+
+  return true
+}
+
+const onSubmit = async () => {
+  if (deepEqual(quote.value, quoteForm.value) && !imageUrl.value) {
+    console.log('sj')
+    return
+  }
+
+  const id = route.params.id
+  try {
+    const formData = new FormData()
+    formData.append('_method', 'PATCH')
+    formData.append('user_id', user.value.id)
+    formData.append('movie_id', id)
+    formData.append('body[en]', quoteForm.value.body.en)
+    formData.append('body[ka]', quoteForm.value.body.ka)
+
+    if (imageUrl.value) {
+      formData.append('image', imageUrl.value)
+    }
+
+    await quoteStore.editQuote(formData, props.id)
+    props.closeEditQuote()
+    await moviesStore.fetchMovie(id)
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 const deleteQuote = async () => {
   try {
@@ -49,6 +99,7 @@ const triggerFileInput = (fileInput) => {
 const onFileChange = async (e, handleChange, validate) => {
   const file = e.target.files[0]
   imageUrl.value = file
+  console.log(imageUrl.value)
   if (file) {
     const reader = new FileReader()
     reader.onload = (e) => {
@@ -94,23 +145,23 @@ const onDrop = async (event, handleChange, validate) => {
         <p class="text-[20px]">{{ quote.user && quote.user.username }}</p>
       </div>
       <Form class="relative flex flex-col mt-9 gap-4" @submit="onSubmit">
-        <div v-if="quote.body">
+        <div v-if="quoteForm && quoteForm.body">
           <quote-textarea
             validate="required|english"
             name="body.en"
             rows="4"
-            v-model="quote.body.en"
+            v-model="quoteForm.body.en"
             placeholder="Quote in English."
             lang="Eng"
           ></quote-textarea>
           <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="body.en" />
         </div>
-        <div v-if="quote.body">
+        <div v-if="quoteForm && quoteForm.body">
           <quote-textarea
             validate="required|georgian"
             name="body.ka"
             rows="4"
-            v-model="quote.body.ka"
+            v-model="quoteForm.body.ka"
             placeholder="ციტატა ქართულ ენაზე"
             lang="ქარ"
           ></quote-textarea>
@@ -121,6 +172,7 @@ const onDrop = async (event, handleChange, validate) => {
           :onDropParent="onDrop"
           :triggerFileInputParent="triggerFileInput"
           :uploadedImageUrl="uploadedImageUrl"
+          type="edit"
         ></movie-image>
         <the-button class="w-full h-[48px]">Save changes</the-button>
       </Form>
