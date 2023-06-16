@@ -3,7 +3,7 @@ import axios from 'axios'
 axios.defaults.withCredentials = true
 
 export default axios.create({
-  baseURL: 'http://localhost:8000/',
+  baseURL: import.meta.env.VITE_BACKEND_URL,
   headers: {
     'Content-Type': 'application/json',
     'X-Requested-With': 'XMLHttpRequest',
