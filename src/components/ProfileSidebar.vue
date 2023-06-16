@@ -22,7 +22,11 @@ const user = computed(() => userStore.$state.user)
 <template>
   <div class="sticky top-[120px]">
     <div class="flex items-center mb-[14px] mt-[32px]">
-      <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px] lg:w-[60px] lg:h-[60px]" alt="name" />
+      <img
+        class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px] lg:w-[60px] lg:h-[60px]"
+        :src="user.image"
+        alt="name"
+      />
       <div class="flex flex-col ml-[16px]">
         <p class="text-[24px]">{{ user.username }}</p>
         <router-link :to="{ name: 'profile' }">{{ $t('feed.edit_profile') }}</router-link>
