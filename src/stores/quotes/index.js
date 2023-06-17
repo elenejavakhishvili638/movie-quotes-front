@@ -8,6 +8,7 @@ export const useQuotesStore = defineStore({
   state: () => ({
     quoteList: [],
     quote: {},
+    currentSearchTerm: '',
     addedQuote: {
       user_id: null,
       movie_id: null,

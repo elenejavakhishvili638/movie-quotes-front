@@ -109,14 +109,14 @@ export async function fetchGenres() {
   }
 }
 
-export async function fetchQuotes(searchTerm) {
+export async function fetchQuotes(searchTerm, page) {
   try {
     let response
     if (searchTerm) {
       let encodedSearchTerm = encodeURIComponent(searchTerm)
-      response = await axios.get(`/api/quotes?search=${encodedSearchTerm}`)
+      response = await axios.get(`/api/quotes?search=${encodedSearchTerm}&page=${page}`)
     } else {
-      response = await axios.get('/api/quotes')
+      response = await axios.get(`/api/quotes?page=${page}`)
     }
     return response
   } catch (error) {

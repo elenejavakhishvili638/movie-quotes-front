@@ -4,7 +4,7 @@ import search from '../assets/images/logos/search.png'
 import FeedHeader from '../components/FeedHeader.vue'
 import arrow from '../assets/images/logos/arrow.png'
 import { useQuotesStore } from '../stores/quotes/index'
-import { onMounted, computed, ref, watch } from 'vue'
+import { onMounted, computed, ref, watch, onBeforeUnmount } from 'vue'
 import { useUserStore } from '../stores/user/index'
 import ProfileSidebar from '../components/ProfileSidebar.vue'
 import ThePost from '../components/ThePost.vue'
@@ -18,21 +18,29 @@ const languageStore = useLanguageStore()
 const searchTerm = ref('')
 const quotesStore = useQuotesStore()
 const searchOpen = ref(false)
+const page = ref(1)
 
 const user = computed(() => userStore.$state.user)
 
-onMounted(async () => {
-  await quotesStore.fetchQuotes()
-})
-
-const fetchQuotes = async () => {
-  if (searchTerm.value) {
-    await quotesStore.fetchQuotes(searchTerm.value)
+const handleScroll = async () => {
+  const offset = 5
+  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - offset) {
+    page.value++
+    await quotesStore.fetchQuotes(searchTerm.value, page.value)
   }
 }
+onMounted(async () => {
+  await quotesStore.fetchQuotes(searchTerm.value, page.value)
+  window.addEventListener('scroll', handleScroll)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
 
 watch(searchTerm, (newTerm) => {
-  quotesStore.fetchQuotes(newTerm)
+  page.value = 1
+  quotesStore.fetchQuotes(newTerm, page.value)
 })
 
 const increase = () => {

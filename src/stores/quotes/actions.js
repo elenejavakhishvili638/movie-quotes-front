@@ -2,13 +2,16 @@ import { fetchQuotes, addQuote, addComment, deleteQuote, editQuote } from '../..
 import { useMoviesStore } from '../movies'
 
 export default {
-  async fetchQuotes(searchTerm) {
+  async fetchQuotes(searchTerm, page) {
     try {
-      if (this.quoteList.length > 0 && !searchTerm) {
-        return
+      const response = await fetchQuotes(searchTerm, page)
+      if (this.currentSearchTerm !== searchTerm) {
+        this.quoteList = response.data
+      } else {
+        this.quoteList = [...this.quoteList, ...response.data]
       }
-      const response = await fetchQuotes(searchTerm)
-      this.quoteList = response.data
+
+      this.currentSearchTerm = searchTerm
     } catch (error) {
       console.error(error)
     }
@@ -23,7 +26,6 @@ export default {
     const movieStore = useMoviesStore()
     try {
       const foundQuote = movieStore.movie.myQuotes.find((quote) => quote.id === id)
-      // console.log(foundQuote)
       if (foundQuote) {
         this.quote = foundQuote
       }
@@ -77,7 +79,6 @@ export default {
     try {
       await editQuote(data, id)
       await this.fetchQuote(id)
-      // await this.fetchFullList()
       console.log(id)
       for (let [key, value] of data.entries()) {
         console.log(`${key}: ${value}`)
