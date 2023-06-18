@@ -1,9 +1,16 @@
+import { updateUser } from '../../services'
+
 export default {
-  setUser(payload) {
-    const { name, value } = payload
-    this.form[name] = value
-  },
-  async registerUser(data) {
-    console.log(data)
+  async updateUser(data, id) {
+    try {
+      await updateUser(data, id)
+      // await this.fetchQuote(id)
+      console.log(id)
+      for (let [key, value] of data.entries()) {
+        console.log(`${key}: ${value}`)
+      }
+    } catch (err) {
+      console.log(err)
+    }
   }
 }

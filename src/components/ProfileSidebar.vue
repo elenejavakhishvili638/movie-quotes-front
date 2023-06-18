@@ -37,7 +37,7 @@ const user = computed(() => userStore.$state.user)
         <img :src="homeImage" />
         <router-link :to="{ name: 'feed' }">{{ $t('feed.news_feed') }}</router-link>
       </div>
-      <div class="flex items-center gap-[30px]" @click="props.close">
+      <div class="flex items-center gap-[30px] mb-1" @click="props.close">
         <img :src="movieImage" />
         <router-link :to="{ name: 'movies' }">{{ $t('feed.movie_list') }}</router-link>
       </div>

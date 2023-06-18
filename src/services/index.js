@@ -206,6 +206,18 @@ export async function editQuote(data, id) {
   }
 }
 
+export async function updateUser(data, id) {
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+    await axios.post(`/api/user/${id}`, data, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      withCredentials: true
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 // export async function fetchQuote(id) {
 //   try {
 //     let response = await axios.get(`/api/quote/${id}`)

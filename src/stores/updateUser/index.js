@@ -6,8 +6,8 @@ export const useUpdateUserStore = defineStore({
   id: 'updateUser',
   state: () => ({
     form: {
-      username: '',
-      email: '',
+      updatedUsername: '',
+      updatedEmail: '',
       password: '',
       password_confirmation: '',
       image: ''

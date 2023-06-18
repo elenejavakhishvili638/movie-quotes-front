@@ -79,10 +79,10 @@ export default {
     try {
       await editQuote(data, id)
       await this.fetchQuote(id)
-      console.log(id)
-      for (let [key, value] of data.entries()) {
-        console.log(`${key}: ${value}`)
-      }
+      // console.log(id)
+      // for (let [key, value] of data.entries()) {
+      //   console.log(`${key}: ${value}`)
+      // }
     } catch (err) {
       console.log(err)
     }

@@ -14,7 +14,9 @@ export const theme = {
     6.25: '6.25rem',
     14.25: '14.25rem',
     0.75: '0.75rem',
-    0.875: '0.875rem'
+    0.875: '0.875rem',
+    0.5: '0.5rem',
+    2.375: '2.375rem'
   },
   extend: {
     backgroundImage: {
@@ -55,7 +57,8 @@ export const theme = {
       59: '59rem',
       28.25: '28.25rem',
       55.5: '55.5rem',
-      19: '19rem'
+      19: '19rem',
+      22.75: '22.75rem'
     },
     minWidth: {
       21: '21.25rem',
@@ -81,7 +84,8 @@ export const theme = {
       3.25: '3.25rem',
       48.5: '48.5rem',
       12.5: '12.5rem',
-      31: '31rem'
+      31: '31rem',
+      3: '3rem'
     },
     backgroundPosition: {
       parallax: 'center'

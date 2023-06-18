@@ -49,7 +49,8 @@ const closeMenu = () => {
     <p class="text-cream hidden md:block">MOVIE QUOTES</p>
     <div
       v-if="menuOpen"
-      class="absolute md:hidden left-0 top-0 w-24 h-41 bg-[#11101A] rounded-r-xl"
+      @click="closeMenu"
+      class="absolute md:hidden left-0 top-0 w-24 h-41 bg-[#11101A] rounded-r-xl z-10"
     >
       <div class="text-white pt-10 pl-11">
         <profile-sidebar :close="closeMenu">
