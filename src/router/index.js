@@ -7,6 +7,8 @@ import { useUserStore } from '../stores/user/index'
 import MovieList from '../views/MovieList.vue'
 import TheProfile from '../views/TheProfile.vue'
 import TheMovie from '../views/TheMovie.vue'
+import ForbiddenError from '../views/ForbiddenError.vue'
+import NotFoundError from '../views/NotFoundError.vue'
 
 const router = createRouter({
   // history: createWebHistory(import.meta.env.BASE_URL),
@@ -41,6 +43,16 @@ const router = createRouter({
       name: 'profile',
       component: TheProfile,
       meta: { requiresAuth: true, requiresVerifiedEmail: true }
+    },
+    {
+      path: '/forbidden',
+      name: 'forbidden',
+      component: ForbiddenError
+    },
+    {
+      path: '/page-not-found',
+      name: 'notFound',
+      component: NotFoundError
     },
     {
       path: '/email/verify/:id/:hash',

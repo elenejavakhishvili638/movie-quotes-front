@@ -94,7 +94,7 @@ const closeMenu = () => {
         <img :src="search" />
       </button>
       <button @click="toggleNotification" class="cursor-pointer"><img :src="bell" /></button>
-      <language-component></language-component>
+      <language-component type="feed"></language-component>
       <button
         @click="logout"
         class="hidden md:block mr-2 justify-center items-center w-[5rem] h-32 border border-white rounded text-white text-sm"

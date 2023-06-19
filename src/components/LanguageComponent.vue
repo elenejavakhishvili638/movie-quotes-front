@@ -1,8 +1,18 @@
 <script setup>
 import Vector from '../assets/images/logos/Vector.png'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 import { useLanguageStore } from '../stores/language/index'
+
+const props = defineProps(['type'])
+
+const langMargin = computed(() => {
+  if (props.type === 'feed') {
+    return 'top-[80%]'
+  } else {
+    return 'top-[6%]'
+  }
+})
 
 const language = useLanguageStore()
 const showLang = ref(false)
@@ -24,7 +34,11 @@ const toggleLang = () => {
       <img :src="Vector" />
     </div>
 
-    <div v-show="showLang" class="absolute border-1 top-[80%] bg-slate-500 px-12 py-3 rounded-lg">
+    <div
+      v-show="showLang"
+      :class="langMargin"
+      class="absolute border-1 bg-slate-500 px-12 py-3 rounded-lg"
+    >
       <div class="flex flex-col gap-[10px]">
         <button class="text-white" @click="changeLanguage('en', 'Eng')">Eng</button>
         <button class="text-white" @click="changeLanguage('ka', 'ქარ')">ქარ</button>
