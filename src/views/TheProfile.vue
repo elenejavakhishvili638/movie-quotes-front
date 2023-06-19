@@ -30,6 +30,7 @@ const user = computed(() => userStore.$state.user)
         :google="user.google_id"
         :username="user.username"
         :email="user.email"
+        :user="user"
       ></bigger-profile>
     </div>
   </div>

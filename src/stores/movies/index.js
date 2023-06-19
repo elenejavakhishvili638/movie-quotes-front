@@ -8,7 +8,7 @@ export const useMoviesStore = defineStore({
   state: () => ({
     movieList: [],
     movie: {},
-    allMovies: [],
+    // allMovies: [],
     genres: [],
     addedMovie: {
       user_id: null,

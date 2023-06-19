@@ -1,9 +1,8 @@
 <script setup>
-import arrow from '../assets/images/logos/arrow.png'
 import { ref, computed } from 'vue'
 import { useUpdateUserStore } from '../stores/updateUser/index'
 import { Form, Field } from 'vee-validate'
-const props = defineProps(['username', 'email', 'google'])
+const props = defineProps(['username', 'email', 'google', 'user'])
 
 const fileInput = ref(null)
 const newUsername = ref(false)
@@ -47,11 +46,11 @@ const openPassword = () => {
 </script>
 
 <template>
-  <div class="ml-187px relative">
-    <p class="ml-[61px] mb-[127px] mt-[32px] text-[24px] font-medium">My profile</p>
-    <Form class="md:w-[600px] xl:w-[998px] bg-[#11101A] flex flex-col items-center">
+  <div class="relative">
+    <p class="ml-3.813 mb-7.938 mt-[32px] text-2xl font-medium">My profile</p>
+    <Form class="md:w-37.5 xl:w-62.375 bg-[#11101A] flex flex-col items-center">
       <div class="absolute flex flex-col items-center top-20">
-        <img :src="arrow" alt="pic" class="rounded-full bg-red h-[188px] w-[188px] mb-[24px]" />
+        <img :src="user.img" alt="pic" class="rounded-full bg-[#D9D9D9] h-11.75 w-11.75 mb-1.5" />
         <input
           type="file"
           id="file-input"
@@ -59,28 +58,39 @@ const openPassword = () => {
           style="display: none"
           @change="onFileChange"
         />
-        <p class="text-[20px] font-normal" @click="triggerFileInput">Upload my photo</p>
+        <p class="text-xl font-normal" @click="triggerFileInput">Upload new photo</p>
       </div>
       <div class="bg-[#11101A]">
-        <div class="flex flex-col gap-[56px] text-base pb-[157px]">
-          <div class="flex flex-col mt-[197px]">
-            <label class="mb-[8px]">Username</label>
-            <div class="flex gap-[33px]">
+        <div class="flex flex-col gap-14 pb-40 text-base">
+          <div class="flex flex-col mt-12.313">
+            <label class="mb-0.5">Username</label>
+            <div class="flex gap-8">
               <Field
                 name="oldName"
                 type="text"
                 :value="props.username"
-                class="w-[528px] h-[48px] rounded-[5px] px-[9px] py-[17px] outline-none bg-[#CED4DA]"
+                class="w-33 h-3 rounded px-2 py-4 outline-none bg-[#CED4DA]"
               />
               <button type="button" class="text-[#CED4DA]" @click="openUsername">Edit</button>
             </div>
-            <div v-if="newUsername" class="flex flex-col mt-[56px]">
+            <div v-if="newUsername" class="flex flex-col mt-3.5">
+              <div class="border border-[#CED4DA33] mb-2 w-33 h-9 rounded p-6">
+                <p class="text-base mb-1">Username should contain:</p>
+                <div class="flex items-center gap-2">
+                  <div class="w-1 h-1 bg-[#198754] rounded-full"></div>
+                  <p class="text-sm mb-0.5">3 or more characters</p>
+                </div>
+                <div class="flex items-center gap-2">
+                  <div class="w-1 h-1 bg-[#9C9A9A] rounded-full"></div>
+                  <p class="text-sm text-[#9C9A9A]">15 lowercase character</p>
+                </div>
+              </div>
               <label class="mb-[8px]">New username</label>
               <Field
                 name="username"
                 type="text"
                 :value="formData.username"
-                class="w-[528px] h-[48px] rounded-[5px] px-[9px] py-[17px] outline-none bg-[#CED4DA]"
+                class="w-33 h-[48px] rounded-[5px] px-[9px] py-[17px] outline-none bg-[#CED4DA]"
               />
             </div>
           </div>

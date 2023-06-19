@@ -1,10 +1,18 @@
-import { fetchQuotes, addQuote, addComment, deleteQuote, editQuote } from '../../services'
+import {
+  fetchQuotes,
+  addQuote,
+  addComment,
+  deleteQuote,
+  editQuote,
+  like,
+  unlike
+} from '../../services'
 import { useMoviesStore } from '../movies'
 
 export default {
   async fetchQuotes(searchTerm, page) {
     try {
-      const response = await fetchQuotes(searchTerm, page)
+      const response = await fetchQuotes(page, searchTerm)
       if (this.currentSearchTerm !== searchTerm) {
         this.quoteList = response.data
       } else {
@@ -18,8 +26,13 @@ export default {
   },
 
   async fetchFullList() {
-    const response = await fetchQuotes()
-    this.quoteList = response.data
+    try {
+      const response = await fetchQuotes(1)
+      this.quoteList = response.data
+      console.log(response.data)
+    } catch (error) {
+      console.log(error)
+    }
   },
 
   async fetchQuote(id) {
@@ -41,6 +54,7 @@ export default {
   async addQuote(data) {
     try {
       await addQuote(data)
+      await this.fetchFullList()
       this.addedQuote = {
         user_id: null,
         movie_id: null,
@@ -85,6 +99,24 @@ export default {
       // }
     } catch (err) {
       console.log(err)
+    }
+  },
+
+  async likeQuote(id, data) {
+    try {
+      await like(id, data)
+      await this.fetchFullList()
+    } catch (error) {
+      console.log(error)
+    }
+  },
+
+  async unlikeQuote(id) {
+    try {
+      await unlike(id)
+      await this.fetchFullList()
+    } catch (error) {
+      console.log(error)
     }
   }
 }

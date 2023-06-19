@@ -4,8 +4,7 @@ import {
   fetchGenres,
   addMovie,
   deleteMovie,
-  editMovie,
-  fetchAllMovies
+  editMovie
 } from '../../services'
 
 export default {
@@ -21,10 +20,10 @@ export default {
     }
   },
 
-  async fetchAllMovies() {
-    const response = await fetchAllMovies()
-    this.allMovies = response.data.data
-  },
+  // async fetchAllMovies() {
+  //   const response = await fetchAllMovies()
+  //   this.allMovies = response.data.data
+  // },
 
   async fetchFullList() {
     const response = await fetchMovies()

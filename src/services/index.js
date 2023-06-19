@@ -109,7 +109,7 @@ export async function fetchGenres() {
   }
 }
 
-export async function fetchQuotes(searchTerm, page) {
+export async function fetchQuotes(page, searchTerm) {
   try {
     let response
     if (searchTerm) {
@@ -211,6 +211,28 @@ export async function updateUser(data, id) {
     await axios.get('/sanctum/csrf-cookie')
     await axios.post(`/api/user/${id}`, data, {
       headers: { 'Content-Type': 'multipart/form-data' },
+      withCredentials: true
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function like(id, data) {
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+    await axios.post(`/api/quotes/${id}/likes`, data, {
+      withCredentials: true
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function unlike(id) {
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+    await axios.delete(`/api/quotes/${id}/likes`, {
       withCredentials: true
     })
   } catch (error) {

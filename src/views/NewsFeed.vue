@@ -134,6 +134,7 @@ const language = computed(() => languageStore.currentLanguage)
             :poster="quote.image"
             :year="quote.movie && quote.movie.year"
             :id="quote.id"
+            :likes="quote.likes"
           ></the-post>
         </div>
       </div>

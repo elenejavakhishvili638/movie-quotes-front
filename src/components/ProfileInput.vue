@@ -59,7 +59,7 @@ const submitForm = () => {
 </script>
 
 <template>
-  <div v-if="modal" class="modal w-[364px] h-[211px] rounded-xl opacity-1">
+  <div v-if="modal" class="modal w-22.75 h-13.188 rounded-xl opacity-1">
     <p class="px-16 pt-16 pb-11 border-b border-b-[#CED4DA33]">Are you sure to make changes ?</p>
     <div class="px-5 flex justify-between mt-1.5">
       <button type="button" @click="closeModal">Cancel</button>
@@ -70,7 +70,7 @@ const submitForm = () => {
   </div>
   <div v-if="!modal" class="w-full">
     <div class="bg-[#24222F] rounded-xl flex flex-col items-center py-8 pt-20 pb-[4.625rem]">
-      <p class="mb-0.5 text-base self-start pl-8">{{ props.text }}</p>
+      <p class="mb-0.5 text-base w-22.75 self-center">{{ props.text }}</p>
       <div
         :class="inputClass"
         class="relative z-10 flex items-center justify-between h-3 w-22.75 bg-[#CED4DA] rounded focus:shadow-custom-focus"

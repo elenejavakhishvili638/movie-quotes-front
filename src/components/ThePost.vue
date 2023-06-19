@@ -5,9 +5,9 @@ import liked from '../assets/images/logos/liked.png'
 import { Form, Field } from 'vee-validate'
 import { useQuotesStore } from '../stores/quotes/index'
 import { useUserStore } from '../stores/user'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
-const props = defineProps(['quote', 'movie', 'user', 'poster', 'year', 'id', 'comments'])
+const props = defineProps(['quote', 'movie', 'user', 'poster', 'year', 'id', 'comments', 'likes'])
 const quoteStore = useQuotesStore()
 const userStore = useUserStore()
 const commentForm = computed(() => quoteStore.$state.addedComment)
@@ -16,11 +16,22 @@ const src = ref(heart)
 
 let path = import.meta.env.VITE_BACKEND_URL
 
-const toggleLike = () => {
-  if (src.value === heart) {
+onMounted(() => {
+  const likedQuote = userId.value.like.find((like) => like.quote_id === props.id)
+  if (likedQuote) {
     src.value = liked
   } else {
     src.value = heart
+  }
+})
+
+const toggleLike = async () => {
+  if (src.value === heart) {
+    src.value = liked
+    await quoteStore.likeQuote(props.id, { user_id: userId.value.id })
+  } else {
+    src.value = heart
+    await quoteStore.unlikeQuote(props.id)
   }
 }
 
@@ -63,7 +74,7 @@ const onSubmit = async () => {
             <img class="ml-0.75" :src="comment" />
           </div>
           <div class="flex">
-            <p>10</p>
+            <p>{{ props.likes.length }}</p>
             <img class="ml-0.75" :src="src" @click="toggleLike" />
           </div>
         </div>
