@@ -1,9 +1,13 @@
 <script setup>
 import arrow from '../assets/images/logos/arrow.png'
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useUpdateUserStore } from '../stores/updateUser'
+import { useUserStore } from '../stores/user'
 import ProfileInput from './ProfileInput.vue'
 import { Form } from 'vee-validate'
+import exit from '../assets/images/logos/exit.png'
+import tick from '../assets/images/logos/tick.png'
+import ModalLayout from './ModalLayout.vue'
 
 const props = defineProps(['username', 'email', 'google', 'user'])
 const fileInput = ref(null)
@@ -12,9 +16,14 @@ const currentEdit = ref(null)
 const currentText = ref(null)
 const currentName = ref(null)
 const currentType = ref(null)
+const successModal = ref(false)
 const currentValidation = ref(null)
+let path = import.meta.env.VITE_BACKEND_URL
 
-// const user = computed(() => userStore.$state.user)
+const imageUrl = ref(null)
+const uploadedImageUrl = ref(path + '/storage/' + props.user.image)
+
+const userStore = useUserStore()
 const updateUserStore = useUpdateUserStore()
 const userForm = computed(() => updateUserStore.$state.form)
 
@@ -22,8 +31,35 @@ const triggerFileInput = () => {
   fileInput.value.click()
 }
 
-const onFileChange = (e) => {
-  console.log(e)
+onMounted(() => {
+  console.log(uploadedImageUrl)
+})
+
+const onFileChange = async (e) => {
+  const file = e.target.files[0]
+  imageUrl.value = file
+  if (file) {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      uploadedImageUrl.value = e.target.result
+    }
+    reader.readAsDataURL(file)
+  }
+
+  try {
+    const formData = new FormData()
+    formData.append('_method', 'PATCH')
+    formData.append('user_id', props.user.id)
+    formData.append('image', imageUrl.value)
+
+    for (var pair of formData.entries()) {
+      console.log(pair[0] + ', ' + pair[1])
+    }
+    await updateUserStore.updateUser(formData, props.user.id)
+    await userStore.fetchUser('edit')
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 const openEditProfile = (edit, name, text, type, rules) => {
@@ -44,6 +80,7 @@ const closeEditProfile = () => {
 
 const onSubmit = async () => {
   console.log(currentEdit.value)
+  successModal.value = true
   try {
     const formData = new FormData()
     formData.append('_method', 'PATCH')
@@ -57,14 +94,26 @@ const onSubmit = async () => {
     console.log(userForm.value['updatedUsername'], currentName.value)
 
     await updateUserStore.updateUser(formData, props.user.id)
+    await userStore.fetchUser('edit')
   } catch (error) {
     console.log(error)
   }
+}
+
+const closeSuccessModal = () => {
+  successModal.value = false
 }
 </script>
 
 <template>
   <div class="mt-[25px]">
+    <ModalLayout v-if="successModal" class="items-baseline pt-4">
+      <div class="bg-[#BADBCC] z-10 w-26 h-14 flex items-center justify-around rounded">
+        <img :src="tick" />
+        <p class="text-[#0F5132] text-base">Changes updated succsessfully</p>
+        <img @click="closeSuccessModal" :src="exit" />
+      </div>
+    </ModalLayout>
     <router-link to="news-feed">
       <img class="ml-[40px] mb-[25px]" alt="arrow" :src="arrow" />
     </router-link>
@@ -85,9 +134,9 @@ const onSubmit = async () => {
     >
       <div class="flex flex-col mt-[24px] items-center mb-[60px]">
         <img
-          class="bg-[#D9D9D9] w-[188px] h-[188px] rounded-full mb-[24px]"
+          class="bg-[#D9D9D9] w-[188px] h-[188px] rounded-full mb-[24px] object-cover"
           alt="pic"
-          :src="user.image"
+          :src="uploadedImageUrl"
         />
         <input
           type="file"

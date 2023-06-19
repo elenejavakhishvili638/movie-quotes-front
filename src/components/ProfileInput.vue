@@ -22,7 +22,7 @@ watch(internalValue, (newValue, oldValue) => {
   }
 })
 
-const { meta } = useField(() => props.name)
+const { meta, validate: validateProfileInput } = useField(() => props.name, 'required')
 
 const img = computed(() => {
   if (meta.touched && meta.valid) {
@@ -44,9 +44,11 @@ const inputClass = computed(() => {
   }
 })
 
-const openModal = () => {
-  // props.close()
-  modal.value = true
+const openModal = async () => {
+  await validateProfileInput()
+  if (meta.valid) {
+    modal.value = true
+  }
 }
 
 const closeModal = () => {
@@ -54,12 +56,13 @@ const closeModal = () => {
 }
 
 const submitForm = () => {
+  props.close()
   emit('submitForm')
 }
 </script>
 
 <template>
-  <div v-if="modal" class="modal w-22.75 h-13.188 rounded-xl opacity-1">
+  <div class="modal w-22.75 h-13.188 rounded-xl opacity-1" v-if="modal">
     <p class="px-16 pt-16 pb-11 border-b border-b-[#CED4DA33]">Are you sure to make changes ?</p>
     <div class="px-5 flex justify-between mt-1.5">
       <button type="button" @click="closeModal">Cancel</button>
@@ -73,7 +76,7 @@ const submitForm = () => {
       <p class="mb-0.5 text-base w-22.75 self-center">{{ props.text }}</p>
       <div
         :class="inputClass"
-        class="relative z-10 flex items-center justify-between h-3 w-22.75 bg-[#CED4DA] rounded focus:shadow-custom-focus"
+        class="pl-2 relative z-10 flex items-center justify-between h-3 w-22.75 bg-[#CED4DA] rounded focus:shadow-custom-focus"
       >
         <Field
           :rules="validation"
@@ -86,7 +89,6 @@ const submitForm = () => {
         <img class="mr-[12px] absolute right-0" :src="img" />
       </div>
       <ErrorMessage class="text-[#F15524] text-base mt-[6px] ml-[20px]" :name="props.name" />
-      <!-- {{ meta }} -->
     </div>
     <div class="px-[3.25rem] flex justify-between mt-2.375 text-base">
       <button type="button" @click="props.close">Cancel</button>

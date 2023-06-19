@@ -7,8 +7,8 @@ export default {
   setUser(userData) {
     this.user = userData
   },
-  async fetchUser() {
-    if (!this.user) {
+  async fetchUser(status) {
+    if (!this.user || status === 'edit') {
       try {
         const response = await axios.get('/api/user')
         console.log(response.data.data)
