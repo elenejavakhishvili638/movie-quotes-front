@@ -138,7 +138,7 @@ const onSubmit = async () => {
             placeholder="Quote in English."
             lang="Eng"
           ></quote-textarea>
-          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="body.en" />
+          <ErrorMessage class="text-[#F15524] text-base ml-1.25" name="body.en" />
         </div>
         <div>
           <quote-textarea
@@ -149,7 +149,7 @@ const onSubmit = async () => {
             placeholder="ციტატა ქართულ ენაზე"
             lang="ქარ"
           ></quote-textarea>
-          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="body.ka" />
+          <ErrorMessage class="text-[#F15524] text-base ml-1.25" name="body.ka" />
         </div>
         <movie-image
           :onFileChangeParent="onFileChange"

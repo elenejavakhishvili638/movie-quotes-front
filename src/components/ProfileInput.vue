@@ -26,9 +26,6 @@ watch(internalValue, (newValue, oldValue) => {
 })
 
 const { meta, validate: validateProfileInput } = useField(() => props.name, props.validation)
-// if (props.name === 'updatedPassword')
-// const { meta: ps, validate: validPas } = useField('password_confirmation', 'required')
-// const { meta, validate: validateProfileInput } = useField('updatedPassword', 'required')
 
 const img = computed(() => {
   if (meta.touched && meta.valid) {
@@ -121,10 +118,7 @@ const submitForm = () => {
         />
         <img class="mr-[12px] absolute right-0" :src="img" />
       </div>
-      <ErrorMessage
-        class="text-[#F15524] text-base mt-[6px] w-22.75"
-        name="password_confirmation"
-      />
+      <ErrorMessage class="text-[#F15524] text-base mt-0.5 w-22.75" name="password_confirmation" />
     </div>
     <div class="px-[3.25rem] flex justify-between mt-2.375 text-base">
       <button type="button" @click="props.close">Cancel</button>

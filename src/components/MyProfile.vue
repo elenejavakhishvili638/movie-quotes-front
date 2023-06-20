@@ -116,7 +116,7 @@ const closeSuccessModal = () => {
       </div>
     </ModalLayout>
     <router-link to="news-feed">
-      <img class="ml-[40px] mb-[25px]" alt="arrow" :src="arrow" />
+      <img class="ml-2.5 mb-1.5" alt="arrow" :src="arrow" />
     </router-link>
     <Form @submit="onSubmit" v-if="editProfile" class="flex justify-center">
       <ProfileInput
@@ -129,13 +129,10 @@ const closeSuccessModal = () => {
         :validation="currentValidation"
       ></ProfileInput>
     </Form>
-    <div
-      class="bg-[#24222F] h-[765px] rounded-[12px] flex flex-col items-center"
-      v-if="!editProfile"
-    >
-      <div class="flex flex-col mt-[24px] items-center mb-[60px]">
+    <div class="bg-[#24222F] h-47.813 rounded-xl flex flex-col items-center" v-if="!editProfile">
+      <div class="flex flex-col mt-1.5 items-center mb-3.75">
         <img
-          class="bg-[#D9D9D9] w-[188px] h-[188px] rounded-full mb-[24px] object-cover"
+          class="bg-[#D9D9D9] w-11.75 h-11.75 rounded-full mb-1.5 object-cover"
           alt="pic"
           :src="uploadedImageUrl"
         />
@@ -146,12 +143,12 @@ const closeSuccessModal = () => {
           style="display: none"
           @change="onFileChange"
         />
-        <p class="text-[20px] font-normal" @click="triggerFileInput">Upload my photo</p>
+        <p class="text-xl font-normal" @click="triggerFileInput">Upload my photo</p>
       </div>
-      <div class="w-[364px] flex flex-col gap-[31px]">
+      <div class="w-22.75 flex flex-col gap-8">
         <div>
-          <p class="mb-[4px] text-base">Username</p>
-          <div class="flex justify-between border-b pb-[16px] text-[18px]">
+          <p class="mb-0.25 text-base">Username</p>
+          <div class="flex justify-between border-b pb-4 text-lg">
             <p>{{ props.username }}</p>
             <button
               class="text-[#CED4DA]"
@@ -170,8 +167,8 @@ const closeSuccessModal = () => {
           </div>
         </div>
         <div>
-          <p class="mb-[4px] text-base">Email</p>
-          <div class="flex justify-between border-b pb-[16px] text-[18px]">
+          <p class="mb-0.25 text-base">Email</p>
+          <div class="flex justify-between border-b pb-4 text-lg">
             <p>{{ props.email }}</p>
             <button
               class="text-[#CED4DA]"
@@ -190,8 +187,8 @@ const closeSuccessModal = () => {
           </div>
         </div>
         <div>
-          <p class="mb-[4px] text-base">Password</p>
-          <div class="flex justify-between border-b pb-[16px] text-[18px]">
+          <p class="mb-0.25 text-base">Password</p>
+          <div class="flex justify-between border-b pb-4 text-lg">
             <p class="tracking-wider">...............</p>
             <button
               class="text-[#CED4DA]"

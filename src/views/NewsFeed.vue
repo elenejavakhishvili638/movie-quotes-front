@@ -90,12 +90,12 @@ const language = computed(() => languageStore.currentLanguage)
             }"
             class="md:items-center md:rounded-lg md:pl-4 text-white text-base flex ml-[36px] md:ml-[0px] cursor-pointer md:bg-[#24222F] md:h-3.25"
           >
-            <img :src="write" class="mr-[12px]" />{{ $t('feed.new_quote') }}
+            <img :src="write" class="mr-0.75" />{{ $t('feed.new_quote') }}
           </div>
 
           <div
-            :class="{ 'md:border-b pb-4 pt-1 md:w-[258px] xl:w-[688px]': increaseSearch }"
-            class="mr-[21px] hidden md:flex md:ml-[24px] text-white"
+            :class="{ 'md:border-b pb-4 pt-1 md:w-16.125 xl:w-43': increaseSearch }"
+            class="mr-[1.313rem] mr hidden md:flex md:ml-1.5 text-white"
             @click.stop="increase"
           >
             <img :src="search" class="mr-0.75" />

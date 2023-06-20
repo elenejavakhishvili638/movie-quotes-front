@@ -162,15 +162,15 @@ const onSubmit = async () => {
             </div>
           </div>
           <div class="flex flex-col">
-            <label class="mb-[8px]">Email</label>
-            <div class="flex gap-[33px]">
+            <label class="mb-0.5">Email</label>
+            <div class="flex gap-8">
               <Field
                 name="oldEmail"
                 type="email"
                 disabled
                 :value="props.email"
                 :readonly="props.google !== null"
-                class="text-[#212529] w-[528px] h-[48px] rounded-[5px] px-[9px] py-[17px] outline-none bg-[#CED4DA]"
+                class="text-[#212529] w-33 h-3 rounded px-2 py-4 outline-none bg-[#CED4DA]"
               />
               <button
                 type="button"
@@ -181,7 +181,7 @@ const onSubmit = async () => {
                 Edit
               </button>
             </div>
-            <div v-if="newEmail" class="flex flex-col mt-[56px]">
+            <div v-if="newEmail" class="flex flex-col mt-3.5">
               <the-input
                 class="w-33 h-3"
                 v-model="formData.email"
@@ -194,14 +194,14 @@ const onSubmit = async () => {
             </div>
           </div>
           <div class="flex flex-col" v-if="props.google === null">
-            <label class="mb-[8px]">Password</label>
-            <div class="flex gap-[33px]">
+            <label class="mb-0.5">Password</label>
+            <div class="flex gap-8">
               <Field
                 name="oldPassword"
                 disabled
                 value="passwordpassword"
                 type="password"
-                class="text-[#212529] w-[528px] h-[48px] rounded px-2 py-4 outline-none bg-[#CED4DA]"
+                class="text-[#212529] w-33 h-3 rounded px-2 py-4 outline-none bg-[#CED4DA]"
               />
               <button type="button" class="text-[#CED4DA]" @click="openPassword">Edit</button>
             </div>
@@ -238,10 +238,7 @@ const onSubmit = async () => {
       </div>
       <div v-if="openButtons" class="flex gap-7 self-end">
         <button class="text-xl text-[#CED4DA]" type="button" @click="cancelButtons">Cancel</button>
-        <button
-          type="submit"
-          class="bg-[#E31221] rounded-[5px] px-[17px] py-[9px] h-[48px] w-[160px] text-[20px]"
-        >
+        <button type="submit" class="bg-[#E31221] rounded px-4 py-2 h-3 w-[10rem] text-xl">
           Save changes
         </button>
       </div>
