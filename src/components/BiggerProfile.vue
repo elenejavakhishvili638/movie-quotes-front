@@ -4,6 +4,7 @@ import { useUpdateUserStore } from '../stores/updateUser/index'
 import { Form, Field } from 'vee-validate'
 import { useUserStore } from '../stores/user'
 import TheInput from '../components/TheInput.vue'
+import ProfileValidation from './ProfileValidation.vue'
 
 const props = defineProps(['username', 'email', 'google', 'user'])
 
@@ -142,45 +143,13 @@ const onSubmit = async () => {
               <button type="button" class="text-[#CED4DA]" @click="openUsername">Edit</button>
             </div>
             <div v-if="newUsername" class="flex flex-col mt-3.5">
-              <div class="border border-[#CED4DA33] mb-2 w-33 h-9 rounded p-6">
-                <p class="text-base mb-1">Username should contain:</p>
-                <div class="flex items-center gap-2">
-                  <div
-                    :class="{
-                      'bg-[#198754]': usernameMin,
-                      'bg-[#9C9A9A]': !usernameMin
-                    }"
-                    class="w-1 h-1 rounded-full"
-                  ></div>
-                  <p
-                    :class="{
-                      'text-[white]': usernameMin,
-                      'text-[#9C9A9A]': !usernameMin
-                    }"
-                    class="text-sm mb-0.5"
-                  >
-                    3 or more characters
-                  </p>
-                </div>
-                <div class="flex items-center gap-2">
-                  <div
-                    :class="{
-                      'bg-[#198754]': usernameMin && lowerCaseAndNumbersOnly,
-                      'bg-[#9C9A9A]': !usernameMin || !lowerCaseAndNumbersOnly
-                    }"
-                    class="w-1 h-1 rounded-full"
-                  ></div>
-                  <p
-                    :class="{
-                      'text-[white]': usernameMin && lowerCaseAndNumbersOnly,
-                      'text-[#9C9A9A]': !usernameMin || !lowerCaseAndNumbersOnly
-                    }"
-                    class="text-sm"
-                  >
-                    15 lowercase character
-                  </p>
-                </div>
-              </div>
+              <ProfileValidation
+                label="Username should contain:"
+                :condition-one="usernameMin"
+                :condition-two="lowerCaseAndNumbersOnly"
+                condition-text-one="3 or more characters"
+                condition-text-two="15 lowercase character"
+              ></ProfileValidation>
               <the-input
                 class="w-33 h-3"
                 v-model="formData.username"
@@ -237,45 +206,13 @@ const onSubmit = async () => {
               <button type="button" class="text-[#CED4DA]" @click="openPassword">Edit</button>
             </div>
             <div v-if="newPassword" class="flex flex-col mt-3.5 gap-12">
-              <div class="border border-[#CED4DA33] mb-2 w-33 h-9 rounded p-6">
-                <p class="text-base mb-1">Password should contain:</p>
-                <div class="flex items-center gap-2">
-                  <div
-                    :class="{
-                      'bg-[#198754]': passwordMin,
-                      'bg-[#9C9A9A]': !passwordMin
-                    }"
-                    class="w-1 h-1 rounded-full"
-                  ></div>
-                  <p
-                    :class="{
-                      'text-[white]': passwordMin,
-                      'text-[#9C9A9A]': !passwordMin
-                    }"
-                    class="text-sm mb-0.5"
-                  >
-                    8 or more characters
-                  </p>
-                </div>
-                <div class="flex items-center gap-2">
-                  <div
-                    :class="{
-                      'bg-[#198754]': passwordMin && lowerCaseAndNumbersOnlyPass,
-                      'bg-[#9C9A9A]': !passwordMin || !lowerCaseAndNumbersOnlyPass
-                    }"
-                    class="w-1 h-1 rounded-full"
-                  ></div>
-                  <p
-                    :class="{
-                      'text-[white]': passwordMin && lowerCaseAndNumbersOnlyPass,
-                      'text-[#9C9A9A]': !passwordMin || !lowerCaseAndNumbersOnlyPass
-                    }"
-                    class="text-sm"
-                  >
-                    15 lowercase character
-                  </p>
-                </div>
-              </div>
+              <ProfileValidation
+                label="Password should contain:"
+                :condition-one="passwordMin"
+                :condition-two="lowerCaseAndNumbersOnlyPass"
+                condition-text-one="8 or more characters"
+                condition-text-two="15 lowercase character"
+              ></ProfileValidation>
               <the-input
                 class="w-33 h-3"
                 v-model="formData.password"
