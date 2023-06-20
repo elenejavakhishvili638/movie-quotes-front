@@ -14,6 +14,7 @@ import { useMoviesStore } from '../stores/movies'
 
 const route = useRoute()
 const props = defineProps(['closeViewQuote', 'id', 'movie'])
+const emit = defineEmits(['editQuote'])
 const quoteStore = useQuotesStore()
 const userStore = useUserStore()
 let path = import.meta.env.VITE_BACKEND_URL
@@ -34,6 +35,7 @@ const toggleLike = () => {
 onMounted(async () => {
   try {
     await quoteStore.fetchQuote(props.id)
+    console.log(quote.value)
   } catch (error) {
     console.log(error)
   }
@@ -50,6 +52,11 @@ const onSubmit = async () => {
   } catch (error) {
     console.log(error)
   }
+}
+
+const openEdit = async () => {
+  props.closeViewQuote()
+  emit('editQuote', props.id)
 }
 
 const deleteQuote = async () => {
@@ -70,7 +77,7 @@ const deleteQuote = async () => {
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-6 px-8">
       <div class="w-5.625 h-10 flex items-center justify-between">
-        <img :src="pencil" />
+        <img :src="pencil" @click="openEdit" />
         <div class="border-r border-r-[#6C757D] h-4"></div>
         <img :src="trash" @click="deleteQuote" />
       </div>
@@ -92,7 +99,7 @@ const deleteQuote = async () => {
       </div>
       <img
         :src="path + '/storage/' + quote.image"
-        class="w-22.375 h-18.875 rounded-xl self-center flex lg:w-56 lg:h-32"
+        class="w-22.375 h-18.875 rounded-xl self-center flex lg:w-56 lg:h-32.063"
       />
       <div class="flex border-b border-color mt-[5.688] pb-6 text-xl">
         <div class="flex mr-1.5">

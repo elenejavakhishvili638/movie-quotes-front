@@ -16,6 +16,7 @@ const route = useRoute()
 
 const homeImage = computed(() => (route.path === '/news-feed' ? activeHouse : home))
 const movieImage = computed(() => (route.path === '/movie-list' ? activeCamera : movie))
+const profile = computed(() => (route.path === '/my-profile' ? 'border border-[#E31221]' : null))
 
 const user = computed(() => userStore.$state.user)
 const uploadedImageUrl = ref(path + '/storage/' + user.value.image)
@@ -25,13 +26,16 @@ const uploadedImageUrl = ref(path + '/storage/' + user.value.image)
   <div class="sticky top-[120px]">
     <div class="flex items-center mb-[14px] mt-2">
       <img
+        :class="profile"
         class="bg-[#D9D9D9] rounded-full w-10 h-10 lg:w-[60px] lg:h-[60px] object-cover"
         :src="uploadedImageUrl"
         alt="name"
       />
       <div class="flex flex-col ml-1">
         <p class="text-2xl">{{ user.username }}</p>
-        <router-link :to="{ name: 'profile' }">{{ $t('feed.edit_profile') }}</router-link>
+        <router-link class="text-[#CED4DA] hover:text-[#FFFFFF]" :to="{ name: 'profile' }">{{
+          $t('feed.edit_profile')
+        }}</router-link>
       </div>
     </div>
     <div class="mt-[40px] text-2xl">

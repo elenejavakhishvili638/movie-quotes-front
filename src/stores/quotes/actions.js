@@ -38,7 +38,7 @@ export default {
   async fetchQuote(id) {
     const movieStore = useMoviesStore()
     try {
-      const foundQuote = movieStore.movie.myQuotes.find((quote) => quote.id === id)
+      const foundQuote = movieStore.movie.quotes.find((quote) => quote.id === id)
       if (foundQuote) {
         this.quote = foundQuote
       }

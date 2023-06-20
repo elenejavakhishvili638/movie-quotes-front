@@ -1,8 +1,9 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useUpdateUserStore } from '../stores/updateUser/index'
-import { Form, Field, ErrorMessage } from 'vee-validate'
+import { Form, Field } from 'vee-validate'
 import { useUserStore } from '../stores/user'
+import TheInput from '../components/TheInput.vue'
 
 const props = defineProps(['username', 'email', 'google', 'user'])
 
@@ -52,9 +53,20 @@ const onFileChange = async (e) => {
 }
 
 const usernameMin = computed(
-  () => formData.value.updatedUsername.length >= 3 && formData.value.updatedUsername.length <= 15
+  () => formData.value.username.length >= 3 && formData.value.username.length <= 15
 )
-const usernameMax = computed(() => formData.value.updatedUsername.length <= 15)
+
+const passwordMin = computed(
+  () => formData.value.password.length >= 8 && formData.value.password.length <= 15
+)
+
+const lowerCaseAndNumbersOnly = computed(() => {
+  return /^[a-z0-9]+$/.test(formData.value.username)
+})
+
+const lowerCaseAndNumbersOnlyPass = computed(() => {
+  return /^[a-z0-9]+$/.test(formData.value.password)
+})
 
 const cancelButtons = () => {
   newUsername.value = false
@@ -78,7 +90,26 @@ const openPassword = () => {
   openButtons.value = true
 }
 
-const onSubmit = async () => {}
+const onSubmit = async () => {
+  // formData.value._method = 'PATCH'
+  // console.log(formData.value)
+  // await updateUserStore.updateUser(formData.value, props.user.id)
+  // await userStore.fetchUser('edit')
+  let data = formData.value
+  data._method = 'PATCH'
+
+  Object.keys(data).forEach((key) => {
+    if (data[key] === '') delete data[key]
+  })
+
+  console.log(data)
+  newUsername.value = false
+  newEmail.value = false
+  newPassword.value = false
+  openButtons.value = false
+  await updateUserStore.updateUser(data, props.user.id)
+  await userStore.fetchUser('edit')
+}
 </script>
 
 <template>
@@ -120,11 +151,17 @@ const onSubmit = async () => {}
                 <p class="text-base mb-1">Username should contain:</p>
                 <div class="flex items-center gap-2">
                   <div
-                    :class="{ 'bg-[#198754]': usernameMin, 'bg-[#9C9A9A]': !usernameMin }"
+                    :class="{
+                      'bg-[#198754]': usernameMin,
+                      'bg-[#9C9A9A]': !usernameMin
+                    }"
                     class="w-1 h-1 rounded-full"
                   ></div>
                   <p
-                    :class="{ 'text-[white]': usernameMin, 'text-[#9C9A9A]': !usernameMin }"
+                    :class="{
+                      'text-[white]': usernameMin,
+                      'text-[#9C9A9A]': !usernameMin
+                    }"
                     class="text-sm mb-0.5"
                   >
                     3 or more characters
@@ -132,26 +169,32 @@ const onSubmit = async () => {}
                 </div>
                 <div class="flex items-center gap-2">
                   <div
-                    :class="{ 'bg-[#198754]': usernameMax, 'bg-[#9C9A9A]': !usernameMax }"
+                    :class="{
+                      'bg-[#198754]': usernameMin && lowerCaseAndNumbersOnly,
+                      'bg-[#9C9A9A]': !usernameMin || !lowerCaseAndNumbersOnly
+                    }"
                     class="w-1 h-1 rounded-full"
                   ></div>
                   <p
-                    :class="{ 'text-[white]': usernameMax, 'text-[#9C9A9A]': !usernameMax }"
+                    :class="{
+                      'text-[white]': usernameMin && lowerCaseAndNumbersOnly,
+                      'text-[#9C9A9A]': !usernameMin || !lowerCaseAndNumbersOnly
+                    }"
                     class="text-sm"
                   >
                     15 lowercase character
                   </p>
                 </div>
               </div>
-              <label class="mb-[8px]">New username</label>
-              <Field
+              <the-input
+                class="w-33 h-3"
+                v-model="formData.username"
                 name="username"
                 type="text"
-                v-model="formData.updatedUsername"
-                class="text-[#212529] w-33 h-[48px] rounded-[5px] px-[9px] py-[17px] outline-none bg-[#CED4DA]"
-              />
-              {{ err }}
-              <ErrorMessage name="username" />
+                label="New username"
+                validate="minmax:3,15|lowercase_and_numbers_only"
+              >
+              </the-input>
             </div>
           </div>
           <div class="flex flex-col">
@@ -160,11 +203,11 @@ const onSubmit = async () => {}
               <Field
                 name="oldEmail"
                 type="email"
+                disabled
                 :value="props.email"
                 :readonly="props.google !== null"
                 class="text-[#212529] w-[528px] h-[48px] rounded-[5px] px-[9px] py-[17px] outline-none bg-[#CED4DA]"
               />
-              <!-- <Field /> -->
               <button
                 type="button"
                 class="text-[#CED4DA]"
@@ -175,13 +218,24 @@ const onSubmit = async () => {}
               </button>
             </div>
             <div v-if="newEmail" class="flex flex-col mt-[56px]">
-              <label class="mb-[8px]">New Email</label>
+              <the-input
+                class="w-33 h-3"
+                v-model="formData.email"
+                name="email"
+                type="email"
+                label="New Email"
+                validate="email"
+              >
+              </the-input>
+              <!-- <label class="mb-[8px]">New Email</label>
               <Field
                 name="email"
                 type="email"
+                rules="email"
                 :value="formData.email"
                 class="text-[#212529] w-[528px] h-[48px] rounded-[5px] px-[9px] py-[17px] outline-none bg-[#CED4DA]"
               />
+              <ErrorMessage name="email" /> -->
             </div>
           </div>
           <div class="flex flex-col" v-if="props.google === null">
@@ -189,34 +243,78 @@ const onSubmit = async () => {}
             <div class="flex gap-[33px]">
               <Field
                 name="oldPassword"
+                disabled
+                value="passwordpassword"
                 type="password"
-                class="text-[#212529] w-[528px] h-[48px] rounded-[5px] px-[9px] py-[17px] outline-none bg-[#CED4DA]"
+                class="text-[#212529] w-[528px] h-[48px] rounded px-2 py-4 outline-none bg-[#CED4DA]"
               />
               <button type="button" class="text-[#CED4DA]" @click="openPassword">Edit</button>
             </div>
-            <div v-if="newPassword" class="flex flex-col mt-[56px]">
-              <label class="mb-[8px]">New Password</label>
-              <Field
+            <div v-if="newPassword" class="flex flex-col mt-3.5 gap-12">
+              <div class="border border-[#CED4DA33] mb-2 w-33 h-9 rounded p-6">
+                <p class="text-base mb-1">Password should contain:</p>
+                <div class="flex items-center gap-2">
+                  <div
+                    :class="{
+                      'bg-[#198754]': passwordMin,
+                      'bg-[#9C9A9A]': !passwordMin
+                    }"
+                    class="w-1 h-1 rounded-full"
+                  ></div>
+                  <p
+                    :class="{
+                      'text-[white]': passwordMin,
+                      'text-[#9C9A9A]': !passwordMin
+                    }"
+                    class="text-sm mb-0.5"
+                  >
+                    8 or more characters
+                  </p>
+                </div>
+                <div class="flex items-center gap-2">
+                  <div
+                    :class="{
+                      'bg-[#198754]': passwordMin && lowerCaseAndNumbersOnlyPass,
+                      'bg-[#9C9A9A]': !passwordMin || !lowerCaseAndNumbersOnlyPass
+                    }"
+                    class="w-1 h-1 rounded-full"
+                  ></div>
+                  <p
+                    :class="{
+                      'text-[white]': passwordMin && lowerCaseAndNumbersOnlyPass,
+                      'text-[#9C9A9A]': !passwordMin || !lowerCaseAndNumbersOnlyPass
+                    }"
+                    class="text-sm"
+                  >
+                    15 lowercase character
+                  </p>
+                </div>
+              </div>
+              <the-input
+                class="w-33 h-3"
+                v-model="formData.password"
+                disabled
                 name="password"
                 type="password"
-                :value="formData.password"
-                class="text-[#212529] w-[528px] h-[48px] rounded-[5px] px-[9px] py-[17px] outline-none bg-[#CED4DA]"
-              />
-              <label class="mb-[8px] mt-[56px]">Confirm new password</label>
-              <Field
+                label="New Password"
+                validate="lowercase_and_numbers_only|minmax:8,15"
+              >
+              </the-input>
+              <the-input
+                class="w-33 h-3"
+                v-model="formData.password_confirmation"
                 name="password_confirmation"
-                type="password_confirmation"
-                :value="formData.password_confirmation"
-                class="text-[#212529] w-[528px] h-[48px] rounded-[5px] px-[9px] py-[17px] outline-none bg-[#CED4DA]"
-              />
+                type="password"
+                label="Confirm new password"
+                validate="lowercase_and_numbers_only|minmax:8,15"
+              >
+              </the-input>
             </div>
           </div>
         </div>
       </div>
-      <div v-if="openButtons" class="flex gap-[26px] self-end">
-        <button class="text-[20px] text-[#CED4DA]" type="button" @click="cancelButtons">
-          Cancel
-        </button>
+      <div v-if="openButtons" class="flex gap-7 self-end">
+        <button class="text-xl text-[#CED4DA]" type="button" @click="cancelButtons">Cancel</button>
         <button
           type="submit"
           class="bg-[#E31221] rounded-[5px] px-[17px] py-[9px] h-[48px] w-[160px] text-[20px]"

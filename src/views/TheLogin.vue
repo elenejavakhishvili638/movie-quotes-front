@@ -51,6 +51,7 @@ const formData = computed(() => loginStore.$state.login)
       </div>
       <Form @submit="onSubmit" v-slot="{ meta }">
         <the-input
+          class="w-[360px]"
           v-model="formData.username"
           validate="required"
           name="username"
@@ -59,6 +60,7 @@ const formData = computed(() => loginStore.$state.login)
           :placeholder="$t('login.email_placeholder')"
         ></the-input>
         <the-input
+          class="w-[360px]"
           v-model="formData.password"
           validate="required"
           name="password"
