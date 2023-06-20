@@ -1,6 +1,7 @@
 <script setup>
 import { Field, ErrorMessage, useField } from 'vee-validate'
 import { watch, ref, computed } from 'vue'
+import { useUpdateUserStore } from '../stores/updateUser'
 import error from '../assets/images/logos/error.png'
 import valid from '../assets/images/logos/valid.png'
 
@@ -8,6 +9,8 @@ const props = defineProps(['text', 'name', 'modelValue', 'type', 'validation', '
 const emit = defineEmits(['update:modelValue', 'submitForm'])
 const internalValue = ref(props.modelValue)
 const modal = ref(false)
+const updateUserStore = useUpdateUserStore()
+const userStore = computed(() => updateUserStore.$state.form)
 
 watch(
   () => props.modelValue,
@@ -22,7 +25,10 @@ watch(internalValue, (newValue, oldValue) => {
   }
 })
 
-const { meta, validate: validateProfileInput } = useField(() => props.name, 'required')
+const { meta, validate: validateProfileInput } = useField(() => props.name, props.validation)
+// if (props.name === 'updatedPassword')
+// const { meta: ps, validate: validPas } = useField('password_confirmation', 'required')
+// const { meta, validate: validateProfileInput } = useField('updatedPassword', 'required')
 
 const img = computed(() => {
   if (meta.touched && meta.valid) {
@@ -46,8 +52,14 @@ const inputClass = computed(() => {
 
 const openModal = async () => {
   await validateProfileInput()
-  if (meta.valid) {
-    modal.value = true
+  if (props.name === 'updatedPassword') {
+    if (meta.valid && userStore.value.password_confirmation === userStore.value.password) {
+      modal.value = true
+    }
+  } else {
+    if (meta.valid) {
+      modal.value = true
+    }
   }
 }
 
@@ -76,7 +88,7 @@ const submitForm = () => {
       <p class="mb-0.5 text-base w-22.75 self-center">{{ props.text }}</p>
       <div
         :class="inputClass"
-        class="pl-2 relative z-10 flex items-center justify-between h-3 w-22.75 bg-[#CED4DA] rounded focus:shadow-custom-focus"
+        class="pl-2 relative flex items-center justify-between h-3 w-22.75 bg-[#CED4DA] rounded focus:shadow-custom-focus"
       >
         <Field
           :rules="validation"
@@ -84,11 +96,35 @@ const submitForm = () => {
           :name="props.name"
           :type="props.type"
           autocomplete="off"
-          class="bg-[#CED4DA] outline-none rounded h-3 w-22.75"
+          class="bg-transparent outline-none rounded h-3 w-22.75"
         />
         <img class="mr-[12px] absolute right-0" :src="img" />
       </div>
-      <ErrorMessage class="text-[#F15524] text-base mt-[6px] ml-[20px]" :name="props.name" />
+      <ErrorMessage class="text-[#F15524] text-base mt-[6px] w-22.75" :name="props.name" />
+    </div>
+    <div
+      v-if="props.name === 'updatedPassword'"
+      class="bg-[#24222F] rounded-xl flex flex-col items-center py-8 pb-[4.625rem]"
+    >
+      <p class="mb-0.5 text-base w-22.75 self-center">Confirm new password</p>
+      <div
+        :class="inputClass"
+        class="pl-2 relative z-10 flex items-center justify-between h-3 w-22.75 bg-[#CED4DA] rounded focus:shadow-custom-focus"
+      >
+        <Field
+          rules="required|confirmed:password"
+          v-model="userStore.password_confirmation"
+          name="password_confirmation"
+          type="password"
+          autocomplete="off"
+          class="bg-transparent outline-none rounded h-3 w-22.75"
+        />
+        <img class="mr-[12px] absolute right-0" :src="img" />
+      </div>
+      <ErrorMessage
+        class="text-[#F15524] text-base mt-[6px] w-22.75"
+        name="password_confirmation"
+      />
     </div>
     <div class="px-[3.25rem] flex justify-between mt-2.375 text-base">
       <button type="button" @click="props.close">Cancel</button>

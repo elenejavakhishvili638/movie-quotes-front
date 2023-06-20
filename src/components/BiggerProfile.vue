@@ -91,10 +91,6 @@ const openPassword = () => {
 }
 
 const onSubmit = async () => {
-  // formData.value._method = 'PATCH'
-  // console.log(formData.value)
-  // await updateUserStore.updateUser(formData.value, props.user.id)
-  // await userStore.fetchUser('edit')
   let data = formData.value
   data._method = 'PATCH'
 
@@ -102,7 +98,6 @@ const onSubmit = async () => {
     if (data[key] === '') delete data[key]
   })
 
-  console.log(data)
   newUsername.value = false
   newEmail.value = false
   newPassword.value = false
@@ -227,15 +222,6 @@ const onSubmit = async () => {
                 validate="email"
               >
               </the-input>
-              <!-- <label class="mb-[8px]">New Email</label>
-              <Field
-                name="email"
-                type="email"
-                rules="email"
-                :value="formData.email"
-                class="text-[#212529] w-[528px] h-[48px] rounded-[5px] px-[9px] py-[17px] outline-none bg-[#CED4DA]"
-              />
-              <ErrorMessage name="email" /> -->
             </div>
           </div>
           <div class="flex flex-col" v-if="props.google === null">
@@ -306,7 +292,7 @@ const onSubmit = async () => {
                 name="password_confirmation"
                 type="password"
                 label="Confirm new password"
-                validate="lowercase_and_numbers_only|minmax:8,15"
+                validate="required|confirmed:password"
               >
               </the-input>
             </div>

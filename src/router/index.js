@@ -45,16 +45,6 @@ const router = createRouter({
       meta: { requiresAuth: true, requiresVerifiedEmail: true }
     },
     {
-      path: '/forbidden',
-      name: 'forbidden',
-      component: ForbiddenError
-    },
-    {
-      path: '/page-not-found',
-      name: 'notFound',
-      component: NotFoundError
-    },
-    {
       path: '/email/verify/:id/:hash',
       component: TheLanding,
       beforeEnter: (to, from, next) => {
@@ -78,9 +68,43 @@ const router = createRouter({
       }
     },
     {
+      path: '/email-change/verify/:id/:hash/:token',
+      component: TheLanding,
+      beforeEnter: (to, from, next) => {
+        const { id, hash, token } = to.params
+        const { expires, signature } = to.query
+        console.log(token)
+        axios
+          .get(`api/email-change/verify/${id}/${hash}/${token}`, {
+            params: {
+              expires: expires,
+              signature: signature
+            }
+          })
+          .then((response) => {
+            console.log(response)
+            next()
+          })
+          .catch((error) => {
+            console.log(error)
+            next()
+          })
+      }
+    },
+    {
       path: '/reset-password/:token',
       component: TheLanding,
       props: true
+    },
+    {
+      path: '/forbidden',
+      name: 'forbidden',
+      component: ForbiddenError
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: NotFoundError
     }
   ]
 })
@@ -93,7 +117,7 @@ router.beforeEach(async (to, from, next) => {
     if (userStore.user && userStore.userVerified) {
       next()
     } else {
-      next('/')
+      next('/forbidden')
     }
   } else if (to.meta.guest) {
     await userStore.fetchUser()

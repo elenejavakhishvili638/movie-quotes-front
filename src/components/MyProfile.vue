@@ -12,9 +12,10 @@ import ModalLayout from './ModalLayout.vue'
 const props = defineProps(['username', 'email', 'google', 'user'])
 const fileInput = ref(null)
 const editProfile = ref(false)
-const currentEdit = ref(null)
 const currentText = ref(null)
 const currentName = ref(null)
+const currentEdit = ref(null)
+
 const currentType = ref(null)
 const successModal = ref(false)
 const currentValidation = ref(null)
@@ -62,10 +63,9 @@ const onFileChange = async (e) => {
   }
 }
 
-const openEditProfile = (edit, name, text, type, rules) => {
+const openEditProfile = (name, edit, text, type, rules) => {
   console.log('openEditProfile called with:', name, text)
   editProfile.value = true
-
   currentEdit.value = edit
   currentText.value = text
   currentName.value = name
@@ -79,24 +79,25 @@ const closeEditProfile = () => {
 }
 
 const onSubmit = async () => {
-  console.log(currentEdit.value)
   successModal.value = true
-  try {
-    const formData = new FormData()
-    formData.append('_method', 'PATCH')
-    formData.append('user_id', props.user.id)
-    formData.append(currentEdit.value, userForm.value[currentName.value])
-
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ', ' + pair[1])
-    }
-
-    console.log(userForm.value['updatedUsername'], currentName.value)
+  const formData = new FormData()
+  formData.append('_method', 'PATCH')
+  formData.append('user_id', props.user.id)
+  if (userForm.value['password_confirmation']) {
+    formData.append(currentName.value, userForm.value[currentName.value])
+    formData.append('password_confirmation', userForm.value['password_confirmation'])
 
     await updateUserStore.updateUser(formData, props.user.id)
     await userStore.fetchUser('edit')
-  } catch (error) {
-    console.log(error)
+  } else {
+    try {
+      formData.append(currentName.value, userForm.value[currentName.value])
+
+      await updateUserStore.updateUser(formData, props.user.id)
+      await userStore.fetchUser('edit')
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 
@@ -123,7 +124,7 @@ const closeSuccessModal = () => {
         :close="closeEditProfile"
         :text="currentText"
         v-model="userForm[currentName]"
-        :name="currentName"
+        :name="currentEdit"
         :type="currentType"
         :validation="currentValidation"
       ></ProfileInput>
@@ -174,7 +175,15 @@ const closeSuccessModal = () => {
             <p>{{ props.email }}</p>
             <button
               class="text-[#CED4DA]"
-              @click="openEditProfile('updatedEmail', 'Enter new Email', 'email', 'required|email')"
+              @click="
+                openEditProfile(
+                  'email',
+                  'updatedEmail',
+                  'Enter new Email',
+                  'email',
+                  'required|email'
+                )
+              "
             >
               Edit
             </button>
@@ -183,8 +192,21 @@ const closeSuccessModal = () => {
         <div>
           <p class="mb-[4px] text-base">Password</p>
           <div class="flex justify-between border-b pb-[16px] text-[18px]">
-            <p>....</p>
-            <button class="text-[#CED4DA]">Edit</button>
+            <p class="tracking-wider">...............</p>
+            <button
+              class="text-[#CED4DA]"
+              @click="
+                openEditProfile(
+                  'password',
+                  'updatedPassword',
+                  'Enter new password',
+                  'password',
+                  'required|lowercase_and_numbers_only|minmax:8,15'
+                )
+              "
+            >
+              Edit
+            </button>
           </div>
         </div>
       </div>

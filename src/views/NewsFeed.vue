@@ -4,7 +4,7 @@ import search from '../assets/images/logos/search.png'
 import FeedHeader from '../components/FeedHeader.vue'
 import arrow from '../assets/images/logos/arrow.png'
 import { useQuotesStore } from '../stores/quotes/index'
-import { onMounted, computed, ref, watch, onBeforeUnmount } from 'vue'
+import { onMounted, computed, ref, watch, onBeforeUnmount, onUnmounted } from 'vue'
 import { useUserStore } from '../stores/user/index'
 import ProfileSidebar from '../components/ProfileSidebar.vue'
 import ThePost from '../components/ThePost.vue'
@@ -29,6 +29,11 @@ const handleScroll = async () => {
     await quotesStore.fetchQuotes(searchTerm.value, page.value)
   }
 }
+
+onUnmounted(() => {
+  quotesStore.quoteList = []
+})
+
 onMounted(async () => {
   await quotesStore.fetchQuotes(searchTerm.value, page.value)
   window.addEventListener('scroll', handleScroll)
