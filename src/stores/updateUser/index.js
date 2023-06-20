@@ -11,7 +11,8 @@ export const useUpdateUserStore = defineStore({
       password: '',
       password_confirmation: ''
       // image: ''
-    }
+    },
+    errors: {}
   }),
   actions
 })

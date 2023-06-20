@@ -5,6 +5,7 @@ import { Form, Field } from 'vee-validate'
 import { useUserStore } from '../stores/user'
 import TheInput from '../components/TheInput.vue'
 import ProfileValidation from './ProfileValidation.vue'
+import { useLanguageStore } from '../stores/language/index'
 
 const props = defineProps(['username', 'email', 'google', 'user'])
 
@@ -15,11 +16,13 @@ const newPassword = ref(false)
 const openButtons = ref(false)
 const userStore = useUserStore()
 const updateUserStore = useUpdateUserStore()
+const languageStore = useLanguageStore()
 const formData = computed(() => updateUserStore.form)
 let path = import.meta.env.VITE_BACKEND_URL
 
 const imageUrl = ref(null)
 const uploadedImageUrl = ref(path + '/storage/' + props.user.image)
+const errors = computed(() => updateUserStore.$state.errors)
 
 const triggerFileInput = () => {
   fileInput.value.click()
@@ -99,13 +102,15 @@ const onSubmit = async () => {
     if (data[key] === '') delete data[key]
   })
 
+  await updateUserStore.updateUser(data, props.user.id)
+  await userStore.fetchUser('edit')
   newUsername.value = false
   newEmail.value = false
   newPassword.value = false
   openButtons.value = false
-  await updateUserStore.updateUser(data, props.user.id)
-  await userStore.fetchUser('edit')
 }
+
+const language = computed(() => languageStore.currentLanguage)
 </script>
 
 <template>
@@ -191,6 +196,9 @@ const onSubmit = async () => {
                 validate="email"
               >
               </the-input>
+              <p class="text-[#F15524] text-base ml-[20px] mt-[16px]" v-if="errors">
+                {{ errors['email'] && errors['email'][0][language] }}
+              </p>
             </div>
           </div>
           <div class="flex flex-col" v-if="props.google === null">

@@ -215,6 +215,7 @@ export async function updateUser(data, id) {
     })
   } catch (error) {
     console.log(error)
+    throw error
   }
 }
 
