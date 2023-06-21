@@ -10,6 +10,7 @@ import ProfileSidebar from '../components/ProfileSidebar.vue'
 import ThePost from '../components/ThePost.vue'
 import { useLanguageStore } from '../stores/language/index'
 import NewQuote from '../components/NewQuote.vue'
+import instantiatePusher from '../helpers/instantiatePusher'
 
 const increaseSearch = ref(false)
 const addQuote = ref(false)
@@ -36,7 +37,12 @@ onUnmounted(() => {
 
 onMounted(async () => {
   await quotesStore.fetchQuotes(searchTerm.value, page.value)
+  instantiatePusher()
   window.addEventListener('scroll', handleScroll)
+  window.Echo.channel('comments').listen('CommentSent', (data) => {
+    let quote = quotesStore.state.find((q) => q.id === data.comment.quote_id)
+    quote.comments.push(data.comment)
+  })
 })
 
 onBeforeUnmount(() => {
@@ -136,6 +142,7 @@ const language = computed(() => languageStore.currentLanguage)
             :quote="quote.body && quote.body[language]"
             :movie="quote.movie && quote.movie.title && quote.movie.title[language]"
             :user="quote.user && quote.user.username"
+            :userImage="quote.user && quote.user.image"
             :poster="quote.image"
             :year="quote.movie && quote.movie.year"
             :id="quote.id"

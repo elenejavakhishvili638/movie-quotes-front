@@ -7,7 +7,17 @@ import { useQuotesStore } from '../stores/quotes/index'
 import { useUserStore } from '../stores/user'
 import { computed, onMounted, ref } from 'vue'
 
-const props = defineProps(['quote', 'movie', 'user', 'poster', 'year', 'id', 'comments', 'likes'])
+const props = defineProps([
+  'quote',
+  'movie',
+  'user',
+  'poster',
+  'year',
+  'id',
+  'comments',
+  'likes',
+  'userImage'
+])
 const quoteStore = useQuotesStore()
 const userStore = useUserStore()
 const commentForm = computed(() => quoteStore.$state.addedComment)
@@ -54,7 +64,11 @@ const onSubmit = async () => {
   <div class="bg-[#11101A] rounded-xl flex justify-center text-white mb-2 md:w-31 xl:w-59">
     <div class="w-22 my-1.5 md:w-28.25 xl:w-55.5">
       <div class="flex items-center mb-0.875">
-        <img class="bg-[#D9D9D9] rounded-full w-10 h-10" alt="name" />
+        <img
+          class="bg-[#D9D9D9] rounded-full w-10 h-10 object-cover"
+          alt="name"
+          :src="path + '/storage/' + props.userImage"
+        />
         <p class="ml-1">{{ props.user }}</p>
       </div>
       <div>
@@ -83,7 +97,11 @@ const onSubmit = async () => {
         <div class="flex">
           <div class="flex w-full flex-col items-start mb-0.875">
             <div class="flex items-center mb-1.5">
-              <img class="bg-[#D9D9D9] rounded-full w-10 h-10 mr-1.5" alt="name" />
+              <img
+                class="bg-[#D9D9D9] rounded-full w-10 h-10 mr-1.5"
+                alt="name"
+                :src="path + '/storage/' + (comment.user && comment.user.image)"
+              />
               <p>{{ comment.user && comment.user.username }}</p>
             </div>
             <div class="border-b border-color pb-6 w-full">
