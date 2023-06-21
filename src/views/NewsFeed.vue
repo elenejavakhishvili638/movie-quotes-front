@@ -31,18 +31,33 @@ const handleScroll = async () => {
   }
 }
 
-onUnmounted(() => {
-  quotesStore.quoteList = []
-})
+const handleCommentSent = (data) => {
+  let quote = quotesStore.state.find((q) => q.id === data.comment.quote_id)
+  if (quote) {
+    quote.comments.push(data.comment)
+  }
+}
+
+const handleLikeSent = (data) => {
+  let quote = quotesStore.state.find((q) => q.id === data.like.quote_id)
+  if (quote) {
+    quote.likes.push(data.like)
+  }
+}
 
 onMounted(async () => {
   await quotesStore.fetchQuotes(searchTerm.value, page.value)
   instantiatePusher()
   window.addEventListener('scroll', handleScroll)
-  window.Echo.channel('comments').listen('CommentSent', (data) => {
-    let quote = quotesStore.state.find((q) => q.id === data.comment.quote_id)
-    quote.comments.push(data.comment)
-  })
+  window.Echo.channel('comments').listen('CommentSent', handleCommentSent)
+  window.Echo.channel('likes').listen('LikeSent', handleLikeSent)
+})
+onUnmounted(() => {
+  window.Echo.leaveChannel('comments')
+  window.Echo.leaveChannel('likes')
+  quotesStore.quoteList = []
+  window.Echo.channel('comments').stopListening('CommentSent', handleCommentSent)
+  window.Echo.channel('likes').stopListening('LikeSent', handleLikeSent)
 })
 
 onBeforeUnmount(() => {

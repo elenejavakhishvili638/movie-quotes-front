@@ -37,11 +37,11 @@ onMounted(() => {
 
 const toggleLike = async () => {
   if (src.value === heart) {
-    src.value = liked
     await quoteStore.likeQuote(props.id, { user_id: userId.value.id })
+    src.value = liked
   } else {
-    src.value = heart
     await quoteStore.unlikeQuote(props.id)
+    src.value = heart
   }
 }
 
@@ -114,7 +114,11 @@ const onSubmit = async () => {
       </div>
       <div class="flex items-center">
         <div class="flex items-center mr-0.75">
-          <img class="bg-[#D9D9D9] rounded-full w-10 h-10" alt="name" />
+          <img
+            class="bg-[#D9D9D9] rounded-full w-10 h-10 object-cover"
+            alt="name"
+            :src="path + '/storage/' + userId.image"
+          />
         </div>
         <Form @submit="onSubmit" class="w-[306px] h-10 md:w-full">
           <Field
