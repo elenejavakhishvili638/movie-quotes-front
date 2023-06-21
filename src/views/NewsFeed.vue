@@ -45,19 +45,33 @@ const handleLikeSent = (data) => {
   }
 }
 
+const handleUnlikeSent = (data) => {
+  let quote = quotesStore.state.find((q) => q.id === data.unlike.quote_id)
+  if (quote) {
+    const newList = quote.likes.filter((like) => like.id !== data.unlike.id)
+    console.log('before', quote.likes)
+    quote.likes = Array.from(newList)
+    console.log('after', newList)
+  }
+  console.log(data.unlike)
+}
+
 onMounted(async () => {
   await quotesStore.fetchQuotes(searchTerm.value, page.value)
   instantiatePusher()
   window.addEventListener('scroll', handleScroll)
   window.Echo.channel('comments').listen('CommentSent', handleCommentSent)
   window.Echo.channel('likes').listen('LikeSent', handleLikeSent)
+  window.Echo.channel('unlikes').listen('UnlikeSent', handleUnlikeSent)
 })
 onUnmounted(() => {
   window.Echo.leaveChannel('comments')
   window.Echo.leaveChannel('likes')
+  window.Echo.leaveChannel('unlikes')
   quotesStore.quoteList = []
   window.Echo.channel('comments').stopListening('CommentSent', handleCommentSent)
   window.Echo.channel('likes').stopListening('LikeSent', handleLikeSent)
+  window.Echo.channel('unlikes').stopListening('UnlikeSent', handleUnlikeSent)
 })
 
 onBeforeUnmount(() => {
