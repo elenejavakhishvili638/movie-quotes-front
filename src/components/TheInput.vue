@@ -47,11 +47,11 @@ const language = computed(() => languageStore.currentLanguage)
 </script>
 
 <template>
-  <div class="flex flex-col w-[360px] mb-[16px]">
+  <div class="flex flex-col mb-[16px]">
     <label class="mb-[8px] text-base">{{ label }}</label>
     <div
       :class="inputClass"
-      class="relative flex items-center justify-between h-[38px] bg-[#CED4DA] rounded-[4px] focus:shadow-custom-focus"
+      class="relative z-0 flex items-center justify-between h-[38px] bg-[#CED4DA] rounded-[4px] focus:shadow-custom-focus"
     >
       <Field
         class="bg-transparent w-full outline-none py-[7px] pl-[13px] rounded-[4px]"

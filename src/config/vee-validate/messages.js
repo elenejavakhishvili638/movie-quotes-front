@@ -18,7 +18,10 @@ configure({
         georgian: 'This field should be in Georgian'
       },
       names: {
-        password_confirmation: 'Password'
+        password_confirmation: 'Password',
+        updatedPassword: 'Password',
+        updatedUsername: 'Username',
+        updatedEmail: 'Email'
       }
     },
     ka: {
@@ -37,7 +40,10 @@ configure({
         password: 'პაროლი',
         username: 'მომხმარებლის სახელი',
         email: 'მეილი',
-        password_confirmation: 'პაროლი'
+        password_confirmation: 'პაროლი',
+        updatedPassword: 'პაროლი',
+        updatedUsername: 'მომხმარებლის სახელი',
+        updatedEmail: 'მეილი'
       }
     }
   })

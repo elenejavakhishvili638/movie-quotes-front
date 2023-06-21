@@ -49,6 +49,7 @@ const formData = computed(() => authStore.$state.form)
       </div>
       <Form @submit="onSubmit" v-slot="{ meta }">
         <the-input
+          class="w-[360px]"
           v-model="formData.username"
           name="username"
           type="text"
@@ -58,6 +59,7 @@ const formData = computed(() => authStore.$state.form)
         ></the-input>
 
         <the-input
+          class="w-[360px]"
           v-model="formData.email"
           name="email"
           type="email"
@@ -67,6 +69,7 @@ const formData = computed(() => authStore.$state.form)
         ></the-input>
 
         <the-input
+          class="w-[360px]"
           v-model="formData.password"
           name="password"
           type="password"
@@ -76,6 +79,7 @@ const formData = computed(() => authStore.$state.form)
         ></the-input>
 
         <the-input
+          class="w-[360px]"
           v-model="formData.password_confirmation"
           name="password_confirmation"
           type="password"

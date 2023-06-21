@@ -67,11 +67,11 @@ const openDropdown = () => {
 }
 
 const props = defineProps(['username', 'closeQuote'])
-const movies = computed(() => moviesStore.$state.allMovies)
+const movies = computed(() => moviesStore.$state.movieList)
 const language = computed(() => languageStore.currentLanguage)
 
 onMounted(async () => {
-  await moviesStore.fetchAllMovies()
+  await moviesStore.fetchMovies()
   console.log(movies.value)
 })
 
@@ -95,7 +95,6 @@ const onSubmit = async () => {
     }
 
     await quoteStore.addQuote(formData)
-    await quoteStore.fetchFullList()
     props.closeQuote()
   } catch (error) {
     console.log(error)

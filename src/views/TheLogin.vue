@@ -43,7 +43,7 @@ const formData = computed(() => loginStore.$state.login)
 </script>
 
 <template>
-  <section @click.stop class="h-screen md:w-[601px] md:h-auto md:rounded-[10px]">
+  <section @click.stop class="h-screen md:w-[601px] md:h-auto md:rounded-[10px] overflow-y-scroll">
     <div class="text-white flex flex-col px-[44px] items-center justify-center pt-[73px]">
       <div class="text-center mb-[32px]">
         <h1 class="text-2xl mb-[12px] font-medium">{{ $t('login.log_in') }}</h1>
@@ -51,6 +51,7 @@ const formData = computed(() => loginStore.$state.login)
       </div>
       <Form @submit="onSubmit" v-slot="{ meta }">
         <the-input
+          class="w-[360px]"
           v-model="formData.username"
           validate="required"
           name="username"
@@ -59,6 +60,7 @@ const formData = computed(() => loginStore.$state.login)
           :placeholder="$t('login.email_placeholder')"
         ></the-input>
         <the-input
+          class="w-[360px]"
           v-model="formData.password"
           validate="required"
           name="password"

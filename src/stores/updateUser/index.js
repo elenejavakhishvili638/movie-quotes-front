@@ -9,9 +9,10 @@ export const useUpdateUserStore = defineStore({
       username: '',
       email: '',
       password: '',
-      password_confirmation: '',
-      image: ''
-    }
+      password_confirmation: ''
+      // image: ''
+    },
+    errors: {}
   }),
   actions
 })

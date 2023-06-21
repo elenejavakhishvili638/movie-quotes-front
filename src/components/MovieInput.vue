@@ -12,10 +12,6 @@ const movieStore = useMoviesStore()
 const errors = computed(() => movieStore.$state.errors)
 const languageStore = useLanguageStore()
 
-// watch(internalValue, (newValue) => {
-//   emit('update:modelValue', newValue)
-// })
-
 watch(
   () => props.modelValue,
   (newVal) => {

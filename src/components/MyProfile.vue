@@ -1,30 +1,140 @@
 <script setup>
 import arrow from '../assets/images/logos/arrow.png'
-const props = defineProps(['username', 'email', 'google'])
-import { ref } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import { useUpdateUserStore } from '../stores/updateUser'
+import { useUserStore } from '../stores/user'
+import ProfileInput from './ProfileInput.vue'
+import { Form } from 'vee-validate'
+import exit from '../assets/images/logos/exit.png'
+import tick from '../assets/images/logos/tick.png'
+import ModalLayout from './ModalLayout.vue'
 
+const props = defineProps(['username', 'email', 'google', 'user'])
 const fileInput = ref(null)
+const editProfile = ref(false)
+const currentText = ref(null)
+const currentName = ref(null)
+const currentEdit = ref(null)
+
+const currentType = ref(null)
+const successModal = ref(false)
+const currentValidation = ref(null)
+let path = import.meta.env.VITE_BACKEND_URL
+
+const imageUrl = ref(null)
+const uploadedImageUrl = ref(path + '/storage/' + props.user.image)
+
+const userStore = useUserStore()
+const updateUserStore = useUpdateUserStore()
+const userForm = computed(() => updateUserStore.$state.form)
 
 const triggerFileInput = () => {
   fileInput.value.click()
 }
 
-const onFileChange = (e) => {
-  console.log(e)
+onMounted(() => {
+  console.log(uploadedImageUrl)
+})
+
+const onFileChange = async (e) => {
+  const file = e.target.files[0]
+  imageUrl.value = file
+  if (file) {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      uploadedImageUrl.value = e.target.result
+    }
+    reader.readAsDataURL(file)
+  }
+
+  try {
+    const formData = new FormData()
+    formData.append('_method', 'PATCH')
+    formData.append('user_id', props.user.id)
+    formData.append('image', imageUrl.value)
+
+    for (var pair of formData.entries()) {
+      console.log(pair[0] + ', ' + pair[1])
+    }
+    await updateUserStore.updateUser(formData, props.user.id)
+    await userStore.fetchUser('edit')
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const openEditProfile = (name, edit, text, type, rules) => {
+  console.log('openEditProfile called with:', name, text)
+  editProfile.value = true
+  currentEdit.value = edit
+  currentText.value = text
+  currentName.value = name
+  currentType.value = type
+  currentValidation.value = rules
+  console.log(userForm.value)
+}
+
+const closeEditProfile = () => {
+  editProfile.value = false
+}
+
+const onSubmit = async () => {
+  successModal.value = true
+  const formData = new FormData()
+  formData.append('_method', 'PATCH')
+  formData.append('user_id', props.user.id)
+  if (userForm.value['password_confirmation']) {
+    formData.append(currentName.value, userForm.value[currentName.value])
+    formData.append('password_confirmation', userForm.value['password_confirmation'])
+
+    await updateUserStore.updateUser(formData, props.user.id)
+    await userStore.fetchUser('edit')
+  } else {
+    try {
+      formData.append(currentName.value, userForm.value[currentName.value])
+
+      await updateUserStore.updateUser(formData, props.user.id)
+      await userStore.fetchUser('edit')
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+const closeSuccessModal = () => {
+  successModal.value = false
 }
 </script>
 
 <template>
   <div class="mt-[25px]">
+    <ModalLayout v-if="successModal" class="items-baseline pt-4">
+      <div class="bg-[#BADBCC] z-10 w-26 h-14 flex items-center justify-around rounded">
+        <img :src="tick" />
+        <p class="text-[#0F5132] text-base">Changes updated succsessfully</p>
+        <img @click="closeSuccessModal" :src="exit" />
+      </div>
+    </ModalLayout>
     <router-link to="news-feed">
-      <img class="ml-[40px] mb-[25px]" alt="arrow" :src="arrow" />
+      <img class="ml-2.5 mb-1.5" alt="arrow" :src="arrow" />
     </router-link>
-    <div class="bg-[#24222F] h-[765px] rounded-[12px] flex flex-col items-center">
-      <div class="flex flex-col mt-[24px] items-center mb-[60px]">
+    <Form @submit="onSubmit" v-if="editProfile" class="flex justify-center">
+      <ProfileInput
+        @submitForm="onSubmit"
+        :close="closeEditProfile"
+        :text="currentText"
+        v-model="userForm[currentName]"
+        :name="currentEdit"
+        :type="currentType"
+        :validation="currentValidation"
+      ></ProfileInput>
+    </Form>
+    <div class="bg-[#24222F] h-47.813 rounded-xl flex flex-col items-center" v-if="!editProfile">
+      <div class="flex flex-col mt-1.5 items-center mb-3.75">
         <img
-          class="bg-[#D9D9D9] w-[188px] h-[188px] rounded-full mb-[24px]"
+          class="bg-[#D9D9D9] w-11.75 h-11.75 rounded-full mb-1.5 object-cover"
           alt="pic"
-          :src="arrow"
+          :src="uploadedImageUrl"
         />
         <input
           type="file"
@@ -33,28 +143,67 @@ const onFileChange = (e) => {
           style="display: none"
           @change="onFileChange"
         />
-        <p class="text-[20px] font-normal" @click="triggerFileInput">Upload my photo</p>
+        <p class="text-xl font-normal" @click="triggerFileInput">Upload my photo</p>
       </div>
-      <div class="w-[364px] flex flex-col gap-[31px]">
+      <div class="w-22.75 flex flex-col gap-8">
         <div>
-          <p class="mb-[4px] text-base">Username</p>
-          <div class="flex justify-between border-b pb-[16px] text-[18px]">
+          <p class="mb-0.25 text-base">Username</p>
+          <div class="flex justify-between border-b pb-4 text-lg">
             <p>{{ props.username }}</p>
-            <button class="text-[#CED4DA]">Edit</button>
+            <button
+              class="text-[#CED4DA]"
+              @click="
+                openEditProfile(
+                  'username',
+                  'updatedUsername',
+                  'Enter new username',
+                  'text',
+                  'required|minmax:3,15|lowercase_and_numbers_only'
+                )
+              "
+            >
+              Edit
+            </button>
           </div>
         </div>
         <div>
-          <p class="mb-[4px] text-base">Email</p>
-          <div class="flex justify-between border-b pb-[16px] text-[18px]">
+          <p class="mb-0.25 text-base">Email</p>
+          <div class="flex justify-between border-b pb-4 text-lg">
             <p>{{ props.email }}</p>
-            <button class="text-[#CED4DA]">Edit</button>
+            <button
+              class="text-[#CED4DA]"
+              @click="
+                openEditProfile(
+                  'email',
+                  'updatedEmail',
+                  'Enter new Email',
+                  'email',
+                  'required|email'
+                )
+              "
+            >
+              Edit
+            </button>
           </div>
         </div>
         <div>
-          <p class="mb-[4px] text-base">Password</p>
-          <div class="flex justify-between border-b pb-[16px] text-[18px]">
-            <p>....</p>
-            <button class="text-[#CED4DA]">Edit</button>
+          <p class="mb-0.25 text-base">Password</p>
+          <div class="flex justify-between border-b pb-4 text-lg">
+            <p class="tracking-wider">...............</p>
+            <button
+              class="text-[#CED4DA]"
+              @click="
+                openEditProfile(
+                  'password',
+                  'updatedPassword',
+                  'Enter new password',
+                  'password',
+                  'required|lowercase_and_numbers_only|minmax:8,15'
+                )
+              "
+            >
+              Edit
+            </button>
           </div>
         </div>
       </div>

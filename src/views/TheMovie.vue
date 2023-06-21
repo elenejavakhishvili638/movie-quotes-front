@@ -124,7 +124,12 @@ const user = computed(() => userStore.$state.user)
       <AddQuote :closeQuote="closeQuote" :username="user.username" :movie="movie"></AddQuote>
     </ModalLayout>
     <ModalLayout v-if="viewQuote">
-      <ViewQuote :closeViewQuote="closeViewQuote" :id="quoteId" :movie="movie"></ViewQuote>
+      <ViewQuote
+        @editQuote="openEditQuote"
+        :closeViewQuote="closeViewQuote"
+        :id="quoteId"
+        :movie="movie"
+      ></ViewQuote>
     </ModalLayout>
     <ModalLayout v-if="editQuote">
       <EditQuote :closeEditQuote="closeEditQuote" :id="quoteId"></EditQuote>
@@ -191,13 +196,13 @@ const user = computed(() => userStore.$state.user)
             class="md:flex md:items-center md:border-l md:border-l-[#6C757D] md:pl-[16px] mx-[35px] mb-[35px] mt-[40px] md:mx-[0px] md:mb-[0px] md:mt-[0]"
           >
             <p class="text-[24px] md:ml-[10px]">
-              {{ $t('movie.all_quotes') }} ({{ movie.myQuotes && movie.myQuotes.length }})
+              {{ $t('movie.all_quotes') }} ({{ movie.quotes && movie.quotes.length }})
             </p>
           </div>
         </div>
         <div v-if="!editMovie && !addQuote && !viewQuote && !editQuote">
           <div
-            v-for="(quote, index) in movie.myQuotes"
+            v-for="(quote, index) in movie.quotes"
             :key="quote.id"
             class="relative md:w-[600px] lg:w-[809px] bg-[#11101A] flex flex-col items-center px-[35px] mb-[37px] md:ml-[35px]"
           >
@@ -239,7 +244,7 @@ const user = computed(() => userStore.$state.user)
                   <img class="ml-[12px]" :src="comment" />
                 </div>
                 <div class="flex">
-                  <p>10</p>
+                  <p>{{ quote.likes && quote.likes.length }}</p>
                   <img class="ml-[12px]" :src="heart" />
                 </div>
               </div>

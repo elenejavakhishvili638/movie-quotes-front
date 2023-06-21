@@ -1,9 +1,17 @@
+import { updateUser } from '../../services'
+
 export default {
-  setUser(payload) {
-    const { name, value } = payload
-    this.form[name] = value
-  },
-  async registerUser(data) {
-    console.log(data)
+  async updateUser(data, id) {
+    try {
+      await updateUser(data, id)
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.errors) {
+        console.log(error.response.data.errors)
+        this.errors = error.response.data.errors
+        console.log(this.errors)
+      } else {
+        console.log(error)
+      }
+    }
   }
 }

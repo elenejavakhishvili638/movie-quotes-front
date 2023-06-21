@@ -109,14 +109,14 @@ export async function fetchGenres() {
   }
 }
 
-export async function fetchQuotes(searchTerm) {
+export async function fetchQuotes(page, searchTerm) {
   try {
     let response
     if (searchTerm) {
       let encodedSearchTerm = encodeURIComponent(searchTerm)
-      response = await axios.get(`/api/quotes?search=${encodedSearchTerm}`)
+      response = await axios.get(`/api/quotes?search=${encodedSearchTerm}&page=${page}`)
     } else {
-      response = await axios.get('/api/quotes')
+      response = await axios.get(`/api/quotes?page=${page}`)
     }
     return response
   } catch (error) {
@@ -199,6 +199,41 @@ export async function editQuote(data, id) {
     await axios.get('/sanctum/csrf-cookie')
     await axios.post(`/api/quote/${id}`, data, {
       headers: { 'Content-Type': 'multipart/form-data' },
+      withCredentials: true
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function updateUser(data, id) {
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+    await axios.post(`/api/user/${id}`, data, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      withCredentials: true
+    })
+  } catch (error) {
+    console.log(error)
+    throw error
+  }
+}
+
+export async function like(id, data) {
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+    await axios.post(`/api/quotes/${id}/likes`, data, {
+      withCredentials: true
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function unlike(id) {
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+    await axios.delete(`/api/quotes/${id}/likes`, {
       withCredentials: true
     })
   } catch (error) {

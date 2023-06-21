@@ -40,7 +40,7 @@ const genreRule = computed(() => {
         <span @click="props.remove(tag.id)" class="ml-[9px]">x</span>
       </div>
     </div>
-    <Field name="genre" v-slot="{ meta, handleChange }" :rules="genreRule">
+    <Field name="genre" v-slot="{ handleChange }" :rules="genreRule">
       <div
         v-if="genreModal"
         class="left-[100px] md:left-[200px] bottom-[-180px] h-[200px] w-[250px] z-10 absolute flex flex-col gap-4 bg-black p-[16px] overflow-y-scroll"
@@ -54,7 +54,6 @@ const genreRule = computed(() => {
         >
           {{ tag.name }}
         </div>
-        {{ meta }}
       </div>
     </Field>
     <p class="text-[#F15524] text-base ml-[20px] mt-[16px]">
