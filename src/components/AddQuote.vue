@@ -58,7 +58,7 @@ const onDrop = async (event, handleChange, validate) => {
   await validate()
 }
 
-const props = defineProps(['username', 'closeQuote', 'movie'])
+const props = defineProps(['username', 'closeQuote', 'movie', 'image'])
 const language = computed(() => languageStore.currentLanguage)
 
 const onSubmit = async () => {
@@ -74,13 +74,18 @@ const onSubmit = async () => {
       formData.append('image', imageUrl.value)
     }
     await quoteStore.addQuote(formData)
-    await moviesStore.fetchMovie(props.movie.id)
-
+    await moviesStore.fetchMovieId(props.movie.id)
     props.closeQuote()
   } catch (error) {
     console.log(error)
   }
 }
+
+const uploadedImage = ref(
+  props.image.startsWith('images') 
+    ? path + '/storage/' + props.image 
+    : props.image
+);
 </script>
 
 <template>
@@ -94,7 +99,7 @@ const onSubmit = async () => {
     </div>
     <div class="p-9">
       <div class="flex items-center gap-4 mb-2.25">
-        <img class="bg-[#D9D9D9] rounded-full w-10 h-10" alt="name" />
+        <img class="bg-[#D9D9D9] rounded-full w-10 h-10 object-cover" alt="name" :src="uploadedImage" />
         <p>{{ props.username }}</p>
       </div>
       <div

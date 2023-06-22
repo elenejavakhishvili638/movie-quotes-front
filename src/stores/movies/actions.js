@@ -20,11 +20,6 @@ export default {
     }
   },
 
-  // async fetchAllMovies() {
-  //   const response = await fetchAllMovies()
-  //   this.allMovies = response.data.data
-  // },
-
   async fetchFullList() {
     const response = await fetchMovies()
     this.movieList = response.data
@@ -40,6 +35,15 @@ export default {
         const response = await fetchMovie(id)
         this.movie = response.data.data
       }
+    } catch (error) {
+      console.error(error)
+    }
+  },
+
+  async fetchMovieId(id) {
+    try {
+      const response = await fetchMovie(id)
+      this.movie = response.data.data  
     } catch (error) {
       console.error(error)
     }

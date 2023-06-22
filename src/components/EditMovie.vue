@@ -11,7 +11,7 @@ import { useRoute } from 'vue-router'
 import GenreComponent from './GenreComponent.vue'
 import MovieImage from './MovieImage.vue'
 
-const props = defineProps(['username', 'closeMovie', 'movie'])
+const props = defineProps(['username', 'closeMovie', 'movie', 'image'])
 const movieStore = useMoviesStore()
 const userStore = useUserStore()
 const route = useRoute()
@@ -152,6 +152,12 @@ const onDrop = async (event, handleChange, validate) => {
   handleChange('true')
   await validate()
 }
+
+const uploadedImage = ref(
+  props.image.startsWith('images') 
+    ? path + '/storage/' + props.image 
+    : props.image
+);
 </script>
 
 <template>
@@ -165,7 +171,7 @@ const onDrop = async (event, handleChange, validate) => {
     </div>
     <div class="p-9">
       <div class="flex items-center mb-2.25 gap-4">
-        <img class="bg-[#D9D9D9] rounded-full w-10 h-10" alt="name" />
+        <img class="bg-[#D9D9D9] rounded-full w-10 h-10 object-cover" alt="name" :src="uploadedImage" />
         <p>{{ props.username }}</p>
       </div>
       <Form @submit="onSubmit" class="flex flex-col gap-6">

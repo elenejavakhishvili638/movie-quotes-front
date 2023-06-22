@@ -18,7 +18,8 @@ const props = defineProps([
   'comments',
   'likes',
   'userImage',
-  'user_id'
+  'user_id',
+  'authImage'
 ])
 const quoteStore = useQuotesStore()
 const userStore = useUserStore()
@@ -26,6 +27,8 @@ const notificationStore = useNotificationStore()
 const commentForm = computed(() => quoteStore.$state.addedComment)
 const userId = computed(() => userStore.$state.user)
 const src = ref(heart)
+const showAllcomments = ref(false)
+const commenText = ref('Show all comments')
 
 let path = import.meta.env.VITE_BACKEND_URL
 
@@ -42,7 +45,6 @@ const toggleLike = async () => {
   if (src.value === heart) {
     await quoteStore.likeQuote(props.id, { user_id: userId.value.id })
     const data = {
-      // user_id: userId.value.id,
       quote_id: props.id,
       type: 'like'
     }
@@ -63,7 +65,6 @@ const onSubmit = async () => {
     }
     commentForm.value.body = ''
     const notifData = {
-      // user_id: userId.value.id,
       quote_id: props.id,
       type: 'comment'
     }
@@ -72,6 +73,36 @@ const onSubmit = async () => {
     await quoteStore.fetchFullList()
   } catch (error) {
     console.log(error)
+  }
+}
+const uploadedImageUrl = ref(
+  props.userImage.startsWith('images') 
+    ? path + '/storage/' + props.userImage 
+    : props.userImage
+);
+
+const authUserImage = ref(
+  props.authImage.startsWith('images') 
+    ? path + '/storage/' + props.authImage 
+    : props.authImage
+)
+
+const getImagePath = (image) => {
+  return image.startsWith('images') 
+    ? path + '/storage/' + image
+    : image;
+}
+
+const displayedComments = computed(() => {
+  return showAllcomments.value ;
+});
+
+const showComments = () => {
+  showAllcomments.value = !showAllcomments.value
+  if(commenText.value === 'Show all comments') {
+    commenText.value = "Hide all comments"
+  } else {
+    commenText.value = "Show all comments"
   }
 }
 </script>
@@ -83,7 +114,7 @@ const onSubmit = async () => {
         <img
           class="bg-[#D9D9D9] rounded-full w-10 h-10 object-cover"
           alt="name"
-          :src="path + '/storage/' + props.userImage"
+          :src="uploadedImageUrl"
         />
         <p class="ml-1">{{ props.user }}</p>
       </div>
@@ -107,16 +138,17 @@ const onSubmit = async () => {
             <p>{{ props.likes.length }}</p>
             <img class="ml-0.75" :src="src" @click="toggleLike" />
           </div>
+          <button class=" ml-2" @click="showComments" >{{ commenText }}</button>
         </div>
       </div>
-      <div v-for="comment in props.comments" :key="comment.id" class="pt-4 pb-6">
+      <div v-for="comment in (displayedComments ? props.comments : props.comments.slice(0, 2))" :key="comment.id" >
         <div class="flex">
           <div class="flex w-full flex-col items-start mb-0.875">
-            <div class="flex items-center mb-1.5">
+            <div class="flex items-center mb-1">
               <img
                 class="bg-[#D9D9D9] rounded-full w-10 h-10 mr-1.5 object-cover"
                 alt="name"
-                :src="path + '/storage/' + (comment.user && comment.user.image)"
+                :src="comment.user && getImagePath(comment.user.image)"
               />
               <p>{{ comment.user && comment.user.username }}</p>
             </div>
@@ -133,7 +165,7 @@ const onSubmit = async () => {
           <img
             class="bg-[#D9D9D9] rounded-full w-10 h-10 object-cover"
             alt="name"
-            :src="path + '/storage/' + userId.image"
+            :src="authUserImage"
           />
         </div>
         <Form @submit="onSubmit" class="w-[306px] h-10 md:w-full">

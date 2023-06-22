@@ -23,6 +23,8 @@ const uploadedImageUrl = ref(null)
 const imageUrl = ref(null)
 const isDragging = ref(false)
 const user = computed(() => userStore.$state.user)
+let path = import.meta.env.VITE_BACKEND_URL
+
 
 const quoteForm = computed(() => quoteStore.$state.addedQuote)
 
@@ -66,7 +68,7 @@ const openDropdown = () => {
   dropDown.value = !dropDown.value
 }
 
-const props = defineProps(['username', 'closeQuote'])
+const props = defineProps(['username', 'closeQuote', 'image'])
 const movies = computed(() => moviesStore.$state.movieList)
 const language = computed(() => languageStore.currentLanguage)
 
@@ -100,6 +102,12 @@ const onSubmit = async () => {
     console.log(error)
   }
 }
+
+const uploadedImage = ref(
+  props.image.startsWith('images') 
+    ? path + '/storage/' + props.image 
+    : props.image
+);
 </script>
 
 <template>
@@ -113,7 +121,7 @@ const onSubmit = async () => {
     </div>
     <div class="p-[35px]">
       <div class="flex items-center gap-[16px]">
-        <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px]" alt="name" />
+        <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px] object-cover" alt="name" :src="uploadedImage" />
         <p>{{ props.username }}</p>
       </div>
       <Form class="relative flex flex-col mt-[37px] gap-[16px]" @submit="onSubmit">

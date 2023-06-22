@@ -19,7 +19,11 @@ const movieImage = computed(() => (route.path === '/movie-list' ? activeCamera :
 const profile = computed(() => (route.path === '/my-profile' ? 'border border-[#E31221]' : null))
 
 const user = computed(() => userStore.$state.user)
-const uploadedImageUrl = ref(path + '/storage/' + user.value.image)
+const uploadedImageUrl = ref(
+  user.value.image.startsWith('images') 
+    ? path + '/storage/' + user.value.image 
+    : user.value.image
+);
 </script>
 
 <template>

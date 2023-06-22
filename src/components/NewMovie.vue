@@ -10,7 +10,7 @@ import MovieTextarea from './MovieTextarea.vue'
 import GenreComponent from './GenreComponent.vue'
 import MovieImage from './MovieImage.vue'
 
-const props = defineProps(['username', 'closeMovie'])
+const props = defineProps(['username', 'closeMovie', 'image'])
 const movieStore = useMoviesStore()
 const userStore = useUserStore()
 const uploadedImageUrl = ref(null)
@@ -18,6 +18,8 @@ const imageUrl = ref(null)
 const tagGenres = ref([])
 const form = useForm()
 const isDragging = ref(false)
+let path = import.meta.env.VITE_BACKEND_URL
+
 
 const {
   value: tagGenresField,
@@ -127,6 +129,12 @@ const onDrop = async (event, handleChange, validate) => {
   handleChange('true')
   await validate()
 }
+
+const uploadedImage = ref(
+  props.image.startsWith('images') 
+    ? path + '/storage/' + props.image 
+    : props.image
+);
 </script>
 
 <template>
@@ -140,7 +148,7 @@ const onDrop = async (event, handleChange, validate) => {
     </div>
     <div class="p-[35px]">
       <div class="flex items-center gap-[16px]">
-        <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px]" alt="name" />
+        <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px] object-cover" alt="name" :src="uploadedImage" />
         <p>{{ props.username }}</p>
       </div>
       <Form @submit="onSubmit" class="flex flex-col mt-[37px] gap-[24px]">

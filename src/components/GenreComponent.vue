@@ -30,24 +30,24 @@ const genreRule = computed(() => {
 <template>
   <div class="relative">
     <div class="flex gap-1 w-full border border-[#6C757D] h-12 rounded items-center">
-      <p @click="openGenreModal" class="ml-[16px] cursor-pointer">Genres:</p>
+      <p @click="openGenreModal" class="ml-1 cursor-pointer">Genres:</p>
       <div
-        class="text-white text-[14px] ml-[16px] bg-[#6C757D] py-[2px] px-[6px] rounded-[2px]"
+        class="text-white text-sm ml-1 bg-[#6C757D] py-1 px-1 rounded"
         v-for="(tag, index) in tagGenres"
         :key="index"
       >
         {{ tag.name }}
-        <span @click="props.remove(tag.id)" class="ml-[9px]">x</span>
+        <span @click="props.remove(tag.id)" class="ml-0.5">x</span>
       </div>
     </div>
     <Field name="genre" v-slot="{ handleChange }" :rules="genreRule">
       <div
         v-if="genreModal"
-        class="left-[100px] md:left-[200px] bottom-[-180px] h-[200px] w-[250px] z-10 absolute flex flex-col gap-4 bg-black p-[16px] overflow-y-scroll"
+        class="w-full bottom-[-11.875rem] h-12.5 z-10 absolute flex flex-col gap-4 bg-black p-4 overflow-y-scroll"
       >
         <span @click="closeGenreModal" class="bg-[#728ba1] text-center cursor-pointer">X</span>
         <div
-          class="text-white text-[14px] bg-[#6C757D] py-[2px] px-[6px] rounded-[2px]"
+          class="text-white text-base border-b-2 py-1 px-2 rounded"
           v-for="(tag, index) in genres"
           :key="index"
           @click="handleClick(tag.name, handleChange)"
@@ -56,9 +56,9 @@ const genreRule = computed(() => {
         </div>
       </div>
     </Field>
-    <p class="text-[#F15524] text-base ml-[20px] mt-[16px]">
+    <p class="text-[#F15524] text-base ml-1.25 mt-1">
       {{ props.error }}
     </p>
-    <ErrorMessage class="text-[#F15524] text-base ml-[20px] mt-[16px]" name="genre" />
+    <ErrorMessage class="text-[#F15524] text-base ml-1.25 mt-1" name="genre" />
   </div>
 </template>

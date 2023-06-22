@@ -13,7 +13,7 @@ import { useRoute } from 'vue-router'
 import { useMoviesStore } from '../stores/movies'
 
 const route = useRoute()
-const props = defineProps(['closeViewQuote', 'id', 'movie'])
+const props = defineProps(['closeViewQuote', 'id', 'movie', 'image', 'username'])
 const emit = defineEmits(['editQuote'])
 const quoteStore = useQuotesStore()
 const userStore = useUserStore()
@@ -69,6 +69,12 @@ const deleteQuote = async () => {
     console.log(error)
   }
 }
+
+const uploadedImage = ref(
+  props.image.startsWith('images') 
+    ? path + '/storage/' + props.image 
+    : props.image
+);
 </script>
 
 <template>
@@ -89,9 +95,9 @@ const deleteQuote = async () => {
         <img
           class="bg-[#D9D9D9] rounded-full w-3.75 h-3.75 object-cover"
           alt="name"
-          :src="path + '/storage/' + quote.user.image"
+          :src="uploadedImage"
         />
-        <p class="text-xl">{{ quote.user && quote.user.username }}</p>
+        <p class="text-xl">{{ props.username }}</p>
       </div>
       <div class="px-3 flex justify-between pt-2 border border-[#6C757DB2] h-5.375 rounded">
         <p class="text-base italic">"{{ quote.body && quote.body['en'] }}"</p>

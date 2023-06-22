@@ -11,7 +11,7 @@ import QuoteTextarea from './QuoteTextarea.vue'
 import TheButton from '../components/TheButton.vue'
 import { useUserStore } from '../stores/user/index'
 
-const props = defineProps(['closeEditQuote', 'id', 'movie'])
+const props = defineProps(['closeEditQuote', 'id', 'movie', 'image', 'username'])
 const route = useRoute()
 const userStore = useUserStore()
 let path = import.meta.env.VITE_BACKEND_URL
@@ -75,7 +75,7 @@ const onSubmit = async () => {
 
     await quoteStore.editQuote(formData, props.id)
     props.closeEditQuote()
-    await moviesStore.fetchMovie(id)
+    await moviesStore.fetchMovieId(id)
   } catch (error) {
     console.log(error)
   }
@@ -128,6 +128,12 @@ const onDrop = async (event, handleChange, validate) => {
   handleChange('true')
   await validate()
 }
+
+const uploadedImage = ref(
+  props.image.startsWith('images') 
+    ? path + '/storage/' + props.image 
+    : props.image
+);
 </script>
 
 <template>
@@ -141,8 +147,8 @@ const onDrop = async (event, handleChange, validate) => {
     </div>
     <div class="p-9">
       <div class="flex items-center gap-4 mb-2.25">
-        <img class="bg-[#D9D9D9] rounded-full w-10 h-10" alt="name" />
-        <p class="text-[20px]">{{ quote.user && quote.user.username }}</p>
+        <img class="bg-[#D9D9D9] rounded-full w-10 h-10 object-cover" alt="name" :src="uploadedImage" />
+        <p class="text-[20px]">{{ props.username }}</p>
       </div>
       <Form class="relative flex flex-col mt-9 gap-4" @submit="onSubmit">
         <div v-if="quoteForm && quoteForm.body">

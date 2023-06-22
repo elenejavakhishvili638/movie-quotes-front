@@ -22,7 +22,11 @@ const currentValidation = ref(null)
 let path = import.meta.env.VITE_BACKEND_URL
 
 const imageUrl = ref(null)
-const uploadedImageUrl = ref(path + '/storage/' + props.user.image)
+const uploadedImageUrl = ref(
+  props.user.image.startsWith('images') 
+    ? path + '/storage/' + props.user.image 
+    : props.user.image
+);
 
 const userStore = useUserStore()
 const updateUserStore = useUpdateUserStore()

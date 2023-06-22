@@ -111,7 +111,7 @@ export const theme = {
       5.375: '5.375rem',
       18.875: '18.875rem',
       32.063: '32.063rem',
-      47.813: '47.813rem'
+      47.813: '47.813rem',
     },
     backgroundPosition: {
       parallax: 'center'

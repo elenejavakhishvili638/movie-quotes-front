@@ -118,10 +118,10 @@ const user = computed(() => userStore.$state.user)
 <template>
   <div class="background min-h-[200vh] pb-[32px]">
     <ModalLayout v-if="editMovie">
-      <EditMovie :username="user.username" :movie="movie" :closeMovie="closeMovie"></EditMovie>
+      <EditMovie :username="user.username" :image="user.image" :movie="movie" :closeMovie="closeMovie"></EditMovie>
     </ModalLayout>
     <ModalLayout v-if="addQuote">
-      <AddQuote :closeQuote="closeQuote" :username="user.username" :movie="movie"></AddQuote>
+      <AddQuote :closeQuote="closeQuote" :image="user.image" :username="user.username" :movie="movie"></AddQuote>
     </ModalLayout>
     <ModalLayout v-if="viewQuote">
       <ViewQuote
@@ -129,10 +129,12 @@ const user = computed(() => userStore.$state.user)
         :closeViewQuote="closeViewQuote"
         :id="quoteId"
         :movie="movie"
+        :image="user.image"
+        :username="user.username"
       ></ViewQuote>
     </ModalLayout>
     <ModalLayout v-if="editQuote">
-      <EditQuote :closeEditQuote="closeEditQuote" :id="quoteId"></EditQuote>
+      <EditQuote :username="user.username" :image="user.image" :closeEditQuote="closeEditQuote" :id="quoteId"></EditQuote>
     </ModalLayout>
     <feed-header :searchBar="false"></feed-header>
     <div class="md:flex md:ml-[40px] lg:ml[70px]">

@@ -104,7 +104,7 @@ const language = computed(() => languageStore.currentLanguage)
 
 <template>
   <div class="background min-h-screen pb-8" @click="decrease">
-    <new-quote v-if="addQuote" :username="user.username" :closeQuote="closeQuote"></new-quote>
+    <new-quote v-if="addQuote" :image="user.image" :username="user.username" :closeQuote="closeQuote"></new-quote>
     <feed-header :toggleSearch="toggleSearch" :searchBar="true"></feed-header>
     <div class="md:flex md:ml-2.5 lg:ml-4.5">
       <div class="hidden md:block text-white w-14.5">
@@ -167,6 +167,7 @@ const language = computed(() => languageStore.currentLanguage)
             :movie="quote.movie && quote.movie.title && quote.movie.title[language]"
             :user="quote.user && quote.user.username"
             :userImage="quote.user && quote.user.image"
+            :authImage="user.image"
             :user_id="quote.user && quote.user.id"
             :poster="quote.image"
             :year="quote.movie && quote.movie.year"
