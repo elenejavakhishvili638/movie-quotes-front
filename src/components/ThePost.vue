@@ -6,6 +6,7 @@ import { Form, Field } from 'vee-validate'
 import { useQuotesStore } from '../stores/quotes/index'
 import { useUserStore } from '../stores/user'
 import { computed, onMounted, ref } from 'vue'
+import { useNotificationStore } from '../stores/notification'
 
 const props = defineProps([
   'quote',
@@ -16,17 +17,19 @@ const props = defineProps([
   'id',
   'comments',
   'likes',
-  'userImage'
+  'userImage',
+  'user_id'
 ])
 const quoteStore = useQuotesStore()
 const userStore = useUserStore()
+const notificationStore = useNotificationStore()
 const commentForm = computed(() => quoteStore.$state.addedComment)
 const userId = computed(() => userStore.$state.user)
 const src = ref(heart)
 
 let path = import.meta.env.VITE_BACKEND_URL
 
-onMounted(() => {
+onMounted(async () => {
   const likedQuote = userId.value.like.find((like) => like.quote_id === props.id)
   if (likedQuote) {
     src.value = liked
@@ -38,6 +41,13 @@ onMounted(() => {
 const toggleLike = async () => {
   if (src.value === heart) {
     await quoteStore.likeQuote(props.id, { user_id: userId.value.id })
+    const data = {
+      // user_id: userId.value.id,
+      quote_id: props.id,
+      type: 'like'
+    }
+    await notificationStore.sendNotification(data, Number(props.user_id))
+    console.log(data)
     src.value = liked
   } else {
     await quoteStore.unlikeQuote(props.id)
@@ -52,7 +62,13 @@ const onSubmit = async () => {
       user_id: userId.value.id
     }
     commentForm.value.body = ''
+    const notifData = {
+      // user_id: userId.value.id,
+      quote_id: props.id,
+      type: 'comment'
+    }
     await quoteStore.addComment(data, props.id)
+    await notificationStore.sendNotification(notifData, Number(props.user_id))
     await quoteStore.fetchFullList()
   } catch (error) {
     console.log(error)
@@ -79,7 +95,7 @@ const onSubmit = async () => {
         </p>
         <img
           :src="path + '/storage/' + props.poster"
-          class="bg-[#D9D9D9] rounded-lg w-22 h-12.5 md:w-full md:h-31"
+          class="bg-[#D9D9D9] rounded-lg w-22 h-12.5 md:w-full md:h-31 object-cover"
           alt="film"
         />
         <div class="flex my-[19px] border-b border-color pb-6 text-xl">
@@ -98,7 +114,7 @@ const onSubmit = async () => {
           <div class="flex w-full flex-col items-start mb-0.875">
             <div class="flex items-center mb-1.5">
               <img
-                class="bg-[#D9D9D9] rounded-full w-10 h-10 mr-1.5"
+                class="bg-[#D9D9D9] rounded-full w-10 h-10 mr-1.5 object-cover"
                 alt="name"
                 :src="path + '/storage/' + (comment.user && comment.user.image)"
               />

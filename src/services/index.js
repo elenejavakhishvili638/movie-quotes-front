@@ -241,6 +241,26 @@ export async function unlike(id) {
   }
 }
 
+export async function sendNotification(data, id) {
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+    await axios.post(`/api/notification/${id}`, data, {
+      withCredentials: true
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function fetchNotifications() {
+  try {
+    const response = await axios.get('/api/notifications')
+    return response
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 // export async function fetchQuote(id) {
 //   try {
 //     let response = await axios.get(`/api/quote/${id}`)

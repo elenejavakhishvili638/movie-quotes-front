@@ -1,19 +1,33 @@
 import Echo from 'laravel-echo'
 import Pusher from 'pusher-js'
+import axios from 'axios'
 
 export default function instantiatePusher() {
   window.Pusher = Pusher
   window.Echo = new Echo({
-    authEndpoint: `${import.meta.env.VITE_BACKEND_URL}/broadcasting/auth`,
     broadcaster: 'pusher',
     key: import.meta.env.VITE_PUSHER_KEY,
     forceTLS: true,
     cluster: ['eu'],
-    auth: {
-      headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('access_token')}`
-      }
-    }
+    authorizer: (channel) => {
+      return {
+          authorize: (socketId, callback) => {
+            axios.post('http://localhost:8000/broadcasting/auth', 
+              {
+                socket_id: socketId,
+                channel_name: channel.name
+              },
+              {withCredentials: true}
+              )
+              .then(response => {
+                  callback(null, response.data);
+              })
+              .catch(error => {
+                  callback(error);
+              });
+          }
+      };
+    },
   })
 
   return true

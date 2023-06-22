@@ -10,7 +10,7 @@ import ProfileSidebar from '../components/ProfileSidebar.vue'
 import ThePost from '../components/ThePost.vue'
 import { useLanguageStore } from '../stores/language/index'
 import NewQuote from '../components/NewQuote.vue'
-import instantiatePusher from '../helpers/instantiatePusher'
+// import instantiatePusher from '../helpers/instantiatePusher'
 
 const increaseSearch = ref(false)
 const addQuote = ref(false)
@@ -58,7 +58,7 @@ const handleUnlikeSent = (data) => {
 
 onMounted(async () => {
   await quotesStore.fetchQuotes(searchTerm.value, page.value)
-  instantiatePusher()
+  // instantiatePusher()
   window.addEventListener('scroll', handleScroll)
   window.Echo.channel('comments').listen('CommentSent', handleCommentSent)
   window.Echo.channel('likes').listen('LikeSent', handleLikeSent)
@@ -68,7 +68,7 @@ onUnmounted(() => {
   window.Echo.leaveChannel('comments')
   window.Echo.leaveChannel('likes')
   window.Echo.leaveChannel('unlikes')
-  quotesStore.quoteList = []
+    quotesStore.quoteList = []
   window.Echo.channel('comments').stopListening('CommentSent', handleCommentSent)
   window.Echo.channel('likes').stopListening('LikeSent', handleLikeSent)
   window.Echo.channel('unlikes').stopListening('UnlikeSent', handleUnlikeSent)
@@ -172,6 +172,7 @@ const language = computed(() => languageStore.currentLanguage)
             :movie="quote.movie && quote.movie.title && quote.movie.title[language]"
             :user="quote.user && quote.user.username"
             :userImage="quote.user && quote.user.image"
+            :user_id="quote.user && quote.user.id"
             :poster="quote.image"
             :year="quote.movie && quote.movie.year"
             :id="quote.id"

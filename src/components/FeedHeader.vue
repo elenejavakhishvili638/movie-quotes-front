@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import menu from '../assets/images/logos/menu.png'
 import bell from '../assets/images/logos/bell.png'
 import search from '../assets/images/logos/search.png'
@@ -9,6 +9,9 @@ import { useLoginStore } from '../stores/login/index'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../stores/user'
 import ProfileSidebar from './ProfileSidebar.vue'
+import chatQuote from '../assets/images/logos/chatQuote.png'
+import { useNotificationStore } from '../stores/notification'
+import filledHeart from '../assets/images/logos/filledHeart.png'
 
 const props = defineProps(['searchBar', 'toggleSearch'])
 
@@ -17,6 +20,13 @@ const menuOpen = ref(false)
 const loginStore = useLoginStore()
 const router = useRouter()
 const userStore = useUserStore()
+const notificationStore = useNotificationStore()
+const notifications = computed(() => notificationStore.$state.notifications)
+
+onMounted(async () => {
+  await notificationStore.fetchNotifications()
+  console.log(notifications.value)
+})
 
 const logout = async () => {
   try {
@@ -38,6 +48,14 @@ const openMenu = () => {
 
 const closeMenu = () => {
   menuOpen.value = false
+}
+
+const minutesAgo = (dateString) => {
+  const date = new Date(dateString)
+  const now = new Date()
+  const differenceInMilliseconds = now - date
+  const differenceInMinutes = Math.floor(differenceInMilliseconds / 60000)
+  return differenceInMinutes
 }
 </script>
 
@@ -64,23 +82,53 @@ const closeMenu = () => {
       </div>
     </div>
     <div v-if="notificationOpen" class="text-white">
-      <img class="absolute right-[6.3rem] top-16 md:right-[17.5rem]" :src="polygon" />
+      <img class="absolute right-[6.3rem] top-16 md:right-[19rem]" :src="polygon" />
       <div
-        class="absolute mt-5.5 rounded-xl top-0 right-0 h-47 bg-black w-full md:w-26 2xl:w-60 md:right-16 px-9 pt-7"
+        class=" pb-10 text-xl absolute mt-5.5 rounded-xl top-0 right-0 h-47 bg-black w-full md:w-26 2xl:w-60 md:right-16 px-9 pt-7 overflow-scroll"
       >
-        <div class="flex justify-between text-white mb-4">
-          <p>Notifications</p>
-          <p class="border-b">Mark as all read</p>
+        <div class="flex justify-between text-white mb-4 items-center">
+          <p class="text-xl md:text-3xl">Notifications</p>
+          <p class="border-b text-base md:text-xl">Mark as all read</p>
         </div>
-        <div class="mt-2 flex border border-[#6C757D] p-4 rounded">
-          <div class="flex flex-col mr-3 items-center">
-            <img class="bg-[#D9D9D9] rounded-full w-10 h-10" alt="name" />
-            <p>new</p>
+        <div
+          v-for="notification in notifications"
+          :key="notification.id"
+          class="mt-2 flex border border-[#6C757D] p-4 rounded gap-3 md:justify-between"
+        >
+          <div class="md:flex md:gap-6 md:items-center">
+            <div class="flex flex-col items-center">
+              <img
+                class="bg-[#D9D9D9] rounded-full md:w-20 md:h-5 w-[3.75rem] h-[3.75rem] border-2 border-[#198754]"
+                alt="name"
+              />
+              <p class="text-[#198754] md:hidden">New</p>
+            </div>
+            <div class="md:block hidden">
+              <p>{{ notification.actionUser && notification.actionUser.username }}</p>
+              <div class="items-center gap-3 md:flex">
+                <img alt="img" :src="notification.type === 'like' ? filledHeart : chatQuote" />
+                <p class="text-[#CED4DA]">
+                  {{
+                    notification.type === 'like' ? 'Liked your quote.' : 'Commented on your quote.'
+                  }}
+                </p>
+              </div>
+            </div>
           </div>
-          <div>
-            <p>Nino tabagari</p>
-            <p><img alt="img" /> Commented to your quote.</p>
-            <p>5 in ago</p>
+          <div class="flex flex-col gap-2 md:items-end">
+            <p class="md:hidden text-xl">{{ notification.actionUser && notification.actionUser.username }}</p>
+            <div class="flex items-center gap-3 md:hidden">
+              <img alt="img" :src="notification.type === 'like' ? filledHeart : chatQuote" />
+              <p class="text-[#CED4DA] text-base">
+                {{
+                  notification.type === 'like' ? 'Liked your quote.' : 'Commented on your quote.'
+                }}
+              </p>
+            </div>
+            <p class="text-[#D9D9D9] text-base md:text-xl">
+              {{ minutesAgo(notification.created_at) }} min ago
+            </p>
+            <p class="text-[#198754] hidden md:block md:text-xl">New</p>
           </div>
         </div>
       </div>

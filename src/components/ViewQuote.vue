@@ -86,7 +86,11 @@ const deleteQuote = async () => {
     </div>
     <div class="p-8 gap-6 flex flex-col">
       <div class="flex items-center gap-4">
-        <img class="bg-[#D9D9D9] rounded-full w-3.75 h-3.75" alt="name" />
+        <img
+          class="bg-[#D9D9D9] rounded-full w-3.75 h-3.75 object-cover"
+          alt="name"
+          :src="path + '/storage/' + quote.user.image"
+        />
         <p class="text-xl">{{ quote.user && quote.user.username }}</p>
       </div>
       <div class="px-3 flex justify-between pt-2 border border-[#6C757DB2] h-5.375 rounded">
