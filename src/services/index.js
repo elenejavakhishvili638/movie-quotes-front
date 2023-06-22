@@ -261,6 +261,28 @@ export async function fetchNotifications() {
   }
 }
 
+export async function markAsRead(id) {
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+    await axios.post(`/api/notification/${id}/read`,{
+      withCredentials: true
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function markAllAsRead() {
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+    await axios.post('/api/notification/all/read',{
+      withCredentials: true
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 // export async function fetchQuote(id) {
 //   try {
 //     let response = await axios.get(`/api/quote/${id}`)

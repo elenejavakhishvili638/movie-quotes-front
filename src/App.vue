@@ -15,7 +15,7 @@ onMounted(async() => {
     window.Echo.private(`notifications.${response.data.data.id}`).listen(
       "NotificationReceived",
       (data) => {
-        notifications.value.push(data.notifications)
+        notifications.value.unshift(data.notifications)
       }
     );
   }

@@ -50,6 +50,26 @@ const closeMenu = () => {
   menuOpen.value = false
 }
 
+const read = async(id) => {
+  try {
+    await notificationStore.markAsRead(id)
+    await notificationStore.fetchNotifications()
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const readAll = async()=>{
+  try {
+    await notificationStore.markAllAsRead()
+    await notificationStore.fetchNotifications()
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const unreadMessages = computed(() => {return notifications.value.filter(notification => notification.read_at === null).length})
+
 const minutesAgo = (dateString) => {
   const date = new Date(dateString)
   const now = new Date()
@@ -88,20 +108,22 @@ const minutesAgo = (dateString) => {
       >
         <div class="flex justify-between text-white mb-4 items-center">
           <p class="text-xl md:text-3xl">Notifications</p>
-          <p class="border-b text-base md:text-xl">Mark as all read</p>
+          <p class="border-b text-base md:text-xl" @click="readAll">Mark as all read</p>
         </div>
         <div
           v-for="notification in notifications"
           :key="notification.id"
+          @click="read(notification.id)"
           class="mt-2 flex border border-[#6C757D] p-4 rounded gap-3 md:justify-between"
         >
           <div class="md:flex md:gap-6 md:items-center">
             <div class="flex flex-col items-center">
               <img
-                class="bg-[#D9D9D9] rounded-full md:w-20 md:h-5 w-[3.75rem] h-[3.75rem] border-2 border-[#198754]"
+                :class="{'border-[#198754]': !notification.read_at}"
+                class="bg-[#D9D9D9] rounded-full md:w-20 md:h-5 w-[3.75rem] h-[3.75rem] border-2"
                 alt="name"
               />
-              <p class="text-[#198754] md:hidden">New</p>
+              <p class="text-[#198754] md:hidden" v-if="!notification.read_at">New</p>
             </div>
             <div class="md:block hidden">
               <p>{{ notification.actionUser && notification.actionUser.username }}</p>
@@ -128,7 +150,7 @@ const minutesAgo = (dateString) => {
             <p class="text-[#D9D9D9] text-base md:text-xl">
               {{ minutesAgo(notification.created_at) }} min ago
             </p>
-            <p class="text-[#198754] hidden md:block md:text-xl">New</p>
+            <p class="text-[#198754] hidden md:block md:text-xl" v-if="!notification.read_at">New</p>
           </div>
         </div>
       </div>
@@ -141,7 +163,12 @@ const minutesAgo = (dateString) => {
       >
         <img :src="search" />
       </button>
-      <button @click="toggleNotification" class="cursor-pointer"><img :src="bell" /></button>
+      <div class="relative" >
+        <div class="absolute w-5 h-[1.25rem] md:w-[1.563rem] md:h-[1.563rem] bg-[#E33812] rounded-full left-3 bottom-4 md:left-4 md:bottom-5 flex items-center justify-center text-white text-base" >
+          {{ unreadMessages }}
+        </div>
+        <button @click="toggleNotification" class="cursor-pointer"><img :src="bell" class="md:h-8 md:w-[2rem]" /></button>
+      </div>
       <language-component type="feed"></language-component>
       <button
         @click="logout"

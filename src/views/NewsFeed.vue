@@ -10,7 +10,6 @@ import ProfileSidebar from '../components/ProfileSidebar.vue'
 import ThePost from '../components/ThePost.vue'
 import { useLanguageStore } from '../stores/language/index'
 import NewQuote from '../components/NewQuote.vue'
-// import instantiatePusher from '../helpers/instantiatePusher'
 
 const increaseSearch = ref(false)
 const addQuote = ref(false)
@@ -49,16 +48,12 @@ const handleUnlikeSent = (data) => {
   let quote = quotesStore.state.find((q) => q.id === data.unlike.quote_id)
   if (quote) {
     const newList = quote.likes.filter((like) => like.id !== data.unlike.id)
-    console.log('before', quote.likes)
     quote.likes = Array.from(newList)
-    console.log('after', newList)
   }
-  console.log(data.unlike)
 }
 
 onMounted(async () => {
   await quotesStore.fetchQuotes(searchTerm.value, page.value)
-  // instantiatePusher()
   window.addEventListener('scroll', handleScroll)
   window.Echo.channel('comments').listen('CommentSent', handleCommentSent)
   window.Echo.channel('likes').listen('LikeSent', handleLikeSent)
