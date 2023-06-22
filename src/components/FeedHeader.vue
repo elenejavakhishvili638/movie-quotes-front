@@ -108,7 +108,7 @@ const minutesAgo = (dateString) => {
       >
         <div class="flex justify-between text-white mb-4 items-center">
           <p class="text-xl md:text-3xl">Notifications</p>
-          <p class="border-b text-base md:text-xl" @click="readAll">Mark as all read</p>
+          <p class="border-b text-base md:text-xl cursor-pointer" @click="readAll">Mark as all read</p>
         </div>
         <div
           v-for="notification in notifications"
