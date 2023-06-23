@@ -2,8 +2,8 @@
 import { Field, ErrorMessage, useField } from 'vee-validate'
 import { watch, ref, computed } from 'vue'
 import { useUpdateUserStore } from '../stores/updateUser'
-import error from '../assets/images/logos/error.png'
-import valid from '../assets/images/logos/valid.png'
+import IconValid from './icons/IconValid.vue'
+import IconError from './icons/IconError.vue'
 
 const props = defineProps(['text', 'name', 'modelValue', 'type', 'validation', 'close'])
 const emit = defineEmits(['update:modelValue', 'submitForm'])
@@ -29,9 +29,9 @@ const { meta, validate: validateProfileInput } = useField(() => props.name, prop
 
 const img = computed(() => {
   if (meta.touched && meta.valid) {
-    return valid
+    return IconValid
   } else if (meta.touched && !meta.valid) {
-    return error
+    return IconError
   } else {
     return ''
   }
@@ -85,7 +85,7 @@ const submitForm = () => {
       <p class="mb-0.5 text-base w-22.75 self-center">{{ props.text }}</p>
       <div
         :class="inputClass"
-        class="pl-2 relative flex items-center justify-between h-3 w-22.75 bg-[#CED4DA] rounded focus:shadow-custom-focus"
+        class="pl-2 flex items-center justify-between h-3 w-22.75 bg-[#CED4DA] rounded focus:shadow-custom-focus"
       >
         <Field
           :rules="validation"
@@ -95,7 +95,7 @@ const submitForm = () => {
           autocomplete="off"
           class="bg-transparent outline-none rounded h-3 w-22.75"
         />
-        <img class="mr-[12px] absolute right-0" :src="img" />
+        <component class=" mr-0.75 right-0" v-bind:is="img"></component>
       </div>
       <ErrorMessage class="text-[#F15524] text-base mt-[6px] w-22.75" :name="props.name" />
     </div>

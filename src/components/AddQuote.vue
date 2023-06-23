@@ -1,5 +1,5 @@
 <script setup>
-import close from '../assets/images/logos/close.png'
+import IconClose from './icons/IconClose.vue'
 import TheButton from '../components/TheButton.vue'
 import { ref, computed } from 'vue'
 import { Form, ErrorMessage } from 'vee-validate'
@@ -95,7 +95,7 @@ const uploadedImage = ref(
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-6 px-14">
       <div></div>
       <h1 class="text-2xl font-medium">Add quote</h1>
-      <img @click="props.closeQuote" :src="close" />
+      <IconClose @click="props.closeQuote"></IconClose>
     </div>
     <div class="p-9">
       <div class="flex items-center gap-4 mb-2.25">
@@ -112,11 +112,11 @@ const uploadedImage = ref(
           />
         </div>
         <div>
-          <h1 class="text-[#DDCCAA] text-base lg:text-2xl font-[400] mb-2">
+          <h1 class="text-[#DDCCAA] text-base lg:text-2xl font-[400]">
             {{ movie.title && movie.title[language] }}
             ({{ movie.year }})
           </h1>
-          <p class="mb-2 text-[#CED4DA] text-base lg:text-lg font-[700]">
+          <p class=" text-[#CED4DA] text-base lg:text-lg font-[700]">
             {{ $t('movie.director') }}:
             <span class="text-white font-[500]">{{
               movie.director && movie.director[language]

@@ -1,7 +1,6 @@
 <script setup>
-import comment from '../assets/images/logos/comment.png'
-import heart from '../assets/images/logos/heart.png'
-import liked from '../assets/images/logos/liked.png'
+import IconComment from './icons/IconComment.vue'
+import IconHeart from "./icons/IconHeart.vue"
 import { Form, Field } from 'vee-validate'
 import { useQuotesStore } from '../stores/quotes/index'
 import { useUserStore } from '../stores/user'
@@ -26,7 +25,7 @@ const userStore = useUserStore()
 const notificationStore = useNotificationStore()
 const commentForm = computed(() => quoteStore.$state.addedComment)
 const userId = computed(() => userStore.$state.user)
-const src = ref(heart)
+const src = ref('white')
 const showAllcomments = ref(false)
 const commenText = ref('Show all comments')
 
@@ -35,25 +34,24 @@ let path = import.meta.env.VITE_BACKEND_URL
 onMounted(async () => {
   const likedQuote = userId.value.like.find((like) => like.quote_id === props.id)
   if (likedQuote) {
-    src.value = liked
+    src.value = '#F3426C'
   } else {
-    src.value = heart
+    src.value = 'white'
   }
 })
 
 const toggleLike = async () => {
-  if (src.value === heart) {
+  if (src.value === 'white') {
     await quoteStore.likeQuote(props.id, { user_id: userId.value.id })
     const data = {
       quote_id: props.id,
       type: 'like'
     }
     await notificationStore.sendNotification(data, Number(props.user_id))
-    console.log(data)
-    src.value = liked
+    src.value = '#F3426C'
   } else {
     await quoteStore.unlikeQuote(props.id)
-    src.value = heart
+    src.value = 'white'
   }
 }
 
@@ -132,11 +130,12 @@ const showComments = () => {
         <div class="flex my-[19px] border-b border-color pb-6 text-xl">
           <div class="flex mr-1.5">
             <p>{{ props.comments.length }}</p>
-            <img class="ml-0.75" :src="comment" />
+            <IconComment  class="ml-0.75"></IconComment>
           </div>
           <div class="flex">
             <p>{{ props.likes.length }}</p>
-            <img class="ml-0.75" :src="src" @click="toggleLike" />
+            <IconHeart class="ml-0.75" @click="toggleLike" :filled-color="src" ></IconHeart>
+            <!-- <img class="ml-0.75" :src="src" @click="toggleLike" /> -->
           </div>
           <button class=" ml-2" @click="showComments" >{{ commenText }}</button>
         </div>

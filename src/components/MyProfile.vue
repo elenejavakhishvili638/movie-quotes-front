@@ -1,13 +1,13 @@
 <script setup>
-import arrow from '../assets/images/logos/arrow.png'
 import { ref, computed, onMounted } from 'vue'
 import { useUpdateUserStore } from '../stores/updateUser'
 import { useUserStore } from '../stores/user'
 import ProfileInput from './ProfileInput.vue'
 import { Form } from 'vee-validate'
-import exit from '../assets/images/logos/exit.png'
-import tick from '../assets/images/logos/tick.png'
+import IconTick from './icons/IconTick.vue'
+import IconExit from './icons/IconExit.vue'
 import ModalLayout from './ModalLayout.vue'
+import IconArrow from './icons/IconArrow.vue'
 
 const props = defineProps(['username', 'email', 'google', 'user'])
 const fileInput = ref(null)
@@ -114,13 +114,13 @@ const closeSuccessModal = () => {
   <div class="mt-[25px]">
     <ModalLayout v-if="successModal" class="items-baseline pt-4">
       <div class="bg-[#BADBCC] z-10 w-26 h-14 flex items-center justify-around rounded">
-        <img :src="tick" />
+        <IconTick></IconTick>
         <p class="text-[#0F5132] text-base">Changes updated succsessfully</p>
-        <img @click="closeSuccessModal" :src="exit" />
+        <IconExit @click="closeSuccessModal" class="cursor-pointer" ></IconExit>
       </div>
     </ModalLayout>
     <router-link to="news-feed">
-      <img class="ml-2.5 mb-1.5" alt="arrow" :src="arrow" />
+      <IconArrow class="ml-2.5 mb-1.5"></IconArrow>
     </router-link>
     <Form @submit="onSubmit" v-if="editProfile" class="flex justify-center">
       <ProfileInput

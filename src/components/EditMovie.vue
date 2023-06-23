@@ -1,5 +1,5 @@
 <script setup>
-import close from '../assets/images/logos/close.png'
+import IconClose from './icons/IconClose.vue'
 import MovieInput from './MovieInput.vue'
 import { useMoviesStore } from '../stores/movies/index'
 import { computed, ref, onMounted, watch } from 'vue'
@@ -167,7 +167,7 @@ const uploadedImage = ref(
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-6 px-14">
       <div></div>
       <h1 class="text-2xl font-medium">{{ $t('movie.edit_movie') }}</h1>
-      <img @click="props.closeMovie" :src="close" />
+      <IconClose @click="props.closeMovie" ></IconClose>
     </div>
     <div class="p-9">
       <div class="flex items-center mb-2.25 gap-4">

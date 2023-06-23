@@ -1,10 +1,10 @@
 <script setup>
-import close from '../assets/images/logos/close.png'
+import IconClose from './icons/IconClose.vue'
 import TheButton from '../components/TheButton.vue'
 import { ref, computed, onMounted } from 'vue'
 import { Form, ErrorMessage, Field } from 'vee-validate'
-import movie from '../assets/images/logos/movie.png'
-import dropdown from '../assets/images/logos/dropdown.png'
+import IconVector from './icons/IconVector.vue'
+import IconMovie from './icons/IconMovie.vue'
 import { useMoviesStore } from '../stores/movies/index'
 import { useLanguageStore } from '../stores/language/index'
 import MovieImage from './MovieImage.vue'
@@ -117,7 +117,7 @@ const uploadedImage = ref(
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-[25px] px-[54px]">
       <div></div>
       <h1>Write new quote</h1>
-      <img @click="props.closeQuote" :src="close" />
+      <IconClose @click="props.closeQuote"  class=" cursor-pointer" ></IconClose>
     </div>
     <div class="p-[35px]">
       <div class="flex items-center gap-[16px]">
@@ -159,12 +159,12 @@ const uploadedImage = ref(
             class="bg-[#000000] w-full h-[86px] rounded-[4px] flex justify-between items-center"
           >
             <div class="flex ml-[16px]">
-              <img :src="movie" />
+              <IconMovie></IconMovie>
               <p class="ml-[13px] text-base">
                 {{ chosenMovie && chosenMovie.title ? chosenMovie.title[language] : text }}
               </p>
             </div>
-            <img :src="dropdown" class="mr-[31px]" />
+            <IconVector class=" mr-2" ></IconVector>
           </div>
           <div
             v-if="dropDown"

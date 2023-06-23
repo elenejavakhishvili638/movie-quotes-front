@@ -1,8 +1,6 @@
 <script setup>
-import write from '../assets/images/logos/write.png'
-import search from '../assets/images/logos/search.png'
+import IconSearch from "../components/icons/IconSearch.vue"
 import FeedHeader from '../components/FeedHeader.vue'
-import arrow from '../assets/images/logos/arrow.png'
 import { useQuotesStore } from '../stores/quotes/index'
 import { onMounted, computed, ref, watch, onBeforeUnmount, onUnmounted } from 'vue'
 import { useUserStore } from '../stores/user/index'
@@ -10,6 +8,8 @@ import ProfileSidebar from '../components/ProfileSidebar.vue'
 import ThePost from '../components/ThePost.vue'
 import { useLanguageStore } from '../stores/language/index'
 import NewQuote from '../components/NewQuote.vue'
+import IconPencil from '../components/icons/IconPencil.vue'
+import IconArrow from '../components/icons/IconArrow.vue'
 
 const increaseSearch = ref(false)
 const addQuote = ref(false)
@@ -120,7 +120,8 @@ const language = computed(() => languageStore.currentLanguage)
             }"
             class="md:items-center md:rounded-lg md:pl-4 text-white text-base flex ml-[36px] md:ml-[0px] cursor-pointer md:bg-[#24222F] md:h-3.25"
           >
-            <img :src="write" class="mr-0.75" />{{ $t('feed.new_quote') }}
+          <icon-pencil class="mr-0.75"></icon-pencil>
+           {{ $t('feed.new_quote') }}
           </div>
 
           <div
@@ -128,7 +129,7 @@ const language = computed(() => languageStore.currentLanguage)
             class="mr-[1.313rem] mr hidden md:flex md:ml-1.5 text-white"
             @click.stop="increase"
           >
-            <img :src="search" class="mr-0.75" />
+            <icon-search class="mr-0.75" ></icon-search>
             <input
               v-model="searchTerm"
               @input="fetchQuotes"
@@ -145,7 +146,7 @@ const language = computed(() => languageStore.currentLanguage)
           >
             <div class="border-b border-[#EFEFEF]">
               <div class="my-1.5 ml-2 flex items-center">
-                <img @click="closeSearch" :src="arrow" class="mr-1.5" />
+                <icon-arrow  @click="closeSearch" class="mr-1.5" ></icon-arrow>
                 <input
                   :placeholder="$t('feed.search')"
                   v-model="searchTerm"

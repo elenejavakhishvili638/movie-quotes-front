@@ -4,13 +4,13 @@ import { useRoute, useRouter } from 'vue-router'
 import { useMoviesStore } from '../stores/movies/index'
 import FeedHeader from '../components/FeedHeader.vue'
 import { useLanguageStore } from '../stores/language/index'
-import comment from '../assets/images/logos/comment.png'
-import heart from '../assets/images/logos/heart.png'
-import dots from '../assets/images/logos/dots.png'
+import IconComment from '../components/icons/IconComment.vue'
+import IconHeart from '../components/icons/IconHeart.vue'
+import IconDots from '../components/icons/IconDots.vue'
 import ProfileSidebar from '../components/ProfileSidebar.vue'
-import trash from '../assets/images/logos/trash.png'
-import pencil from '../assets/images/logos/pencil.png'
-import eye from '../assets/images/logos/eye.png'
+import IconTrash from '../components/icons/IconTrash.vue'
+import IconEditVue from '../components/icons/IconEdit.vue'
+import IconEye from '../components/icons/IconEye.vue'
 import EditMovie from '../components/EditMovie.vue'
 import { useUserStore } from '../stores/user/index'
 import AddQuote from '../components/AddQuote.vue'
@@ -18,7 +18,7 @@ import { useQuotesStore } from '../stores/quotes'
 import ViewQuote from '../components/ViewQuote.vue'
 import ModalLayout from '../components/ModalLayout.vue'
 import EditQuote from '../components/EditQuote.vue'
-import plus from '../assets/images/logos/plus.png'
+import IconPlus from '../components/icons/IconPlus.vue'
 
 const moviesStore = useMoviesStore()
 const route = useRoute()
@@ -161,9 +161,9 @@ const user = computed(() => userStore.$state.user)
               <div
                 class="w-[144px] h-[40px] bg-[#24222F] rounded-[10px] flex items-center justify-between px-[27px]"
               >
-                <img :src="pencil" @click="openMovie" />
+                <IconEditVue @click="openMovie" class=" cursor-pointer" ></IconEditVue>
                 <div class="border-r border-r-[#6C757D] h-[16px]"></div>
-                <img :src="trash" @click="deleteMovie" />
+                <IconTrash @click="deleteMovie" class=" cursor-pointer"></IconTrash>
               </div>
             </div>
             <div class="flex gap-[8px] my-[24px]">
@@ -191,7 +191,8 @@ const user = computed(() => userStore.$state.user)
             class="mx-[35px] mb-[32px] md:mb-[0px] w-[140px] h-[38px] rounded-[4px] bg-red flex items-center justify-center"
             @click="openQuote"
           >
-            <img :src="plus" class="pr-2" /> {{ $t('movie.add_quote') }}
+          <IconPlus class="pr-2 cursor-pointer"></IconPlus>
+            {{ $t('movie.add_quote') }}
           </button>
           <hr class="mx-[35px] md:hidden" />
           <div
@@ -218,11 +219,7 @@ const user = computed(() => userStore.$state.user)
               <p class="italic text-[24px] text-center md:text-left">
                 "{{ quote.body && quote.body[language] }}"
               </p>
-              <img
-                class="hidden xl:block md:absolute right-0 top-6"
-                :src="dots"
-                @click="openModal(index)"
-              />
+              <IconDots class="hidden xl:block md:absolute right-0 top-6 cursor-pointer" @click="openModal(index)"></IconDots>
             </div>
             <div
               v-if="index === openedModalId"
@@ -230,27 +227,30 @@ const user = computed(() => userStore.$state.user)
               class="absolute xl:top-[50px] xl:right-[-190px] right-[20px] top-5 h-[200px] w-[250px] rounded-[10px] bg-[#24222F] py-[32px] pl-[40px]"
             >
               <p class="flex gap-[10px] mb-[32px]">
-                <img :src="eye" @click="openViewQuote(quote.id)" /> Vue Quote
+                <IconEye @click="openViewQuote(quote.id)" class="cursor-pointer" ></IconEye>
+                Vue Quote
               </p>
               <p class="flex gap-[10px] mb-[32px]">
-                <img :src="pencil" @click="openEditQuote(quote.id)" /> Edit
+                <IconEditVue @click="openEditQuote(quote.id)" class=" cursor-pointer"></IconEditVue>
+                Edit
               </p>
               <p class="flex gap-[10px] mb-[32px]">
-                <img :src="trash" @click="deleteQuote(quote.id)" /> Delete
+                <IconTrash @click="deleteQuote(quote.id)" class=" cursor-pointer"></IconTrash>
+                Delete
               </p>
             </div>
             <div class="flex justify-between items-center w-full mb-[20px]">
               <div class="flex">
                 <div class="flex mr-[24px]">
                   <p>{{ quote.comments && quote.comments.length }}</p>
-                  <img class="ml-[12px]" :src="comment" />
+                  <IconComment class="ml-[12px]"></IconComment>
                 </div>
                 <div class="flex">
                   <p>{{ quote.likes && quote.likes.length }}</p>
-                  <img class="ml-[12px]" :src="heart" />
+                  <IconHeart class="ml-[12px]" :filled-color="'white'"></IconHeart>
                 </div>
               </div>
-              <img class="xl:hidden" :src="dots" @click="openModal(index)" />
+              <IconDots class="xl:hidden cursor-pointer" @click="openModal(index)"></IconDots>
             </div>
           </div>
           <div></div>

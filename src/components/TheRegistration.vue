@@ -3,7 +3,7 @@ import { Form } from 'vee-validate'
 import TheButton from '../components/TheButton.vue'
 import TheInput from '../components/TheInput.vue'
 import { useAuthStore } from '../stores/registration/index'
-import google from '../assets/images/logos/google.png'
+import IconGoogle from "./icons/IconGoogle.vue"
 import { computed } from 'vue'
 
 const props = defineProps({
@@ -95,7 +95,8 @@ const formData = computed(() => authStore.$state.form)
         @click="googleSignUp"
         class="flex justify-center items-center w-[360px] border border-white rounded-[8px] h-[38px]"
       >
-        <img :src="google" class="mr-[8px]" /> {{ $t('registration.google') }}
+        <IconGoogle class="mr-[8px]"></IconGoogle>
+        {{ $t('registration.google') }}
       </button>
       <div class="mb-[53px] mt-[32px] flex items-center justify-center">
         <p class="text-[#6C757D] mr-[4px]">{{ $t('registration.have_account') }}</p>

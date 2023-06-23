@@ -1,17 +1,17 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import menu from '../assets/images/logos/menu.png'
-import bell from '../assets/images/logos/bell.png'
-import search from '../assets/images/logos/search.png'
-import polygon from '../assets/images/logos/polygon.png'
+import IconMenu from './icons/IconMenu.vue'
+import IconSearch from './icons/IconSearch.vue'
+import IconPolygon from './icons/IconPolygon.vue'
 import LanguageComponent from './LanguageComponent.vue'
 import { useLoginStore } from '../stores/login/index'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../stores/user'
 import ProfileSidebar from './ProfileSidebar.vue'
-import chatQuote from '../assets/images/logos/chatQuote.png'
+import IconChatQuote from './icons/IconChatQuote.vue'
 import { useNotificationStore } from '../stores/notification'
-import filledHeart from '../assets/images/logos/filledHeart.png'
+import IconFilledHeart from './icons/IconFilledHeart.vue'
+import IconBell from './icons/IconBell.vue'
 
 const props = defineProps(['searchBar', 'toggleSearch'])
 
@@ -83,7 +83,7 @@ const minutesAgo = (dateString) => {
   <div
     class="bg-[#22203033] h-[86px] flex justify-between items-center pl-9 pr-12 md:px-[4rem] top-0 sticky w-full"
   >
-    <button @click="openMenu" class="cursor-pointer md:hidden"><img :src="menu" /></button>
+    <button @click="openMenu" class="cursor-pointer md:hidden"><IconMenu></IconMenu></button>
     <p class="text-cream hidden md:block">MOVIE QUOTES</p>
     <div
       v-if="menuOpen"
@@ -102,7 +102,7 @@ const minutesAgo = (dateString) => {
       </div>
     </div>
     <div v-if="notificationOpen" class="text-white">
-      <img class="absolute right-[6.3rem] top-16 md:right-[19rem]" :src="polygon" />
+      <IconPolygon class="absolute right-[6.3rem] top-16 md:right-[19rem]" ></IconPolygon>
       <div
         class=" pb-10 text-xl absolute mt-5.5 rounded-xl top-0 right-0 h-47 bg-black w-full md:w-26 2xl:w-60 md:right-16 px-9 pt-7 overflow-scroll"
       >
@@ -128,7 +128,8 @@ const minutesAgo = (dateString) => {
             <div class="md:block hidden">
               <p>{{ notification.actionUser && notification.actionUser.username }}</p>
               <div class="items-center gap-3 md:flex">
-                <img alt="img" :src="notification.type === 'like' ? filledHeart : chatQuote" />
+                <IconFilledHeart v-if="notification.type === 'like'"></IconFilledHeart>
+                <IconChatQuote v-else></IconChatQuote>
                 <p class="text-[#CED4DA]">
                   {{
                     notification.type === 'like' ? 'Liked your quote.' : 'Commented on your quote.'
@@ -140,7 +141,8 @@ const minutesAgo = (dateString) => {
           <div class="flex flex-col gap-2 md:items-end">
             <p class="md:hidden text-xl">{{ notification.actionUser && notification.actionUser.username }}</p>
             <div class="flex items-center gap-3 md:hidden">
-              <img alt="img" :src="notification.type === 'like' ? filledHeart : chatQuote" />
+              <IconFilledHeart v-if="notification.type === 'like'"></IconFilledHeart>
+              <IconChatQuote v-else ></IconChatQuote>
               <p class="text-[#CED4DA] text-base">
                 {{
                   notification.type === 'like' ? 'Liked your quote.' : 'Commented on your quote.'
@@ -159,15 +161,15 @@ const minutesAgo = (dateString) => {
       <button
         v-if="props.searchBar"
         @click="props.toggleSearch"
-        class="mr-5 cursor-pointer md:hidden"
+        class="mr-5 cursor-pointer md:hidden mr-1"
       >
-        <img :src="search" />
+        <icon-search></icon-search>
       </button>
       <div class="relative" >
         <div class="absolute w-5 h-[1.25rem] md:w-[1.563rem] md:h-[1.563rem] bg-[#E33812] rounded-full left-3 bottom-4 md:left-4 md:bottom-5 flex items-center justify-center text-white text-base" >
           {{ unreadMessages }}
         </div>
-        <button @click="toggleNotification" class="cursor-pointer"><img :src="bell" class="md:h-8 md:w-[2rem]" /></button>
+        <icon-bell  @click="toggleNotification" class="md:h-8 md:w-[2rem]"></icon-bell>
       </div>
       <language-component type="feed"></language-component>
       <button

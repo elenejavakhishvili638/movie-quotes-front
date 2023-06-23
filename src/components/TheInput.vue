@@ -1,8 +1,8 @@
 <script setup>
 import { Field, ErrorMessage, useField } from 'vee-validate'
 import { ref, watch, computed } from 'vue'
-import error from '../assets/images/logos/error.png'
-import valid from '../assets/images/logos/valid.png'
+import IconValid from './icons/IconValid.vue'
+import IconError from './icons/IconError.vue'
 import { useAuthStore } from '../stores/registration'
 import { useLanguageStore } from '../stores/language/index'
 
@@ -31,13 +31,13 @@ const inputClass = computed(() => {
 
 const img = computed(() => {
   if (errors.value[props.name]) {
-    return error
+    return IconError
   }
 
   if (meta.touched && meta.valid) {
-    return valid
+    return IconValid
   } else if (meta.touched && !meta.valid) {
-    return error
+    return IconError
   } else {
     return ''
   }
@@ -62,7 +62,7 @@ const language = computed(() => languageStore.currentLanguage)
         autocomplete="off"
         v-model="internalValue"
       />
-      <img class="mr-[12px] absolute right-0" :src="img" />
+      <component class=" mr-0.75 right-0" v-bind:is="img"></component>
     </div>
     <p class="text-[#F15524] text-base ml-[20px] mt-[16px]" v-if="errors">
       {{ errors[props.name] && errors[props.name][0][language] }}

@@ -2,7 +2,8 @@
 import { Form } from 'vee-validate'
 import TheButton from './TheButton.vue'
 import TheInput from './TheInput.vue'
-import back from '../assets/images/logos/back.png'
+import IconBackVue from './icons/IconBack.vue'
+
 import { usePasswordResetStore } from '../stores/UpdatePassword/index'
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
@@ -75,7 +76,7 @@ const formData = computed(() => passwordResetStore.$state.updatePassword)
         @click="openModal"
         class="cursor-pointer mb-[53px] gap-[11px] flex items-center justify-center text-[#6C757D] font-normal"
       >
-        <img :src="back" />
+        <IconBackVue class="cursor-pointer" ></IconBackVue>
         {{ $t('updatePassword.button_two') }}
       </div>
     </div>

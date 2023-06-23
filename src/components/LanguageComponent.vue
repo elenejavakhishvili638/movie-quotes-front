@@ -1,7 +1,6 @@
 <script setup>
-import Vector from '../assets/images/logos/Vector.png'
 import { computed, ref } from 'vue'
-
+import IconVector from './icons/IconVector.vue';
 import { useLanguageStore } from '../stores/language/index'
 
 const props = defineProps(['type'])
@@ -31,7 +30,7 @@ const toggleLang = () => {
   <div class="ml-[10px] flex justify-center items-center">
     <div @click="toggleLang" class="flex items-center gap-2">
       <p class="text-white">{{ language.display }}</p>
-      <img :src="Vector" />
+      <IconVector></IconVector>
     </div>
 
     <div

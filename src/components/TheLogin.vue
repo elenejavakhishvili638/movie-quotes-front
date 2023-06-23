@@ -5,6 +5,8 @@ import TheInput from '../components/TheInput.vue'
 import { useLoginStore } from '../stores/login/index'
 import { useRouter } from 'vue-router'
 import { computed } from 'vue'
+import IconGoogle from "./icons/IconGoogle.vue"
+
 
 const props = defineProps({
   closeLogin: Function,
@@ -79,8 +81,8 @@ const formData = computed(() => loginStore.$state.login)
         </div>
         <the-button :disabled="!meta.valid">{{ $t('login.sign_in') }}</the-button>
       </Form>
-      <button @click="googleSignIn" class="w-[360px] border border-white rounded-[8px] h-[38px]">
-        G {{ $t('login.google') }}
+      <button @click="googleSignIn" class="flex justify-center items-center  w-[360px] border border-white rounded-[8px] h-[38px]">
+        <IconGoogle class=" mr-0.5" ></IconGoogle> {{ $t('login.google') }}
       </button>
       <div class="mb-[53px] mt-[32px] flex items-center justify-center">
         <p class="text-[#6C757D] mr-[4px]">{{ $t('login.account') }}?</p>

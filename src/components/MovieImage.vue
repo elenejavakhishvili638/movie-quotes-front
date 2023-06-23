@@ -1,5 +1,5 @@
 <script setup>
-import image from '../assets/images/logos/image.png'
+import IconCamera from './icons/IconCamera.vue'
 import { ref, computed } from 'vue'
 import { Field, ErrorMessage } from 'vee-validate'
 
@@ -67,13 +67,13 @@ const imageRules = computed(() => {
           'flex flex-col items-center mr-6 lg:mr-[54px] gap-4': uploadedImageUrl
         }"
       >
-        <div class="flex pl-4 items-center">
-          <img :src="image" />
-          <p class="text-[16px] font-normal ml-[13px]">{{ $t('movie.upload') }}</p>
+        <div class="flex pl-1 items-center">
+          <IconCamera></IconCamera>
+          <p class="text-[16px] font-normal ml-[13px] text-center">{{ $t('movie.upload') }}</p>
         </div>
         <button
           type="button"
-          class="bg-[#9747FF66] w-6 lg:w-12 h-2.6 text-lg outline-none"
+          class="bg-[#9747FF66] w-6 lg:w-12 h-2.6 md:text-lg outline-none text-sm"
           @click="triggerFileInput"
         >
           {{ $t('movie.choose') }}

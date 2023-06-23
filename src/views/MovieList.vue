@@ -1,7 +1,7 @@
 <script setup>
 import FeedHeader from '../components/FeedHeader.vue'
-import com from '../assets/images/logos/com.png'
-import search from '../assets/images/logos/search.png'
+import IconChatQuote from '../components/icons/IconChatQuote.vue'
+import IconSearch from '../components/icons/IconSearch.vue'
 import { onMounted, computed, ref, watch } from 'vue'
 import { useMoviesStore } from '../stores/movies/index'
 import { useLanguageStore } from '../stores/language/index'
@@ -9,7 +9,8 @@ import ProfileSidebar from '../components/ProfileSidebar.vue'
 import { useUserStore } from '../stores/user/index'
 import NewMovie from '../components/NewMovie.vue'
 import ModalLayout from '../components/ModalLayout.vue'
-import plus from '../assets/images/logos/plus.png'
+import IconPlus from '../components/icons/IconPlus.vue'
+
 
 const moviesStore = useMoviesStore()
 const languageStore = useLanguageStore()
@@ -63,7 +64,7 @@ const user = computed(() => userStore.$state.user)
           </div>
           <div class="flex items-center">
             <div class="mr-2 hidden md:flex md:ml-1.5">
-              <img :src="search" class="mr-1" />
+              <IconSearch class="mr-1"></IconSearch>
               <input
                 v-model="searchTerm"
                 @input="fetchMovies"
@@ -72,10 +73,11 @@ const user = computed(() => userStore.$state.user)
               />
             </div>
             <button
-              class="w-8.75 h-2.6 rounded bg-red flex items-center justify-center"
+              class="w-8.75 h-2.6 rounded bg-red flex items-center justify-center cursor-pointer"
               @click="openMovie"
             >
-              <img :src="plus" class="pr-2" /> {{ $t('movie.add_movie') }}
+            <IconPlus class="pr-2"  ></IconPlus>
+              {{ $t('movie.add_movie') }}
             </button>
           </div>
         </div>
@@ -94,7 +96,7 @@ const user = computed(() => userStore.$state.user)
                   </h1>
                   <div class="flex items-center gap-3">
                     <p>{{ movie.quotes && movie.quotes.length }}</p>
-                    <img :src="com" />
+                    <IconChatQuote></IconChatQuote>
                   </div>
                 </div>
               </router-link>

@@ -1,11 +1,10 @@
 <script setup>
-import home from '../assets/images/logos/home.png'
-import movie from '../assets/images/logos/movie.png'
-import activeHouse from '../assets/images/logos/activeHouse.png'
-import activeCamera from '../assets/images/logos/activeCamera.png'
 import { useRoute } from 'vue-router'
 import { useUserStore } from '../stores/user/index'
 import { computed, ref } from 'vue'
+import ProfileCamera from './icons/ProfileCamera.vue'
+import ProfileHome from './icons/ProfileHome.vue'
+
 
 const props = defineProps(['close'])
 let path = import.meta.env.VITE_BACKEND_URL
@@ -14,8 +13,8 @@ const userStore = useUserStore()
 
 const route = useRoute()
 
-const homeImage = computed(() => (route.path === '/news-feed' ? activeHouse : home))
-const movieImage = computed(() => (route.path === '/movie-list' ? activeCamera : movie))
+const homeImage = computed(() => (route.path === '/news-feed' ? 'red' : 'white'))
+const movieImage = computed(() => (route.path === '/movie-list' ? 'red' : 'white'))
 const profile = computed(() => (route.path === '/my-profile' ? 'border border-[#E31221]' : null))
 
 const user = computed(() => userStore.$state.user)
@@ -44,11 +43,11 @@ const uploadedImageUrl = ref(
     </div>
     <div class="mt-[40px] text-2xl">
       <div class="flex items-center mb-[40px] gap-8" @click="props.close">
-        <img :src="homeImage" />
+        <ProfileHome :filled-color="homeImage" ></ProfileHome>
         <router-link :to="{ name: 'feed' }">{{ $t('feed.news_feed') }}</router-link>
       </div>
       <div class="flex items-center gap-8 mb-1" @click="props.close">
-        <img :src="movieImage" />
+        <ProfileCamera :filled-color="movieImage" ></ProfileCamera>
         <router-link :to="{ name: 'movies' }">{{ $t('feed.movie_list') }}</router-link>
       </div>
       <slot></slot>

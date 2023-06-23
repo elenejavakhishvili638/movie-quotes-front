@@ -1,6 +1,6 @@
 <script setup>
-import trash from '../assets/images/logos/trash.png'
-import close from '../assets/images/logos/close.png'
+import IconTrash from './icons/IconTrash.vue'
+import IconClose from './icons/IconClose.vue'
 import { useMoviesStore } from '../stores/movies'
 import { useQuotesStore } from '../stores/quotes'
 import { useRoute } from 'vue-router'
@@ -141,9 +141,9 @@ const uploadedImage = ref(
     class="h-auto top-2.5 w-full md:top-[8%] xl:w-37 2xl:w-60 absolute text-white bg-modal md:w-31 rounded-xl"
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-6 px-14">
-      <img :src="trash" @click="deleteQuote" />
+      <IconTrash @click="deleteQuote" ></IconTrash>
       <h1 class="text-2xl font-medium">Edit quote</h1>
-      <img @click="props.closeEditQuote" :src="close" />
+      <IconClose @click="props.closeEditQuote" ></IconClose>
     </div>
     <div class="p-9">
       <div class="flex items-center gap-4 mb-2.25">
