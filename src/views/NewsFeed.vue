@@ -10,6 +10,8 @@ import { useLanguageStore } from '../stores/language/index'
 import NewQuote from '../components/NewQuote.vue'
 import IconPencil from '../components/icons/IconPencil.vue'
 import IconArrow from '../components/icons/IconArrow.vue'
+import ModalLayout from '../components/ModalLayout.vue'
+
 
 const increaseSearch = ref(false)
 const addQuote = ref(false)
@@ -104,7 +106,9 @@ const language = computed(() => languageStore.currentLanguage)
 
 <template>
   <div class="background min-h-screen pb-2" @click="decrease">
-    <new-quote v-if="addQuote" :image="user.image" :username="user.username" :closeQuote="closeQuote"></new-quote>
+    <modal-layout  v-if="addQuote" >
+      <new-quote :image="user.image" :username="user.username" :closeQuote="closeQuote"></new-quote>
+    </modal-layout>
     <feed-header :toggleSearch="toggleSearch" :searchBar="true"></feed-header>
     <div class="md:flex md:ml-2.5 lg:ml-4.5">
       <div class="hidden md:block text-white w-14.5">

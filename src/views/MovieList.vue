@@ -48,7 +48,7 @@ const user = computed(() => userStore.$state.user)
 
 <template>
   <div class="background min-h-135 pb-2">
-    <modal-layout v-if="addMovie" :close="closeMovie">
+    <modal-layout v-if="addMovie">
       <new-movie :image="user.image" :username="user.username" :closeMovie="closeMovie"></new-movie>
     </modal-layout>
     <feed-header :searchBar="false"></feed-header>
