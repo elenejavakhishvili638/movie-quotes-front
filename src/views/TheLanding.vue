@@ -111,7 +111,7 @@ const emailVerified = computed(() => store.emailVerified)
       <the-modal :icon="email" :text="$t('modals.text')">
         <a
           :href="'mailto:' + email"
-          class="text-center w-11.875 rounded-lg bg-red text-white h-2.375 pt-1"
+          class="text-center w-11.875 rounded-lg bg-red text-white h-2.375 pt-0.5"
           >{{ $t('modals.button') }}</a
         >
       </the-modal>
@@ -120,7 +120,7 @@ const emailVerified = computed(() => store.emailVerified)
       <the-modal :icon="verified" :header="$t('modals.header')" :text="$t('modals.text_two')">
         <router-link
         :to="{ name: 'feed' }"
-          class="text-center w-11.875 rounded-lg bg-red text-white h-2.375 pt-1"
+          class="text-center w-11.875 rounded-lg bg-red text-white h-2.375 pt-0.5"
           >{{ $t('modals.button_two') }}</router-link
         >
       </the-modal>

@@ -17,6 +17,10 @@ const emit = defineEmits(['changeModal'])
 
 const loginStore = useLoginStore()
 const router = useRouter()
+const errors = computed(() => loginStore.$state.errors)
+
+
+
 
 const openModal = () => {
   emit('changeModal', 'forgot-password')
@@ -30,8 +34,10 @@ const openSignup = () => {
 const onSubmit = async () => {
   try {
     await loginStore.loginUser(loginStore.$state.login)
-    props.closeLogin()
-    router.push('/news-feed')
+    if (Object.keys(errors.value).length === 0) {
+      props.closeLogin()
+      router.push('/news-feed')
+    }
   } catch (error) {
     console.error('Failed to login:', error)
   }
@@ -59,6 +65,7 @@ const formData = computed(() => loginStore.$state.login)
           type="text"
           :label="$t('login.email')"
           :placeholder="$t('login.email_placeholder')"
+          :errors="errors"
         ></the-input>
         <the-input
           v-model="formData.password"
@@ -67,6 +74,7 @@ const formData = computed(() => loginStore.$state.login)
           type="password"
           :label="$t('login.password')"
           :placeholder="$t('login.password_placeholder')"
+          :errors="errors"
         ></the-input>
         <div class="w-22.5 flex justify-between mb-1">
           <div class="flex justify-center">

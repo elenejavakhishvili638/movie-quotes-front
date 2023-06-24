@@ -16,6 +16,7 @@ export async function loginUser(data) {
     await axios.get('/api/user')
   } catch (error) {
     console.log(error)
+    throw error
   }
 }
 

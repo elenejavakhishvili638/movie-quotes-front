@@ -29,7 +29,6 @@ export default {
     try {
       const response = await fetchQuotes(1)
       this.quoteList = response.data
-      console.log(response.data)
     } catch (error) {
       console.log(error)
     }
@@ -42,10 +41,6 @@ export default {
       if (foundQuote) {
         this.quote = foundQuote
       }
-      // else {
-      //   const response = await fetchQuote(id)
-      //   this.quote = response.data
-      // }
     } catch (error) {
       console.error(error)
     }
@@ -93,10 +88,6 @@ export default {
     try {
       await editQuote(data, id)
       await this.fetchQuote(id)
-      // console.log(id)
-      // for (let [key, value] of data.entries()) {
-      //   console.log(`${key}: ${value}`)
-      // }
     } catch (err) {
       console.log(err)
     }

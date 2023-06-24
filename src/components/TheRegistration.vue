@@ -54,6 +54,7 @@ const formData = computed(() => authStore.$state.form)
           :label="$t('registration.name')"
           :placeholder="$t('registration.name_placeholder')"
           validate="required|minmax:3,15|lowercase_and_numbers_only"
+          :errors="errors"
         ></the-input>
 
         <the-input
@@ -63,6 +64,7 @@ const formData = computed(() => authStore.$state.form)
           :label="$t('registration.email')"
           :placeholder="$t('registration.email_placeholder')"
           validate="required|email"
+          :errors="errors"
         ></the-input>
 
         <the-input
@@ -72,6 +74,7 @@ const formData = computed(() => authStore.$state.form)
           :label="$t('registration.password')"
           :placeholder="$t('registration.password_placeholder')"
           validate="required|lowercase_and_numbers_only|minmax:8,15"
+          :errors="errors"
         ></the-input>
 
         <the-input
@@ -81,6 +84,7 @@ const formData = computed(() => authStore.$state.form)
           :label="$t('registration.confirm_password')"
           :placeholder="$t('registration.confirm_password_placeholder')"
           validate="required|confirmed:password"
+          :errors="errors"
         ></the-input>
         <the-button type="submit" :disabled="!meta.valid">{{
           $t('registration.get_started')

@@ -3,14 +3,11 @@ import { Field, ErrorMessage, useField } from 'vee-validate'
 import { ref, watch, computed } from 'vue'
 import IconValid from './icons/IconValid.vue'
 import IconError from './icons/IconError.vue'
-import { useAuthStore } from '../stores/registration'
 import { useLanguageStore } from '../stores/language/index'
 
-const props = defineProps(['placeholder', 'label', 'name', 'type', 'validate', 'modelValue'])
+const props = defineProps(['placeholder', 'label', 'name', 'type', 'validate', 'modelValue', 'errors'])
 const emit = defineEmits(['update:modelValue'])
-const authStore = useAuthStore()
 const internalValue = ref(props.modelValue)
-const errors = computed(() => authStore.$state.errors)
 const languageStore = useLanguageStore()
 
 const { meta } = useField(() => props.name)
@@ -20,7 +17,7 @@ watch(internalValue, (newValue) => {
 })
 
 const inputClass = computed(() => {
-  if (errors.value[props.name]) {
+  if (props.errors[props.name]) {
     return 'border border-red'
   }
   if (meta.touched && meta.valid) {
@@ -33,7 +30,7 @@ const inputClass = computed(() => {
 })
 
 const img = computed(() => {
-  if (errors.value[props.name]) {
+  if (props.errors[props.name]) {
     return IconError
   }
 

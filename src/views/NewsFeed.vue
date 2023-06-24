@@ -56,6 +56,7 @@ const handleUnlikeSent = (data) => {
 
 onMounted(async () => {
   await quotesStore.fetchQuotes(searchTerm.value, page.value)
+  console.log(quotesStore.state)
   window.addEventListener('scroll', handleScroll)
   window.Echo.channel('comments').listen('CommentSent', handleCommentSent)
   window.Echo.channel('likes').listen('LikeSent', handleLikeSent)

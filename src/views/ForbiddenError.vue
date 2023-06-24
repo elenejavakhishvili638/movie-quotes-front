@@ -11,7 +11,7 @@ import gandalf from '../assets/images/gandalf.png'
       Sorry, but you don’t have permission to <br />
       access this page
     </p>
-    <RouterLink :to="{ name: 'home' }" class="bg-[#E31221] py-2 px-0.75 rounded md:text-xl"
+    <RouterLink :to="{ name: 'home' }" class="bg-[#E31221] px-2 py-0.75 rounded md:text-xl"
       >Return home</RouterLink
     >
   </div>

@@ -12,9 +12,7 @@ export default {
       this.errors = {}
     } catch (error) {
       if (error.response && error.response.data && error.response.data.errors) {
-        console.log(error.response.data.errors)
         this.errors = error.response.data.errors
-        console.log(this.errors)
       } else {
         console.log(error)
       }
