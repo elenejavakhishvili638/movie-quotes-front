@@ -8,15 +8,15 @@ const closeModal = () => {
 
 <template>
   <div
-    class="h-screen w-full md:rounded-[10px] md:w-[538px] md:h-[414px] bg flex flex-col justify-center items-center rounded-[10px]"
+    class="h-screen w-full rounded-lg md:w-33.625 md:h-25.875 bg flex flex-col justify-center items-center"
   >
-    <img :src="props.icon" class="mb-[21px] mt-[40px]" />
-    <h1 class="text-white text-[32px] font-medium mb-[21px]">{{ props.header }}</h1>
-    <p class="w-[357px] text-center text-white text-[16px] mb-[40px]">{{ props.text }}</p>
+    <img :src="props.icon" class="mb-1.313 mt-2.5" />
+    <h1 class="text-white text-3xl font-medium mb-1.313">{{ props.header }}</h1>
+    <p class="w-22.313 text-center text-white text-base mb-2.5">{{ props.text }}</p>
     <slot></slot>
     <p
       @click="closeModal"
-      class="mt-[32px] mb-[47px] text-[#6C757D] text-base cursor-pointer"
+      class="mt-2 mb-[2.938rem] text-[#6C757D] text-base cursor-pointer"
       v-if="props.footer"
     >
       {{ props.footer }}

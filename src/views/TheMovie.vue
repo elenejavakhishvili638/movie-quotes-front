@@ -116,7 +116,7 @@ const user = computed(() => userStore.$state.user)
 </script>
 
 <template>
-  <div class="background min-h-[200vh] pb-[32px]">
+  <div class="background min-h-[200vh] pb-2">
     <ModalLayout v-if="editMovie">
       <EditMovie :username="user.username" :image="user.image" :movie="movie" :closeMovie="closeMovie"></EditMovie>
     </ModalLayout>
@@ -137,68 +137,68 @@ const user = computed(() => userStore.$state.user)
       <EditQuote :username="user.username" :image="user.image" :closeEditQuote="closeEditQuote" :id="quoteId"></EditQuote>
     </ModalLayout>
     <feed-header :searchBar="false"></feed-header>
-    <div class="md:flex md:ml-[40px] lg:ml[70px]">
+    <div class="md:flex md:ml-2.5 lg:ml-4.5">
       <div class="hidden md:block text-white sm:w-[25%] lg:w-[17%]">
         <profile-sidebar></profile-sidebar>
       </div>
-      <div class="flex flex-col mt-[39px] text-white">
-        <h1 class="hidden md:block text-[24px] font-[500] mb-[33px] ml-[35px]">
+      <div class="flex flex-col mt-2.25 text-white">
+        <h1 class="hidden md:block text-2xl font-[500] mb-2 ml-2">
           {{ $t('movie.movie_desc') }}
         </h1>
-        <div class="mx-[35px] pb-[32px] md:flex md:gap-[21px]">
+        <div class="mx-2.25 pb-2 md:flex md:gap-5">
           <div>
             <img
               :src="path + '/storage/' + movie.image"
-              class="w-[358px] h-[302px] border border-[#DDCCAA] xl:w-[809px] xl:h-[441px] rounded-[12px] object-contain mb-[24px]"
+              class="w-22.375 h-18.875 border border-[#DDCCAA] xl:w-50.563 xl:h-27.563 rounded-xl object-contain mb-1.5"
             />
           </div>
-          <div class="lg:min-w-[590px]">
+          <div class="lg:min-w-36.875">
             <div class="flex flex-col md:flex-row justify-between">
-              <h1 class="text-[#DDCCAA] text-[24px] font-[700] md:max-w-[290px] mb-[10px]">
+              <h1 class="text-[#DDCCAA] text-2xl font-[700] md:max-w-18.125 mb-[1.25rem]">
                 {{ movie.title && movie.title[language] }}
                 ({{ movie.year }})
               </h1>
               <div
-                class="w-[144px] h-[40px] bg-[#24222F] rounded-[10px] flex items-center justify-between px-[27px]"
+                class="w-[9rem] h-10 bg-[#24222F] rounded-lg flex items-center justify-between px-[1.688rem]"
               >
                 <IconEditVue @click="openMovie" class=" cursor-pointer" ></IconEditVue>
-                <div class="border-r border-r-[#6C757D] h-[16px]"></div>
+                <div class="border-r border-r-[#6C757D] h-4"></div>
                 <IconTrash @click="deleteMovie" class=" cursor-pointer"></IconTrash>
               </div>
             </div>
-            <div class="flex gap-[8px] my-[24px]">
+            <div class="flex gap-2 my-1.5">
               <div
-                class="px-[11px] py-[6px] bg-[#6C757D] rounded-[4px]"
+                class="px-[0.688rem] py-[0.375rem] bg-[#6C757D] rounded"
                 v-for="genre in movie.genres"
                 :key="genre.id"
               >
-                <p class="font-[700] text-[18px]">{{ genre.name }}</p>
+                <p class="font-[700] text-lg">{{ genre.name }}</p>
               </div>
             </div>
-            <p class="mb-[20px] text-[#CED4DA] text-[18px] font-[700]">
+            <p class="mb-1.25 text-[#CED4DA] text-lg font-[700]">
               {{ $t('movie.director') }}:
               <span class="text-white font-[500]">{{
                 movie.director && movie.director[language]
               }}</span>
             </p>
-            <p class="font-normal text-[18px] text-[#CED4DA]">
+            <p class="font-normal text-lg text-[#CED4DA]">
               {{ movie.description && movie.description[language] }}
             </p>
           </div>
         </div>
-        <div class="md:flex md:mb-[40px] items-center">
+        <div class="md:flex md:mb-2.5 items-center">
           <button
-            class="mx-[35px] mb-[32px] md:mb-[0px] w-[140px] h-[38px] rounded-[4px] bg-red flex items-center justify-center"
+            class="mx-2.25 mb-2 md:mb-[0px] w-8.75 h-[2.375rem] rounded bg-red flex items-center justify-center cursor-pointer"
             @click="openQuote"
           >
-          <IconPlus class="pr-2 cursor-pointer"></IconPlus>
+          <IconPlus class=" mr-1"></IconPlus>
             {{ $t('movie.add_quote') }}
           </button>
-          <hr class="mx-[35px] md:hidden" />
+          <hr class="mx-2 md:hidden" />
           <div
-            class="md:flex md:items-center md:border-l md:border-l-[#6C757D] md:pl-[16px] mx-[35px] mb-[35px] mt-[40px] md:mx-[0px] md:mb-[0px] md:mt-[0]"
+            class="md:flex md:items-center md:border-l md:border-l-[#6C757D] md:pl-[1rem] mx-2 mb-2 mt-2.5 md:mx-[0px] md:mb-[0px] md:mt-[0]"
           >
-            <p class="text-[24px] md:ml-[10px]">
+            <p class="text-2xl md:ml-[0.625rem]">
               {{ $t('movie.all_quotes') }} ({{ movie.quotes && movie.quotes.length }})
             </p>
           </div>
@@ -207,16 +207,16 @@ const user = computed(() => userStore.$state.user)
           <div
             v-for="(quote, index) in movie.quotes"
             :key="quote.id"
-            class="relative md:w-[600px] lg:w-[809px] bg-[#11101A] flex flex-col items-center px-[35px] mb-[37px] md:ml-[35px]"
+            class="relative md:w-37.5 lg:w-50.563 bg-[#11101A] flex flex-col items-center px-2.188 mb-2.25 md:ml-2.25"
           >
             <div
-              class="relative border-b border-b-[#54535A] pb-[24px] mb-[19px] flex flex-col md:flex-row items-center md:w-full"
+              class="relative border-b border-b-[#54535A] pb-[2.625rem] mb-[1.188rem] flex flex-col md:flex-row items-center md:w-full"
             >
               <img
                 :src="path + '/storage/' + quote.image"
-                class="md:mr-[34px] md:w-[226px] h-[140px] w-[359px] mt-[20px] mb-[24px] rounded-[2px] object-cover"
+                class="md:mr-2 md:w-[14.125rem] h-8.75 w-22.438 mt-[1.25rem] mb-1.5 rounded object-cover"
               />
-              <p class="italic text-[24px] text-center md:text-left">
+              <p class="italic text-2xl text-center md:text-left">
                 "{{ quote.body && quote.body[language] }}"
               </p>
               <IconDots class="hidden xl:block md:absolute right-0 top-6 cursor-pointer" @click="openModal(index)"></IconDots>
@@ -224,30 +224,30 @@ const user = computed(() => userStore.$state.user)
             <div
               v-if="index === openedModalId"
               @click="closeModal(index)"
-              class="absolute xl:top-[50px] xl:right-[-190px] right-[20px] top-5 h-[200px] w-[250px] rounded-[10px] bg-[#24222F] py-[32px] pl-[40px]"
+              class="absolute xl:top-[3.125rem] xl:right-[-11.875rem] right-[1.25rem] top-5 h-12.5 w-[15.625rem] rounded-lg bg-[#24222F] py-2 pl-[2.5rem]"
             >
-              <p class="flex gap-[10px] mb-[32px]">
+              <p class="flex gap-2 mb-2">
                 <IconEye @click="openViewQuote(quote.id)" class="cursor-pointer" ></IconEye>
                 Vue Quote
               </p>
-              <p class="flex gap-[10px] mb-[32px]">
+              <p class="flex gap-2 mb-2">
                 <IconEditVue @click="openEditQuote(quote.id)" class=" cursor-pointer"></IconEditVue>
                 Edit
               </p>
-              <p class="flex gap-[10px] mb-[32px]">
+              <p class="flex gap-2 mb-2">
                 <IconTrash @click="deleteQuote(quote.id)" class=" cursor-pointer"></IconTrash>
                 Delete
               </p>
             </div>
-            <div class="flex justify-between items-center w-full mb-[20px]">
+            <div class="flex justify-between items-center w-full mb-[1.25rem]">
               <div class="flex">
-                <div class="flex mr-[24px]">
+                <div class="flex mr-1.5">
                   <p>{{ quote.comments && quote.comments.length }}</p>
-                  <IconComment class="ml-[12px]"></IconComment>
+                  <IconComment class="ml-0.75"></IconComment>
                 </div>
                 <div class="flex">
                   <p>{{ quote.likes && quote.likes.length }}</p>
-                  <IconHeart class="ml-[12px]" :filled-color="'white'"></IconHeart>
+                  <IconHeart class="ml-0.75" :filled-color="'white'"></IconHeart>
                 </div>
               </div>
               <IconDots class="xl:hidden cursor-pointer" @click="openModal(index)"></IconDots>

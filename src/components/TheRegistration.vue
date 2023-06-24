@@ -18,7 +18,6 @@ const errors = computed(() => authStore.$state.errors)
 const onSubmit = async () => {
   try {
     await authStore.registerUser(authStore.$state.form)
-    console.log(errors.value)
     if (Object.keys(errors.value).length === 0) {
       props.openModal()
       props.closeRegistration()
@@ -41,15 +40,14 @@ const formData = computed(() => authStore.$state.form)
 </script>
 
 <template>
-  <section @click.stop class="h-screen md:w-[601px] md:h-auto md:rounded-[10px] overflow-scroll">
-    <div class="text-white flex flex-col px-[44px] items-center justify-center pt-[73px]">
-      <div class="text-center mb-[32px]">
-        <h1 class="text-2xl mb-[12px] font-medium">{{ $t('registration.account') }}</h1>
+  <section @click.stop class="h-screen md:w-37.5 md:h-auto md:rounded-lg overflow-scroll">
+    <div class="text-white flex flex-col px-2.75 items-center justify-center pt-4.563">
+      <div class="text-center mb-2">
+        <h1 class="text-2xl mb-0.75 font-medium">{{ $t('registration.account') }}</h1>
         <p class="text-base text-[#6C757D] font-normal">{{ $t('registration.text') }}</p>
       </div>
       <Form @submit="onSubmit" v-slot="{ meta }">
         <the-input
-          class="w-[360px]"
           v-model="formData.username"
           name="username"
           type="text"
@@ -59,7 +57,6 @@ const formData = computed(() => authStore.$state.form)
         ></the-input>
 
         <the-input
-          class="w-[360px]"
           v-model="formData.email"
           name="email"
           type="email"
@@ -69,7 +66,6 @@ const formData = computed(() => authStore.$state.form)
         ></the-input>
 
         <the-input
-          class="w-[360px]"
           v-model="formData.password"
           name="password"
           type="password"
@@ -79,7 +75,6 @@ const formData = computed(() => authStore.$state.form)
         ></the-input>
 
         <the-input
-          class="w-[360px]"
           v-model="formData.password_confirmation"
           name="password_confirmation"
           type="password"
@@ -93,13 +88,13 @@ const formData = computed(() => authStore.$state.form)
       </Form>
       <button
         @click="googleSignUp"
-        class="flex justify-center items-center w-[360px] border border-white rounded-[8px] h-[38px]"
+        class="flex justify-center items-center w-22.5 border border-white rounded-lg h-2.375"
       >
-        <IconGoogle class="mr-[8px]"></IconGoogle>
+        <IconGoogle class="mr-0.5"></IconGoogle>
         {{ $t('registration.google') }}
       </button>
-      <div class="mb-[53px] mt-[32px] flex items-center justify-center">
-        <p class="text-[#6C757D] mr-[4px]">{{ $t('registration.have_account') }}</p>
+      <div class="mb-3.313 mt-2 flex items-center justify-center">
+        <p class="text-[#6C757D] mr-0.25">{{ $t('registration.have_account') }}</p>
         <p @click="openLogin" class="text-[#0D6EFD] border-b border-[#0D6EFD]">
           {{ $t('texts.log_in') }}
         </p>

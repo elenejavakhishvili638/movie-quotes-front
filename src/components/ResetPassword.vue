@@ -41,12 +41,12 @@ const formData = computed(() => passwordResetStore.$state.updatePassword)
 <template>
   <section
     @click.stop
-    class="h-screen md:w-[601px] md:h-auto md:rounded-[10px] flex flex-col justify-center"
+    class="h-screen md:w-37.5 md:h-auto md:rounded-lg flex flex-col justify-center"
   >
-    <div class="text-white flex flex-col px-[44px] items-center justify-center pt-[73px]">
-      <div class="text-center mb-[32px]">
-        <h1 class="text-2xl mb-[12px] font-medium">{{ $t('updatePassword.header_two') }}</h1>
-        <p class="w-[274px] md:w-[313px] text-base text-[#6C757D] font-[14px]">
+    <div class="text-white flex flex-col px-2.75 items-center justify-center pt-4.563">
+      <div class="text-center mb-2">
+        <h1 class="text-2xl mb-0.75 font-medium">{{ $t('updatePassword.header_two') }}</h1>
+        <p class="w-17.125 md:w-19.563 text-base text-[#6C757D]">
           {{ $t('updatePassword.text_two') }}
         </p>
       </div>
@@ -74,7 +74,7 @@ const formData = computed(() => passwordResetStore.$state.updatePassword)
       </Form>
       <div
         @click="openModal"
-        class="cursor-pointer mb-[53px] gap-[11px] flex items-center justify-center text-[#6C757D] font-normal"
+        class="cursor-pointer mb-3.313 gap-3 flex items-center justify-center text-[#6C757D] font-normal"
       >
         <IconBackVue class="cursor-pointer" ></IconBackVue>
         {{ $t('updatePassword.button_two') }}

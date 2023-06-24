@@ -111,8 +111,8 @@ const closeSuccessModal = () => {
 </script>
 
 <template>
-  <div class="mt-[25px]">
-    <ModalLayout v-if="successModal" class="items-baseline pt-4">
+  <div class="mt-[1.563rem]">
+    <ModalLayout v-if="successModal" class="items-baseline pt-1">
       <div class="bg-[#BADBCC] z-10 w-26 h-14 flex items-center justify-around rounded">
         <IconTick></IconTick>
         <p class="text-[#0F5132] text-base">Changes updated succsessfully</p>
@@ -152,7 +152,7 @@ const closeSuccessModal = () => {
       <div class="w-22.75 flex flex-col gap-8">
         <div>
           <p class="mb-0.25 text-base">Username</p>
-          <div class="flex justify-between border-b pb-4 text-lg">
+          <div class="flex justify-between border-b pb-1 text-lg">
             <p>{{ props.username }}</p>
             <button
               class="text-[#CED4DA]"
@@ -172,7 +172,7 @@ const closeSuccessModal = () => {
         </div>
         <div>
           <p class="mb-0.25 text-base">Email</p>
-          <div class="flex justify-between border-b pb-4 text-lg">
+          <div class="flex justify-between border-b pb-1 text-lg">
             <p>{{ props.email }}</p>
             <button
               class="text-[#CED4DA]"
@@ -192,7 +192,7 @@ const closeSuccessModal = () => {
         </div>
         <div>
           <p class="mb-0.25 text-base">Password</p>
-          <div class="flex justify-between border-b pb-4 text-lg">
+          <div class="flex justify-between border-b pb-1 text-lg">
             <p class="tracking-wider">...............</p>
             <button
               class="text-[#CED4DA]"

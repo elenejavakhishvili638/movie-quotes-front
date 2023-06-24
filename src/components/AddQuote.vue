@@ -92,18 +92,18 @@ const uploadedImage = ref(
   <div
     class="h-auto top-2.5 w-full md:top-[8%] xl:w-37 2xl:w-60 absolute text-white bg-modal md:w-31 rounded-xl"
   >
-    <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-6 px-14">
+    <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.5 px-3.5">
       <div></div>
       <h1 class="text-2xl font-medium">Add quote</h1>
       <IconClose @click="props.closeQuote"></IconClose>
     </div>
-    <div class="p-9">
+    <div class="p-2.25">
       <div class="flex items-center gap-4 mb-2.25">
         <img class="bg-[#D9D9D9] rounded-full w-10 h-10 object-cover" alt="name" :src="uploadedImage" />
         <p>{{ props.username }}</p>
       </div>
       <div
-        class="bg-[#000000] md:bg-transparent min-w-[21rem] h-7 md:h-11 mb-2.25 py-4 px-2 flex gap-3 md:gap-7 items-center"
+        class="bg-[#000000] md:bg-transparent min-w-[21rem] h-7 md:h-11 mb-2.25 py-1 px-0.5 flex gap-3 md:gap-7 items-center"
       >
         <div>
           <img
@@ -124,7 +124,7 @@ const uploadedImage = ref(
           </p>
           <div class="flex gap-1">
             <div
-              class="px-2 py-1 bg-[#6C757D] rounded"
+              class="px-0.5 py-0.25 bg-[#6C757D] rounded"
               v-for="genre in props.movie.genres"
               :key="genre.id"
             >

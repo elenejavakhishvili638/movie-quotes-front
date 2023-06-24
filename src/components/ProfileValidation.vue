@@ -9,7 +9,7 @@ const props = defineProps([
 </script>
 
 <template>
-  <div class="border border-[#CED4DA33] mb-2 w-33 h-9 rounded p-6">
+  <div class="border border-[#CED4DA33] mb-2 w-33 h-9 rounded p-1.5">
     <p class="text-base mb-1">{{ props.label }}</p>
     <div class="flex items-center gap-2">
       <div

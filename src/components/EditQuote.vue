@@ -140,15 +140,15 @@ const uploadedImage = ref(
   <div
     class="h-auto top-2.5 w-full md:top-[8%] xl:w-37 2xl:w-60 absolute text-white bg-modal md:w-31 rounded-xl"
   >
-    <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-6 px-14">
+    <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.5 px-3.5">
       <IconTrash @click="deleteQuote" ></IconTrash>
       <h1 class="text-2xl font-medium">Edit quote</h1>
       <IconClose @click="props.closeEditQuote" ></IconClose>
     </div>
-    <div class="p-9">
+    <div class="p-2.25">
       <div class="flex items-center gap-4 mb-2.25">
         <img class="bg-[#D9D9D9] rounded-full w-10 h-10 object-cover" alt="name" :src="uploadedImage" />
-        <p class="text-[20px]">{{ props.username }}</p>
+        <p class="text-xl">{{ props.username }}</p>
       </div>
       <Form class="relative flex flex-col mt-9 gap-4" @submit="onSubmit">
         <div v-if="quoteForm && quoteForm.body">
@@ -160,7 +160,7 @@ const uploadedImage = ref(
             placeholder="Quote in English."
             lang="Eng"
           ></quote-textarea>
-          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="body.en" />
+          <ErrorMessage class="text-[#F15524] text-base ml-1.25" name="body.en" />
         </div>
         <div v-if="quoteForm && quoteForm.body">
           <quote-textarea
@@ -171,7 +171,7 @@ const uploadedImage = ref(
             placeholder="ციტატა ქართულ ენაზე"
             lang="ქარ"
           ></quote-textarea>
-          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="body.ka" />
+          <ErrorMessage class="text-[#F15524] text-base ml-1.25" name="body.ka" />
         </div>
         <movie-image
           :onFileChangeParent="onFileChange"
@@ -180,7 +180,7 @@ const uploadedImage = ref(
           :uploadedImageUrl="uploadedImageUrl"
           type="edit"
         ></movie-image>
-        <the-button class="w-full h-[48px]">Save changes</the-button>
+        <the-button class="w-full h-3">Save changes</the-button>
       </Form>
     </div>
   </div>

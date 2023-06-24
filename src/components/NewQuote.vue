@@ -112,19 +112,19 @@ const uploadedImage = ref(
 
 <template>
   <div
-    class="h-auto top-[10px] z-10 w-full md:top-[8%] md:left-[35%] xl:left-[28%] 2xl:left-[24%] xl:w-[601px] 2xl:w-[961px] absolute text-white bg-[#11101A] md:w-[500px] rounded-[12px]"
+    class="h-auto top-[0.625rem] z-10 w-full md:top-[8%] md:left-[25%] xl:left-[28%] 2xl:left-[24%] xl:w-37.5 2xl:w-60 absolute text-white bg-[#11101A] md:w-37.5 rounded-xl"
   >
-    <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-[25px] px-[54px]">
+    <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.563 px-3.375">
       <div></div>
       <h1>Write new quote</h1>
       <IconClose @click="props.closeQuote"  class=" cursor-pointer" ></IconClose>
     </div>
-    <div class="p-[35px]">
-      <div class="flex items-center gap-[16px]">
-        <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px] object-cover" alt="name" :src="uploadedImage" />
+    <div class="p-2.188">
+      <div class="flex items-center gap-4">
+        <img class="bg-[#D9D9D9] rounded-full w-10 h-10 object-cover" alt="name" :src="uploadedImage" />
         <p>{{ props.username }}</p>
       </div>
-      <Form class="relative flex flex-col mt-[37px] gap-[16px]" @submit="onSubmit">
+      <Form class="relative flex flex-col mt-2.313 gap-4" @submit="onSubmit">
         <div>
           <quote-textarea
             validate="required|english"
@@ -134,7 +134,7 @@ const uploadedImage = ref(
             placeholder="Create new quote"
             lang="Eng"
           ></quote-textarea>
-          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="body.en" />
+          <ErrorMessage class="text-[#F15524] text-base ml-1.25" name="body.en" />
         </div>
         <div>
           <quote-textarea
@@ -145,7 +145,7 @@ const uploadedImage = ref(
             placeholder="ახალი ციტატა"
             lang="ქარ"
           ></quote-textarea>
-          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="body.ka" />
+          <ErrorMessage class="text-[#F15524] text-base ml-1.25" name="body.ka" />
         </div>
         <movie-image
           :onFileChangeParent="onFileChange"
@@ -156,11 +156,11 @@ const uploadedImage = ref(
         <Field name="movie" v-slot="{ handleChange }" rules="required">
           <div
             @click="openDropdown"
-            class="bg-[#000000] w-full h-[86px] rounded-[4px] flex justify-between items-center"
+            class="bg-[#000000] w-full h-5.375 rounded flex justify-between items-center"
           >
-            <div class="flex ml-[16px]">
+            <div class="flex ml-1">
               <IconMovie></IconMovie>
-              <p class="ml-[13px] text-base">
+              <p class="ml-0.75 text-base">
                 {{ chosenMovie && chosenMovie.title ? chosenMovie.title[language] : text }}
               </p>
             </div>
@@ -168,7 +168,7 @@ const uploadedImage = ref(
           </div>
           <div
             v-if="dropDown"
-            class="text-white bg-black p-[20px] top-5 bottom-3 h-60 overflow-y-scroll"
+            class="text-white bg-black p-1.25 top-5 bottom-3 h-60 overflow-y-scroll"
           >
             <div v-for="movie in movies" :key="movie.id" class="border-b border-b-blue-50 mb-[5px]">
               <p @click="selectMovie(movie, handleChange)">
@@ -176,9 +176,9 @@ const uploadedImage = ref(
               </p>
             </div>
           </div>
-          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="movie" />
+          <ErrorMessage class="text-[#F15524] text-base ml-1.25" name="movie" />
         </Field>
-        <the-button class="w-full h-[48px]">Post</the-button>
+        <the-button class="w-full h-3">Post</the-button>
       </Form>
     </div>
   </div>

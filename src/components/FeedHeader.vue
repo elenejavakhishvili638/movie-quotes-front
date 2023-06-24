@@ -81,7 +81,7 @@ const minutesAgo = (dateString) => {
 
 <template>
   <div
-    class="bg-[#22203033] h-[86px] flex justify-between items-center pl-9 pr-12 md:px-[4rem] top-0 sticky w-full"
+    class="bg-[#22203033] h-[86px] flex justify-between items-center pl-[2rem] pr-[2rem] md:px-[4rem] top-0 sticky w-full"
   >
     <button @click="openMenu" class="cursor-pointer md:hidden"><IconMenu></IconMenu></button>
     <p class="text-cream hidden md:block">MOVIE QUOTES</p>
@@ -90,11 +90,11 @@ const minutesAgo = (dateString) => {
       @click="closeMenu"
       class="absolute md:hidden left-0 top-0 w-24 h-41 bg-[#11101A] rounded-r-xl z-10"
     >
-      <div class="text-white pt-10 pl-11">
+      <div class="text-white pt-[2.5rem] pl-[2.75rem]">
         <profile-sidebar :close="closeMenu">
           <button
             @click="logout"
-            class="md:block mt-10 mr-2 justify-center items-center w-72 h-32 border border-white rounded text-white text-sm"
+            class="md:block mt-1.5 mr-2 justify-center items-center w-6 h-32 border border-white rounded text-white text-lg"
           >
             {{ $t('login.log_out') }}
           </button>
@@ -114,7 +114,7 @@ const minutesAgo = (dateString) => {
           v-for="notification in notifications"
           :key="notification.id"
           @click="read(notification.id)"
-          class="mt-2 flex border border-[#6C757D] p-4 rounded gap-3 md:justify-between"
+          class="mt-2 flex border border-[#6C757D] p-1 rounded gap-3 md:justify-between"
         >
           <div class="md:flex md:gap-6 md:items-center">
             <div class="flex flex-col items-center">

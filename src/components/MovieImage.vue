@@ -47,7 +47,7 @@ const imageRules = computed(() => {
       @dragleave.prevent="onDragLeave"
       @drop.prevent="onDrop($event, handleChange, validate)"
       :class="{ 'h-11.5': uploadedImageUrl }"
-      class="flex justify-between items-center border border-[#6C757D] w-full p-7 rounded"
+      class="flex justify-between items-center border border-[#6C757D] w-full p-[1.75rem] rounded"
     >
       <img
         :src="uploadedImageUrl"
@@ -64,12 +64,12 @@ const imageRules = computed(() => {
       <div
         class="flex items-center gap-5"
         :class="{
-          'flex flex-col items-center mr-6 lg:mr-[54px] gap-4': uploadedImageUrl
+          'flex flex-col items-center mr-6 lg:mr-[3.375rem] gap-4': uploadedImageUrl
         }"
       >
-        <div class="flex pl-1 items-center">
+        <div class="flex pl-0.25 items-center">
           <IconCamera></IconCamera>
-          <p class="text-[16px] font-normal ml-[13px] text-center">{{ $t('movie.upload') }}</p>
+          <p class="text-base font-normal ml-[0.813rem] text-center">{{ $t('movie.upload') }}</p>
         </div>
         <button
           type="button"

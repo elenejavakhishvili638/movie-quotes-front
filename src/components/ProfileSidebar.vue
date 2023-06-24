@@ -26,11 +26,11 @@ const uploadedImageUrl = ref(
 </script>
 
 <template>
-  <div class="sticky top-[120px]">
-    <div class="flex items-center mb-[14px] mt-2">
+  <div class="sticky top-[7.5rem]">
+    <div class="flex items-center mb-1 mt-2">
       <img
         :class="profile"
-        class="bg-[#D9D9D9] rounded-full w-10 h-10 lg:w-[60px] lg:h-[60px] object-cover"
+        class="bg-[#D9D9D9] rounded-full w-10 h-10 lg:w-3.75 lg:w- lg:h-3.75 object-cover"
         :src="uploadedImageUrl"
         alt="name"
       />
@@ -41,8 +41,8 @@ const uploadedImageUrl = ref(
         }}</router-link>
       </div>
     </div>
-    <div class="mt-[40px] text-2xl">
-      <div class="flex items-center mb-[40px] gap-8" @click="props.close">
+    <div class=" mt-2.5 text-2xl">
+      <div class="flex items-center mb-2.5 gap-8" @click="props.close">
         <ProfileHome :filled-color="homeImage" ></ProfileHome>
         <router-link :to="{ name: 'feed' }">{{ $t('feed.news_feed') }}</router-link>
       </div>

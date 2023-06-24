@@ -164,12 +164,12 @@ const uploadedImage = ref(
   <div
     class="h-auto top-2.5 w-full md:top-[8%] md:left-[30%] 2xl:left-[24%] xl:w-37 2xl:w-60 absolute text-white bg-modal md:w-31 rounded-xl"
   >
-    <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-6 px-14">
+    <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.5 px-3.5">
       <div></div>
       <h1 class="text-2xl font-medium">{{ $t('movie.edit_movie') }}</h1>
       <IconClose @click="props.closeMovie" ></IconClose>
     </div>
-    <div class="p-9">
+    <div class="p-2.25">
       <div class="flex items-center mb-2.25 gap-4">
         <img class="bg-[#D9D9D9] rounded-full w-10 h-10 object-cover" alt="name" :src="uploadedImage" />
         <p>{{ props.username }}</p>

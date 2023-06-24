@@ -137,7 +137,7 @@ const language = computed(() => languageStore.currentLanguage)
         <p class="text-xl font-normal" @click="triggerFileInput">Upload new photo</p>
       </div>
       <div class="bg-[#11101A]">
-        <div class="flex flex-col gap-14 pb-40 text-base">
+        <div class="flex flex-col gap-14 pb-10 text-base">
           <div class="flex flex-col mt-12.313">
             <label class="mb-0.5">Username</label>
             <div class="flex gap-8">
@@ -146,7 +146,7 @@ const language = computed(() => languageStore.currentLanguage)
                 type="text"
                 disabled
                 :value="props.username"
-                class="text-[#212529] w-33 h-3 rounded px-2 py-4 outline-none bg-[#CED4DA]"
+                class="text-[#212529] w-33 h-3 rounded px-0.5 py-1 outline-none bg-[#CED4DA]"
               />
 
               <button type="button" class="text-[#CED4DA]" @click="openUsername">Edit</button>
@@ -179,7 +179,7 @@ const language = computed(() => languageStore.currentLanguage)
                 disabled
                 :value="props.email"
                 :readonly="props.google !== null"
-                class="text-[#212529] w-33 h-3 rounded px-2 py-4 outline-none bg-[#CED4DA]"
+                class="text-[#212529] w-33 h-3 rounded px-0.5 py-1 outline-none bg-[#CED4DA]"
               />
               <button
                 type="button"
@@ -200,7 +200,7 @@ const language = computed(() => languageStore.currentLanguage)
                 validate="email"
               >
               </the-input>
-              <p class="text-[#F15524] text-base ml-[20px] mt-[16px]" v-if="errors">
+              <p class="text-[#F15524] text-base ml-1.25 mt-1" v-if="errors">
                 {{ errors['email'] && errors['email'][0][language] }}
               </p>
             </div>
@@ -213,7 +213,7 @@ const language = computed(() => languageStore.currentLanguage)
                 disabled
                 value="passwordpassword"
                 type="password"
-                class="text-[#212529] w-33 h-3 rounded px-2 py-4 outline-none bg-[#CED4DA]"
+                class="text-[#212529] w-33 h-3 rounded px-0.5 py-1 outline-none bg-[#CED4DA]"
               />
               <button type="button" class="text-[#CED4DA]" @click="openPassword">Edit</button>
             </div>
@@ -250,7 +250,7 @@ const language = computed(() => languageStore.currentLanguage)
       </div>
       <div v-if="openButtons" class="flex gap-7 self-end">
         <button class="text-xl text-[#CED4DA]" type="button" @click="cancelButtons">Cancel</button>
-        <button type="submit" class="bg-[#E31221] rounded px-4 py-2 h-3 w-[10rem] text-xl">
+        <button type="submit" class="bg-[#E31221] rounded px-1 py-0.5 h-3 w-[10rem] text-xl">
           Save changes
         </button>
       </div>

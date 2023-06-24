@@ -32,7 +32,7 @@ const genreRule = computed(() => {
     <div class="flex gap-1 w-full border border-[#6C757D] h-12 rounded items-center">
       <p @click="openGenreModal" class="ml-1 cursor-pointer">Genres:</p>
       <div
-        class="text-white text-sm ml-1 bg-[#6C757D] py-1 px-1 rounded"
+        class="text-white text-sm ml-1 bg-[#6C757D] p-0.25 rounded"
         v-for="(tag, index) in tagGenres"
         :key="index"
       >
@@ -43,11 +43,11 @@ const genreRule = computed(() => {
     <Field name="genre" v-slot="{ handleChange }" :rules="genreRule">
       <div
         v-if="genreModal"
-        class="w-full bottom-[-11.875rem] h-12.5 z-10 absolute flex flex-col gap-4 bg-black p-4 overflow-y-scroll"
+        class="w-full bottom-[-11.875rem] h-12.5 z-10 absolute flex flex-col gap-4 bg-black p-1 overflow-y-scroll"
       >
         <span @click="closeGenreModal" class="bg-[#728ba1] text-center cursor-pointer">X</span>
         <div
-          class="text-white text-base border-b-2 py-1 px-2 rounded"
+          class="text-white text-base border-b-2 py-0.25 px-0.5 rounded"
           v-for="(tag, index) in genres"
           :key="index"
           @click="handleClick(tag.name, handleChange)"

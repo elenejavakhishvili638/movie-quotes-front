@@ -47,7 +47,7 @@ const user = computed(() => userStore.$state.user)
 </script>
 
 <template>
-  <div class="background min-h-135 pb-8">
+  <div class="background min-h-135 pb-2">
     <modal-layout v-if="addMovie" :close="closeMovie">
       <new-movie :image="user.image" :username="user.username" :closeMovie="closeMovie"></new-movie>
     </modal-layout>
@@ -58,7 +58,7 @@ const user = computed(() => userStore.$state.user)
       </div>
       <div class="mt-1 mx-2 md:mr-4.5 text-white flex flex-col justify-center md:w-[75%] md:ml-8">
         <div class="flex justify-between mb-2">
-          <div class="text-white mb-[34px]">
+          <div class="text-white mb-2">
             <h1 class="text-2xl">{{ $t('movie.my_list') }}</h1>
             <p>{{ $t('movie.total') }} ({{ moviesStore.totalMovies }})</p>
           </div>
@@ -76,7 +76,7 @@ const user = computed(() => userStore.$state.user)
               class="w-8.75 h-2.6 rounded bg-red flex items-center justify-center cursor-pointer"
               @click="openMovie"
             >
-            <IconPlus class="pr-2"  ></IconPlus>
+            <IconPlus class=" mr-1" ></IconPlus>
               {{ $t('movie.add_movie') }}
             </button>
           </div>

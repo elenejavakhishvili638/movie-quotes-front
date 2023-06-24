@@ -127,7 +127,7 @@ const showComments = () => {
           class="bg-[#D9D9D9] rounded-lg w-22 h-12.5 md:w-full md:h-31 object-cover"
           alt="film"
         />
-        <div class="flex my-[19px] border-b border-color pb-6 text-xl">
+        <div class="flex my-1.25 border-b border-color pb-2 text-xl">
           <div class="flex mr-1.5">
             <p>{{ props.comments.length }}</p>
             <IconComment  class="ml-0.75"></IconComment>
@@ -135,13 +135,12 @@ const showComments = () => {
           <div class="flex">
             <p>{{ props.likes.length }}</p>
             <IconHeart class="ml-0.75" @click="toggleLike" :filled-color="src" ></IconHeart>
-            <!-- <img class="ml-0.75" :src="src" @click="toggleLike" /> -->
           </div>
           <button class=" ml-2" @click="showComments" >{{ commenText }}</button>
         </div>
       </div>
       <div v-for="comment in (displayedComments ? props.comments : props.comments.slice(0, 2))" :key="comment.id" >
-        <div class="flex">
+        <div class="flex mt-2">
           <div class="flex w-full flex-col items-start mb-0.875">
             <div class="flex items-center mb-1">
               <img
@@ -151,7 +150,7 @@ const showComments = () => {
               />
               <p>{{ comment.user && comment.user.username }}</p>
             </div>
-            <div class="border-b border-color pb-6 w-full">
+            <div class="border-b border-color pb-2 w-full">
               <p>
                 {{ comment.body }}
               </p>
@@ -167,9 +166,9 @@ const showComments = () => {
             :src="authUserImage"
           />
         </div>
-        <Form @submit="onSubmit" class="w-[306px] h-10 md:w-full">
+        <Form @submit="onSubmit" class="w-19.125 h-10 md:w-full">
           <Field
-            class="bg-[#24222F] w-19 pl-4 h-10 rounded-lg md:w-full outline-none"
+            class="bg-[#24222F] w-19 pl-1 h-10 rounded-lg md:w-full outline-none"
             placeholder="Wrie a comment"
             name="comment"
             type="text"

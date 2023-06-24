@@ -12,9 +12,9 @@ const user = computed(() => userStore.$state.user)
 </script>
 
 <template>
-  <div class="background min-h-screen pb-[32px] text-white">
+  <div class="background min-h-screen pb-2 text-white">
     <feed-header></feed-header>
-    <div class="md:flex md:ml-[40px] lg:ml[70px]">
+    <div class="md:flex md:ml-[2.5rem] lg:ml-[4.375rem]">
       <div class="hidden md:block text-white sm:w-[25%]">
         <profile-sidebar></profile-sidebar>
       </div>

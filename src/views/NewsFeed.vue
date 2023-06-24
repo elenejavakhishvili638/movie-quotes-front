@@ -103,7 +103,7 @@ const language = computed(() => languageStore.currentLanguage)
 </script>
 
 <template>
-  <div class="background min-h-screen pb-8" @click="decrease">
+  <div class="background min-h-screen pb-2" @click="decrease">
     <new-quote v-if="addQuote" :image="user.image" :username="user.username" :closeQuote="closeQuote"></new-quote>
     <feed-header :toggleSearch="toggleSearch" :searchBar="true"></feed-header>
     <div class="md:flex md:ml-2.5 lg:ml-4.5">
@@ -118,14 +118,14 @@ const language = computed(() => languageStore.currentLanguage)
               'md:w-13.625 xl:w-13.625': increaseSearch,
               'md:w-22 xl:w-48.5': !increaseSearch
             }"
-            class="md:items-center md:rounded-lg md:pl-4 text-white text-base flex ml-[36px] md:ml-[0px] cursor-pointer md:bg-[#24222F] md:h-3.25"
+            class="md:items-center md:rounded-lg md:pl-1 text-white text-base flex ml-2.25 md:ml-[0px] cursor-pointer md:bg-[#24222F] md:h-3.25"
           >
           <icon-pencil class="mr-0.75"></icon-pencil>
            {{ $t('feed.new_quote') }}
           </div>
 
           <div
-            :class="{ 'md:border-b pb-4 pt-1 md:w-16.125 xl:w-43': increaseSearch }"
+            :class="{ 'md:border-b pb-1 pt-0.25 md:w-16.125 xl:w-43': increaseSearch }"
             class="mr-[1.313rem] mr hidden md:flex md:ml-1.5 text-white"
             @click.stop="increase"
           >
@@ -136,7 +136,7 @@ const language = computed(() => languageStore.currentLanguage)
               :placeholder="
                 increaseSearch ? $t('feed.search_by', { at: '@', hash: '#' }) : $t('feed.search')
               "
-              class="bg-transparent outline-none w-[91px]"
+              class="bg-transparent outline-none w-5.688"
               :class="{ 'md:w-full': increaseSearch }"
             />
           </div>
