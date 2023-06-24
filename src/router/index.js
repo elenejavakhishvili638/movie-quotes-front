@@ -4,14 +4,15 @@ import NewsFeed from '../views/NewsFeed.vue'
 import axios from '../config/axios'
 import { useEmailStore } from '../stores/email/index'
 import { useUserStore } from '../stores/user/index'
-import MovieList from '../views/MovieList.vue'
-import TheProfile from '../views/TheProfile.vue'
-import TheMovie from '../views/TheMovie.vue'
 import ForbiddenError from '../views/ForbiddenError.vue'
 import NotFoundError from '../views/NotFoundError.vue'
+import { defineAsyncComponent } from 'vue'
+
+const MovieList = defineAsyncComponent(() => import("../views/MovieList.vue"))
+const TheProfile = defineAsyncComponent(() => import('../views/TheProfile.vue'))
+const TheMovie = defineAsyncComponent(() => import("../views/TheMovie.vue"))
 
 const router = createRouter({
-  // history: createWebHistory(import.meta.env.BASE_URL),
   history: createWebHistory(),
   routes: [
     {
