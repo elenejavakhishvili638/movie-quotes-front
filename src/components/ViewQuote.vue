@@ -75,6 +75,12 @@ const uploadedImage = ref(
     ? path + '/storage/' + props.image 
     : props.image
 );
+
+const getImagePath = (image) => {
+  return image.startsWith('images') 
+    ? path + '/storage/' + image
+    : image;
+}
 </script>
 
 <template>
@@ -125,7 +131,9 @@ const uploadedImage = ref(
         <div class="flex">
           <div class="flex w-full flex-col items-start mb-0.875">
             <div class="flex items-center mb-1.5">
-              <img class="bg-[#D9D9D9] rounded-full w-10 h-10 mr-1.5" alt="name" />
+              <img class="bg-[#D9D9D9] rounded-full w-10 h-10 mr-1.5" alt="name" 
+              :src="comment.user && getImagePath(comment.user.image)" 
+              />
               <p>{{ comment.user && comment.user.username }}</p>
             </div>
             <div class="border-b border-color pb-1.5 w-full">
@@ -138,7 +146,7 @@ const uploadedImage = ref(
       </div>
       <div class="flex items-center">
         <div class="flex items-center mr-0.75">
-          <img class="bg-[#D9D9D9] rounded-full w-10 h-10" alt="name" />
+          <img class="bg-[#D9D9D9] rounded-full w-10 h-10" alt="name" :src="uploadedImage"  />
         </div>
         <Form @submit="onSubmit" class="w-19.125 h-10 md:w-full">
           <Field

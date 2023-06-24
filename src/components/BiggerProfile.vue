@@ -30,7 +30,6 @@ const errors = computed(() => updateUserStore.$state.errors)
 
 const triggerFileInput = () => {
   fileInput.value.click()
-  openButtons.value = true
 }
 
 const onFileChange = async (e) => {

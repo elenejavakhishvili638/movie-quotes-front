@@ -22,6 +22,8 @@ const router = useRouter()
 const userStore = useUserStore()
 const notificationStore = useNotificationStore()
 const notifications = computed(() => notificationStore.$state.notifications)
+let path = import.meta.env.VITE_BACKEND_URL
+
 
 onMounted(async () => {
   await notificationStore.fetchNotifications()
@@ -77,6 +79,12 @@ const minutesAgo = (dateString) => {
   const differenceInMinutes = Math.floor(differenceInMilliseconds / 60000)
   return differenceInMinutes
 }
+
+const getImagePath = (image) => {
+  return image.startsWith('images') 
+    ? path + '/storage/' + image
+    : image;
+}
 </script>
 
 <template>
@@ -104,7 +112,7 @@ const minutesAgo = (dateString) => {
     <div v-if="notificationOpen" class="text-white">
       <IconPolygon class="absolute right-[6.3rem] top-16 md:right-[19rem]" ></IconPolygon>
       <div
-        class=" pb-10 text-xl absolute mt-5.5 rounded-xl top-0 right-0 h-47 bg-black w-full md:w-26 2xl:w-60 md:right-16 px-9 pt-7 overflow-scroll"
+        class="p-2 text-xl absolute mt-5.5 rounded-xl top-0 right-0 h-47 bg-black w-full md:w-26 2xl:w-60 md:right-16 px-9 pt-7 overflow-scroll"
       >
         <div class="flex justify-between text-white mb-4 items-center">
           <p class="text-xl md:text-3xl">Notifications</p>
@@ -122,6 +130,7 @@ const minutesAgo = (dateString) => {
                 :class="{'border-[#198754]': !notification.read_at}"
                 class="bg-[#D9D9D9] rounded-full md:w-20 md:h-5 w-[3.75rem] h-[3.75rem] border-2"
                 alt="name"
+                :src="notification.actionUser && getImagePath(notification.actionUser.image)"
               />
               <p class="text-[#198754] md:hidden" v-if="!notification.read_at">New</p>
             </div>
