@@ -4,7 +4,7 @@ import TheButton from './TheButton.vue'
 import TheInput from './TheInput.vue'
 import IconBackVue from './icons/IconBack.vue'
 import { usePasswordResetStore } from '../stores/UpdatePassword/index'
-import { computed, onMounted } from 'vue'
+import { computed } from 'vue'
 
 const props = defineProps(['closeLogin', 'openEmailForPassword'])
 
@@ -31,9 +31,6 @@ const onSubmit = async () => {
 }
 
 const formData = computed(() => passwordResetStore.$state.verifyEmail)
-onMounted(() => {
-  console.log(formData.value)
-})
 </script>
 
 <template>

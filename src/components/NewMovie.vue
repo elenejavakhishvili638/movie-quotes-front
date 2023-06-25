@@ -47,11 +47,11 @@ onMounted(async () => {
 
 const filterGenres = async (name) => {
   genres.value.forEach((genre) => {
-    if (genre.name === name) {
-      tagGenres.value.push(genre)
+    if (genre.name === name && !tagGenres.value.some((tagGenre) => tagGenre.name === name)) {
+      tagGenres.value.push(genre);
     }
-  })
-  tagGenresField.value = tagGenres.value
+  });
+  tagGenresField.value = tagGenres.value;
 }
 
 const removeTag = (id) => {

@@ -56,7 +56,6 @@ const deepEqual = (obj1, obj2) => {
 
 const onSubmit = async () => {
   if (deepEqual(quote.value, quoteForm.value) && !imageUrl.value) {
-    console.log('sj')
     return
   }
 
@@ -99,7 +98,6 @@ const triggerFileInput = (fileInput) => {
 const onFileChange = async (e, handleChange, validate) => {
   const file = e.target.files[0]
   imageUrl.value = file
-  console.log(imageUrl.value)
   if (file) {
     const reader = new FileReader()
     reader.onload = (e) => {

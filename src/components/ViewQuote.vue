@@ -41,7 +41,6 @@ const toggleLike = async() => {
 onMounted(async () => {
   try {
     await quoteStore.fetchQuote(props.id)
-    console.log(quote.value)
     const likedQuote = quote.value.likes.find((like) => like.user_id === userId.value.id)
     if (likedQuote) {
       src.value = '#F3426C'

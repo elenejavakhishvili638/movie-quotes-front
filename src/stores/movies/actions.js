@@ -53,7 +53,6 @@ export default {
     try {
       const response = await fetchMovie(id)
       this.movie = response.data.data
-      console.log(this.movie, response.data.data)
     } catch (error) {
       console.error(error)
     }
@@ -94,9 +93,7 @@ export default {
       this.errors = {}
     } catch (error) {
       if (error.response && error.response.data && error.response.data.errors) {
-        console.log(error.response.data.errors)
         this.errors = error.response.data.errors
-        console.log(this.errors)
       } else {
         console.log(error)
       }

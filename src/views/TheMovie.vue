@@ -40,7 +40,6 @@ onMounted(async () => {
   const id = route.params.id
   try {
     await moviesStore.fetchMovie(id)
-    console.log(movie.value)
   } catch (error) {
     console.log(error)
   }
@@ -259,9 +258,3 @@ const user = computed(() => userStore.$state.user)
     </div>
   </div>
 </template>
-
-<style scoped>
-.background {
-  background: linear-gradient(187.16deg, #181623 0.07%, #191725 51.65%, #0d0b14 98.75%);
-}
-</style>

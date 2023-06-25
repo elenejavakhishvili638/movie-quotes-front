@@ -50,7 +50,6 @@ export default {
   async fetchQuoteId(id) {
     try {
       const response = await fetchQuote(id)
-      // console.log(response)
       this.quote = response.data.data
     } catch(error) {
       console.log(error)

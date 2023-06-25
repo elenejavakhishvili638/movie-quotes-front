@@ -62,7 +62,8 @@ export const theme = {
     backgroundImage: {
       'gradient-radial':
         'radial-gradient(ellipse at center, #11101A 0%, #08080D 50.52%, rgba(0, 0, 0, 0) 100%)',
-      background: 'linear-gradient(180deg, #11101A 0%, #08080D 50.52%, rgba(0, 0, 0, 0) 100%)'
+      background: 'linear-gradient(180deg, #11101A 0%, #08080D 50.52%, rgba(0, 0, 0, 0) 100%)',
+      'union':" url('../assets/images/union.png')",
     },
     boxShadow: {
       'custom-focus': '0 0 0 4px rgba(13, 110, 253, 0.25)'

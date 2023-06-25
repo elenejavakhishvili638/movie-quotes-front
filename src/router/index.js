@@ -72,7 +72,6 @@ const router = createRouter({
       beforeEnter: (to, from, next) => {
         const { id, hash, token } = to.params
         const { expires, signature } = to.query
-        console.log(token)
         axios
           .get(`api/email-change/verify/${id}/${hash}/${token}`, {
             params: {

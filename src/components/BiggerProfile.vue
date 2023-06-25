@@ -48,10 +48,6 @@ const onFileChange = async (e) => {
     formData.append('_method', 'PATCH')
     formData.append('user_id', props.user.id)
     formData.append('image', imageUrl.value)
-
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ', ' + pair[1])
-    }
     await updateUserStore.updateUser(formData, props.user.id)
     await userStore.fetchUser('edit')
   } catch (error) {

@@ -3,7 +3,6 @@ import { sendNotification, fetchNotifications, markAsRead, markAllAsRead } from 
 export default {
   async sendNotification(data, id) {
     try {
-      console.log(data, id)
       await sendNotification(data, id)
     } catch (error) {
       console.log(error)
@@ -19,7 +18,6 @@ export default {
   },
   async markAsRead(id) {
     try {
-      console.log(id)
       await markAsRead(id)
     } catch (error) {
       console.log(error)

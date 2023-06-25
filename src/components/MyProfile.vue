@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { useUpdateUserStore } from '../stores/updateUser'
 import { useUserStore } from '../stores/user'
 import ProfileInput from './ProfileInput.vue'
@@ -36,10 +36,6 @@ const triggerFileInput = () => {
   fileInput.value.click()
 }
 
-onMounted(() => {
-  console.log(uploadedImageUrl)
-})
-
 const onFileChange = async (e) => {
   const file = e.target.files[0]
   imageUrl.value = file
@@ -57,9 +53,6 @@ const onFileChange = async (e) => {
     formData.append('user_id', props.user.id)
     formData.append('image', imageUrl.value)
 
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ', ' + pair[1])
-    }
     await updateUserStore.updateUser(formData, props.user.id)
     await userStore.fetchUser('edit')
   } catch (error) {
@@ -68,14 +61,12 @@ const onFileChange = async (e) => {
 }
 
 const openEditProfile = (name, edit, text, type, rules) => {
-  console.log('openEditProfile called with:', name, text)
   editProfile.value = true
   currentEdit.value = edit
   currentText.value = text
   currentName.value = name
   currentType.value = type
   currentValidation.value = rules
-  console.log(userForm.value)
 }
 
 const closeEditProfile = () => {

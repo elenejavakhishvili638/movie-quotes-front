@@ -11,6 +11,7 @@ export default {
     try {
       const response = await axios.get('/api/user')
       this.setUser(response.data.data)
+      return response
     } catch(error) {
       console.log(error)
     }

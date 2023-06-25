@@ -27,7 +27,6 @@ let path = import.meta.env.VITE_BACKEND_URL
 
 onMounted(async () => {
   await notificationStore.fetchNotifications()
-  console.log(notifications.value)
 })
 
 const logout = async () => {

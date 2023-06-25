@@ -74,7 +74,6 @@ const language = computed(() => languageStore.currentLanguage)
 
 onMounted(async () => {
   await moviesStore.fetchMovies()
-  console.log(movies.value)
 })
 
 const selectMovie = async (movie, handleChange) => {

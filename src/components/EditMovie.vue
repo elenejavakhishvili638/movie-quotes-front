@@ -66,13 +66,13 @@ onMounted(async () => {
   }
 })
 
-const filterGenres = (name) => {
+const filterGenres = async (name) => {
   genres.value.forEach((genre) => {
-    if (genre.name === name) {
-      tagGenres.value.push(genre)
+    if (genre.name === name && !tagGenres.value.some((tagGenre) => tagGenre.name === name)) {
+      tagGenres.value.push(genre);
     }
-  })
-  tagGenresField.value = tagGenres.value
+  });
+  tagGenresField.value = tagGenres.value;
 }
 
 const removeTag = (id) => {
@@ -86,7 +86,6 @@ const onSubmit = async () => {
     !imageUrl.value &&
     Object.keys(tagGenres.value).length === 0
   ) {
-    console.log('snj')
     return
   }
   const id = route.params.id

@@ -11,6 +11,7 @@ import NewQuote from '../components/NewQuote.vue'
 import IconPencil from '../components/icons/IconPencil.vue'
 import IconArrow from '../components/icons/IconArrow.vue'
 import ModalLayout from '../components/ModalLayout.vue'
+import instantiatePusher from "../helpers/instantiatePusher"
 
 
 const increaseSearch = ref(false)
@@ -55,8 +56,8 @@ const handleUnlikeSent = (data) => {
 }
 
 onMounted(async () => {
+  instantiatePusher()
   await quotesStore.fetchQuotes(searchTerm.value, page.value)
-  console.log(quotesStore.state)
   window.addEventListener('scroll', handleScroll)
   window.Echo.channel('comments').listen('CommentSent', handleCommentSent)
   window.Echo.channel('likes').listen('LikeSent', handleLikeSent)
@@ -186,8 +187,3 @@ const language = computed(() => languageStore.currentLanguage)
   </div>
 </template>
 
-<style scoped>
-.background {
-  background: linear-gradient(187.16deg, #181623 0.07%, #191725 51.65%, #0d0b14 98.75%);
-}
-</style>

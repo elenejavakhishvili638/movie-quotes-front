@@ -33,7 +33,6 @@ let path = import.meta.env.VITE_BACKEND_URL
 
 onMounted(async () => {
   const likedQuote = props.likes.find((like) => like.user_id === userId.value.id)
-  console.log(props.likes)
   if (likedQuote) {
     src.value = '#F3426C'
   } else {

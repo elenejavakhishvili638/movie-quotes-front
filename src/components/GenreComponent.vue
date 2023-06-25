@@ -29,10 +29,10 @@ const genreRule = computed(() => {
 
 <template>
   <div class="relative">
-    <div class="flex gap-1 w-full border border-[#6C757D] h-12 rounded items-center">
-      <p @click="openGenreModal" class="ml-1 cursor-pointer">Genres:</p>
+    <div @click="openGenreModal" class="flex gap-1 w-full border border-[#6C757D] h-12 rounded items-center">
+      <p class="ml-1 cursor-pointer" v-if="tagGenres.length === 0">Genres:</p>
       <div
-        class="text-white text-sm ml-1 bg-[#6C757D] p-0.25 rounded"
+        class="text-white text-sm ml-1 bg-[#6C757D] py-0.25 px-0.5 rounded"
         v-for="(tag, index) in tagGenres"
         :key="index"
       >
