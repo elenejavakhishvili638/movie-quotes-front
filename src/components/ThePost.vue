@@ -32,7 +32,9 @@ const commenText = ref('Show all comments')
 let path = import.meta.env.VITE_BACKEND_URL
 
 onMounted(async () => {
+  await userStore.fetchUserData()
   const likedQuote = userId.value.like.find((like) => like.quote_id === props.id)
+  console.log(likedQuote)
   if (likedQuote) {
     src.value = '#F3426C'
   } else {
@@ -42,16 +44,17 @@ onMounted(async () => {
 
 const toggleLike = async () => {
   if (src.value === 'white') {
+    console.log(props.likes)
+    src.value = '#F3426C'
     await quoteStore.likeQuote(props.id, { user_id: userId.value.id })
     const data = {
       quote_id: props.id,
       type: 'like'
     }
     await notificationStore.sendNotification(data, Number(props.user_id))
-    src.value = '#F3426C'
   } else {
-    await quoteStore.unlikeQuote(props.id)
     src.value = 'white'
+    await quoteStore.unlikeQuote(props.id, { user_id: userId.value.id })
   }
 }
 

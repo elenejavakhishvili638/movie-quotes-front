@@ -10,7 +10,7 @@ export default {
   async fetchUserData () {
     try {
       const response = await axios.get('/api/user')
-      return response
+      this.setUser(response.data.data)
     } catch(error) {
       console.log(error)
     }

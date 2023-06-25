@@ -66,6 +66,8 @@ export default {
 
   async addComment(data, id) {
     try {
+      const foundQuote = this.quoteList.find((quote) => quote.id === id)
+      foundQuote.comments.push(data)
       await addComment(data, id)
       this.addedComment = {
         body: '',
@@ -95,6 +97,8 @@ export default {
 
   async likeQuote(id, data) {
     try {
+      const foundQuote = this.quoteList.find((quote) => quote.id === id)
+      foundQuote.likes.push(data)
       await like(id, data)
       await this.fetchFullList()
     } catch (error) {
@@ -102,8 +106,14 @@ export default {
     }
   },
 
-  async unlikeQuote(id) {
+  async unlikeQuote(id,data) {
     try {
+      const {user_id} = data
+      const foundQuote = this.quoteList.find((quote) => quote.id === id)
+      const likeIndex = foundQuote.likes.findIndex((like) => like.user_id === user_id)
+      if (likeIndex !== -1) { 
+        foundQuote.likes.splice(likeIndex, 1)
+      }
       await unlike(id)
       await this.fetchFullList()
     } catch (error) {
