@@ -1,6 +1,6 @@
 <script setup>
 import IconComment from './icons/IconComment.vue'
-import IconHeart from "./icons/IconHeart.vue"
+import IconHeart from './icons/IconHeart.vue'
 import { Form, Field } from 'vee-validate'
 import { useQuotesStore } from '../stores/quotes/index'
 import { useUserStore } from '../stores/user'
@@ -74,33 +74,31 @@ const onSubmit = async () => {
   }
 }
 const uploadedImageUrl = ref(
-  props.userImage && props.userImage.startsWith('images') 
-    ? path + '/storage/' + props.userImage 
+  props.userImage && props.userImage.startsWith('images')
+    ? path + '/storage/' + props.userImage
     : props.userImage
-);
+)
 
 const authUserImage = ref(
-  props.authImage && props.authImage.startsWith('images') 
-    ? path + '/storage/' + props.authImage 
+  props.authImage && props.authImage.startsWith('images')
+    ? path + '/storage/' + props.authImage
     : props.authImage
 )
 
 const getImagePath = (image) => {
-  return image.startsWith('images') 
-    ? path + '/storage/' + image
-    : image;
+  return image.startsWith('images') ? path + '/storage/' + image : image
 }
 
 const displayedComments = computed(() => {
-  return showAllcomments.value ;
-});
+  return showAllcomments.value
+})
 
 const showComments = () => {
   showAllcomments.value = !showAllcomments.value
-  if(commenText.value === 'Show all comments') {
-    commenText.value = "Hide comments"
+  if (commenText.value === 'Show all comments') {
+    commenText.value = 'Hide comments'
   } else {
-    commenText.value = "Show all comments"
+    commenText.value = 'Show all comments'
   }
 }
 </script>
@@ -130,16 +128,19 @@ const showComments = () => {
         <div class="flex my-1.25 border-b border-color pb-2 text-xl">
           <div class="flex mr-1.5">
             <p>{{ props.comments.length }}</p>
-            <IconComment  class="ml-0.75"></IconComment>
+            <IconComment class="ml-0.75"></IconComment>
           </div>
           <div class="flex">
             <p>{{ props.likes.length }}</p>
-            <IconHeart class="ml-0.75" @click="toggleLike" :filled-color="src" ></IconHeart>
+            <IconHeart class="ml-0.75" @click="toggleLike" :filled-color="src"></IconHeart>
           </div>
-          <button class=" ml-2" @click="showComments" >{{ commenText }}</button>
+          <button class="ml-2" @click="showComments">{{ commenText }}</button>
         </div>
       </div>
-      <div v-for="comment in (displayedComments ? props.comments : props.comments.slice(0, 2))" :key="comment.id" >
+      <div
+        v-for="comment in displayedComments ? props.comments : props.comments.slice(0, 2)"
+        :key="comment.id"
+      >
         <div class="flex mt-2">
           <div class="flex w-full flex-col items-start mb-0.875">
             <div class="flex items-center mb-1">

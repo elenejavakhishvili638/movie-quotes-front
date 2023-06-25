@@ -3,7 +3,7 @@ import { Form } from 'vee-validate'
 import TheButton from '../components/TheButton.vue'
 import TheInput from '../components/TheInput.vue'
 import { useAuthStore } from '../stores/registration/index'
-import IconGoogle from "./icons/IconGoogle.vue"
+import IconGoogle from './icons/IconGoogle.vue'
 import { computed } from 'vue'
 
 const props = defineProps({

@@ -69,10 +69,10 @@ onMounted(async () => {
 const filterGenres = async (name) => {
   genres.value.forEach((genre) => {
     if (genre.name === name && !tagGenres.value.some((tagGenre) => tagGenre.name === name)) {
-      tagGenres.value.push(genre);
+      tagGenres.value.push(genre)
     }
-  });
-  tagGenresField.value = tagGenres.value;
+  })
+  tagGenresField.value = tagGenres.value
 }
 
 const removeTag = (id) => {
@@ -153,10 +153,8 @@ const onDrop = async (event, handleChange, validate) => {
 }
 
 const uploadedImage = ref(
-  props.image && props.image.startsWith('images') 
-    ? path + '/storage/' + props.image 
-    : props.image
-);
+  props.image && props.image.startsWith('images') ? path + '/storage/' + props.image : props.image
+)
 </script>
 
 <template>
@@ -166,11 +164,15 @@ const uploadedImage = ref(
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.5 px-3.5">
       <div></div>
       <h1 class="text-2xl font-medium">{{ $t('movie.edit_movie') }}</h1>
-      <IconClose @click="props.closeMovie" ></IconClose>
+      <IconClose @click="props.closeMovie"></IconClose>
     </div>
     <div class="p-2.25">
       <div class="flex items-center mb-2.25 gap-4">
-        <img class="bg-[#D9D9D9] rounded-full w-10 h-10 object-cover" alt="name" :src="uploadedImage" />
+        <img
+          class="bg-[#D9D9D9] rounded-full w-10 h-10 object-cover"
+          alt="name"
+          :src="uploadedImage"
+        />
         <p>{{ props.username }}</p>
       </div>
       <Form @submit="onSubmit" class="flex flex-col gap-6">

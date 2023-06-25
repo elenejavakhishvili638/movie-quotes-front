@@ -23,10 +23,10 @@ let path = import.meta.env.VITE_BACKEND_URL
 
 const imageUrl = ref(null)
 const uploadedImageUrl = ref(
-  props.user.image && props.user.image.startsWith('images') 
-    ? path + '/storage/' + props.user.image 
+  props.user.image && props.user.image.startsWith('images')
+    ? path + '/storage/' + props.user.image
     : props.user.image
-);
+)
 
 const userStore = useUserStore()
 const updateUserStore = useUpdateUserStore()
@@ -107,7 +107,7 @@ const closeSuccessModal = () => {
       <div class="bg-[#BADBCC] z-10 w-26 h-14 flex items-center justify-around rounded">
         <IconTick></IconTick>
         <p class="text-[#0F5132] text-base">{{ $t('profile.changes_success') }}</p>
-        <IconExit @click="closeSuccessModal" class="cursor-pointer" ></IconExit>
+        <IconExit @click="closeSuccessModal" class="cursor-pointer"></IconExit>
       </div>
     </ModalLayout>
     <router-link to="news-feed">
@@ -138,7 +138,9 @@ const closeSuccessModal = () => {
           style="display: none"
           @change="onFileChange"
         />
-        <p class="text-xl font-normal" @click="triggerFileInput">{{ $t('profile.upload_photo') }}</p>
+        <p class="text-xl font-normal" @click="triggerFileInput">
+          {{ $t('profile.upload_photo') }}
+        </p>
       </div>
       <div class="w-22.75 flex flex-col gap-8">
         <div>
@@ -157,7 +159,7 @@ const closeSuccessModal = () => {
                 )
               "
             >
-            {{ $t('profile.edit') }}
+              {{ $t('profile.edit') }}
             </button>
           </div>
         </div>
@@ -177,7 +179,7 @@ const closeSuccessModal = () => {
                 )
               "
             >
-            {{ $t('profile.edit') }}
+              {{ $t('profile.edit') }}
             </button>
           </div>
         </div>
@@ -197,7 +199,7 @@ const closeSuccessModal = () => {
                 )
               "
             >
-            {{ $t('profile.edit') }}
+              {{ $t('profile.edit') }}
             </button>
           </div>
         </div>

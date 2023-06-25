@@ -11,7 +11,6 @@ import NewMovie from '../components/NewMovie.vue'
 import ModalLayout from '../components/ModalLayout.vue'
 import IconPlus from '../components/icons/IconPlus.vue'
 
-
 const moviesStore = useMoviesStore()
 const languageStore = useLanguageStore()
 const searchTerm = ref('')
@@ -76,7 +75,7 @@ const user = computed(() => userStore.$state.user)
               class="w-8.75 h-2.6 rounded bg-red flex items-center justify-center cursor-pointer"
               @click="openMovie"
             >
-            <IconPlus class=" mr-0.25" ></IconPlus>
+              <IconPlus class="mr-0.25"></IconPlus>
               {{ $t('movie.add_movie') }}
             </button>
           </div>
@@ -107,4 +106,3 @@ const user = computed(() => userStore.$state.user)
     </div>
   </div>
 </template>
-

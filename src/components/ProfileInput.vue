@@ -16,7 +16,6 @@ const userStore = computed(() => updateUserStore.$state.form)
 
 const language = computed(() => languageStore.currentLanguage)
 
-
 watch(
   () => props.modelValue,
   (newVal) => {
@@ -77,11 +76,11 @@ const submitForm = () => {
 
 <template>
   <div class="modal w-22.75 h-13.188 rounded-xl opacity-1" v-if="modal">
-    <p class="px-4 pt-4 pb-2.75 border-b border-b-[#CED4DA33]"> {{$t('profile.make_changes')}}</p>
+    <p class="px-4 pt-4 pb-2.75 border-b border-b-[#CED4DA33]">{{ $t('profile.make_changes') }}</p>
     <div class="px-1.25 flex justify-between mt-1.5">
       <button type="button" @click="closeModal">{{ $t('profile.cancel') }}</button>
       <button type="button" @click="submitForm" class="bg-[#E31221] py-0.5 rounded w-[4.313rem]">
-        {{$t('profile.confirm')}}
+        {{ $t('profile.confirm') }}
       </button>
     </div>
   </div>
@@ -100,7 +99,7 @@ const submitForm = () => {
           autocomplete="off"
           class="bg-transparent outline-none rounded h-3 w-22.75"
         />
-        <component class=" mr-0.75 right-0" v-if="img" :is="img"></component>
+        <component class="mr-0.75 right-0" v-if="img" :is="img"></component>
       </div>
       <ErrorMessage class="text-[#F15524] text-base mt-0.5 w-22.75" :name="props.name" />
     </div>
@@ -108,7 +107,7 @@ const submitForm = () => {
       v-if="props.name === 'updatedPassword'"
       class="bg-[#24222F] rounded-xl flex flex-col items-center py-2 pb-4.625"
     >
-      <p class="mb-0.5 text-base w-22.75 self-center"> {{$t('profile.confirm_password')}}</p>
+      <p class="mb-0.5 text-base w-22.75 self-center">{{ $t('profile.confirm_password') }}</p>
       <div
         :class="inputClass"
         class="pl-0.5 relative z-10 flex items-center justify-between h-3 w-22.75 bg-[#CED4DA] rounded focus:shadow-custom-focus"
@@ -127,9 +126,12 @@ const submitForm = () => {
     </div>
     <div class="px-3.25 flex justify-between mt-2.375 text-base">
       <button type="button" @click="props.close">{{ $t('profile.cancel') }}</button>
-      <button 
-      :class="{ 'w-[8.5rem]': language === 'ka', 'w-[4.313rem]': language === 'en' }"
-      type="button" @click="openModal" class="bg-[#E31221] py-0.5 px-0.75 rounded">
+      <button
+        :class="{ 'w-[8.5rem]': language === 'ka', 'w-[4.313rem]': language === 'en' }"
+        type="button"
+        @click="openModal"
+        class="bg-[#E31221] py-0.5 px-0.75 rounded"
+      >
         {{ $t('profile.edit') }}
       </button>
     </div>

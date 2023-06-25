@@ -5,7 +5,7 @@ import IconEdit from './icons/IconEdit.vue'
 import { computed, onMounted, ref } from 'vue'
 import { useQuotesStore } from '../stores/quotes'
 import IconComment from './icons/IconComment.vue'
-import IconHeart from "./icons/IconHeart.vue"
+import IconHeart from './icons/IconHeart.vue'
 import { useUserStore } from '../stores/user'
 import { Form, Field } from 'vee-validate'
 import { useRoute } from 'vue-router'
@@ -15,7 +15,6 @@ const route = useRoute()
 const props = defineProps(['closeViewQuote', 'id', 'movie', 'image', 'username'])
 const emit = defineEmits(['editQuote'])
 const quoteStore = useQuotesStore()
-// const movieStore = useMoviesStore()
 const userStore = useUserStore()
 let path = import.meta.env.VITE_BACKEND_URL
 const quote = computed(() => quoteStore.$state.quote)
@@ -26,9 +25,7 @@ const src = ref('white')
 const showAllcomments = ref(false)
 const commenText = ref('Show all comments')
 
-
-
-const toggleLike = async() => {
+const toggleLike = async () => {
   if (src.value === 'white') {
     src.value = '#F3426C'
     await quoteStore.likeQuote(props.id, { user_id: userId.value.id }, 'movie')
@@ -82,27 +79,23 @@ const deleteQuote = async () => {
 }
 
 const uploadedImage = ref(
-  props.image && props.image.startsWith('images') 
-    ? path + '/storage/' + props.image 
-    : props.image
-);
+  props.image && props.image.startsWith('images') ? path + '/storage/' + props.image : props.image
+)
 
 const getImagePath = (image) => {
-  return image.startsWith('images') 
-    ? path + '/storage/' + image
-    : image;
+  return image.startsWith('images') ? path + '/storage/' + image : image
 }
 
 const displayedComments = computed(() => {
-  return showAllcomments.value;
-});
+  return showAllcomments.value
+})
 
 const showComments = () => {
   showAllcomments.value = !showAllcomments.value
-  if(commenText.value === 'Show all comments') {
-    commenText.value = "Hide all comments"
+  if (commenText.value === 'Show all comments') {
+    commenText.value = 'Hide all comments'
   } else {
-    commenText.value = "Show all comments"
+    commenText.value = 'Show all comments'
   }
 }
 </script>
@@ -113,12 +106,12 @@ const showComments = () => {
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.5 px-3.5">
       <div class="w-5.625 h-10 flex items-center justify-between">
-        <IconEdit @click="openEdit" ></IconEdit>
+        <IconEdit @click="openEdit"></IconEdit>
         <div class="border-r border-r-[#6C757D] h-4"></div>
-        <IconTrash @click="deleteQuote" ></IconTrash>
+        <IconTrash @click="deleteQuote"></IconTrash>
       </div>
       <h1 class="text-2xl font-[500] hidden md:block">View quote</h1>
-      <IconClose @click="props.closeViewQuote" ></IconClose>
+      <IconClose @click="props.closeViewQuote"></IconClose>
     </div>
     <div class="p-2 gap-6 flex flex-col">
       <div class="flex items-center gap-4">
@@ -144,20 +137,28 @@ const showComments = () => {
       <div class="flex border-b border-color mt-[5.688] pb-1.5 text-xl">
         <div class="flex mr-1.5">
           <p>{{ quote.comments && quote.comments.length }}</p>
-          <IconComment  class="ml-0.75"></IconComment>
+          <IconComment class="ml-0.75"></IconComment>
         </div>
         <div class="flex">
           <p>{{ quote.likes && quote.likes.length }}</p>
-          <IconHeart class="ml-0.75" @click="toggleLike" :filled-color="src" ></IconHeart>
+          <IconHeart class="ml-0.75" @click="toggleLike" :filled-color="src"></IconHeart>
         </div>
-        <button class=" ml-2" @click="showComments" >{{ commenText }}</button>
+        <button class="ml-2" @click="showComments">{{ commenText }}</button>
       </div>
-      <div v-for="comment in ((quote.comments || []).length > 2 && !displayedComments ? (quote.comments || []).slice(0, 2) : (quote.comments || []))" :key="comment.id" class="pt-0.5">
+      <div
+        v-for="comment in (quote.comments || []).length > 2 && !displayedComments
+          ? (quote.comments || []).slice(0, 2)
+          : quote.comments || []"
+        :key="comment.id"
+        class="pt-0.5"
+      >
         <div class="flex">
           <div class="flex w-full flex-col items-start mb-0.875">
             <div class="flex items-center mb-1">
-              <img class="bg-[#D9D9D9] rounded-full w-10 h-10 mr-1.5" alt="name" 
-              :src="comment.user && getImagePath(comment.user.image)" 
+              <img
+                class="bg-[#D9D9D9] rounded-full w-10 h-10 mr-1.5"
+                alt="name"
+                :src="comment.user && getImagePath(comment.user.image)"
               />
               <p>{{ comment.user && comment.user.username }}</p>
             </div>
@@ -171,7 +172,7 @@ const showComments = () => {
       </div>
       <div class="flex items-center">
         <div class="flex items-center mr-0.75">
-          <img class="bg-[#D9D9D9] rounded-full w-10 h-10" alt="name" :src="uploadedImage"  />
+          <img class="bg-[#D9D9D9] rounded-full w-10 h-10" alt="name" :src="uploadedImage" />
         </div>
         <Form @submit="onSubmit" class="w-19.125 h-10 md:w-full">
           <Field

@@ -82,10 +82,8 @@ const onSubmit = async () => {
 }
 
 const uploadedImage = ref(
-  props.image && props.image.startsWith('images') 
-    ? path + '/storage/' + props.image 
-    : props.image
-);
+  props.image && props.image.startsWith('images') ? path + '/storage/' + props.image : props.image
+)
 </script>
 
 <template>
@@ -99,7 +97,11 @@ const uploadedImage = ref(
     </div>
     <div class="p-2.25">
       <div class="flex items-center gap-4 mb-2.25">
-        <img class="bg-[#D9D9D9] rounded-full w-10 h-10 md:w-[3.75rem] md:h-[3.75rem] object-cover" alt="name" :src="uploadedImage" />
+        <img
+          class="bg-[#D9D9D9] rounded-full w-10 h-10 md:w-[3.75rem] md:h-[3.75rem] object-cover"
+          alt="name"
+          :src="uploadedImage"
+        />
         <p>{{ props.username }}</p>
       </div>
       <div
@@ -111,12 +113,12 @@ const uploadedImage = ref(
             class="h-5 w-8 md:h-[10rem] md:w-18 object-cover rounded-xl"
           />
         </div>
-        <div class="md:flex md:flex-col md:gap-4" >
+        <div class="md:flex md:flex-col md:gap-4">
           <h1 class="text-[#DDCCAA] text-base lg:text-2xl font-[400]">
             {{ movie.title && movie.title[language] }}
             ({{ movie.year }})
           </h1>
-          <p class=" text-[#CED4DA] text-base lg:text-lg font-[700]">
+          <p class="text-[#CED4DA] text-base lg:text-lg font-[700]">
             {{ $t('movie.director') }}:
             <span class="text-white font-[500]">{{
               movie.director && movie.director[language]

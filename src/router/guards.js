@@ -13,7 +13,6 @@ export const emailModalGuard = async (to, from, next) => {
   next()
 }
 
-
 export const emailVerifiedGuard = async (to, from, next) => {
   const store = useEmailStore()
   if (to.query.email_verified) {
@@ -21,7 +20,6 @@ export const emailVerifiedGuard = async (to, from, next) => {
   }
   next()
 }
-
 
 export const authGuard = async (to, from, next) => {
   const userStore = useUserStore()

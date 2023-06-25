@@ -29,5 +29,8 @@ export default {
     } catch (error) {
       console.log(error)
     }
+  },
+  toggleNotification() {
+    this.notificationOpen = !this.notificationOpen
   }
 }

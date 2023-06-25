@@ -11,23 +11,25 @@ export default function instantiatePusher() {
     cluster: ['eu'],
     authorizer: (channel) => {
       return {
-          authorize: (socketId, callback) => {
-            axios.post(`${import.meta.env.VITE_BACKEND_URL}/broadcasting/auth`, 
+        authorize: (socketId, callback) => {
+          axios
+            .post(
+              `${import.meta.env.VITE_BACKEND_URL}/broadcasting/auth`,
               {
                 socket_id: socketId,
                 channel_name: channel.name
               },
-              {withCredentials: true}
-              )
-              .then(response => {
-                  callback(null, response.data);
-              })
-              .catch(error => {
-                  callback(error);
-              });
-          }
-      };
-    },
+              { withCredentials: true }
+            )
+            .then((response) => {
+              callback(null, response.data)
+            })
+            .catch((error) => {
+              callback(error)
+            })
+        }
+      }
+    }
   })
 
   return true

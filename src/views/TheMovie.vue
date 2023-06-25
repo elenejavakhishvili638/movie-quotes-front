@@ -117,10 +117,20 @@ const user = computed(() => userStore.$state.user)
 <template>
   <div class="background min-h-[200vh] pb-2">
     <ModalLayout v-if="editMovie">
-      <EditMovie :username="user.username" :image="user.image" :movie="movie" :closeMovie="closeMovie"></EditMovie>
+      <EditMovie
+        :username="user.username"
+        :image="user.image"
+        :movie="movie"
+        :closeMovie="closeMovie"
+      ></EditMovie>
     </ModalLayout>
     <ModalLayout v-if="addQuote">
-      <AddQuote :closeQuote="closeQuote" :image="user.image" :username="user.username" :movie="movie"></AddQuote>
+      <AddQuote
+        :closeQuote="closeQuote"
+        :image="user.image"
+        :username="user.username"
+        :movie="movie"
+      ></AddQuote>
     </ModalLayout>
     <ModalLayout v-if="viewQuote">
       <ViewQuote
@@ -133,7 +143,12 @@ const user = computed(() => userStore.$state.user)
       ></ViewQuote>
     </ModalLayout>
     <ModalLayout v-if="editQuote">
-      <EditQuote :username="user.username" :image="user.image" :closeEditQuote="closeEditQuote" :id="quoteId"></EditQuote>
+      <EditQuote
+        :username="user.username"
+        :image="user.image"
+        :closeEditQuote="closeEditQuote"
+        :id="quoteId"
+      ></EditQuote>
     </ModalLayout>
     <feed-header :searchBar="false"></feed-header>
     <div class="md:flex md:ml-2.5 lg:ml-4.5">
@@ -160,9 +175,9 @@ const user = computed(() => userStore.$state.user)
               <div
                 class="w-[9rem] h-10 bg-[#24222F] rounded-lg flex items-center justify-between px-[1.688rem]"
               >
-                <IconEditVue @click="openMovie" class=" cursor-pointer" ></IconEditVue>
+                <IconEditVue @click="openMovie" class="cursor-pointer"></IconEditVue>
                 <div class="border-r border-r-[#6C757D] h-4"></div>
-                <IconTrash @click="deleteMovie" class=" cursor-pointer"></IconTrash>
+                <IconTrash @click="deleteMovie" class="cursor-pointer"></IconTrash>
               </div>
             </div>
             <div class="flex gap-2 my-1.5">
@@ -190,7 +205,7 @@ const user = computed(() => userStore.$state.user)
             class="mx-2.25 mb-2 md:mb-[0px] w-8.75 h-[2.375rem] rounded bg-red flex items-center justify-center cursor-pointer"
             @click="openQuote"
           >
-          <IconPlus class=" mr-1"></IconPlus>
+            <IconPlus class="mr-1"></IconPlus>
             {{ $t('movie.add_quote') }}
           </button>
           <hr class="mx-2 md:hidden" />
@@ -218,7 +233,10 @@ const user = computed(() => userStore.$state.user)
               <p class="italic text-2xl text-center md:text-left">
                 "{{ quote.body && quote.body[language] }}"
               </p>
-              <IconDots class="hidden xl:block md:absolute right-0 top-6 cursor-pointer" @click="openModal(index)"></IconDots>
+              <IconDots
+                class="hidden xl:block md:absolute right-0 top-6 cursor-pointer"
+                @click="openModal(index)"
+              ></IconDots>
             </div>
             <div
               v-if="index === openedModalId"
@@ -226,15 +244,15 @@ const user = computed(() => userStore.$state.user)
               class="absolute xl:top-[3.125rem] xl:right-[-11.875rem] right-[1.25rem] top-5 h-12.5 w-[15.625rem] rounded-lg bg-[#24222F] py-2 pl-[2.5rem]"
             >
               <p class="flex gap-2 mb-2 items-center">
-                <IconEye @click="openViewQuote(quote.id)" class="cursor-pointer" ></IconEye>
+                <IconEye @click="openViewQuote(quote.id)" class="cursor-pointer"></IconEye>
                 {{ $t('movie.view_quote') }}
               </p>
               <p class="flex gap-2 mb-2 items-center">
-                <IconEditVue @click="openEditQuote(quote.id)" class=" cursor-pointer"></IconEditVue>
+                <IconEditVue @click="openEditQuote(quote.id)" class="cursor-pointer"></IconEditVue>
                 {{ $t('movie.edit') }}
               </p>
               <p class="flex gap-2 mb-2 items-center">
-                <IconTrash @click="deleteQuote(quote.id)" class=" cursor-pointer"></IconTrash>
+                <IconTrash @click="deleteQuote(quote.id)" class="cursor-pointer"></IconTrash>
                 {{ $t('movie.delete') }}
               </p>
             </div>

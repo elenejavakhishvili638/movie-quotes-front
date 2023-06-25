@@ -4,7 +4,8 @@ import actions from './actions'
 export const useNotificationStore = defineStore({
   id: 'Notification',
   state: () => ({
-    notifications: []
+    notifications: [],
+    notificationOpen: false
   }),
   actions
 })

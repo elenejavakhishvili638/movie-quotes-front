@@ -1,5 +1,5 @@
 <script setup>
-import IconSearch from "../components/icons/IconSearch.vue"
+import IconSearch from '../components/icons/IconSearch.vue'
 import FeedHeader from '../components/FeedHeader.vue'
 import { useQuotesStore } from '../stores/quotes/index'
 import { onMounted, computed, ref, watch, onBeforeUnmount, onUnmounted } from 'vue'
@@ -11,8 +11,7 @@ import NewQuote from '../components/NewQuote.vue'
 import IconPencil from '../components/icons/IconPencil.vue'
 import IconArrow from '../components/icons/IconArrow.vue'
 import ModalLayout from '../components/ModalLayout.vue'
-import instantiatePusher from "../helpers/instantiatePusher"
-
+import instantiatePusher from '../helpers/instantiatePusher'
 
 const increaseSearch = ref(false)
 const addQuote = ref(false)
@@ -67,7 +66,7 @@ onUnmounted(() => {
   window.Echo.leaveChannel('comments')
   window.Echo.leaveChannel('likes')
   window.Echo.leaveChannel('unlikes')
-    quotesStore.quoteList = []
+  quotesStore.quoteList = []
   window.Echo.channel('comments').stopListening('CommentSent', handleCommentSent)
   window.Echo.channel('likes').stopListening('LikeSent', handleLikeSent)
   window.Echo.channel('unlikes').stopListening('UnlikeSent', handleUnlikeSent)
@@ -108,7 +107,7 @@ const language = computed(() => languageStore.currentLanguage)
 
 <template>
   <div class="background min-h-screen pb-2" @click="decrease">
-    <modal-layout  v-if="addQuote" >
+    <modal-layout v-if="addQuote">
       <new-quote :image="user.image" :username="user.username" :closeQuote="closeQuote"></new-quote>
     </modal-layout>
     <feed-header :toggleSearch="toggleSearch" :searchBar="true"></feed-header>
@@ -126,8 +125,8 @@ const language = computed(() => languageStore.currentLanguage)
             }"
             class="md:items-center md:rounded-lg md:pl-1 text-white text-base flex ml-2.25 md:ml-[0px] cursor-pointer md:bg-[#24222F] md:h-3.25"
           >
-          <icon-pencil class="mr-0.75"></icon-pencil>
-           {{ $t('feed.new_quote') }}
+            <icon-pencil class="mr-0.75"></icon-pencil>
+            {{ $t('feed.new_quote') }}
           </div>
 
           <div
@@ -135,7 +134,7 @@ const language = computed(() => languageStore.currentLanguage)
             class="mr-[1.313rem] mr hidden md:flex md:ml-1.5 text-white"
             @click.stop="increase"
           >
-            <icon-search class="mr-0.75" ></icon-search>
+            <icon-search class="mr-0.75"></icon-search>
             <input
               v-model="searchTerm"
               @input="fetchQuotes"
@@ -152,7 +151,7 @@ const language = computed(() => languageStore.currentLanguage)
           >
             <div class="border-b border-[#EFEFEF]">
               <div class="my-1.5 ml-2 flex items-center">
-                <icon-arrow  @click="closeSearch" class="mr-1.5" ></icon-arrow>
+                <icon-arrow @click="closeSearch" class="mr-1.5"></icon-arrow>
                 <input
                   :placeholder="$t('feed.search')"
                   v-model="searchTerm"
@@ -186,4 +185,3 @@ const language = computed(() => languageStore.currentLanguage)
     </div>
   </div>
 </template>
-

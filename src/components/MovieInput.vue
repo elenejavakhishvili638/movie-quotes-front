@@ -30,10 +30,8 @@ const language = computed(() => languageStore.currentLanguage)
 
 <template>
   <div>
-    <div
-      class="relative w-full flex border border-[#6C757D] h-3 rounded items-center mb-0.625"
-    >
-      <p :class="{ 'text-[#6C757D]': internalValue }" class=" ml-1">{{ label }} :</p>
+    <div class="relative w-full flex border border-[#6C757D] h-3 rounded items-center mb-0.625">
+      <p :class="{ 'text-[#6C757D]': internalValue }" class="ml-1">{{ label }} :</p>
       <Field
         v-model="internalValue"
         :name="props.name"

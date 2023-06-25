@@ -10,7 +10,6 @@ import { useRoute } from 'vue-router'
 
 const props = defineProps(['showLogin', 'closeResetPassword', 'openSuccessModal'])
 
-
 const passwordResetStore = usePasswordResetStore()
 const errors = computed(() => passwordResetStore.$state.errors)
 
@@ -80,7 +79,7 @@ const formData = computed(() => passwordResetStore.$state.updatePassword)
         @click="openModal"
         class="cursor-pointer mb-3.313 gap-3 flex items-center justify-center text-[#6C757D] font-normal"
       >
-        <IconBackVue class="cursor-pointer" ></IconBackVue>
+        <IconBackVue class="cursor-pointer"></IconBackVue>
         {{ $t('updatePassword.button_two') }}
       </div>
     </div>

@@ -43,7 +43,7 @@ export default {
   async fetchMovieId(id) {
     try {
       const response = await fetchMovie(id)
-      this.movie = response.data.data  
+      this.movie = response.data.data
     } catch (error) {
       console.error(error)
     }

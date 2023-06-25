@@ -9,10 +9,10 @@ export default {
       if (error.response && error.response.data && error.response.data.errors) {
         this.errors = error.response.data.errors
         for (let field in this.errors) {
-          this.errors[field] = this.errors[field].map(error => JSON.parse(error));
+          this.errors[field] = this.errors[field].map((error) => JSON.parse(error))
         }
       } else {
-        this.errors = {password: [error.response.data]}
+        this.errors = { password: [error.response.data] }
       }
     }
   },

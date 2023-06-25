@@ -128,10 +128,8 @@ const onDrop = async (event, handleChange, validate) => {
 }
 
 const uploadedImage = ref(
-  props.image && props.image.startsWith('images') 
-    ? path + '/storage/' + props.image 
-    : props.image
-);
+  props.image && props.image.startsWith('images') ? path + '/storage/' + props.image : props.image
+)
 </script>
 
 <template>
@@ -139,13 +137,17 @@ const uploadedImage = ref(
     class="h-auto top-2.5 w-full md:top-[8%] xl:w-37 2xl:w-60 absolute text-white bg-modal md:w-31 rounded-xl"
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.5 px-3.5">
-      <IconTrash @click="deleteQuote" ></IconTrash>
+      <IconTrash @click="deleteQuote"></IconTrash>
       <h1 class="text-2xl font-medium">{{ $t('movie.edit') }}</h1>
-      <IconClose @click="props.closeEditQuote" ></IconClose>
+      <IconClose @click="props.closeEditQuote"></IconClose>
     </div>
     <div class="p-2.25">
       <div class="flex items-center gap-4 mb-2.25">
-        <img class="bg-[#D9D9D9] rounded-full w-10 h-10 md:w-[3.75rem] md:h-[3.75rem] object-cover" alt="name" :src="uploadedImage" />
+        <img
+          class="bg-[#D9D9D9] rounded-full w-10 h-10 md:w-[3.75rem] md:h-[3.75rem] object-cover"
+          alt="name"
+          :src="uploadedImage"
+        />
         <p class="text-xl">{{ props.username }}</p>
       </div>
       <Form class="relative flex flex-col mt-9 gap-4" @submit="onSubmit">

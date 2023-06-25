@@ -5,8 +5,7 @@ import TheInput from '../components/TheInput.vue'
 import { useLoginStore } from '../stores/login/index'
 import { useRouter } from 'vue-router'
 import { computed } from 'vue'
-import IconGoogle from "./icons/IconGoogle.vue"
-
+import IconGoogle from './icons/IconGoogle.vue'
 
 const props = defineProps({
   closeLogin: Function,
@@ -18,9 +17,6 @@ const emit = defineEmits(['changeModal'])
 const loginStore = useLoginStore()
 const router = useRouter()
 const errors = computed(() => loginStore.$state.errors)
-
-
-
 
 const openModal = () => {
   emit('changeModal', 'forgot-password')
@@ -85,13 +81,16 @@ const formData = computed(() => loginStore.$state.login)
             {{ $t('login.forgot_password') }}?
           </p>
         </div>
-        <the-button :disabled="!meta.valid" >{{ $t('login.sign_in') }}</the-button>
+        <the-button :disabled="!meta.valid">{{ $t('login.sign_in') }}</the-button>
       </Form>
-      <button @click="googleSignIn" class="flex justify-center items-center  w-22.5 border border-white rounded-lg h-2.375">
-        <IconGoogle class=" mr-0.5" ></IconGoogle> {{ $t('login.google') }}
+      <button
+        @click="googleSignIn"
+        class="flex justify-center items-center w-22.5 border border-white rounded-lg h-2.375"
+      >
+        <IconGoogle class="mr-0.5"></IconGoogle> {{ $t('login.google') }}
       </button>
       <div class="mb-3.313 mt-2 flex items-center justify-center">
-        <p class="text-[#6C757D]  mr-0.25">{{ $t('login.account') }}?</p>
+        <p class="text-[#6C757D] mr-0.25">{{ $t('login.account') }}?</p>
         <p @click="openSignup" class="text-[#0D6EFD] border-b border-[#0D6EFD]">
           {{ $t('login.sign_up') }}
         </p>

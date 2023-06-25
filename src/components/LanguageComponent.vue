@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue'
-import IconVector from './icons/IconVector.vue';
+import IconVector from './icons/IconVector.vue'
 import { useLanguageStore } from '../stores/language/index'
 
 const props = defineProps(['type'])

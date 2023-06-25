@@ -15,5 +15,3 @@ import ghost from '../assets/images/ghost.png'
     >
   </div>
 </template>
-
-

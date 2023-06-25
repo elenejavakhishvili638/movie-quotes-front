@@ -26,7 +26,6 @@ const isDragging = ref(false)
 const user = computed(() => userStore.$state.user)
 let path = import.meta.env.VITE_BACKEND_URL
 
-
 const quoteForm = computed(() => quoteStore.$state.addedQuote)
 
 const triggerFileInput = (fileInput) => {
@@ -103,11 +102,8 @@ const onSubmit = async () => {
 }
 
 const uploadedImage = ref(
-  props.image && props.image.startsWith('images') 
-    ? path + '/storage/' + props.image 
-    : props.image
-);
-
+  props.image && props.image.startsWith('images') ? path + '/storage/' + props.image : props.image
+)
 </script>
 
 <template>
@@ -117,11 +113,15 @@ const uploadedImage = ref(
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.563 px-3.375">
       <div></div>
       <h1>{{ $t('feed.write_quote') }}</h1>
-      <IconClose @click="props.closeQuote"  class=" cursor-pointer" ></IconClose>
+      <IconClose @click="props.closeQuote" class="cursor-pointer"></IconClose>
     </div>
     <div class="p-2.188">
       <div class="flex items-center gap-4">
-        <img class="bg-[#D9D9D9] rounded-full w-10 h-10 object-cover" alt="name" :src="uploadedImage" />
+        <img
+          class="bg-[#D9D9D9] rounded-full w-10 h-10 object-cover"
+          alt="name"
+          :src="uploadedImage"
+        />
         <p>{{ props.username }}</p>
       </div>
       <Form class="relative flex flex-col mt-2.313 gap-4" @submit="onSubmit">
@@ -164,11 +164,11 @@ const uploadedImage = ref(
                 {{ chosenMovie && chosenMovie.title ? chosenMovie.title[language] : text }}
               </p>
             </div>
-            <IconVector class=" mr-2" ></IconVector>
+            <IconVector class="mr-2"></IconVector>
           </div>
           <div
             v-if="dropDown"
-            class="text-white bg-black p-1.25 top-5 bottom-3 h-7  overflow-y-scroll"
+            class="text-white bg-black p-1.25 top-5 bottom-3 h-7 overflow-y-scroll"
           >
             <div v-for="movie in movies" :key="movie.id" class="border-b border-b-blue-50 mb-[5px]">
               <p @click="selectMovie(movie, handleChange)">

@@ -4,11 +4,11 @@ import NewsFeed from '../views/NewsFeed.vue'
 import axios from '../config/axios'
 import ForbiddenError from '../views/ForbiddenError.vue'
 import NotFoundError from '../views/NotFoundError.vue'
-import {emailModalGuard, emailVerifiedGuard, authGuard} from './guards'
+import { emailModalGuard, emailVerifiedGuard, authGuard } from './guards'
 
-const MovieList =() => import("../views/MovieList.vue")
-const TheProfile =() => import('../views/TheProfile.vue')
-const TheMovie =() => import("../views/TheMovie.vue")
+const MovieList = () => import('../views/MovieList.vue')
+const TheProfile = () => import('../views/TheProfile.vue')
+const TheMovie = () => import('../views/TheMovie.vue')
 
 const router = createRouter({
   history: createWebHistory(),

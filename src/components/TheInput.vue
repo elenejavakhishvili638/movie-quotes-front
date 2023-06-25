@@ -5,7 +5,15 @@ import IconValid from './icons/IconValid.vue'
 import IconError from './icons/IconError.vue'
 import { useLanguageStore } from '../stores/language/index'
 
-const props = defineProps(['placeholder', 'label', 'name', 'type', 'validate', 'modelValue', 'errors'])
+const props = defineProps([
+  'placeholder',
+  'label',
+  'name',
+  'type',
+  'validate',
+  'modelValue',
+  'errors'
+])
 const emit = defineEmits(['update:modelValue'])
 const internalValue = ref(props.modelValue)
 const languageStore = useLanguageStore()

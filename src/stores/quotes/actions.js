@@ -51,7 +51,7 @@ export default {
     try {
       const response = await fetchQuote(id)
       this.quote = response.data.data
-    } catch(error) {
+    } catch (error) {
       console.log(error)
     }
   },
@@ -77,10 +77,10 @@ export default {
   async addComment(data, id, type) {
     const movieStore = useMoviesStore()
     try {
-      if(type === 'movie') {
+      if (type === 'movie') {
         const foundQuote = movieStore.movie.quotes.find((quote) => quote.id === id)
         foundQuote.comments.push(data)
-        await addComment(data, id) 
+        await addComment(data, id)
         await this.fetchQuoteId(id)
       } else {
         const foundQuote = this.quoteList.find((quote) => quote.id === id)
@@ -116,7 +116,7 @@ export default {
   async likeQuote(id, data, type) {
     const movieStore = useMoviesStore()
     try {
-      if(type === 'movie') {
+      if (type === 'movie') {
         const foundQuote = movieStore.movie.quotes.find((quote) => quote.id === id)
         foundQuote.likes.push(data)
         await like(id, data)
@@ -131,21 +131,21 @@ export default {
     }
   },
 
-  async unlikeQuote(id,data, type) {
+  async unlikeQuote(id, data, type) {
     const movieStore = useMoviesStore()
-    const {user_id} = data
+    const { user_id } = data
     try {
-      if(type === 'movie') {
+      if (type === 'movie') {
         const foundQuote = movieStore.movie.quotes.find((quote) => quote.id === id)
         const likeIndex = foundQuote.likes.findIndex((like) => like.user_id === user_id)
-        if (likeIndex !== -1) { 
+        if (likeIndex !== -1) {
           foundQuote.likes.splice(likeIndex, 1)
         }
         await unlike(id)
       } else {
         const foundQuote = this.quoteList.find((quote) => quote.id === id)
         const likeIndex = foundQuote.likes.findIndex((like) => like.user_id === user_id)
-        if (likeIndex !== -1) { 
+        if (likeIndex !== -1) {
           foundQuote.likes.splice(likeIndex, 1)
         }
         await unlike(id)

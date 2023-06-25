@@ -119,7 +119,7 @@ const emailVerified = computed(() => store.emailVerified)
     <form-layout :close="closeModal" v-if="emailVerified">
       <the-modal :icon="verified" :header="$t('modals.header')" :text="$t('modals.text_two')">
         <router-link
-        :to="{ name: 'feed' }"
+          :to="{ name: 'feed' }"
           class="text-center w-11.875 rounded-lg bg-red text-white h-2.375 pt-0.5"
           >{{ $t('modals.button_two') }}</router-link
         >
@@ -149,10 +149,7 @@ const emailVerified = computed(() => store.emailVerified)
     </form-layout>
     <form-layout :close="closeSuccessModal" v-if="successModal">
       <the-modal :icon="verified" :header="$t('modals.header_two')" :text="$t('modals.text_three')">
-        <p
-          @click="login"
-          class="text-center w-11.875 rounded-lg bg-red text-white h-2.375 pt-0.5"
-        >
+        <p @click="login" class="text-center w-11.875 rounded-lg bg-red text-white h-2.375 pt-0.5">
           {{ $t('modals.button_three') }}
         </p>
       </the-modal>
@@ -173,12 +170,10 @@ const emailVerified = computed(() => store.emailVerified)
       </the-modal>
     </form-layout>
     <div class="bg-background flex flex-col justify-between">
-      <div class="lg:pb-13.25 pb-6.25 ">
+      <div class="lg:pb-13.25 pb-6.25">
         <the-header :register="register" :login="login"></the-header>
         <div class="mt-8.5 flex flex-col items-center justify-center text-2xl break">
-          <h1
-            class="text-cream text-center lg:text-6xl lg:w-43.938 lg:leading-[5.625rem] w-17.563"
-          >
+          <h1 class="text-cream text-center lg:text-6xl lg:w-43.938 lg:leading-[5.625rem] w-17.563">
             Find any quote in <br />
             millions of movie lines
           </h1>

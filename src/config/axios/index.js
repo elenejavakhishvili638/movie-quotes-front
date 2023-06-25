@@ -10,4 +10,3 @@ headers: {
   Accept: 'application/json'
 }
 })
-

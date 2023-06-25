@@ -6,6 +6,7 @@ import { useUserStore } from '../stores/user'
 import TheInput from '../components/TheInput.vue'
 import ProfileValidation from './ProfileValidation.vue'
 import { useLanguageStore } from '../stores/language/index'
+import { useNotificationStore } from '../stores/notification'
 
 const props = defineProps(['username', 'email', 'google', 'user'])
 
@@ -19,13 +20,14 @@ const updateUserStore = useUpdateUserStore()
 const languageStore = useLanguageStore()
 const formData = computed(() => updateUserStore.form)
 let path = import.meta.env.VITE_BACKEND_URL
+const notificationStore = useNotificationStore()
 
 const imageUrl = ref(null)
-const uploadedImageUrl =  ref(
-  props.user.image && props.user.image.startsWith('images') 
-    ? path + '/storage/' + props.user.image 
+const uploadedImageUrl = ref(
+  props.user.image && props.user.image.startsWith('images')
+    ? path + '/storage/' + props.user.image
     : props.user.image
-);
+)
 const errors = computed(() => updateUserStore.$state.errors)
 
 const triggerFileInput = () => {
@@ -113,10 +115,13 @@ const language = computed(() => languageStore.currentLanguage)
 </script>
 
 <template>
-  <div class="relative">
+  <div class="">
     <p class="ml-3.813 mb-7.938 mt-2 text-2xl font-medium">{{ $t('profile.profile') }}</p>
     <Form class="md:w-37.5 xl:w-62.375 bg-[#11101A] flex flex-col items-center" @submit="onSubmit">
-      <div class="absolute flex flex-col items-center top-20">
+      <div
+        class="absolute flex flex-col items-center top-36"
+        v-if="!notificationStore.notificationOpen"
+      >
         <img
           :src="uploadedImageUrl"
           alt="pic"
@@ -129,7 +134,9 @@ const language = computed(() => languageStore.currentLanguage)
           style="display: none"
           @change="onFileChange"
         />
-        <p class="text-xl font-normal" @click="triggerFileInput">{{ $t('profile.upload_photo') }}</p>
+        <p class="text-xl font-normal" @click="triggerFileInput">
+          {{ $t('profile.upload_photo') }}
+        </p>
       </div>
       <div class="bg-[#11101A]">
         <div class="flex flex-col gap-14 pb-10 text-base">
@@ -144,7 +151,9 @@ const language = computed(() => languageStore.currentLanguage)
                 class="text-[#212529] w-33 h-3 rounded px-0.5 py-1 outline-none bg-[#CED4DA]"
               />
 
-              <button type="button" class="text-[#CED4DA]" @click="openUsername">{{ $t('profile.edit') }}</button>
+              <button type="button" class="text-[#CED4DA]" @click="openUsername">
+                {{ $t('profile.edit') }}
+              </button>
             </div>
             <div v-if="newUsername" class="flex flex-col mt-3.5">
               <ProfileValidation
@@ -183,7 +192,7 @@ const language = computed(() => languageStore.currentLanguage)
                 @click="openEmail"
                 v-if="props.google === null"
               >
-              {{ $t('profile.edit') }}
+                {{ $t('profile.edit') }}
               </button>
             </div>
             <div v-if="newEmail" class="flex flex-col mt-3.5">
@@ -203,7 +212,7 @@ const language = computed(() => languageStore.currentLanguage)
             </div>
           </div>
           <div class="flex flex-col" v-if="props.google === null">
-            <label class="mb-0.5">{{$t('profile.password')}}</label>
+            <label class="mb-0.5">{{ $t('profile.password') }}</label>
             <div class="flex gap-8">
               <Field
                 name="oldPassword"
@@ -212,7 +221,9 @@ const language = computed(() => languageStore.currentLanguage)
                 type="password"
                 class="text-[#212529] w-33 h-3 rounded px-0.5 py-1 outline-none bg-[#CED4DA]"
               />
-              <button type="button" class="text-[#CED4DA]" @click="openPassword">{{$t('profile.edit')}}</button>
+              <button type="button" class="text-[#CED4DA]" @click="openPassword">
+                {{ $t('profile.edit') }}
+              </button>
             </div>
             <div v-if="newPassword" class="flex flex-col mt-3.5 gap-12">
               <ProfileValidation
@@ -248,10 +259,14 @@ const language = computed(() => languageStore.currentLanguage)
         </div>
       </div>
       <div v-if="openButtons" class="flex gap-7 self-end">
-        <button class="text-xl text-[#CED4DA]" type="button" @click="cancelButtons">{{$t('profile.cancel')}}</button>
-        <button 
-        :class="{ 'text-sm': language === 'ka', 'text-lg': language === 'en' }"
-        type="submit" class="bg-[#E31221] rounded px-1 py-0.25 h-3 w-[12rem]">
+        <button class="text-xl text-[#CED4DA]" type="button" @click="cancelButtons">
+          {{ $t('profile.cancel') }}
+        </button>
+        <button
+          :class="{ 'text-sm': language === 'ka', 'text-lg': language === 'en' }"
+          type="submit"
+          class="bg-[#E31221] rounded px-1 py-0.25 h-3 w-[12rem]"
+        >
           {{ $t('profile.save_changes') }}
         </button>
       </div>
