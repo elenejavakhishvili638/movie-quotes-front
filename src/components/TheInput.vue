@@ -64,9 +64,9 @@ const language = computed(() => languageStore.currentLanguage)
       />
       <component class="absolute mr-0.75 right-0" v-bind:is="img"></component>
     </div>
-    <p class="text-[#F15524] text-base ml-1.25 mt-1" v-if="errors">
+    <p class="text-[#F15524] text-base mt-[0.375rem]" v-if="errors">
       {{ errors[props.name] && errors[props.name][0][language] }}
     </p>
-    <ErrorMessage class="text-[#F15524] text-base mt-[0.375rem] ml-1.25" :name="name" />
+    <ErrorMessage class="text-[#F15524] text-base mt-[0.375rem]" :name="name" />
   </div>
 </template>

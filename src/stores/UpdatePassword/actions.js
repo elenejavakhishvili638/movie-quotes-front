@@ -1,21 +1,16 @@
 import { sendEmail, updatePassword } from '../../services'
 
 export default {
-  verifyEmail(payload) {
-    const { name, value } = payload
-    this.verifyEmail[name] = value
-  },
-
-  updatePasswordForm(payload) {
-    const { name, value } = payload
-    this.updatePassword[name] = value
-  },
-
   async sendEmail(payload) {
     try {
       await sendEmail(payload)
     } catch (error) {
-      console.error(error)
+      if (error.response && error.response.data && error.response.data.errors) {
+        this.errors = error.response.data.errors
+        console.log(this.errors)
+      } else {
+        console.log(error)
+      }
     }
   },
 

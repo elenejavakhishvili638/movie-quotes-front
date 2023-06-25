@@ -22,7 +22,7 @@ let path = import.meta.env.VITE_BACKEND_URL
 
 const imageUrl = ref(null)
 const uploadedImageUrl =  ref(
-  props.user.image.startsWith('images') 
+  props.user.image && props.user.image.startsWith('images') 
     ? path + '/storage/' + props.user.image 
     : props.user.image
 );

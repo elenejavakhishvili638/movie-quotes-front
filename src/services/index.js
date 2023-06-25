@@ -57,6 +57,7 @@ export async function sendEmail(data) {
     await axios.post('/api/forgot-password', data, { withCredentials: true })
   } catch (error) {
     console.log(error)
+    throw error
   }
 }
 

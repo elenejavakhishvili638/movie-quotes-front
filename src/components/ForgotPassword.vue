@@ -4,13 +4,14 @@ import TheButton from './TheButton.vue'
 import TheInput from './TheInput.vue'
 import IconBackVue from './icons/IconBack.vue'
 import { usePasswordResetStore } from '../stores/UpdatePassword/index'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 
 const props = defineProps(['closeLogin', 'openEmailForPassword'])
 
 const emit = defineEmits(['changeModal'])
 
 const passwordResetStore = usePasswordResetStore()
+const errors = computed(() => passwordResetStore.$state.errors)
 
 const openModal = () => {
   emit('changeModal', 'login')
@@ -18,15 +19,21 @@ const openModal = () => {
 
 const onSubmit = async () => {
   try {
+    passwordResetStore.errors = {}
     await passwordResetStore.sendEmail(passwordResetStore.$state.verifyEmail)
-    props.openEmailForPassword()
-    props.closeLogin()
+    if (Object.keys(errors.value).length === 0) {
+      props.openEmailForPassword()
+      props.closeLogin()
+    }
   } catch (error) {
     console.error(error)
   }
 }
 
 const formData = computed(() => passwordResetStore.$state.verifyEmail)
+onMounted(() => {
+  console.log(formData.value)
+})
 </script>
 
 <template>
@@ -49,6 +56,7 @@ const formData = computed(() => passwordResetStore.$state.verifyEmail)
           type="email"
           :label="$t('login.email')"
           :placeholder="$t('login.email_placeholder')"
+          :errors="errors"
         ></the-input>
         <the-button type="submit" :disabled="!meta.valid">{{
           $t('updatePassword.button')

@@ -71,7 +71,7 @@ const deleteQuote = async () => {
 }
 
 const uploadedImage = ref(
-  props.image.startsWith('images') 
+  props.image && props.image.startsWith('images') 
     ? path + '/storage/' + props.image 
     : props.image
 );

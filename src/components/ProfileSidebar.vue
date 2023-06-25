@@ -19,7 +19,7 @@ const profile = computed(() => (route.path === '/my-profile' ? 'border border-[#
 
 const user = computed(() => userStore.$state.user)
 const uploadedImageUrl = ref(
-  user.value.image.startsWith('images') 
+  user.value.image &&  user.value.image.startsWith('images') 
     ? path + '/storage/' + user.value.image 
     : user.value.image
 );

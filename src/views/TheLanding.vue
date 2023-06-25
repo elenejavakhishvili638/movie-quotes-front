@@ -151,7 +151,7 @@ const emailVerified = computed(() => store.emailVerified)
       <the-modal :icon="verified" :header="$t('modals.header_two')" :text="$t('modals.text_three')">
         <p
           @click="login"
-          class="text-center w-11.875 rounded-lg bg-red text-white h-2.375 pt-1"
+          class="text-center w-11.875 rounded-lg bg-red text-white h-2.375 pt-0.5"
         >
           {{ $t('modals.button_three') }}
         </p>
@@ -167,7 +167,7 @@ const emailVerified = computed(() => store.emailVerified)
       >
         <a
           :href="'mailto:' + email"
-          class="text-center w-11.875 rounded-lg bg-red text-white h-2.375 pt-1"
+          class="text-center w-11.875 rounded-lg bg-red text-white h-2.375 pt-0.5"
           >{{ $t('modals.button') }}</a
         >
       </the-modal>

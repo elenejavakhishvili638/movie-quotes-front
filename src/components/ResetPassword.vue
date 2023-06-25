@@ -10,7 +10,9 @@ import { useRoute } from 'vue-router'
 
 const props = defineProps(['showLogin', 'closeResetPassword', 'openSuccessModal'])
 
+
 const passwordResetStore = usePasswordResetStore()
+const errors = computed(() => passwordResetStore.$state.errors)
 
 const openModal = () => {
   props.closeResetPassword()
@@ -58,6 +60,7 @@ const formData = computed(() => passwordResetStore.$state.updatePassword)
           :label="$t('registration.password')"
           :placeholder="$t('registration.password_placeholder')"
           validate="required|lowercase_and_numbers_only|minmax:8,15"
+          :errors="errors"
         ></the-input>
 
         <the-input
@@ -67,6 +70,7 @@ const formData = computed(() => passwordResetStore.$state.updatePassword)
           :label="$t('registration.confirm_password')"
           :placeholder="$t('registration.confirm_password_placeholder')"
           validate="required|confirmed:password"
+          :errors="errors"
         ></the-input>
         <the-button type="submit" :disabled="!meta.valid">{{
           $t('updatePassword.button_three')

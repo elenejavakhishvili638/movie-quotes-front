@@ -104,7 +104,7 @@ const onSubmit = async () => {
 }
 
 const uploadedImage = ref(
-  props.image.startsWith('images') 
+  props.image && props.image.startsWith('images') 
     ? path + '/storage/' + props.image 
     : props.image
 );
@@ -168,7 +168,7 @@ const uploadedImage = ref(
           </div>
           <div
             v-if="dropDown"
-            class="text-white bg-black p-1.25 top-5 bottom-3 h-60 overflow-y-scroll"
+            class="text-white bg-black p-1.25 top-5 bottom-3 h-7  overflow-y-scroll"
           >
             <div v-for="movie in movies" :key="movie.id" class="border-b border-b-blue-50 mb-[5px]">
               <p @click="selectMovie(movie, handleChange)">

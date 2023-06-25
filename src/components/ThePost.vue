@@ -74,13 +74,13 @@ const onSubmit = async () => {
   }
 }
 const uploadedImageUrl = ref(
-  props.userImage.startsWith('images') 
+  props.userImage && props.userImage.startsWith('images') 
     ? path + '/storage/' + props.userImage 
     : props.userImage
 );
 
 const authUserImage = ref(
-  props.authImage.startsWith('images') 
+  props.authImage && props.authImage.startsWith('images') 
     ? path + '/storage/' + props.authImage 
     : props.authImage
 )
