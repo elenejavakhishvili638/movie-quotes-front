@@ -32,9 +32,8 @@ const commenText = ref('Show all comments')
 let path = import.meta.env.VITE_BACKEND_URL
 
 onMounted(async () => {
-  await userStore.fetchUserData()
-  const likedQuote = userId.value.like.find((like) => like.quote_id === props.id)
-  console.log(likedQuote)
+  const likedQuote = props.likes.find((like) => like.user_id === userId.value.id)
+  console.log(props.likes)
   if (likedQuote) {
     src.value = '#F3426C'
   } else {
@@ -44,7 +43,6 @@ onMounted(async () => {
 
 const toggleLike = async () => {
   if (src.value === 'white') {
-    console.log(props.likes)
     src.value = '#F3426C'
     await quoteStore.likeQuote(props.id, { user_id: userId.value.id })
     const data = {

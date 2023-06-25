@@ -126,6 +126,15 @@ export async function fetchQuotes(page, searchTerm) {
   }
 }
 
+export async function fetchQuote(id) {
+  try {
+    let response = await axios.get(`/api/quote/${id}`)
+    return response
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export async function addMovie(data) {
   try {
     await axios.get('/sanctum/csrf-cookie')
