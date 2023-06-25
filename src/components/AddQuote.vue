@@ -94,12 +94,12 @@ const uploadedImage = ref(
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.5 px-3.5">
       <div></div>
-      <h1 class="text-2xl font-medium">Add quote</h1>
+      <h1 class="text-2xl font-medium">{{ $t('movie.add_quote') }}</h1>
       <IconClose @click="props.closeQuote"></IconClose>
     </div>
     <div class="p-2.25">
       <div class="flex items-center gap-4 mb-2.25">
-        <img class="bg-[#D9D9D9] rounded-full w-10 h-10 object-cover" alt="name" :src="uploadedImage" />
+        <img class="bg-[#D9D9D9] rounded-full w-10 h-10 md:w-[3.75rem] md:h-[3.75rem] object-cover" alt="name" :src="uploadedImage" />
         <p>{{ props.username }}</p>
       </div>
       <div
@@ -111,7 +111,7 @@ const uploadedImage = ref(
             class="h-5 w-8 md:h-[10rem] md:w-18 object-cover rounded-xl"
           />
         </div>
-        <div>
+        <div class="md:flex md:flex-col md:gap-4" >
           <h1 class="text-[#DDCCAA] text-base lg:text-2xl font-[400]">
             {{ movie.title && movie.title[language] }}
             ({{ movie.year }})
@@ -162,7 +162,7 @@ const uploadedImage = ref(
           :triggerFileInputParent="triggerFileInput"
           :uploadedImageUrl="uploadedImageUrl"
         ></movie-image>
-        <the-button class="w-full h-[48px]">Add quote</the-button>
+        <the-button class="w-full h-[3rem]">{{ $t('movie.add_quote') }}</the-button>
       </Form>
     </div>
   </div>

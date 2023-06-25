@@ -12,6 +12,7 @@ import QuoteTextarea from './QuoteTextarea.vue'
 import { useQuotesStore } from '../stores/quotes'
 import { useUserStore } from '../stores/user/index'
 
+const language = computed(() => languageStore.currentLanguage)
 const userStore = useUserStore()
 const quoteStore = useQuotesStore()
 const dropDown = ref(false)
@@ -70,7 +71,6 @@ const openDropdown = () => {
 
 const props = defineProps(['username', 'closeQuote', 'image'])
 const movies = computed(() => moviesStore.$state.movieList)
-const language = computed(() => languageStore.currentLanguage)
 
 onMounted(async () => {
   await moviesStore.fetchMovies()
@@ -107,6 +107,7 @@ const uploadedImage = ref(
     ? path + '/storage/' + props.image 
     : props.image
 );
+
 </script>
 
 <template>
@@ -115,7 +116,7 @@ const uploadedImage = ref(
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.563 px-3.375">
       <div></div>
-      <h1>Write new quote</h1>
+      <h1>{{ $t('feed.write_quote') }}</h1>
       <IconClose @click="props.closeQuote"  class=" cursor-pointer" ></IconClose>
     </div>
     <div class="p-2.188">
@@ -177,7 +178,7 @@ const uploadedImage = ref(
           </div>
           <ErrorMessage class="text-[#F15524] text-base ml-1.25" name="movie" />
         </Field>
-        <the-button class="w-full h-3">Post</the-button>
+        <the-button class="w-full h-3">{{ $t('texts.post') }}</the-button>
       </Form>
     </div>
   </div>

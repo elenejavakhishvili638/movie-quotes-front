@@ -76,7 +76,7 @@ const user = computed(() => userStore.$state.user)
               class="w-8.75 h-2.6 rounded bg-red flex items-center justify-center cursor-pointer"
               @click="openMovie"
             >
-            <IconPlus class=" mr-1" ></IconPlus>
+            <IconPlus class=" mr-0.25" ></IconPlus>
               {{ $t('movie.add_movie') }}
             </button>
           </div>

@@ -106,7 +106,7 @@ const closeSuccessModal = () => {
     <ModalLayout v-if="successModal" class="items-baseline pt-1">
       <div class="bg-[#BADBCC] z-10 w-26 h-14 flex items-center justify-around rounded">
         <IconTick></IconTick>
-        <p class="text-[#0F5132] text-base">Changes updated succsessfully</p>
+        <p class="text-[#0F5132] text-base">{{ $t('profile.changes_success') }}</p>
         <IconExit @click="closeSuccessModal" class="cursor-pointer" ></IconExit>
       </div>
     </ModalLayout>
@@ -138,11 +138,11 @@ const closeSuccessModal = () => {
           style="display: none"
           @change="onFileChange"
         />
-        <p class="text-xl font-normal" @click="triggerFileInput">Upload my photo</p>
+        <p class="text-xl font-normal" @click="triggerFileInput">{{ $t('profile.upload_photo') }}</p>
       </div>
       <div class="w-22.75 flex flex-col gap-8">
         <div>
-          <p class="mb-0.25 text-base">Username</p>
+          <p class="mb-0.25 text-base">{{ $t('profile.username') }}</p>
           <div class="flex justify-between border-b pb-1 text-lg">
             <p>{{ props.username }}</p>
             <button
@@ -151,18 +151,18 @@ const closeSuccessModal = () => {
                 openEditProfile(
                   'username',
                   'updatedUsername',
-                  'Enter new username',
+                  $t('profile.new_username'),
                   'text',
                   'required|minmax:3,15|lowercase_and_numbers_only'
                 )
               "
             >
-              Edit
+            {{ $t('profile.edit') }}
             </button>
           </div>
         </div>
         <div>
-          <p class="mb-0.25 text-base">Email</p>
+          <p class="mb-0.25 text-base">{{ $t('profile.email') }}</p>
           <div class="flex justify-between border-b pb-1 text-lg">
             <p>{{ props.email }}</p>
             <button
@@ -171,18 +171,18 @@ const closeSuccessModal = () => {
                 openEditProfile(
                   'email',
                   'updatedEmail',
-                  'Enter new Email',
+                  $t('profile.new_email'),
                   'email',
                   'required|email'
                 )
               "
             >
-              Edit
+            {{ $t('profile.edit') }}
             </button>
           </div>
         </div>
         <div>
-          <p class="mb-0.25 text-base">Password</p>
+          <p class="mb-0.25 text-base">{{ $t('profile.password') }}</p>
           <div class="flex justify-between border-b pb-1 text-lg">
             <p class="tracking-wider">...............</p>
             <button
@@ -191,13 +191,13 @@ const closeSuccessModal = () => {
                 openEditProfile(
                   'password',
                   'updatedPassword',
-                  'Enter new password',
+                  $t('profile.new_password'),
                   'password',
                   'required|lowercase_and_numbers_only|minmax:8,15'
                 )
               "
             >
-              Edit
+            {{ $t('profile.edit') }}
             </button>
           </div>
         </div>

@@ -1,0 +1,22 @@
+{
+    "profile": "პროფილი",
+    "upload_photo": "ფოტოს ატვირთვა",
+    "username": "სახელი",
+    "new_username": "ახალი სახელი",
+    "email": "იმეილი",
+    "new_email": "ახალი იმეილი",
+    "password": "პაროლი",
+    "new_password": "ახალი პაროლი",
+    "confirm_password": "გაიმეორეთ პაროლი",
+    "edit": "რედაქტირება",
+    "username_should_contain": "სახელი უნდა შეიცავდეს:",
+    "password_should_contain": "პაროლი უნდა შეიცავდეს:",
+    "more_chars": "ან მეტ სიმბოლოს",
+    "lowercase": "პატარა ასო",
+    "cancel": "გამორთვა",
+    "save_changes": "ცვლილებების შენახვა",
+    "confirm": "ცვლილება",
+    "make_changes": "გსურთ ცვლილებების შეტანა ?",
+    "changes_success": "ცვლილებების წარმატებით განახლდა"
+
+}

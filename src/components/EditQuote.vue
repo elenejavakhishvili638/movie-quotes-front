@@ -140,12 +140,12 @@ const uploadedImage = ref(
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.5 px-3.5">
       <IconTrash @click="deleteQuote" ></IconTrash>
-      <h1 class="text-2xl font-medium">Edit quote</h1>
+      <h1 class="text-2xl font-medium">{{ $t('movie.edit') }}</h1>
       <IconClose @click="props.closeEditQuote" ></IconClose>
     </div>
     <div class="p-2.25">
       <div class="flex items-center gap-4 mb-2.25">
-        <img class="bg-[#D9D9D9] rounded-full w-10 h-10 object-cover" alt="name" :src="uploadedImage" />
+        <img class="bg-[#D9D9D9] rounded-full w-10 h-10 md:w-[3.75rem] md:h-[3.75rem] object-cover" alt="name" :src="uploadedImage" />
         <p class="text-xl">{{ props.username }}</p>
       </div>
       <Form class="relative flex flex-col mt-9 gap-4" @submit="onSubmit">
@@ -178,7 +178,7 @@ const uploadedImage = ref(
           :uploadedImageUrl="uploadedImageUrl"
           type="edit"
         ></movie-image>
-        <the-button class="w-full h-3">Save changes</the-button>
+        <the-button class="w-full h-3">{{ $t('movie.save_changes') }}</the-button>
       </Form>
     </div>
   </div>

@@ -114,8 +114,8 @@ const getImagePath = (image) => {
         class="p-2 text-xl absolute mt-5.5 rounded-xl top-0 right-0 h-47 bg-black w-full md:w-26 2xl:w-60 md:right-16 px-9 pt-7 overflow-scroll"
       >
         <div class="flex justify-between text-white mb-4 items-center">
-          <p class="text-xl md:text-3xl">Notifications</p>
-          <p class="border-b text-base md:text-xl cursor-pointer" @click="readAll">Mark as all read</p>
+          <p class="text-xl md:text-3xl">{{ $t('notifications.notifications') }}</p>
+          <p class="border-b text-base md:text-xl cursor-pointer" @click="readAll">{{ $t('notifications.mark_all') }}</p>
         </div>
         <div
           v-for="notification in notifications"
@@ -131,16 +131,16 @@ const getImagePath = (image) => {
                 alt="name"
                 :src="notification.actionUser && getImagePath(notification.actionUser.image)"
               />
-              <p class="text-[#198754] md:hidden" v-if="!notification.read_at">New</p>
+              <p class="text-[#198754] md:hidden" v-if="!notification.read_at">{{ $t('notifications.new') }}</p>
             </div>
             <div class="md:block hidden">
               <p>{{ notification.actionUser && notification.actionUser.username }}</p>
-              <div class="items-center gap-3 md:flex">
+              <div class="items-center gap-3 md:flex md:items-center">
                 <IconFilledHeart v-if="notification.type === 'like'"></IconFilledHeart>
                 <IconChatQuote v-else></IconChatQuote>
                 <p class="text-[#CED4DA]">
                   {{
-                    notification.type === 'like' ? 'Liked your quote.' : 'Commented on your quote.'
+                    notification.type === 'like' ?  $t('notifications.liked') :  $t('notifications.commented') 
                   }}
                 </p>
               </div>
@@ -153,14 +153,14 @@ const getImagePath = (image) => {
               <IconChatQuote v-else ></IconChatQuote>
               <p class="text-[#CED4DA] text-base">
                 {{
-                  notification.type === 'like' ? 'Liked your quote.' : 'Commented on your quote.'
+                  notification.type === 'like' ?  $t('notifications.liked') :  $t('notifications.commented') 
                 }}
               </p>
             </div>
             <p class="text-[#D9D9D9] text-base md:text-xl">
-              {{ minutesAgo(notification.created_at) }} min ago
+              {{ minutesAgo(notification.created_at) }} {{ $t('notifications.ago') }}
             </p>
-            <p class="text-[#198754] hidden md:block md:text-xl" v-if="!notification.read_at">New</p>
+            <p class="text-[#198754] hidden md:block md:text-xl" v-if="!notification.read_at">{{ $t('notifications.new') }}</p>
           </div>
         </div>
       </div>

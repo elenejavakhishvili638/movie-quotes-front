@@ -9,5 +9,9 @@
     "genre": "Genre",
     "upload": "Drag & drop your image here or",
     "choose": "Choose file",
-    "edit_movie": "Edit movie"
+    "edit_movie": "Edit movie",
+    "view_quote": "View quote",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save_changes": "Save changes"
 }

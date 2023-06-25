@@ -114,7 +114,7 @@ const language = computed(() => languageStore.currentLanguage)
 
 <template>
   <div class="relative">
-    <p class="ml-3.813 mb-7.938 mt-2 text-2xl font-medium">My profile</p>
+    <p class="ml-3.813 mb-7.938 mt-2 text-2xl font-medium">{{ $t('profile.profile') }}</p>
     <Form class="md:w-37.5 xl:w-62.375 bg-[#11101A] flex flex-col items-center" @submit="onSubmit">
       <div class="absolute flex flex-col items-center top-20">
         <img
@@ -129,12 +129,12 @@ const language = computed(() => languageStore.currentLanguage)
           style="display: none"
           @change="onFileChange"
         />
-        <p class="text-xl font-normal" @click="triggerFileInput">Upload new photo</p>
+        <p class="text-xl font-normal" @click="triggerFileInput">{{ $t('profile.upload_photo') }}</p>
       </div>
       <div class="bg-[#11101A]">
         <div class="flex flex-col gap-14 pb-10 text-base">
           <div class="flex flex-col mt-12.313">
-            <label class="mb-0.5">Username</label>
+            <label class="mb-0.5">{{ $t('profile.username') }}</label>
             <div class="flex gap-8">
               <Field
                 name="oldName"
@@ -144,29 +144,30 @@ const language = computed(() => languageStore.currentLanguage)
                 class="text-[#212529] w-33 h-3 rounded px-0.5 py-1 outline-none bg-[#CED4DA]"
               />
 
-              <button type="button" class="text-[#CED4DA]" @click="openUsername">Edit</button>
+              <button type="button" class="text-[#CED4DA]" @click="openUsername">{{ $t('profile.edit') }}</button>
             </div>
             <div v-if="newUsername" class="flex flex-col mt-3.5">
               <ProfileValidation
-                label="Username should contain:"
+                :label="$t('profile.username_should_contain')"
                 :condition-one="usernameMin"
                 :condition-two="lowerCaseAndNumbersOnly"
-                condition-text-one="3 or more characters"
-                condition-text-two="15 lowercase character"
+                :condition-text-one="`3 ${$t('profile.more_chars')}`"
+                :condition-text-two="`15 ${$t('profile.lowercase')}`"
               ></ProfileValidation>
               <the-input
                 class="w-33 h-3"
                 v-model="formData.username"
                 name="username"
                 type="text"
-                label="New username"
+                :label="$t('profile.new_username')"
                 validate="minmax:3,15|lowercase_and_numbers_only"
+                :errors="errors"
               >
               </the-input>
             </div>
           </div>
           <div class="flex flex-col">
-            <label class="mb-0.5">Email</label>
+            <label class="mb-0.5">{{ $t('profile.email') }}</label>
             <div class="flex gap-8">
               <Field
                 name="oldEmail"
@@ -182,7 +183,7 @@ const language = computed(() => languageStore.currentLanguage)
                 @click="openEmail"
                 v-if="props.google === null"
               >
-                Edit
+              {{ $t('profile.edit') }}
               </button>
             </div>
             <div v-if="newEmail" class="flex flex-col mt-3.5">
@@ -191,8 +192,9 @@ const language = computed(() => languageStore.currentLanguage)
                 v-model="formData.email"
                 name="email"
                 type="email"
-                label="New Email"
+                :label="$t('profile.new_email')"
                 validate="email"
+                :errors="errors"
               >
               </the-input>
               <p class="text-[#F15524] text-base ml-1.25 mt-1" v-if="errors">
@@ -201,7 +203,7 @@ const language = computed(() => languageStore.currentLanguage)
             </div>
           </div>
           <div class="flex flex-col" v-if="props.google === null">
-            <label class="mb-0.5">Password</label>
+            <label class="mb-0.5">{{$t('profile.password')}}</label>
             <div class="flex gap-8">
               <Field
                 name="oldPassword"
@@ -210,15 +212,15 @@ const language = computed(() => languageStore.currentLanguage)
                 type="password"
                 class="text-[#212529] w-33 h-3 rounded px-0.5 py-1 outline-none bg-[#CED4DA]"
               />
-              <button type="button" class="text-[#CED4DA]" @click="openPassword">Edit</button>
+              <button type="button" class="text-[#CED4DA]" @click="openPassword">{{$t('profile.edit')}}</button>
             </div>
             <div v-if="newPassword" class="flex flex-col mt-3.5 gap-12">
               <ProfileValidation
-                label="Password should contain:"
+                :label="$t('profile.password_should_contain')"
                 :condition-one="passwordMin"
                 :condition-two="lowerCaseAndNumbersOnlyPass"
-                condition-text-one="8 or more characters"
-                condition-text-two="15 lowercase character"
+                :condition-text-one="`8 ${$t('profile.more_chars')}`"
+                :condition-text-two="`15 ${$t('profile.more_chars')}`"
               ></ProfileValidation>
               <the-input
                 class="w-33 h-3"
@@ -226,8 +228,9 @@ const language = computed(() => languageStore.currentLanguage)
                 disabled
                 name="password"
                 type="password"
-                label="New Password"
+                :label="$t('profile.new_password')"
                 validate="lowercase_and_numbers_only|minmax:8,15"
+                :errors="errors"
               >
               </the-input>
               <the-input
@@ -235,8 +238,9 @@ const language = computed(() => languageStore.currentLanguage)
                 v-model="formData.password_confirmation"
                 name="password_confirmation"
                 type="password"
-                label="Confirm new password"
+                :label="$t('profile.confirm_password')"
                 validate="required|confirmed:password"
+                :errors="errors"
               >
               </the-input>
             </div>
@@ -244,9 +248,11 @@ const language = computed(() => languageStore.currentLanguage)
         </div>
       </div>
       <div v-if="openButtons" class="flex gap-7 self-end">
-        <button class="text-xl text-[#CED4DA]" type="button" @click="cancelButtons">Cancel</button>
-        <button type="submit" class="bg-[#E31221] rounded px-1 py-0.5 h-3 w-[10rem] text-xl">
-          Save changes
+        <button class="text-xl text-[#CED4DA]" type="button" @click="cancelButtons">{{$t('profile.cancel')}}</button>
+        <button 
+        :class="{ 'text-sm': language === 'ka', 'text-lg': language === 'en' }"
+        type="submit" class="bg-[#E31221] rounded px-1 py-0.25 h-3 w-[12rem]">
+          {{ $t('profile.save_changes') }}
         </button>
       </div>
     </Form>

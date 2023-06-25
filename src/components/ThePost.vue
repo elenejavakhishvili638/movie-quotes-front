@@ -98,7 +98,7 @@ const displayedComments = computed(() => {
 const showComments = () => {
   showAllcomments.value = !showAllcomments.value
   if(commenText.value === 'Show all comments') {
-    commenText.value = "Hide all comments"
+    commenText.value = "Hide comments"
   } else {
     commenText.value = "Show all comments"
   }
