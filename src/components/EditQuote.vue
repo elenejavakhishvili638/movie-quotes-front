@@ -1,6 +1,6 @@
 <script setup>
-import trash from '../assets/images/logos/trash.png'
-import close from '../assets/images/logos/close.png'
+import IconTrash from './icons/IconTrash.vue'
+import IconClose from './icons/IconClose.vue'
 import { useMoviesStore } from '../stores/movies'
 import { useQuotesStore } from '../stores/quotes'
 import { useRoute } from 'vue-router'
@@ -11,7 +11,7 @@ import QuoteTextarea from './QuoteTextarea.vue'
 import TheButton from '../components/TheButton.vue'
 import { useUserStore } from '../stores/user/index'
 
-const props = defineProps(['closeEditQuote', 'id', 'movie'])
+const props = defineProps(['closeEditQuote', 'id', 'movie', 'image', 'username'])
 const route = useRoute()
 const userStore = useUserStore()
 let path = import.meta.env.VITE_BACKEND_URL
@@ -56,7 +56,6 @@ const deepEqual = (obj1, obj2) => {
 
 const onSubmit = async () => {
   if (deepEqual(quote.value, quoteForm.value) && !imageUrl.value) {
-    console.log('sj')
     return
   }
 
@@ -75,7 +74,7 @@ const onSubmit = async () => {
 
     await quoteStore.editQuote(formData, props.id)
     props.closeEditQuote()
-    await moviesStore.fetchMovie(id)
+    await moviesStore.fetchMovieId(id)
   } catch (error) {
     console.log(error)
   }
@@ -99,7 +98,6 @@ const triggerFileInput = (fileInput) => {
 const onFileChange = async (e, handleChange, validate) => {
   const file = e.target.files[0]
   imageUrl.value = file
-  console.log(imageUrl.value)
   if (file) {
     const reader = new FileReader()
     reader.onload = (e) => {
@@ -128,21 +126,29 @@ const onDrop = async (event, handleChange, validate) => {
   handleChange('true')
   await validate()
 }
+
+const uploadedImage = ref(
+  props.image && props.image.startsWith('images') ? path + '/storage/' + props.image : props.image
+)
 </script>
 
 <template>
   <div
     class="h-auto top-2.5 w-full md:top-[8%] xl:w-37 2xl:w-60 absolute text-white bg-modal md:w-31 rounded-xl"
   >
-    <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-6 px-14">
-      <img :src="trash" @click="deleteQuote" />
-      <h1 class="text-2xl font-medium">Edit quote</h1>
-      <img @click="props.closeEditQuote" :src="close" />
+    <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.5 px-3.5">
+      <IconTrash @click="deleteQuote"></IconTrash>
+      <h1 class="text-2xl font-medium">{{ $t('movie.edit') }}</h1>
+      <IconClose @click="props.closeEditQuote"></IconClose>
     </div>
-    <div class="p-9">
+    <div class="p-2.25">
       <div class="flex items-center gap-4 mb-2.25">
-        <img class="bg-[#D9D9D9] rounded-full w-10 h-10" alt="name" />
-        <p class="text-[20px]">{{ quote.user && quote.user.username }}</p>
+        <img
+          class="bg-[#D9D9D9] rounded-full w-10 h-10 md:w-[3.75rem] md:h-[3.75rem] object-cover"
+          alt="name"
+          :src="uploadedImage"
+        />
+        <p class="text-xl">{{ props.username }}</p>
       </div>
       <Form class="relative flex flex-col mt-9 gap-4" @submit="onSubmit">
         <div v-if="quoteForm && quoteForm.body">
@@ -154,7 +160,7 @@ const onDrop = async (event, handleChange, validate) => {
             placeholder="Quote in English."
             lang="Eng"
           ></quote-textarea>
-          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="body.en" />
+          <ErrorMessage class="text-[#F15524] text-base ml-1.25" name="body.en" />
         </div>
         <div v-if="quoteForm && quoteForm.body">
           <quote-textarea
@@ -165,7 +171,7 @@ const onDrop = async (event, handleChange, validate) => {
             placeholder="ციტატა ქართულ ენაზე"
             lang="ქარ"
           ></quote-textarea>
-          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="body.ka" />
+          <ErrorMessage class="text-[#F15524] text-base ml-1.25" name="body.ka" />
         </div>
         <movie-image
           :onFileChangeParent="onFileChange"
@@ -174,7 +180,7 @@ const onDrop = async (event, handleChange, validate) => {
           :uploadedImageUrl="uploadedImageUrl"
           type="edit"
         ></movie-image>
-        <the-button class="w-full h-[48px]">Save changes</the-button>
+        <the-button class="w-full h-3">{{ $t('movie.save_changes') }}</the-button>
       </Form>
     </div>
   </div>

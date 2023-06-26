@@ -6,5 +6,9 @@
     "search": "Search by",
     "search_by": "Enter {at} to search movies, Enter {hash} to search quotes",
     "search_movie": "Enter {at} to search movies",
-    "search_quote": "Enter {hash} to search quotes"
+    "search_quote": "Enter {hash} to search quotes",
+    "show_all_comments": "Show all comments",
+    "hide_comments": "Hide comments",
+    "write_quote": "Write new quote",
+    "choose_movie": "Choose movie"
 }

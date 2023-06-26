@@ -1,13 +1,13 @@
 <script setup>
-import arrow from '../assets/images/logos/arrow.png'
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { useUpdateUserStore } from '../stores/updateUser'
 import { useUserStore } from '../stores/user'
 import ProfileInput from './ProfileInput.vue'
 import { Form } from 'vee-validate'
-import exit from '../assets/images/logos/exit.png'
-import tick from '../assets/images/logos/tick.png'
+import IconTick from './icons/IconTick.vue'
+import IconExit from './icons/IconExit.vue'
 import ModalLayout from './ModalLayout.vue'
+import IconArrow from './icons/IconArrow.vue'
 
 const props = defineProps(['username', 'email', 'google', 'user'])
 const fileInput = ref(null)
@@ -22,7 +22,11 @@ const currentValidation = ref(null)
 let path = import.meta.env.VITE_BACKEND_URL
 
 const imageUrl = ref(null)
-const uploadedImageUrl = ref(path + '/storage/' + props.user.image)
+const uploadedImageUrl = ref(
+  props.user.image && props.user.image.startsWith('images')
+    ? path + '/storage/' + props.user.image
+    : props.user.image
+)
 
 const userStore = useUserStore()
 const updateUserStore = useUpdateUserStore()
@@ -31,10 +35,6 @@ const userForm = computed(() => updateUserStore.$state.form)
 const triggerFileInput = () => {
   fileInput.value.click()
 }
-
-onMounted(() => {
-  console.log(uploadedImageUrl)
-})
 
 const onFileChange = async (e) => {
   const file = e.target.files[0]
@@ -53,9 +53,6 @@ const onFileChange = async (e) => {
     formData.append('user_id', props.user.id)
     formData.append('image', imageUrl.value)
 
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ', ' + pair[1])
-    }
     await updateUserStore.updateUser(formData, props.user.id)
     await userStore.fetchUser('edit')
   } catch (error) {
@@ -64,14 +61,12 @@ const onFileChange = async (e) => {
 }
 
 const openEditProfile = (name, edit, text, type, rules) => {
-  console.log('openEditProfile called with:', name, text)
   editProfile.value = true
   currentEdit.value = edit
   currentText.value = text
   currentName.value = name
   currentType.value = type
   currentValidation.value = rules
-  console.log(userForm.value)
 }
 
 const closeEditProfile = () => {
@@ -107,16 +102,16 @@ const closeSuccessModal = () => {
 </script>
 
 <template>
-  <div class="mt-[25px]">
-    <ModalLayout v-if="successModal" class="items-baseline pt-4">
+  <div class="mt-[1.563rem]">
+    <ModalLayout v-if="successModal" class="items-baseline pt-1">
       <div class="bg-[#BADBCC] z-10 w-26 h-14 flex items-center justify-around rounded">
-        <img :src="tick" />
-        <p class="text-[#0F5132] text-base">Changes updated succsessfully</p>
-        <img @click="closeSuccessModal" :src="exit" />
+        <IconTick></IconTick>
+        <p class="text-[#0F5132] text-base">{{ $t('profile.changes_success') }}</p>
+        <IconExit @click="closeSuccessModal" class="cursor-pointer"></IconExit>
       </div>
     </ModalLayout>
     <router-link to="news-feed">
-      <img class="ml-2.5 mb-1.5" alt="arrow" :src="arrow" />
+      <IconArrow class="ml-2.5 mb-1.5"></IconArrow>
     </router-link>
     <Form @submit="onSubmit" v-if="editProfile" class="flex justify-center">
       <ProfileInput
@@ -143,12 +138,14 @@ const closeSuccessModal = () => {
           style="display: none"
           @change="onFileChange"
         />
-        <p class="text-xl font-normal" @click="triggerFileInput">Upload my photo</p>
+        <p class="text-xl font-normal" @click="triggerFileInput">
+          {{ $t('profile.upload_photo') }}
+        </p>
       </div>
       <div class="w-22.75 flex flex-col gap-8">
         <div>
-          <p class="mb-0.25 text-base">Username</p>
-          <div class="flex justify-between border-b pb-4 text-lg">
+          <p class="mb-0.25 text-base">{{ $t('profile.username') }}</p>
+          <div class="flex justify-between border-b pb-1 text-lg">
             <p>{{ props.username }}</p>
             <button
               class="text-[#CED4DA]"
@@ -156,19 +153,19 @@ const closeSuccessModal = () => {
                 openEditProfile(
                   'username',
                   'updatedUsername',
-                  'Enter new username',
+                  $t('profile.new_username'),
                   'text',
                   'required|minmax:3,15|lowercase_and_numbers_only'
                 )
               "
             >
-              Edit
+              {{ $t('profile.edit') }}
             </button>
           </div>
         </div>
         <div>
-          <p class="mb-0.25 text-base">Email</p>
-          <div class="flex justify-between border-b pb-4 text-lg">
+          <p class="mb-0.25 text-base">{{ $t('profile.email') }}</p>
+          <div class="flex justify-between border-b pb-1 text-lg">
             <p>{{ props.email }}</p>
             <button
               class="text-[#CED4DA]"
@@ -176,19 +173,19 @@ const closeSuccessModal = () => {
                 openEditProfile(
                   'email',
                   'updatedEmail',
-                  'Enter new Email',
+                  $t('profile.new_email'),
                   'email',
                   'required|email'
                 )
               "
             >
-              Edit
+              {{ $t('profile.edit') }}
             </button>
           </div>
         </div>
         <div>
-          <p class="mb-0.25 text-base">Password</p>
-          <div class="flex justify-between border-b pb-4 text-lg">
+          <p class="mb-0.25 text-base">{{ $t('profile.password') }}</p>
+          <div class="flex justify-between border-b pb-1 text-lg">
             <p class="tracking-wider">...............</p>
             <button
               class="text-[#CED4DA]"
@@ -196,13 +193,13 @@ const closeSuccessModal = () => {
                 openEditProfile(
                   'password',
                   'updatedPassword',
-                  'Enter new password',
+                  $t('profile.new_password'),
                   'password',
                   'required|lowercase_and_numbers_only|minmax:8,15'
                 )
               "
             >
-              Edit
+              {{ $t('profile.edit') }}
             </button>
           </div>
         </div>

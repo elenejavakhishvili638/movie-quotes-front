@@ -1,5 +1,5 @@
 <script setup>
-import image from '../assets/images/logos/image.png'
+import IconCamera from './icons/IconCamera.vue'
 import { ref, computed } from 'vue'
 import { Field, ErrorMessage } from 'vee-validate'
 
@@ -47,7 +47,7 @@ const imageRules = computed(() => {
       @dragleave.prevent="onDragLeave"
       @drop.prevent="onDrop($event, handleChange, validate)"
       :class="{ 'h-11.5': uploadedImageUrl }"
-      class="flex justify-between items-center border border-[#6C757D] w-full p-7 rounded"
+      class="flex justify-between items-center border border-[#6C757D] w-full p-[1.75rem] rounded"
     >
       <img
         :src="uploadedImageUrl"
@@ -64,16 +64,16 @@ const imageRules = computed(() => {
       <div
         class="flex items-center gap-5"
         :class="{
-          'flex flex-col items-center mr-6 lg:mr-[54px] gap-4': uploadedImageUrl
+          'flex flex-col items-center mr-6 lg:mr-[3.375rem] gap-4': uploadedImageUrl
         }"
       >
-        <div class="flex pl-4 items-center">
-          <img :src="image" />
-          <p class="text-[16px] font-normal ml-[13px]">{{ $t('movie.upload') }}</p>
+        <div class="flex pl-0.25 items-center">
+          <IconCamera></IconCamera>
+          <p class="text-base font-normal ml-[0.813rem] text-center">{{ $t('movie.upload') }}</p>
         </div>
         <button
           type="button"
-          class="bg-[#9747FF66] w-6 lg:w-12 h-2.6 text-lg outline-none"
+          class="bg-[#9747FF66] w-6 lg:w-12 h-2.6 md:text-lg outline-none text-sm"
           @click="triggerFileInput"
         >
           {{ $t('movie.choose') }}

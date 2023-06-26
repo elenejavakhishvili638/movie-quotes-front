@@ -4,13 +4,13 @@ import { useRoute, useRouter } from 'vue-router'
 import { useMoviesStore } from '../stores/movies/index'
 import FeedHeader from '../components/FeedHeader.vue'
 import { useLanguageStore } from '../stores/language/index'
-import comment from '../assets/images/logos/comment.png'
-import heart from '../assets/images/logos/heart.png'
-import dots from '../assets/images/logos/dots.png'
+import IconComment from '../components/icons/IconComment.vue'
+import IconHeart from '../components/icons/IconHeart.vue'
+import IconDots from '../components/icons/IconDots.vue'
 import ProfileSidebar from '../components/ProfileSidebar.vue'
-import trash from '../assets/images/logos/trash.png'
-import pencil from '../assets/images/logos/pencil.png'
-import eye from '../assets/images/logos/eye.png'
+import IconTrash from '../components/icons/IconTrash.vue'
+import IconEditVue from '../components/icons/IconEdit.vue'
+import IconEye from '../components/icons/IconEye.vue'
 import EditMovie from '../components/EditMovie.vue'
 import { useUserStore } from '../stores/user/index'
 import AddQuote from '../components/AddQuote.vue'
@@ -18,7 +18,7 @@ import { useQuotesStore } from '../stores/quotes'
 import ViewQuote from '../components/ViewQuote.vue'
 import ModalLayout from '../components/ModalLayout.vue'
 import EditQuote from '../components/EditQuote.vue'
-import plus from '../assets/images/logos/plus.png'
+import IconPlus from '../components/icons/IconPlus.vue'
 
 const moviesStore = useMoviesStore()
 const route = useRoute()
@@ -40,7 +40,6 @@ onMounted(async () => {
   const id = route.params.id
   try {
     await moviesStore.fetchMovie(id)
-    console.log(movie.value)
   } catch (error) {
     console.log(error)
   }
@@ -116,12 +115,22 @@ const user = computed(() => userStore.$state.user)
 </script>
 
 <template>
-  <div class="background min-h-[200vh] pb-[32px]">
+  <div class="background min-h-[200vh] pb-2">
     <ModalLayout v-if="editMovie">
-      <EditMovie :username="user.username" :movie="movie" :closeMovie="closeMovie"></EditMovie>
+      <EditMovie
+        :username="user.username"
+        :image="user.image"
+        :movie="movie"
+        :closeMovie="closeMovie"
+      ></EditMovie>
     </ModalLayout>
     <ModalLayout v-if="addQuote">
-      <AddQuote :closeQuote="closeQuote" :username="user.username" :movie="movie"></AddQuote>
+      <AddQuote
+        :closeQuote="closeQuote"
+        :image="user.image"
+        :username="user.username"
+        :movie="movie"
+      ></AddQuote>
     </ModalLayout>
     <ModalLayout v-if="viewQuote">
       <ViewQuote
@@ -129,73 +138,81 @@ const user = computed(() => userStore.$state.user)
         :closeViewQuote="closeViewQuote"
         :id="quoteId"
         :movie="movie"
+        :image="user.image"
+        :username="user.username"
       ></ViewQuote>
     </ModalLayout>
     <ModalLayout v-if="editQuote">
-      <EditQuote :closeEditQuote="closeEditQuote" :id="quoteId"></EditQuote>
+      <EditQuote
+        :username="user.username"
+        :image="user.image"
+        :closeEditQuote="closeEditQuote"
+        :id="quoteId"
+      ></EditQuote>
     </ModalLayout>
     <feed-header :searchBar="false"></feed-header>
-    <div class="md:flex md:ml-[40px] lg:ml[70px]">
+    <div class="md:flex md:ml-2.5 lg:ml-4.5">
       <div class="hidden md:block text-white sm:w-[25%] lg:w-[17%]">
         <profile-sidebar></profile-sidebar>
       </div>
-      <div class="flex flex-col mt-[39px] text-white">
-        <h1 class="hidden md:block text-[24px] font-[500] mb-[33px] ml-[35px]">
+      <div class="flex flex-col mt-2.25 text-white">
+        <h1 class="hidden md:block text-2xl font-[500] mb-2 ml-2">
           {{ $t('movie.movie_desc') }}
         </h1>
-        <div class="mx-[35px] pb-[32px] md:flex md:gap-[21px]">
+        <div class="mx-2.25 pb-2 md:flex md:gap-5">
           <div>
             <img
               :src="path + '/storage/' + movie.image"
-              class="w-[358px] h-[302px] border border-[#DDCCAA] xl:w-[809px] xl:h-[441px] rounded-[12px] object-contain mb-[24px]"
+              class="w-22.375 h-18.875 border border-[#DDCCAA] xl:w-50.563 xl:h-27.563 rounded-xl object-contain mb-1.5"
             />
           </div>
-          <div class="lg:min-w-[590px]">
+          <div class="lg:min-w-36.875">
             <div class="flex flex-col md:flex-row justify-between">
-              <h1 class="text-[#DDCCAA] text-[24px] font-[700] md:max-w-[290px] mb-[10px]">
+              <h1 class="text-[#DDCCAA] text-2xl font-[700] md:max-w-18.125 mb-[1.25rem]">
                 {{ movie.title && movie.title[language] }}
                 ({{ movie.year }})
               </h1>
               <div
-                class="w-[144px] h-[40px] bg-[#24222F] rounded-[10px] flex items-center justify-between px-[27px]"
+                class="w-[9rem] h-10 bg-[#24222F] rounded-lg flex items-center justify-between px-[1.688rem]"
               >
-                <img :src="pencil" @click="openMovie" />
-                <div class="border-r border-r-[#6C757D] h-[16px]"></div>
-                <img :src="trash" @click="deleteMovie" />
+                <IconEditVue @click="openMovie" class="cursor-pointer"></IconEditVue>
+                <div class="border-r border-r-[#6C757D] h-4"></div>
+                <IconTrash @click="deleteMovie" class="cursor-pointer"></IconTrash>
               </div>
             </div>
-            <div class="flex gap-[8px] my-[24px]">
+            <div class="flex gap-2 my-1.5">
               <div
-                class="px-[11px] py-[6px] bg-[#6C757D] rounded-[4px]"
+                class="px-[0.688rem] py-[0.375rem] bg-[#6C757D] rounded"
                 v-for="genre in movie.genres"
                 :key="genre.id"
               >
-                <p class="font-[700] text-[18px]">{{ genre.name }}</p>
+                <p class="font-[700] text-lg">{{ genre.name }}</p>
               </div>
             </div>
-            <p class="mb-[20px] text-[#CED4DA] text-[18px] font-[700]">
+            <p class="mb-1.25 text-[#CED4DA] text-lg font-[700]">
               {{ $t('movie.director') }}:
               <span class="text-white font-[500]">{{
                 movie.director && movie.director[language]
               }}</span>
             </p>
-            <p class="font-normal text-[18px] text-[#CED4DA]">
+            <p class="font-normal text-lg text-[#CED4DA]">
               {{ movie.description && movie.description[language] }}
             </p>
           </div>
         </div>
-        <div class="md:flex md:mb-[40px] items-center">
+        <div class="md:flex md:mb-2.5 items-center">
           <button
-            class="mx-[35px] mb-[32px] md:mb-[0px] w-[140px] h-[38px] rounded-[4px] bg-red flex items-center justify-center"
+            class="mx-2.25 mb-2 md:mb-[0px] w-8.75 h-[2.375rem] rounded bg-red flex items-center justify-center cursor-pointer"
             @click="openQuote"
           >
-            <img :src="plus" class="pr-2" /> {{ $t('movie.add_quote') }}
+            <IconPlus class="mr-1"></IconPlus>
+            {{ $t('movie.add_quote') }}
           </button>
-          <hr class="mx-[35px] md:hidden" />
+          <hr class="mx-2 md:hidden" />
           <div
-            class="md:flex md:items-center md:border-l md:border-l-[#6C757D] md:pl-[16px] mx-[35px] mb-[35px] mt-[40px] md:mx-[0px] md:mb-[0px] md:mt-[0]"
+            class="md:flex md:items-center md:border-l md:border-l-[#6C757D] md:pl-[1rem] mx-2 mb-2 mt-2.5 md:mx-[0px] md:mb-[0px] md:mt-[0]"
           >
-            <p class="text-[24px] md:ml-[10px]">
+            <p class="text-2xl md:ml-[0.625rem]">
               {{ $t('movie.all_quotes') }} ({{ movie.quotes && movie.quotes.length }})
             </p>
           </div>
@@ -204,51 +221,53 @@ const user = computed(() => userStore.$state.user)
           <div
             v-for="(quote, index) in movie.quotes"
             :key="quote.id"
-            class="relative md:w-[600px] lg:w-[809px] bg-[#11101A] flex flex-col items-center px-[35px] mb-[37px] md:ml-[35px]"
+            class="relative md:w-37.5 lg:w-50.563 bg-[#11101A] flex flex-col items-center px-2.188 mb-2.25 md:ml-2.25"
           >
             <div
-              class="relative border-b border-b-[#54535A] pb-[24px] mb-[19px] flex flex-col md:flex-row items-center md:w-full"
+              class="relative border-b border-b-[#54535A] pb-[2.625rem] mb-[1.188rem] flex flex-col md:flex-row items-center md:w-full"
             >
               <img
                 :src="path + '/storage/' + quote.image"
-                class="md:mr-[34px] md:w-[226px] h-[140px] w-[359px] mt-[20px] mb-[24px] rounded-[2px] object-cover"
+                class="md:mr-2 md:w-[14.125rem] h-8.75 w-22.438 mt-[1.25rem] mb-1.5 rounded object-cover"
               />
-              <p class="italic text-[24px] text-center md:text-left">
+              <p class="italic text-2xl text-center md:text-left">
                 "{{ quote.body && quote.body[language] }}"
               </p>
-              <img
-                class="hidden xl:block md:absolute right-0 top-6"
-                :src="dots"
+              <IconDots
+                class="hidden xl:block md:absolute right-0 top-6 cursor-pointer"
                 @click="openModal(index)"
-              />
+              ></IconDots>
             </div>
             <div
               v-if="index === openedModalId"
               @click="closeModal(index)"
-              class="absolute xl:top-[50px] xl:right-[-190px] right-[20px] top-5 h-[200px] w-[250px] rounded-[10px] bg-[#24222F] py-[32px] pl-[40px]"
+              class="absolute xl:top-[3.125rem] xl:right-[-11.875rem] right-[1.25rem] top-5 h-12.5 w-[15.625rem] rounded-lg bg-[#24222F] py-2 pl-[2.5rem]"
             >
-              <p class="flex gap-[10px] mb-[32px]">
-                <img :src="eye" @click="openViewQuote(quote.id)" /> Vue Quote
+              <p class="flex gap-2 mb-2 items-center">
+                <IconEye @click="openViewQuote(quote.id)" class="cursor-pointer"></IconEye>
+                {{ $t('movie.view_quote') }}
               </p>
-              <p class="flex gap-[10px] mb-[32px]">
-                <img :src="pencil" @click="openEditQuote(quote.id)" /> Edit
+              <p class="flex gap-2 mb-2 items-center">
+                <IconEditVue @click="openEditQuote(quote.id)" class="cursor-pointer"></IconEditVue>
+                {{ $t('movie.edit') }}
               </p>
-              <p class="flex gap-[10px] mb-[32px]">
-                <img :src="trash" @click="deleteQuote(quote.id)" /> Delete
+              <p class="flex gap-2 mb-2 items-center">
+                <IconTrash @click="deleteQuote(quote.id)" class="cursor-pointer"></IconTrash>
+                {{ $t('movie.delete') }}
               </p>
             </div>
-            <div class="flex justify-between items-center w-full mb-[20px]">
+            <div class="flex justify-between items-center w-full mb-[1.25rem]">
               <div class="flex">
-                <div class="flex mr-[24px]">
+                <div class="flex mr-1.5">
                   <p>{{ quote.comments && quote.comments.length }}</p>
-                  <img class="ml-[12px]" :src="comment" />
+                  <IconComment class="ml-0.75"></IconComment>
                 </div>
                 <div class="flex">
                   <p>{{ quote.likes && quote.likes.length }}</p>
-                  <img class="ml-[12px]" :src="heart" />
+                  <IconHeart class="ml-0.75" :filled-color="'white'"></IconHeart>
                 </div>
               </div>
-              <img class="xl:hidden" :src="dots" @click="openModal(index)" />
+              <IconDots class="xl:hidden cursor-pointer" @click="openModal(index)"></IconDots>
             </div>
           </div>
           <div></div>
@@ -257,9 +276,3 @@ const user = computed(() => userStore.$state.user)
     </div>
   </div>
 </template>
-
-<style scoped>
-.background {
-  background: linear-gradient(187.16deg, #181623 0.07%, #191725 51.65%, #0d0b14 98.75%);
-}
-</style>

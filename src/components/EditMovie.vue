@@ -1,5 +1,5 @@
 <script setup>
-import close from '../assets/images/logos/close.png'
+import IconClose from './icons/IconClose.vue'
 import MovieInput from './MovieInput.vue'
 import { useMoviesStore } from '../stores/movies/index'
 import { computed, ref, onMounted, watch } from 'vue'
@@ -11,7 +11,7 @@ import { useRoute } from 'vue-router'
 import GenreComponent from './GenreComponent.vue'
 import MovieImage from './MovieImage.vue'
 
-const props = defineProps(['username', 'closeMovie', 'movie'])
+const props = defineProps(['username', 'closeMovie', 'movie', 'image'])
 const movieStore = useMoviesStore()
 const userStore = useUserStore()
 const route = useRoute()
@@ -66,9 +66,9 @@ onMounted(async () => {
   }
 })
 
-const filterGenres = (name) => {
+const filterGenres = async (name) => {
   genres.value.forEach((genre) => {
-    if (genre.name === name) {
+    if (genre.name === name && !tagGenres.value.some((tagGenre) => tagGenre.name === name)) {
       tagGenres.value.push(genre)
     }
   })
@@ -86,7 +86,6 @@ const onSubmit = async () => {
     !imageUrl.value &&
     Object.keys(tagGenres.value).length === 0
   ) {
-    console.log('snj')
     return
   }
   const id = route.params.id
@@ -152,20 +151,28 @@ const onDrop = async (event, handleChange, validate) => {
   handleChange('true')
   await validate()
 }
+
+const uploadedImage = ref(
+  props.image && props.image.startsWith('images') ? path + '/storage/' + props.image : props.image
+)
 </script>
 
 <template>
   <div
     class="h-auto top-2.5 w-full md:top-[8%] md:left-[30%] 2xl:left-[24%] xl:w-37 2xl:w-60 absolute text-white bg-modal md:w-31 rounded-xl"
   >
-    <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-6 px-14">
+    <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.5 px-3.5">
       <div></div>
       <h1 class="text-2xl font-medium">{{ $t('movie.edit_movie') }}</h1>
-      <img @click="props.closeMovie" :src="close" />
+      <IconClose @click="props.closeMovie"></IconClose>
     </div>
-    <div class="p-9">
+    <div class="p-2.25">
       <div class="flex items-center mb-2.25 gap-4">
-        <img class="bg-[#D9D9D9] rounded-full w-10 h-10" alt="name" />
+        <img
+          class="bg-[#D9D9D9] rounded-full w-10 h-10 object-cover"
+          alt="name"
+          :src="uploadedImage"
+        />
         <p>{{ props.username }}</p>
       </div>
       <Form @submit="onSubmit" class="flex flex-col gap-6">

@@ -2,7 +2,7 @@
 import { Form } from 'vee-validate'
 import TheButton from './TheButton.vue'
 import TheInput from './TheInput.vue'
-import back from '../assets/images/logos/back.png'
+import IconBackVue from './icons/IconBack.vue'
 import { usePasswordResetStore } from '../stores/UpdatePassword/index'
 import { computed } from 'vue'
 
@@ -11,6 +11,7 @@ const props = defineProps(['closeLogin', 'openEmailForPassword'])
 const emit = defineEmits(['changeModal'])
 
 const passwordResetStore = usePasswordResetStore()
+const errors = computed(() => passwordResetStore.$state.errors)
 
 const openModal = () => {
   emit('changeModal', 'login')
@@ -18,9 +19,12 @@ const openModal = () => {
 
 const onSubmit = async () => {
   try {
+    passwordResetStore.errors = {}
     await passwordResetStore.sendEmail(passwordResetStore.$state.verifyEmail)
-    props.openEmailForPassword()
-    props.closeLogin()
+    if (Object.keys(errors.value).length === 0) {
+      props.openEmailForPassword()
+      props.closeLogin()
+    }
   } catch (error) {
     console.error(error)
   }
@@ -32,12 +36,12 @@ const formData = computed(() => passwordResetStore.$state.verifyEmail)
 <template>
   <section
     @click.stop
-    class="h-screen md:w-[601px] md:h-auto md:rounded-[10px] flex flex-col justify-center"
+    class="h-screen md:w-37.5 md:h-auto md:rounded-lg flex flex-col justify-center"
   >
-    <div class="text-white flex flex-col px-[44px] items-center justify-center pt-[73px]">
-      <div class="text-center mb-[32px]">
-        <h1 class="text-2xl mb-[12px] font-medium">{{ $t('updatePassword.header') }}</h1>
-        <p class="w-[274px] md:w-[313px] text-base text-[#6C757D] font-[14px]">
+    <div class="text-white flex flex-col px-2.75 items-center justify-center pt-4.563">
+      <div class="text-center mb-2">
+        <h1 class="text-2xl mb-0.75 font-medium">{{ $t('updatePassword.header') }}</h1>
+        <p class="w-17.125 md:w-19.563 text-base text-[#6C757D]">
           {{ $t('updatePassword.text') }}
         </p>
       </div>
@@ -49,6 +53,7 @@ const formData = computed(() => passwordResetStore.$state.verifyEmail)
           type="email"
           :label="$t('login.email')"
           :placeholder="$t('login.email_placeholder')"
+          :errors="errors"
         ></the-input>
         <the-button type="submit" :disabled="!meta.valid">{{
           $t('updatePassword.button')
@@ -56,9 +61,9 @@ const formData = computed(() => passwordResetStore.$state.verifyEmail)
       </Form>
       <div
         @click="openModal"
-        class="mb-[53px] gap-[11px] flex items-center justify-center text-[#6C757D] font-normal"
+        class="mb-3.313 gap-3 flex items-center justify-center text-[#6C757D] font-normal cursor-pointer"
       >
-        <img :src="back" />
+        <IconBackVue></IconBackVue>
         {{ $t('updatePassword.button_two') }}
       </div>
     </div>

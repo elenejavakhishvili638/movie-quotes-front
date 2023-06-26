@@ -16,6 +16,7 @@ export async function loginUser(data) {
     await axios.get('/api/user')
   } catch (error) {
     console.log(error)
+    throw error
   }
 }
 
@@ -56,6 +57,7 @@ export async function sendEmail(data) {
     await axios.post('/api/forgot-password', data, { withCredentials: true })
   } catch (error) {
     console.log(error)
+    throw error
   }
 }
 
@@ -118,6 +120,15 @@ export async function fetchQuotes(page, searchTerm) {
     } else {
       response = await axios.get(`/api/quotes?page=${page}`)
     }
+    return response
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function fetchQuote(id) {
+  try {
+    let response = await axios.get(`/api/quote/${id}`)
     return response
   } catch (error) {
     console.log(error)
@@ -241,11 +252,55 @@ export async function unlike(id) {
   }
 }
 
-// export async function fetchQuote(id) {
-//   try {
-//     let response = await axios.get(`/api/quote/${id}`)
-//     return response
-//   } catch (error) {
-//     console.log(error)
-//   }
-// }
+export async function sendNotification(data, id) {
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+    await axios.post(`/api/notification/${id}`, data, {
+      withCredentials: true
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function fetchNotifications() {
+  try {
+    const response = await axios.get('/api/notifications')
+    return response
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function markAsRead(id) {
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+    await axios.post(`/api/notification/${id}/read`, {
+      withCredentials: true
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function markAllAsRead() {
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+    await axios.post('/api/notifications/read-all', {
+      withCredentials: true
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function resendEmail() {
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+    await axios.post('/api/email/resend', {
+      withCredentials: true
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}

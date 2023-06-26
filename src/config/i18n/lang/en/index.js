@@ -5,6 +5,8 @@ import modals from './modals.json'
 import updatePassword from './updatePassword.json'
 import feed from './feed.json'
 import movie from './movie.json'
+import profile from './profile.json'
+import notifications from "./notifications.json"
 
 const translations = {
   texts,
@@ -13,7 +15,9 @@ const translations = {
   modals,
   updatePassword,
   feed,
-  movie
+  movie,
+  profile,
+  notifications
 }
 
 export default translations

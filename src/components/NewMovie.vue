@@ -1,5 +1,5 @@
 <script setup>
-import close from '../assets/images/logos/close.png'
+import IconClose from './icons/IconClose.vue'
 import MovieInput from './MovieInput.vue'
 import { useMoviesStore } from '../stores/movies/index'
 import { computed, ref, onMounted, watch } from 'vue'
@@ -10,7 +10,7 @@ import MovieTextarea from './MovieTextarea.vue'
 import GenreComponent from './GenreComponent.vue'
 import MovieImage from './MovieImage.vue'
 
-const props = defineProps(['username', 'closeMovie'])
+const props = defineProps(['username', 'closeMovie', 'image'])
 const movieStore = useMoviesStore()
 const userStore = useUserStore()
 const uploadedImageUrl = ref(null)
@@ -18,6 +18,7 @@ const imageUrl = ref(null)
 const tagGenres = ref([])
 const form = useForm()
 const isDragging = ref(false)
+let path = import.meta.env.VITE_BACKEND_URL
 
 const {
   value: tagGenresField,
@@ -45,7 +46,7 @@ onMounted(async () => {
 
 const filterGenres = async (name) => {
   genres.value.forEach((genre) => {
-    if (genre.name === name) {
+    if (genre.name === name && !tagGenres.value.some((tagGenre) => tagGenre.name === name)) {
       tagGenres.value.push(genre)
     }
   })
@@ -127,23 +128,31 @@ const onDrop = async (event, handleChange, validate) => {
   handleChange('true')
   await validate()
 }
+
+const uploadedImage = ref(
+  props.image && props.image.startsWith('images') ? path + '/storage/' + props.image : props.image
+)
 </script>
 
 <template>
   <div
-    class="h-auto top-[10px] w-full md:top-[8%] md:left-[35%] xl:left-[28%] 2xl:left-[24%] xl:w-[601px] 2xl:w-[961px] absolute text-white bg-[#11101A] md:w-[500px] rounded-[12px]"
+    class="h-auto top-[0.625rem] w-full md:top-[8%] md:left-[35%] xl:left-[28%] 2xl:left-[24%] xl:w-37.5 2xl:w-60 absolute text-white bg-[#11101A] md:w-37.5 rounded-xl"
   >
-    <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-[25px] px-[54px]">
+    <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.563 px-3.375">
       <div></div>
       <h1>{{ $t('movie.add_movie') }}</h1>
-      <img @click="props.closeMovie" :src="close" />
+      <IconClose @click="props.closeMovie" class="cursor-pointer"></IconClose>
     </div>
-    <div class="p-[35px]">
-      <div class="flex items-center gap-[16px]">
-        <img class="bg-[#D9D9D9] rounded-full w-[40px] h-[40px]" alt="name" />
+    <div class="p-2.188">
+      <div class="flex items-center gap-4">
+        <img
+          class="bg-[#D9D9D9] rounded-full w-10 h-10 object-cover"
+          alt="name"
+          :src="uploadedImage"
+        />
         <p>{{ props.username }}</p>
       </div>
-      <Form @submit="onSubmit" class="flex flex-col mt-[37px] gap-[24px]">
+      <Form @submit="onSubmit" class="flex flex-col mt-2.313 gap-4">
         <movie-input
           v-model="movieForm.title.en"
           name="title.en"
@@ -198,7 +207,7 @@ const onDrop = async (event, handleChange, validate) => {
             label="Movie Description :"
             :class="{ 'text-[#6C757D]': movieForm.description.en }"
           ></movie-textarea>
-          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="description.en" />
+          <ErrorMessage class="text-[#F15524] text-base ml-1.25" name="description.en" />
         </div>
         <div>
           <movie-textarea
@@ -209,7 +218,7 @@ const onDrop = async (event, handleChange, validate) => {
             label="ფილმის აღწერა :"
             :class="{ 'text-[#6C757D]': movieForm.description.ka }"
           ></movie-textarea>
-          <ErrorMessage class="text-[#F15524] text-base ml-[20px]" name="description.ka" />
+          <ErrorMessage class="text-[#F15524] text-base ml-1.25" name="description.ka" />
         </div>
         <movie-image
           :onFileChangeParent="onFileChange"

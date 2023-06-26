@@ -2,16 +2,16 @@ import { createRouter, createWebHistory } from 'vue-router'
 import TheLanding from '../views/TheLanding.vue'
 import NewsFeed from '../views/NewsFeed.vue'
 import axios from '../config/axios'
-import { useEmailStore } from '../stores/email/index'
-import { useUserStore } from '../stores/user/index'
-import MovieList from '../views/MovieList.vue'
-import TheProfile from '../views/TheProfile.vue'
-import TheMovie from '../views/TheMovie.vue'
 import ForbiddenError from '../views/ForbiddenError.vue'
 import NotFoundError from '../views/NotFoundError.vue'
+import { useEmailStore } from '../stores/email'
+import { emailModalGuard, emailVerifiedGuard, authGuard } from './guards'
+
+const MovieList = () => import('../views/MovieList.vue')
+const TheProfile = () => import('../views/TheProfile.vue')
+const TheMovie = () => import('../views/TheMovie.vue')
 
 const router = createRouter({
-  // history: createWebHistory(import.meta.env.BASE_URL),
   history: createWebHistory(),
   routes: [
     {
@@ -24,30 +24,32 @@ const router = createRouter({
       path: '/news-feed',
       name: 'feed',
       component: NewsFeed,
-      meta: { requiresAuth: true, requiresVerifiedEmail: true }
+      meta: { requiresAuth: true }
     },
     {
       path: '/movie-list',
       name: 'movies',
       component: MovieList,
-      meta: { requiresAuth: true, requiresVerifiedEmail: true }
+      meta: { requiresAuth: true }
     },
     {
       path: '/movie/:id',
       name: 'movie',
       component: TheMovie,
-      meta: { requiresAuth: true, requiresVerifiedEmail: true }
+      meta: { requiresAuth: true }
     },
     {
       path: '/my-profile',
       name: 'profile',
       component: TheProfile,
-      meta: { requiresAuth: true, requiresVerifiedEmail: true }
+      meta: { requiresAuth: true }
     },
     {
       path: '/email/verify/:id/:hash',
       component: TheLanding,
       beforeEnter: (to, from, next) => {
+        const emailStore = useEmailStore()
+        console.log(emailStore.expired)
         const { id, hash } = to.params
         const { expires, signature } = to.query
         axios
@@ -63,6 +65,9 @@ const router = createRouter({
           })
           .catch((error) => {
             console.log(error)
+            if (error) {
+              emailStore.expired = true
+            }
             next()
           })
       }
@@ -73,7 +78,6 @@ const router = createRouter({
       beforeEnter: (to, from, next) => {
         const { id, hash, token } = to.params
         const { expires, signature } = to.query
-        console.log(token)
         axios
           .get(`api/email-change/verify/${id}/${hash}/${token}`, {
             params: {
@@ -99,7 +103,8 @@ const router = createRouter({
     {
       path: '/forbidden',
       name: 'forbidden',
-      component: ForbiddenError
+      component: ForbiddenError,
+      meta: { guest: true }
     },
     {
       path: '/:pathMatch(.*)*',
@@ -109,47 +114,8 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach(async (to, from, next) => {
-  const userStore = useUserStore()
-  if (to.meta.requiresAuth) {
-    await userStore.fetchUser()
-
-    if (userStore.user && userStore.userVerified) {
-      next()
-    } else {
-      next('/forbidden')
-    }
-  } else if (to.meta.guest) {
-    await userStore.fetchUser()
-
-    if (userStore.user && userStore.userVerified && !userStore.loggedOut) {
-      next('/news-feed')
-    } else {
-      next()
-    }
-  } else {
-    next()
-  }
-})
-
-router.beforeEach(async (to, from, next) => {
-  const store = useEmailStore()
-  if (to.query.email_verified) {
-    store.setEmailVerified(true)
-  }
-  next()
-})
-
-router.beforeEach(async (to, from, next) => {
-  const store = useEmailStore()
-  if (to.query.email && to.query.modal === 'true') {
-    store.setEmail(true)
-  }
-  if (to.query.email && to.query.modal === 'false') {
-    store.setEmail(false)
-  }
-
-  next()
-})
+router.beforeEach(authGuard)
+router.beforeEach(emailVerifiedGuard)
+router.beforeEach(emailModalGuard)
 
 export default router

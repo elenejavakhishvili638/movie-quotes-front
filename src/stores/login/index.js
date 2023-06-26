@@ -9,7 +9,8 @@ export const useLoginStore = defineStore({
       username: '',
       password: '',
       remember: null
-    }
+    },
+    errors: {}
   }),
   actions
 })

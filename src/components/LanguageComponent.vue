@@ -1,7 +1,6 @@
 <script setup>
-import Vector from '../assets/images/logos/Vector.png'
 import { computed, ref } from 'vue'
-
+import IconVector from './icons/IconVector.vue'
 import { useLanguageStore } from '../stores/language/index'
 
 const props = defineProps(['type'])
@@ -28,18 +27,18 @@ const toggleLang = () => {
 </script>
 
 <template>
-  <div class="ml-[10px] flex justify-center items-center">
+  <div class="ml-0.625 flex justify-center items-center">
     <div @click="toggleLang" class="flex items-center gap-2">
       <p class="text-white">{{ language.display }}</p>
-      <img :src="Vector" />
+      <IconVector></IconVector>
     </div>
 
     <div
       v-show="showLang"
       :class="langMargin"
-      class="absolute border-1 bg-slate-500 px-12 py-3 rounded-lg"
+      class="absolute border-1 bg-slate-500 px-[3rem] py-0.75 rounded-lg sm:right-[0.75rem] md:right-auto"
     >
-      <div class="flex flex-col gap-[10px]">
+      <div class="flex flex-col gap-2">
         <button class="text-white" @click="changeLanguage('en', 'Eng')">Eng</button>
         <button class="text-white" @click="changeLanguage('ka', 'ქარ')">ქარ</button>
       </div>

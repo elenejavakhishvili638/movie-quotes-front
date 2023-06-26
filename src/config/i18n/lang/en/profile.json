@@ -1,0 +1,21 @@
+{
+    "profile": "Profile",
+    "upload_photo": "Upload new photo",
+    "username": "Username",
+    "new_username": "New username",
+    "email": "Email",
+    "new_email": "New Email",
+    "password": "Password",
+    "new_password": "New password",
+    "confirm_password": "Confirm new password",
+    "edit": "Edit",
+    "username_should_contain": "Username should contain:",
+    "password_should_contain": "Password should contain:",
+    "more_chars": "or more character",
+    "lowercase": "lowercase character",
+    "cancel": "Cancel",
+    "save_changes": "Save changes",
+    "confirm": "confirm",
+    "make_changes": "Are you sure to make changes ?",
+    "changes_success": "Changes updated succsessfully"
+}

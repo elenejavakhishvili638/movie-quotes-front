@@ -1,3 +1,29 @@
+<script setup>
+import { onMounted, computed } from 'vue'
+import { useUserStore } from './stores/user'
+import instantiatePusher from './helpers/instantiatePusher'
+import { useNotificationStore } from './stores/notification'
+
+const userStore = useUserStore()
+const notificationStore = useNotificationStore()
+const notifications = computed(() => notificationStore.$state.notifications)
+
+onMounted(async function () {
+  instantiatePusher()
+  const response = await userStore.fetchUserData()
+  if (response.data.data) {
+    window.Echo.private(`notifications.${response.data.data.id}`).listen(
+      'NotificationReceived',
+      (data) => {
+        if (data) {
+          notifications.value.unshift(data.notifications)
+        }
+      }
+    )
+  }
+})
+</script>
+
 <template>
   <div class="w-screen">
     <router-view v-slot="slotProps">

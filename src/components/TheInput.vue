@@ -1,25 +1,33 @@
 <script setup>
 import { Field, ErrorMessage, useField } from 'vee-validate'
 import { ref, watch, computed } from 'vue'
-import error from '../assets/images/logos/error.png'
-import valid from '../assets/images/logos/valid.png'
-import { useAuthStore } from '../stores/registration'
+import IconValid from './icons/IconValid.vue'
+import IconError from './icons/IconError.vue'
 import { useLanguageStore } from '../stores/language/index'
 
-const props = defineProps(['placeholder', 'label', 'name', 'type', 'validate', 'modelValue'])
+const props = defineProps([
+  'placeholder',
+  'label',
+  'name',
+  'type',
+  'validate',
+  'modelValue',
+  'errors'
+])
 const emit = defineEmits(['update:modelValue'])
-const authStore = useAuthStore()
 const internalValue = ref(props.modelValue)
-const errors = computed(() => authStore.$state.errors)
 const languageStore = useLanguageStore()
 
-const { meta } = useField(props.name)
+const { meta } = useField(() => props.name)
 
 watch(internalValue, (newValue) => {
   emit('update:modelValue', newValue)
 })
 
 const inputClass = computed(() => {
+  if (props.errors[props.name]) {
+    return 'border border-red'
+  }
   if (meta.touched && meta.valid) {
     return 'border border-[#198754]'
   } else if (meta.touched && !meta.valid) {
@@ -30,16 +38,16 @@ const inputClass = computed(() => {
 })
 
 const img = computed(() => {
-  if (errors.value[props.name]) {
-    return error
+  if (props.errors[props.name]) {
+    return IconError
   }
 
   if (meta.touched && meta.valid) {
-    return valid
+    return IconValid
   } else if (meta.touched && !meta.valid) {
-    return error
+    return IconError
   } else {
-    return ''
+    return null
   }
 })
 
@@ -47,26 +55,26 @@ const language = computed(() => languageStore.currentLanguage)
 </script>
 
 <template>
-  <div class="flex flex-col mb-[16px]">
-    <label class="mb-[8px] text-base">{{ label }}</label>
+  <div class="flex flex-col mb-1">
+    <label class="mb-0.5 text-base">{{ label }}</label>
     <div
       :class="inputClass"
-      class="relative z-0 flex items-center justify-between h-[38px] bg-[#CED4DA] rounded-[4px] focus:shadow-custom-focus"
+      class="relative z-0 flex items-center justify-between h-2.375 bg-[#CED4DA] rounded focus:shadow-custom-focus"
     >
       <Field
-        class="bg-transparent w-full outline-none py-[7px] pl-[13px] rounded-[4px]"
-        :placeholder="placeholder"
-        :name="name"
-        :type="type"
-        :rules="validate"
+        class="bg-transparent w-full outline-none py-0.438 pl-0.813 rounded"
+        :placeholder="props.placeholder"
+        :name="props.name"
+        :type="props.type"
+        :rules="props.validate"
         autocomplete="off"
         v-model="internalValue"
       />
-      <img class="mr-[12px] absolute right-0" :src="img" />
+      <component class="absolute mr-0.75 right-0" v-bind:is="img"></component>
     </div>
-    <p class="text-[#F15524] text-base ml-[20px] mt-[16px]" v-if="errors">
+    <p class="text-[#F15524] text-base mt-[0.375rem]" v-if="errors">
       {{ errors[props.name] && errors[props.name][0][language] }}
     </p>
-    <ErrorMessage class="text-[#F15524] text-base mt-[6px] ml-[20px]" :name="name" />
+    <ErrorMessage class="text-[#F15524] text-base mt-[0.375rem]" :name="name" />
   </div>
 </template>

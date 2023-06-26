@@ -1,7 +1,7 @@
 <script setup>
 import FeedHeader from '../components/FeedHeader.vue'
-import com from '../assets/images/logos/com.png'
-import search from '../assets/images/logos/search.png'
+import IconChatQuote from '../components/icons/IconChatQuote.vue'
+import IconSearch from '../components/icons/IconSearch.vue'
 import { onMounted, computed, ref, watch } from 'vue'
 import { useMoviesStore } from '../stores/movies/index'
 import { useLanguageStore } from '../stores/language/index'
@@ -9,7 +9,7 @@ import ProfileSidebar from '../components/ProfileSidebar.vue'
 import { useUserStore } from '../stores/user/index'
 import NewMovie from '../components/NewMovie.vue'
 import ModalLayout from '../components/ModalLayout.vue'
-import plus from '../assets/images/logos/plus.png'
+import IconPlus from '../components/icons/IconPlus.vue'
 
 const moviesStore = useMoviesStore()
 const languageStore = useLanguageStore()
@@ -46,9 +46,9 @@ const user = computed(() => userStore.$state.user)
 </script>
 
 <template>
-  <div class="background min-h-135 pb-8">
-    <modal-layout v-if="addMovie" :close="closeMovie">
-      <new-movie :username="user.username" :closeMovie="closeMovie"></new-movie>
+  <div class="background min-h-135 pb-2">
+    <modal-layout v-if="addMovie">
+      <new-movie :image="user.image" :username="user.username" :closeMovie="closeMovie"></new-movie>
     </modal-layout>
     <feed-header :searchBar="false"></feed-header>
     <div class="md:flex md:ml-2.5 lg:ml-4.5">
@@ -57,13 +57,13 @@ const user = computed(() => userStore.$state.user)
       </div>
       <div class="mt-1 mx-2 md:mr-4.5 text-white flex flex-col justify-center md:w-[75%] md:ml-8">
         <div class="flex justify-between mb-2">
-          <div class="text-white mb-[34px]">
+          <div class="text-white mb-2">
             <h1 class="text-2xl">{{ $t('movie.my_list') }}</h1>
             <p>{{ $t('movie.total') }} ({{ moviesStore.totalMovies }})</p>
           </div>
           <div class="flex items-center">
             <div class="mr-2 hidden md:flex md:ml-1.5">
-              <img :src="search" class="mr-1" />
+              <IconSearch class="mr-1"></IconSearch>
               <input
                 v-model="searchTerm"
                 @input="fetchMovies"
@@ -72,10 +72,11 @@ const user = computed(() => userStore.$state.user)
               />
             </div>
             <button
-              class="w-8.75 h-2.6 rounded bg-red flex items-center justify-center"
+              class="w-8.75 h-2.6 rounded bg-red flex items-center justify-center cursor-pointer"
               @click="openMovie"
             >
-              <img :src="plus" class="pr-2" /> {{ $t('movie.add_movie') }}
+              <IconPlus class="mr-0.25"></IconPlus>
+              {{ $t('movie.add_movie') }}
             </button>
           </div>
         </div>
@@ -94,7 +95,7 @@ const user = computed(() => userStore.$state.user)
                   </h1>
                   <div class="flex items-center gap-3">
                     <p>{{ movie.quotes && movie.quotes.length }}</p>
-                    <img :src="com" />
+                    <IconChatQuote></IconChatQuote>
                   </div>
                 </div>
               </router-link>
@@ -105,9 +106,3 @@ const user = computed(() => userStore.$state.user)
     </div>
   </div>
 </template>
-
-<style scoped>
-.background {
-  background: linear-gradient(187.16deg, #181623 0.07%, #191725 51.65%, #0d0b14 98.75%);
-}
-</style>

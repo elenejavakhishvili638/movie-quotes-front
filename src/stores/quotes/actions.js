@@ -5,7 +5,8 @@ import {
   deleteQuote,
   editQuote,
   like,
-  unlike
+  unlike,
+  fetchQuote
 } from '../../services'
 import { useMoviesStore } from '../movies'
 
@@ -29,7 +30,6 @@ export default {
     try {
       const response = await fetchQuotes(1)
       this.quoteList = response.data
-      console.log(response.data)
     } catch (error) {
       console.log(error)
     }
@@ -42,12 +42,17 @@ export default {
       if (foundQuote) {
         this.quote = foundQuote
       }
-      // else {
-      //   const response = await fetchQuote(id)
-      //   this.quote = response.data
-      // }
     } catch (error) {
       console.error(error)
+    }
+  },
+
+  async fetchQuoteId(id) {
+    try {
+      const response = await fetchQuote(id)
+      this.quote = response.data.data
+    } catch (error) {
+      console.log(error)
     }
   },
 
@@ -69,9 +74,19 @@ export default {
     }
   },
 
-  async addComment(data, id) {
+  async addComment(data, id, type) {
+    const movieStore = useMoviesStore()
     try {
-      await addComment(data, id)
+      if (type === 'movie') {
+        const foundQuote = movieStore.movie.quotes.find((quote) => quote.id === id)
+        foundQuote.comments.push(data)
+        await addComment(data, id)
+        await this.fetchQuoteId(id)
+      } else {
+        const foundQuote = this.quoteList.find((quote) => quote.id === id)
+        foundQuote.comments.push(data)
+        await addComment(data, id)
+      }
       this.addedComment = {
         body: '',
         user_id: null
@@ -93,28 +108,49 @@ export default {
     try {
       await editQuote(data, id)
       await this.fetchQuote(id)
-      // console.log(id)
-      // for (let [key, value] of data.entries()) {
-      //   console.log(`${key}: ${value}`)
-      // }
     } catch (err) {
       console.log(err)
     }
   },
 
-  async likeQuote(id, data) {
+  async likeQuote(id, data, type) {
+    const movieStore = useMoviesStore()
     try {
-      await like(id, data)
-      await this.fetchFullList()
+      if (type === 'movie') {
+        const foundQuote = movieStore.movie.quotes.find((quote) => quote.id === id)
+        foundQuote.likes.push(data)
+        await like(id, data)
+      } else {
+        const foundQuote = this.quoteList.find((quote) => quote.id === id)
+        foundQuote.likes.push(data)
+        await like(id, data)
+        await this.fetchFullList()
+      }
     } catch (error) {
       console.log(error)
     }
   },
 
-  async unlikeQuote(id) {
+  async unlikeQuote(id, data, type) {
+    const movieStore = useMoviesStore()
+    const { user_id } = data
     try {
-      await unlike(id)
-      await this.fetchFullList()
+      if (type === 'movie') {
+        const foundQuote = movieStore.movie.quotes.find((quote) => quote.id === id)
+        const likeIndex = foundQuote.likes.findIndex((like) => like.user_id === user_id)
+        if (likeIndex !== -1) {
+          foundQuote.likes.splice(likeIndex, 1)
+        }
+        await unlike(id)
+      } else {
+        const foundQuote = this.quoteList.find((quote) => quote.id === id)
+        const likeIndex = foundQuote.likes.findIndex((like) => like.user_id === user_id)
+        if (likeIndex !== -1) {
+          foundQuote.likes.splice(likeIndex, 1)
+        }
+        await unlike(id)
+        await this.fetchFullList()
+      }
     } catch (error) {
       console.log(error)
     }

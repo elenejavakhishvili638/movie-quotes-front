@@ -8,13 +8,10 @@ export default {
       this.form.email = ''
       this.form.password = ''
       this.form.password_confirmation = ''
-      console.log(this.form)
       this.errors = {}
     } catch (error) {
       if (error.response && error.response.data && error.response.data.errors) {
-        console.log(error.response.data.errors)
         this.errors = error.response.data.errors
-        console.log(this.errors)
       } else {
         console.log(error)
       }
