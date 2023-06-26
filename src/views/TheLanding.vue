@@ -12,6 +12,7 @@ import { useRoute, useRouter } from 'vue-router'
 import TheModal from '../components/TheModal.vue'
 import email from '../assets/images/logos/email.png'
 import verified from '../assets/images/logos/verifed.png'
+import expiredIcon from '../assets/images/logos/expired.png'
 import { useEmailStore } from '../stores/email/index'
 import ForgotPassword from '../components/ForgotPassword.vue'
 import ResetPassword from '../components/ResetPassword.vue'
@@ -94,8 +95,13 @@ watch(
   }
 )
 
+const resend = () => {
+  store.resend()
+}
+
 const emailForPasswordReset = computed(() => store.email)
 const emailVerified = computed(() => store.emailVerified)
+const expired = computed(() => store.expired)
 </script>
 
 <template>
@@ -123,6 +129,20 @@ const emailVerified = computed(() => store.emailVerified)
           class="text-center w-11.875 rounded-lg bg-red text-white h-2.375 pt-0.5"
           >{{ $t('modals.button_two') }}</router-link
         >
+      </the-modal>
+    </form-layout>
+    <form-layout :close="closeModal" v-if="expired">
+      <the-modal
+        :icon="expiredIcon"
+        :header="$t('modals.header_four')"
+        :text="$t('modals.text_five')"
+      >
+        <button
+          class="text-cen ter w-11.875 rounded-lg bg-red text-white h-2.375 pt-0.25"
+          @click="resend"
+        >
+          {{ $t('modals.button_four') }}
+        </button>
       </the-modal>
     </form-layout>
     <form-layout :close="closeLogin" v-if="showLogin">

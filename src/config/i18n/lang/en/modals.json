@@ -9,5 +9,8 @@
     "button_three": "Log in",
     "header_three": "Check your email",
     "footer": "Skip, I’ll confirm later",
-    "text_four": "We have sent a password recover instructions to your email"
+    "text_four": "We have sent a password recover instructions to your email",
+    "header_four": "Link expired!",
+    "text_five": "Login link has expired, because you haven’t used it",
+    "button_four": "Request another link"
 }

@@ -95,6 +95,7 @@ const onSubmit = async () => {
     }
 
     await quoteStore.addQuote(formData)
+    await moviesStore.fetchFullList()
     props.closeQuote()
   } catch (error) {
     console.log(error)

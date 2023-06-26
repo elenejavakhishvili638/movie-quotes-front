@@ -4,6 +4,7 @@ import NewsFeed from '../views/NewsFeed.vue'
 import axios from '../config/axios'
 import ForbiddenError from '../views/ForbiddenError.vue'
 import NotFoundError from '../views/NotFoundError.vue'
+import { useEmailStore } from '../stores/email'
 import { emailModalGuard, emailVerifiedGuard, authGuard } from './guards'
 
 const MovieList = () => import('../views/MovieList.vue')
@@ -47,6 +48,8 @@ const router = createRouter({
       path: '/email/verify/:id/:hash',
       component: TheLanding,
       beforeEnter: (to, from, next) => {
+        const emailStore = useEmailStore()
+        console.log(emailStore.expired)
         const { id, hash } = to.params
         const { expires, signature } = to.query
         axios
@@ -62,6 +65,9 @@ const router = createRouter({
           })
           .catch((error) => {
             console.log(error)
+            if (error) {
+              emailStore.expired = true
+            }
             next()
           })
       }
@@ -97,7 +103,8 @@ const router = createRouter({
     {
       path: '/forbidden',
       name: 'forbidden',
-      component: ForbiddenError
+      component: ForbiddenError,
+      meta: { guest: true }
     },
     {
       path: '/:pathMatch(.*)*',

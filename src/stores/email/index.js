@@ -6,7 +6,8 @@ export const useEmailStore = defineStore({
   id: 'verification',
   state: () => ({
     emailVerified: false,
-    email: false
+    email: false,
+    expired: false
   }),
   actions
 })

@@ -293,3 +293,14 @@ export async function markAllAsRead() {
     console.log(error)
   }
 }
+
+export async function resendEmail() {
+  try {
+    await axios.get('/sanctum/csrf-cookie')
+    await axios.post('/api/email/resend', {
+      withCredentials: true
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
