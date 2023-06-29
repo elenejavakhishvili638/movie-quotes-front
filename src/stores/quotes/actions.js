@@ -50,7 +50,7 @@ export default {
   async fetchQuoteId(id) {
     try {
       const response = await fetchQuote(id)
-      this.quote = response.data.data
+      this.quote = response.data
     } catch (error) {
       console.log(error)
     }
@@ -120,6 +120,7 @@ export default {
         const foundQuote = movieStore.movie.quotes.find((quote) => quote.id === id)
         foundQuote.likes.push(data)
         await like(id, data)
+        await movieStore.fetchFullList()
       } else {
         const foundQuote = this.quoteList.find((quote) => quote.id === id)
         foundQuote.likes.push(data)

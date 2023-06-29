@@ -56,7 +56,7 @@ const language = computed(() => languageStore.currentLanguage)
 
 <template>
   <div class="flex flex-col mb-1">
-    <label class="mb-0.5 text-base">{{ label }}</label>
+    <label class="mb-0.5 text-base">{{ label }}<span class="text-red"> *</span></label>
     <div
       :class="inputClass"
       class="relative z-0 flex items-center justify-between h-2.375 bg-[#CED4DA] rounded focus:shadow-custom-focus"

@@ -112,10 +112,10 @@ const language = computed(() => languageStore.currentLanguage)
     </modal-layout>
     <feed-header :toggleSearch="toggleSearch" :searchBar="true"></feed-header>
     <div class="md:flex md:ml-2.5 lg:ml-4.5">
-      <div class="hidden md:block text-white w-14.5">
+      <div class="hidden md:block text-white sm:w-[25%] md:ml-2">
         <profile-sidebar></profile-sidebar>
       </div>
-      <div class="md:ml-6.25 2xl:ml-14.25 md:mt-1">
+      <div class="md:ml-6.25 2xl:ml-[5rem] md:mt-1">
         <div class="h-6 md:h-3.25 flex items-center md:mb-2" @click.stop="increase">
           <div
             @click.stop="openQuote"

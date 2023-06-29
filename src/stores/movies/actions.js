@@ -33,7 +33,7 @@ export default {
         this.movie = foundMovie
       } else {
         const response = await fetchMovie(id)
-        this.movie = response.data.data
+        this.movie = response.data
       }
     } catch (error) {
       console.error(error)
@@ -43,7 +43,7 @@ export default {
   async fetchMovieId(id) {
     try {
       const response = await fetchMovie(id)
-      this.movie = response.data.data
+      this.movie = response.data
     } catch (error) {
       console.error(error)
     }
@@ -52,7 +52,7 @@ export default {
   async updateMovie(id) {
     try {
       const response = await fetchMovie(id)
-      this.movie = response.data.data
+      this.movie = response.data
     } catch (error) {
       console.error(error)
     }
