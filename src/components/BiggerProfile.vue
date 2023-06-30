@@ -7,6 +7,8 @@ import TheInput from '../components/TheInput.vue'
 import ProfileValidation from './ProfileValidation.vue'
 import { useLanguageStore } from '../stores/language/index'
 import { useNotificationStore } from '../stores/notification'
+import IconTick from './icons/IconTick.vue'
+import IconExit from './icons/IconExit.vue'
 
 const props = defineProps(['username', 'email', 'google', 'user'])
 
@@ -15,6 +17,7 @@ const newUsername = ref(false)
 const newEmail = ref(false)
 const newPassword = ref(false)
 const openButtons = ref(false)
+const successModal = ref(false)
 const userStore = useUserStore()
 const updateUserStore = useUpdateUserStore()
 const languageStore = useLanguageStore()
@@ -51,6 +54,7 @@ const onFileChange = async (e) => {
     formData.append('user_id', props.user.id)
     formData.append('image', imageUrl.value)
     await updateUserStore.updateUser(formData, props.user.id)
+    successModal.value = true
     await userStore.fetchUser('edit')
   } catch (error) {
     console.log(error)
@@ -105,17 +109,32 @@ const onSubmit = async () => {
 
   await updateUserStore.updateUser(data, props.user.id)
   await userStore.fetchUser('edit')
-  newUsername.value = false
-  newEmail.value = false
-  newPassword.value = false
-  openButtons.value = false
+  if (Object.keys(errors.value).length === 0) {
+    successModal.value = true
+    newUsername.value = false
+    newEmail.value = false
+    newPassword.value = false
+    openButtons.value = false
+  }
+}
+
+const closeSuccessModal = () => {
+  successModal.value = false
 }
 
 const language = computed(() => languageStore.currentLanguage)
 </script>
 
 <template>
-  <div class="">
+  <div>
+    <div
+      v-if="successModal"
+      class="bg-[#BADBCC] top-[38%] left-[43%] absolute z-10 w-26 h-14 flex items-center justify-around rounded"
+    >
+      <IconTick></IconTick>
+      <p class="text-[#0F5132] text-base">{{ $t('profile.changes_success') }}</p>
+      <IconExit @click="closeSuccessModal" class="cursor-pointer"></IconExit>
+    </div>
     <p class="ml-3.813 mb-7.938 mt-2 text-2xl font-medium">{{ $t('profile.profile') }}</p>
     <Form class="md:w-37.5 xl:w-62.375 bg-[#11101A] flex flex-col items-center" @submit="onSubmit">
       <div
@@ -206,9 +225,6 @@ const language = computed(() => languageStore.currentLanguage)
                 :errors="errors"
               >
               </the-input>
-              <p class="text-[#F15524] text-base ml-1.25 mt-1" v-if="errors">
-                {{ errors['email'] && errors['email'][0][language] }}
-              </p>
             </div>
           </div>
           <div class="flex flex-col" v-if="props.google === null">

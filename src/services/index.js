@@ -168,6 +168,7 @@ export async function editMovie(data, id) {
     })
   } catch (error) {
     console.log(error)
+    throw error
   }
 }
 

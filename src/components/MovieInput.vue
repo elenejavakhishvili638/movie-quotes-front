@@ -1,15 +1,12 @@
 <script setup>
 import { Field, ErrorMessage } from 'vee-validate'
 import { ref, watch, computed } from 'vue'
-import { useMoviesStore } from '../stores/movies'
 import { useLanguageStore } from '../stores/language/index'
 
-const props = defineProps(['name', 'modelValue', 'label', 'lang', 'type', 'validate'])
+const props = defineProps(['name', 'modelValue', 'label', 'lang', 'type', 'validate', 'errors'])
 const emit = defineEmits(['update:modelValue'])
 
 const internalValue = ref(props.modelValue)
-const movieStore = useMoviesStore()
-const errors = computed(() => movieStore.$state.errors)
 const languageStore = useLanguageStore()
 
 watch(
@@ -42,8 +39,8 @@ const language = computed(() => languageStore.currentLanguage)
       />
       <p class="absolute right-5 text-[#6C757D]">{{ lang }}</p>
     </div>
-    <p class="text-[#F15524] text-base ml-1.25" v-if="errors">
-      {{ errors[props.name] && errors[props.name][0][language] }}
+    <p class="text-[#F15524] text-base ml-1.25" v-if="props.errors">
+      {{ props.errors[props.name] && props.errors[props.name][0][language] }}
     </p>
     <ErrorMessage class="text-[#F15524] text-base ml-1.25" :name="name" />
   </div>

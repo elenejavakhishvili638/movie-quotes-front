@@ -50,16 +50,18 @@ export default {
   async fetchQuoteId(id) {
     try {
       const response = await fetchQuote(id)
-      this.quote = response.data.data
+      this.quote = response.data
     } catch (error) {
       console.log(error)
     }
   },
 
   async addQuote(data) {
+    const movieStore = useMoviesStore()
     try {
       await addQuote(data)
       await this.fetchFullList()
+      await movieStore.fetchFullList()
       this.addedQuote = {
         user_id: null,
         movie_id: null,
@@ -97,17 +99,21 @@ export default {
   },
 
   async deleteQuote(id) {
+    const movieStore = useMoviesStore()
     try {
       await deleteQuote(id)
+      await movieStore.fetchFullList()
     } catch (error) {
       console.log(error)
     }
   },
 
   async editQuote(data, id) {
+    const movieStore = useMoviesStore()
     try {
       await editQuote(data, id)
       await this.fetchQuote(id)
+      await movieStore.fetchFullList()
     } catch (err) {
       console.log(err)
     }
@@ -120,6 +126,7 @@ export default {
         const foundQuote = movieStore.movie.quotes.find((quote) => quote.id === id)
         foundQuote.likes.push(data)
         await like(id, data)
+        await movieStore.fetchFullList()
       } else {
         const foundQuote = this.quoteList.find((quote) => quote.id === id)
         foundQuote.likes.push(data)

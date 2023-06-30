@@ -4,8 +4,8 @@ export default {
   async loginUser(payload) {
     try {
       await loginUser(payload)
+      this.errors = {}
     } catch (error) {
-      console.log(error.response)
       if (error.response && error.response.data && error.response.data.errors) {
         this.errors = error.response.data.errors
         for (let field in this.errors) {

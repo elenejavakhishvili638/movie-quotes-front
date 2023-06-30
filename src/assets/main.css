@@ -6,6 +6,13 @@
   display: none;
 }
 
+@font-face {
+  font-family: 'hel';
+  src: url('../assets/fonts/hell.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
 body {
+  font-family: 'hel';
   background: linear-gradient(187.16deg, #181623 0.07%, #191725 51.65%, #0d0b14 98.75%);
 }

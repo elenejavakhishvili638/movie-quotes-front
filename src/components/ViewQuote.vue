@@ -83,7 +83,7 @@ const uploadedImage = ref(
 )
 
 const getImagePath = (image) => {
-  return image.startsWith('images') ? path + '/storage/' + image : image
+  return image && image.startsWith('images') ? path + '/storage/' + image : image
 }
 
 const displayedComments = computed(() => {

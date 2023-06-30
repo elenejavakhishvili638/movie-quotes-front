@@ -85,7 +85,7 @@ const deleteQuote = async () => {
     await quoteStore.deleteQuote(props.id)
     const movieId = route.params.id
     await moviesStore.updateMovie(movieId)
-    props.closeViewQuote()
+    props.closeEditQuote()
   } catch (error) {
     console.log(error)
   }

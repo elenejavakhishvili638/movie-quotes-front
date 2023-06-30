@@ -26,6 +26,7 @@ const isDragging = ref(false)
 const tagGenres = ref([...genreNames])
 const uploadedImageUrl = ref(path + '/storage/' + movieForm.value.image)
 const form = useForm()
+const errors = computed(() => movieStore.$state.editErrors)
 
 const {
   value: tagGenresField,
@@ -110,7 +111,10 @@ const onSubmit = async () => {
     }
 
     await movieStore.editMovie(formData, id)
-    props.closeMovie()
+    if (Object.keys(errors.value).length === 0) {
+      await movieStore.fetchFullList()
+      props.closeMovie()
+    }
   } catch (error) {
     console.log(error)
   }
@@ -178,19 +182,21 @@ const uploadedImage = ref(
       <Form @submit="onSubmit" class="flex flex-col gap-6">
         <movie-input
           v-model="movieForm.title.en"
-          name="title_en"
+          name="title.en"
           label="Movie name"
           lang="Eng"
           type="text"
           validate="required"
+          :errors="errors"
         ></movie-input>
         <movie-input
           v-model="movieForm.title.ka"
-          name="title_ka"
+          name="title.ka"
           label="ფილმის სახელი"
           lang="ქარ"
           type="text"
           validate="required"
+          :errors="errors"
         ></movie-input>
         <genre-component
           :error="tagGenresError"
@@ -208,7 +214,7 @@ const uploadedImage = ref(
         ></movie-input>
         <movie-input
           v-model="movieForm.director.en"
-          name="director_en"
+          name="director.en"
           label="Director"
           lang="Eng"
           type="text"
@@ -216,7 +222,7 @@ const uploadedImage = ref(
         ></movie-input>
         <movie-input
           v-model="movieForm.director.ka"
-          name="director_ka"
+          name="director.ka"
           label="რეჟისორი"
           lang="ქარ"
           type="text"
@@ -225,7 +231,7 @@ const uploadedImage = ref(
         <div>
           <movie-textarea
             validate="required"
-            name="description_en"
+            name="description.en"
             rows="4"
             v-model="movieForm.description.en"
             label="Movie Description :"
@@ -236,7 +242,7 @@ const uploadedImage = ref(
         <div>
           <movie-textarea
             validate="required"
-            name="description_ka"
+            name="description.ka"
             rows="4"
             v-model="movieForm.description.ka"
             label="ფილმის აღწერა :"

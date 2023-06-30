@@ -6,7 +6,7 @@ import updatePassword from './updatePassword.json'
 import feed from './feed.json'
 import movie from './movie.json'
 import profile from './profile.json'
-import notifications from "./notifications.json"
+import notifications from './notifications.json'
 
 const translations = {
   texts,

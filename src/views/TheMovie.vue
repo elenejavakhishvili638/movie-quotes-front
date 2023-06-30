@@ -19,6 +19,7 @@ import ViewQuote from '../components/ViewQuote.vue'
 import ModalLayout from '../components/ModalLayout.vue'
 import EditQuote from '../components/EditQuote.vue'
 import IconPlus from '../components/icons/IconPlus.vue'
+import { useNotificationStore } from '../stores/notification'
 
 const moviesStore = useMoviesStore()
 const route = useRoute()
@@ -26,6 +27,7 @@ const router = useRouter()
 const userStore = useUserStore()
 const quoteStore = useQuotesStore()
 const languageStore = useLanguageStore()
+const notificationStore = useNotificationStore()
 const movie = computed(() => moviesStore.$state.movie)
 let path = import.meta.env.VITE_BACKEND_URL
 
@@ -217,7 +219,15 @@ const user = computed(() => userStore.$state.user)
             </p>
           </div>
         </div>
-        <div v-if="!editMovie && !addQuote && !viewQuote && !editQuote">
+        <div
+          v-if="
+            !editMovie &&
+            !addQuote &&
+            !viewQuote &&
+            !editQuote &&
+            !notificationStore.notificationOpen
+          "
+        >
           <div
             v-for="(quote, index) in movie.quotes"
             :key="quote.id"

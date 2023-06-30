@@ -11,7 +11,7 @@ export default {
   async fetchNotifications() {
     try {
       const response = await fetchNotifications()
-      this.notifications = response.data.data
+      this.notifications = response.data
     } catch (error) {
       console.log(error)
     }

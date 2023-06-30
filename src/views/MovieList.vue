@@ -52,7 +52,7 @@ const user = computed(() => userStore.$state.user)
     </modal-layout>
     <feed-header :searchBar="false"></feed-header>
     <div class="md:flex md:ml-2.5 lg:ml-4.5">
-      <div class="hidden md:block text-white sm:w-[25%] md:ml-2">
+      <div class="hidden md:block text-white md:ml-2">
         <profile-sidebar></profile-sidebar>
       </div>
       <div class="mt-1 mx-2 md:mr-4.5 text-white flex flex-col justify-center md:w-[75%] md:ml-8">
