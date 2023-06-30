@@ -6,6 +6,7 @@ import { useQuotesStore } from '../stores/quotes/index'
 import { useUserStore } from '../stores/user'
 import { computed, onMounted, ref } from 'vue'
 import { useNotificationStore } from '../stores/notification'
+import { useLanguageStore } from '../stores/language/index'
 
 const props = defineProps([
   'quote',
@@ -27,7 +28,8 @@ const commentForm = computed(() => quoteStore.$state.addedComment)
 const userId = computed(() => userStore.$state.user)
 const src = ref('white')
 const showAllcomments = ref(false)
-const commenText = ref('Show all comments')
+const commenText = ref(0)
+const languageStore = useLanguageStore()
 
 let path = import.meta.env.VITE_BACKEND_URL
 
@@ -95,12 +97,14 @@ const displayedComments = computed(() => {
 
 const showComments = () => {
   showAllcomments.value = !showAllcomments.value
-  if (commenText.value === 'Show all comments') {
-    commenText.value = 'Hide comments'
+  if (commenText.value === 0) {
+    commenText.value = 1
   } else {
-    commenText.value = 'Show all comments'
+    commenText.value = 0
   }
 }
+
+const language = computed(() => languageStore.currentLanguage)
 </script>
 
 <template>
@@ -134,7 +138,13 @@ const showComments = () => {
             <p>{{ props.likes.length }}</p>
             <IconHeart class="ml-0.75" @click="toggleLike" :filled-color="src"></IconHeart>
           </div>
-          <button class="ml-2" @click="showComments">{{ commenText }}</button>
+          <button
+            :class="language === 'ka' ? 'text-sm' : 'text-md'"
+            class="ml-1"
+            @click="showComments"
+          >
+            {{ commenText === 0 ? $t('feed.show_all_comments') : $t('feed.hide_comments') }}
+          </button>
         </div>
       </div>
       <div
@@ -142,16 +152,17 @@ const showComments = () => {
         :key="comment.id"
       >
         <div class="flex mt-2">
-          <div class="flex w-full flex-col items-start mb-0.875">
+          <div class="flex w-full flex-col md:flex-row items-start mb-0.875">
             <div class="flex items-center mb-1">
               <img
                 class="bg-[#D9D9D9] rounded-full w-10 h-10 mr-1.5 object-cover"
                 alt="name"
                 :src="comment.user && getImagePath(comment.user.image)"
               />
-              <p>{{ comment.user && comment.user.username }}</p>
+              <p class="md:hidden">{{ comment.user && comment.user.username }}</p>
             </div>
-            <div class="border-b border-color pb-2 w-full">
+            <div class="border-b border-color pb-[1rem] w-full">
+              <p class="hidden md:block md:mb-0.25">{{ comment.user && comment.user.username }}</p>
               <p>
                 {{ comment.body }}
               </p>

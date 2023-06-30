@@ -34,7 +34,7 @@ watch(tagGenres, () => {
 const user = computed(() => userStore.$state.user)
 const genres = computed(() => movieStore.$state.genres)
 const movieForm = computed(() => movieStore.$state.addedMovie)
-const errors = movieStore.$state.errors
+const errors = computed(() => movieStore.$state.errors)
 
 onMounted(async () => {
   try {
@@ -84,7 +84,7 @@ const onSubmit = async () => {
     }
 
     await movieStore.addMovie(formData)
-    if (Object.keys(errors).length === 0) {
+    if (Object.keys(errors.value).length === 0) {
       await movieStore.fetchFullList()
       props.closeMovie()
     }
@@ -160,6 +160,7 @@ const uploadedImage = ref(
           lang="Eng"
           type="text"
           validate="required|english"
+          :errors="errors"
         ></movie-input>
         <movie-input
           v-model="movieForm.title.ka"
@@ -168,6 +169,7 @@ const uploadedImage = ref(
           lang="ქარ"
           type="text"
           validate="required|georgian"
+          :errors="errors"
         ></movie-input>
         <genre-component
           :error="tagGenresError"

@@ -3,7 +3,9 @@ import { Field, ErrorMessage, useField } from 'vee-validate'
 import { ref, watch, computed } from 'vue'
 import IconValid from './icons/IconValid.vue'
 import IconError from './icons/IconError.vue'
+import CloseInput from './icons/CloseInput.vue'
 import { useLanguageStore } from '../stores/language/index'
+import ClosedEye from './icons/ClosedEye.vue'
 
 const props = defineProps([
   'placeholder',
@@ -17,11 +19,16 @@ const props = defineProps([
 const emit = defineEmits(['update:modelValue'])
 const internalValue = ref(props.modelValue)
 const languageStore = useLanguageStore()
+const isWriting = ref(false)
 
 const { meta } = useField(() => props.name)
 
 watch(internalValue, (newValue) => {
   emit('update:modelValue', newValue)
+})
+
+watch(internalValue, (newValue) => {
+  isWriting.value = newValue !== ''
 })
 
 const inputClass = computed(() => {
@@ -56,7 +63,9 @@ const language = computed(() => languageStore.currentLanguage)
 
 <template>
   <div class="flex flex-col mb-1">
-    <label class="mb-0.5 text-base">{{ label }}<span class="text-red"> *</span></label>
+    <label class="mb-0.5 text-base"
+      >{{ label }}<span class="text-red" v-if="!meta.valid"> *</span></label
+    >
     <div
       :class="inputClass"
       class="relative z-0 flex items-center justify-between h-2.375 bg-[#CED4DA] rounded focus:shadow-custom-focus"
@@ -70,7 +79,16 @@ const language = computed(() => languageStore.currentLanguage)
         autocomplete="off"
         v-model="internalValue"
       />
-      <component class="absolute mr-0.75 right-0" v-bind:is="img"></component>
+      <ClosedEye
+        v-if="props.name === 'password' || props.name === 'password_confirmation'"
+        class="absolute right-[1.8rem]"
+      ></ClosedEye>
+      <CloseInput
+        v-if="isWriting && props.name !== 'password' && props.name !== 'password_confirmation'"
+        class="absolute right-[1.8rem]"
+        @click="internalValue = ''"
+      ></CloseInput>
+      <component class="absolute mr-[0.5rem] right-0" v-bind:is="img"></component>
     </div>
     <p class="text-[#F15524] text-base mt-[0.375rem]" v-if="errors">
       {{ errors[props.name] && errors[props.name][0][language] }}

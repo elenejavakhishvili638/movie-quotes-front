@@ -109,11 +109,18 @@ export default {
 
   async editMovie(data, id) {
     try {
+      this.editErrors = {}
       await editMovie(data, id)
       await this.updateMovie(id)
       await this.fetchFullList()
-    } catch (err) {
-      console.log(err)
+    } catch (error) {
+      console.log(error)
+      if (error.response && error.response.data && error.response.data.errors) {
+        this.editErrors = error.response.data.errors
+        console.log(this.editErrors, error.response.data.errors)
+      } else {
+        console.log(error)
+      }
     }
   }
 }

@@ -55,6 +55,7 @@ const onFileChange = async (e) => {
 
     await updateUserStore.updateUser(formData, props.user.id)
     await userStore.fetchUser('edit')
+    successModal.value = true
   } catch (error) {
     console.log(error)
   }

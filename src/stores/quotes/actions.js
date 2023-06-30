@@ -57,9 +57,11 @@ export default {
   },
 
   async addQuote(data) {
+    const movieStore = useMoviesStore()
     try {
       await addQuote(data)
       await this.fetchFullList()
+      await movieStore.fetchFullList()
       this.addedQuote = {
         user_id: null,
         movie_id: null,
@@ -97,17 +99,21 @@ export default {
   },
 
   async deleteQuote(id) {
+    const movieStore = useMoviesStore()
     try {
       await deleteQuote(id)
+      await movieStore.fetchFullList()
     } catch (error) {
       console.log(error)
     }
   },
 
   async editQuote(data, id) {
+    const movieStore = useMoviesStore()
     try {
       await editQuote(data, id)
       await this.fetchQuote(id)
+      await movieStore.fetchFullList()
     } catch (err) {
       console.log(err)
     }
