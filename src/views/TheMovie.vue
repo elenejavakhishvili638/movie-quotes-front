@@ -204,7 +204,8 @@ const user = computed(() => userStore.$state.user)
         </div>
         <div class="md:flex md:mb-2.5 items-center">
           <button
-            class="mx-2.25 mb-2 md:mb-[0px] w-8.75 h-[2.375rem] rounded bg-red flex items-center justify-center cursor-pointer"
+            :class="language === 'ka' ? 'w-12' : ' w-8.75'"
+            class="mx-2.25 mb-2 md:mb-[0px] h-[2.375rem] rounded bg-red flex items-center justify-center cursor-pointer"
             @click="openQuote"
           >
             <IconPlus class="mr-1"></IconPlus>

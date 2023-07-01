@@ -39,7 +39,7 @@ export const theme = {
     0.438: '0.438rem',
     4: '4rem',
     2.75: '2.75rem',
-    1.25:'1.25rem',
+    1.25: '1.25rem',
     2: '2rem',
     5: '5rem',
     4.625: '4.625rem',
@@ -47,7 +47,7 @@ export const theme = {
     3.25: '3.25rem',
     0.75: '0.75rem',
     1: '1rem',
-    10:'10rem',
+    10: '10rem',
     1.563: '1.563rem',
     3.375: '3.375rem',
     4.563: '4.563rem',
@@ -63,7 +63,8 @@ export const theme = {
       'gradient-radial':
         'radial-gradient(ellipse at center, #11101A 0%, #08080D 50.52%, rgba(0, 0, 0, 0) 100%)',
       background: 'linear-gradient(180deg, #11101A 0%, #08080D 50.52%, rgba(0, 0, 0, 0) 100%)',
-      'union':" url('../assets/images/union.png')",
+      union: " url('../assets/images/union.png')",
+      backgroundColor: 'linear-gradient(187.16deg, #181623 0.07%, #191725 51.65%, #0D0B14 98.75%)'
     },
     boxShadow: {
       'custom-focus': '0 0 0 4px rgba(13, 110, 253, 0.25)'

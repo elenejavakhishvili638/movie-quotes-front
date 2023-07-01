@@ -72,7 +72,8 @@ const user = computed(() => userStore.$state.user)
               />
             </div>
             <button
-              class="w-8.75 h-2.6 rounded bg-red flex items-center justify-center cursor-pointer"
+              :class="language === 'ka' ? 'w-12' : ' w-8.75'"
+              class="h-2.6 rounded bg-red flex items-center justify-center cursor-pointer"
               @click="openMovie"
             >
               <IconPlus class="mr-0.25"></IconPlus>

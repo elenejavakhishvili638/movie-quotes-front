@@ -132,7 +132,7 @@ const showComments = () => {
       </div>
       <img
         :src="path + '/storage/' + quote.image"
-        class="w-22.375 h-18.875 rounded-xl self-center flex lg:w-56 lg:h-32.063"
+        class="w-22.375 h-18.875 rounded-xl self-center flex lg:w-56 lg:h-32.063 object-cover"
       />
       <div class="flex border-b border-color mt-[5.688] pb-1.5 text-xl">
         <div class="flex mr-1.5">
