@@ -11,6 +11,13 @@ defineRule('minmax', (value, [min, max]) => {
   return true
 })
 
+defineRule('minSymbols', (value, [min]) => {
+  if (!value || value.length < min) {
+    return false
+  }
+  return true
+})
+
 defineRule('lowercase_and_numbers_only', (value) => {
   return /^[a-z0-9]+$/.test(value)
 })

@@ -15,7 +15,8 @@ configure({
         lowercase_and_numbers_only: 'Only number and lower case latin symbols should be used',
         arrayNotEmpty: 'This field is required',
         english: 'This field should be in English',
-        georgian: 'This field should be in Georgian'
+        georgian: 'This field should be in Georgian',
+        minSymbols: 'This field must be more than 0:{min} characters'
       },
       names: {
         password_confirmation: 'Password',
@@ -34,7 +35,8 @@ configure({
         lowercase_and_numbers_only: 'ტექსტი უნდა შეიცავდეს მხოლოდ ლათინურ სიმბოლოებს და ციფრებს',
         arrayNotEmpty: 'გთხოვთ შეავსოთ მოცემული ველი',
         english: 'ველი უნდა შეიცავდეს მხოლოდ ინგლისურ ანბანს',
-        georgian: 'ველი უნდა შეიცავდეს მხოლოდ ქართულ ანბანს'
+        georgian: 'ველი უნდა შეიცავდეს მხოლოდ ქართულ ანბანს',
+        minSymbols: 'ველი უნდა შეიცავდეს მინიმუმ 0:{min} სიმბოლოს'
       },
       names: {
         password: 'პაროლი',
