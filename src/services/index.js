@@ -2,7 +2,7 @@ import axios from '../config/axios'
 
 export async function registerUser(data) {
   try {
-    await axios.post('/api/register', data, { withCredentials: true })
+    await axios.post('/api/register', data)
   } catch (error) {
     console.log(error)
     throw error
@@ -12,8 +12,7 @@ export async function registerUser(data) {
 export async function loginUser(data) {
   try {
     await axios.get('/sanctum/csrf-cookie')
-    await axios.post('/api/login', data, { withCredentials: true })
-    await axios.get('/api/user')
+    await axios.post('/api/login', data)
   } catch (error) {
     console.log(error)
     throw error
@@ -22,7 +21,7 @@ export async function loginUser(data) {
 
 export async function registerWithGoogle() {
   try {
-    const response = await axios.get('api/auth/redirect', { withCredentials: true })
+    const response = await axios.get('api/auth/redirect')
     if (response.data.url) {
       window.location.href = response.data.url
     }
@@ -33,7 +32,7 @@ export async function registerWithGoogle() {
 
 export async function loginWithGoogle() {
   try {
-    const response = await axios.get('api/auth/redirect', { withCredentials: true })
+    const response = await axios.get('api/auth/redirect')
     if (response.data.url) {
       window.location.href = response.data.url
     }
@@ -45,7 +44,7 @@ export async function loginWithGoogle() {
 export async function logout() {
   try {
     await axios.get('/sanctum/csrf-cookie')
-    await axios.post('/api/logout', { withCredentials: true })
+    await axios.post('/api/logout')
   } catch (error) {
     console.log(error)
   }
@@ -54,7 +53,7 @@ export async function logout() {
 export async function sendEmail(data) {
   try {
     await axios.get('/sanctum/csrf-cookie')
-    await axios.post('/api/forgot-password', data, { withCredentials: true })
+    await axios.post('/api/forgot-password', data)
   } catch (error) {
     console.log(error)
     throw error
@@ -64,7 +63,7 @@ export async function sendEmail(data) {
 export async function updatePassword(data) {
   try {
     await axios.get('/sanctum/csrf-cookie')
-    await axios.post('/api/reset-password', data, { withCredentials: true })
+    await axios.post('/api/reset-password', data)
   } catch (error) {
     console.log(error)
   }
@@ -139,8 +138,7 @@ export async function addMovie(data) {
   try {
     await axios.get('/sanctum/csrf-cookie')
     await axios.post('/api/movie', data, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-      withCredentials: true
+      headers: { 'Content-Type': 'multipart/form-data' }
     })
   } catch (error) {
     console.log(error)
@@ -151,9 +149,7 @@ export async function addMovie(data) {
 export async function deleteMovie(id) {
   try {
     await axios.get('/sanctum/csrf-cookie')
-    await axios.delete(`/api/movie/${id}`, {
-      withCredentials: true
-    })
+    await axios.delete(`/api/movie/${id}`)
   } catch (error) {
     console.log(error)
   }
@@ -163,8 +159,7 @@ export async function editMovie(data, id) {
   try {
     await axios.get('/sanctum/csrf-cookie')
     await axios.post(`/api/movie/${id}`, data, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-      withCredentials: true
+      headers: { 'Content-Type': 'multipart/form-data' }
     })
   } catch (error) {
     console.log(error)
@@ -176,8 +171,7 @@ export async function addQuote(data) {
   try {
     await axios.get('/sanctum/csrf-cookie')
     await axios.post('/api/quote', data, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-      withCredentials: true
+      headers: { 'Content-Type': 'multipart/form-data' }
     })
   } catch (error) {
     console.log(error)
@@ -187,9 +181,7 @@ export async function addQuote(data) {
 export async function addComment(data, id) {
   try {
     await axios.get('/sanctum/csrf-cookie')
-    await axios.post(`/api/quotes/${id}/comments`, data, {
-      withCredentials: true
-    })
+    await axios.post(`/api/quotes/${id}/comments`, data)
   } catch (error) {
     console.log(error)
   }
@@ -198,9 +190,7 @@ export async function addComment(data, id) {
 export async function deleteQuote(id) {
   try {
     await axios.get('/sanctum/csrf-cookie')
-    await axios.delete(`/api/quote/${id}`, {
-      withCredentials: true
-    })
+    await axios.delete(`/api/quote/${id}`)
   } catch (error) {
     console.log(error)
   }
@@ -210,8 +200,7 @@ export async function editQuote(data, id) {
   try {
     await axios.get('/sanctum/csrf-cookie')
     await axios.post(`/api/quote/${id}`, data, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-      withCredentials: true
+      headers: { 'Content-Type': 'multipart/form-data' }
     })
   } catch (error) {
     console.log(error)
@@ -222,8 +211,7 @@ export async function updateUser(data, id) {
   try {
     await axios.get('/sanctum/csrf-cookie')
     await axios.post(`/api/user/${id}`, data, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-      withCredentials: true
+      headers: { 'Content-Type': 'multipart/form-data' }
     })
   } catch (error) {
     console.log(error)
@@ -234,9 +222,7 @@ export async function updateUser(data, id) {
 export async function like(id, data) {
   try {
     await axios.get('/sanctum/csrf-cookie')
-    await axios.post(`/api/quotes/${id}/likes`, data, {
-      withCredentials: true
-    })
+    await axios.post(`/api/quotes/${id}/likes`, data)
   } catch (error) {
     console.log(error)
   }
@@ -245,9 +231,7 @@ export async function like(id, data) {
 export async function unlike(id) {
   try {
     await axios.get('/sanctum/csrf-cookie')
-    await axios.delete(`/api/quotes/${id}/likes`, {
-      withCredentials: true
-    })
+    await axios.delete(`/api/quotes/${id}/likes`)
   } catch (error) {
     console.log(error)
   }
@@ -256,9 +240,7 @@ export async function unlike(id) {
 export async function sendNotification(data, id) {
   try {
     await axios.get('/sanctum/csrf-cookie')
-    await axios.post(`/api/notification/${id}`, data, {
-      withCredentials: true
-    })
+    await axios.post(`/api/notification/${id}`, data)
   } catch (error) {
     console.log(error)
   }
@@ -276,9 +258,7 @@ export async function fetchNotifications() {
 export async function markAsRead(id) {
   try {
     await axios.get('/sanctum/csrf-cookie')
-    await axios.post(`/api/notification/${id}/read`, {
-      withCredentials: true
-    })
+    await axios.post(`/api/notification/${id}/read`)
   } catch (error) {
     console.log(error)
   }
@@ -287,9 +267,7 @@ export async function markAsRead(id) {
 export async function markAllAsRead() {
   try {
     await axios.get('/sanctum/csrf-cookie')
-    await axios.post('/api/notifications/read-all', {
-      withCredentials: true
-    })
+    await axios.post('/api/notifications/read-all')
   } catch (error) {
     console.log(error)
   }
@@ -298,9 +276,7 @@ export async function markAllAsRead() {
 export async function resendEmail() {
   try {
     await axios.get('/sanctum/csrf-cookie')
-    await axios.post('/api/email/resend', {
-      withCredentials: true
-    })
+    await axios.post('/api/email/resend')
   } catch (error) {
     console.log(error)
   }
