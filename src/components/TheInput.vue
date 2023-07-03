@@ -20,6 +20,7 @@ const emit = defineEmits(['update:modelValue'])
 const internalValue = ref(props.modelValue)
 const languageStore = useLanguageStore()
 const isWriting = ref(false)
+const inputType = ref(props.type)
 
 const { meta } = useField(() => props.name)
 
@@ -59,33 +60,42 @@ const img = computed(() => {
 })
 
 const language = computed(() => languageStore.currentLanguage)
+const toggleInputType = () => {
+  if (inputType.value === 'password') {
+    inputType.value = 'text'
+  } else {
+    inputType.value = 'password'
+  }
+}
 </script>
 
 <template>
   <div class="flex flex-col mb-1">
     <label class="mb-0.5 text-base"
-      >{{ label }}<span class="text-red" v-if="!meta.valid"> *</span></label
+      >{{ label }}<span class="text-red text-base" v-if="!meta.valid"> *</span></label
     >
     <div
       :class="inputClass"
-      class="relative z-0 flex items-center justify-between h-2.375 bg-[#CED4DA] rounded focus:shadow-custom-focus"
+      class="relative z-0 flex items-center justify-between h-2.375 bg-[#CED4DA] rounded"
     >
       <Field
-        class="bg-transparent w-full outline-none py-0.438 pl-0.813 rounded"
+        class="bg-transparent w-full outline-none py-0.438 pl-0.813 rounded focus:shadow-custom-focus"
         :placeholder="props.placeholder"
         :name="props.name"
-        :type="props.type"
+        :type="inputType"
         :rules="props.validate"
         autocomplete="off"
         v-model="internalValue"
       />
       <ClosedEye
         v-if="props.name === 'password' || props.name === 'password_confirmation'"
-        class="absolute right-[1.8rem]"
+        :class="img === null ? 'right-[0.5rem]' : 'right-[1.8rem]'"
+        class="absolute cursor-pointer"
+        @click="toggleInputType"
       ></ClosedEye>
       <CloseInput
         v-if="isWriting && props.name !== 'password' && props.name !== 'password_confirmation'"
-        class="absolute right-[1.8rem]"
+        class="absolute right-[1.8rem] cursor-pointer"
         @click="internalValue = ''"
       ></CloseInput>
       <component class="absolute mr-[0.5rem] right-0" v-bind:is="img"></component>
