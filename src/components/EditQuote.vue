@@ -5,8 +5,8 @@ import { useMoviesStore } from '../stores/movies'
 import { useQuotesStore } from '../stores/quotes'
 import { useRoute } from 'vue-router'
 import { computed, onMounted, ref } from 'vue'
-import { Form, ErrorMessage } from 'vee-validate'
-import MovieImage from './MovieImage.vue'
+import { Form, Field } from 'vee-validate'
+import IconCamera from './icons/IconCamera.vue'
 import QuoteTextarea from './QuoteTextarea.vue'
 import TheButton from '../components/TheButton.vue'
 import { useUserStore } from '../stores/user/index'
@@ -21,8 +21,9 @@ const quote = computed(() => quoteStore.$state.quote)
 const user = computed(() => userStore.$state.user)
 const quoteForm = ref(null)
 const imageUrl = ref(null)
-const isDragging = ref(false)
+// const isDragging = ref(false)
 const uploadedImageUrl = ref(null)
+const fileInput = ref(null)
 
 onMounted(async () => {
   try {
@@ -91,7 +92,7 @@ const deleteQuote = async () => {
   }
 }
 
-const triggerFileInput = (fileInput) => {
+const triggerFileInput = () => {
   fileInput.value.click()
 }
 
@@ -109,24 +110,6 @@ const onFileChange = async (e, handleChange, validate) => {
   await validate()
 }
 
-const onDrop = async (event, handleChange, validate) => {
-  event.preventDefault()
-  isDragging.value = false
-  const files = event.dataTransfer.files
-
-  if (files.length > 0) {
-    const file = files[0]
-    const reader = new FileReader()
-    reader.onload = (e) => {
-      uploadedImageUrl.value = e.target.result
-    }
-    reader.readAsDataURL(file)
-    imageUrl.value = file
-  }
-  handleChange('true')
-  await validate()
-}
-
 const uploadedImage = ref(
   props.image && props.image.startsWith('images') ? path + '/storage/' + props.image : props.image
 )
@@ -134,7 +117,7 @@ const uploadedImage = ref(
 
 <template>
   <div
-    class="h-auto top-2.5 w-full md:top-[8%] xl:w-37 2xl:w-60 absolute text-white bg-modal md:w-31 rounded-xl"
+    class="h-auto top-0 w-full md:top-[8%] xl:w-37 2xl:w-60 absolute text-white bg-modal md:w-31 rounded-xl"
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.5 px-3.5">
       <IconTrash @click="deleteQuote"></IconTrash>
@@ -160,7 +143,6 @@ const uploadedImage = ref(
             placeholder="Quote in English."
             lang="Eng"
           ></quote-textarea>
-          <ErrorMessage class="text-[#F15524] text-base ml-1.25" name="body.en" />
         </div>
         <div v-if="quoteForm && quoteForm.body">
           <quote-textarea
@@ -171,15 +153,29 @@ const uploadedImage = ref(
             placeholder="ციტატა ქართულ ენაზე"
             lang="ქარ"
           ></quote-textarea>
-          <ErrorMessage class="text-[#F15524] text-base ml-1.25" name="body.ka" />
         </div>
-        <movie-image
-          :onFileChangeParent="onFileChange"
-          :onDropParent="onDrop"
-          :triggerFileInputParent="triggerFileInput"
-          :uploadedImageUrl="uploadedImageUrl"
-          type="edit"
-        ></movie-image>
+        <Field name="image" v-slot="{ handleChange, validate }">
+          <div class="relative flex items-center justify-center">
+            <div
+              @click="triggerFileInput"
+              class="text-center flex flex-col items-center justify-center opacity-[80%] rounded-xl w-[8.438rem] h-5.25 bg-backgroundColor absolute"
+            >
+              <IconCamera></IconCamera>
+              {{ $t('movie.change_photo') }}
+            </div>
+            <img
+              :src="uploadedImageUrl"
+              class="w-22.375 h-18.875 rounded-xl self-center flex lg:w-56 lg:h-32.063 object-cover"
+            />
+          </div>
+          <input
+            type="file"
+            id="file-input"
+            ref="fileInput"
+            style="display: none"
+            @change="onFileChange($event, handleChange, validate)"
+          />
+        </Field>
         <the-button class="w-full h-3">{{ $t('movie.save_changes') }}</the-button>
       </Form>
     </div>

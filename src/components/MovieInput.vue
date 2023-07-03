@@ -1,7 +1,9 @@
 <script setup>
-import { Field, ErrorMessage } from 'vee-validate'
+import { Field, useField } from 'vee-validate'
 import { ref, watch, computed } from 'vue'
 import { useLanguageStore } from '../stores/language/index'
+import IconValid from './icons/IconValid.vue'
+import IconError from './icons/IconError.vue'
 
 const props = defineProps(['name', 'modelValue', 'label', 'lang', 'type', 'validate', 'errors'])
 const emit = defineEmits(['update:modelValue'])
@@ -22,12 +24,41 @@ watch(internalValue, (newValue, oldValue) => {
   }
 })
 
+const { meta, errorMessage: error } = useField(() => props.name, props.validate)
+
+const inputClass = computed(() => {
+  if (props.errors && props.errors[props.name]) {
+    return 'border border-red'
+  }
+  if (meta.touched && meta.valid) {
+    return 'border border-[#198754]'
+  } else if (meta.touched && !meta.valid) {
+    return 'border border-red'
+  } else {
+    return 'border border-[#6C757D]'
+  }
+})
+
+const img = computed(() => {
+  if (props.errors && props.errors[props.name]) {
+    return IconError
+  }
+
+  if (meta.touched && meta.valid) {
+    return IconValid
+  } else if (meta.touched && !meta.valid) {
+    return IconError
+  } else {
+    return null
+  }
+})
+
 const language = computed(() => languageStore.currentLanguage)
 </script>
 
 <template>
   <div>
-    <div class="relative w-full flex border border-[#6C757D] h-3 rounded items-center mb-0.625">
+    <div :class="inputClass" class="relative w-full flex border h-3 rounded items-center mb-0.625">
       <p :class="{ 'text-[#6C757D]': internalValue }" class="ml-1">{{ label }} :</p>
       <Field
         v-model="internalValue"
@@ -37,11 +68,12 @@ const language = computed(() => languageStore.currentLanguage)
         autocomplete="off"
         class="bg-transparent outline-none h-3 px-1 py-[0.563rem] w-11.875 lg:w-37.5"
       />
+      <component class="absolute right-14" v-bind:is="img"></component>
       <p class="absolute right-5 text-[#6C757D]">{{ lang }}</p>
     </div>
-    <p class="text-[#F15524] text-base ml-1.25" v-if="props.errors">
+    <p class="text-[#F15524] text-base" v-if="props.errors">
       {{ props.errors[props.name] && props.errors[props.name][0][language] }}
     </p>
-    <ErrorMessage class="text-[#F15524] text-base ml-1.25" :name="name" />
+    <p class="text-[#F15524] text-base">{{ error }}</p>
   </div>
 </template>

@@ -85,8 +85,6 @@ export default {
         await addComment(data, id)
         await this.fetchQuoteId(id)
       } else {
-        const foundQuote = this.quoteList.find((quote) => quote.id === id)
-        foundQuote.comments.push(data)
         await addComment(data, id)
       }
       this.addedComment = {

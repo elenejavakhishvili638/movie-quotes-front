@@ -24,7 +24,10 @@ const props = defineProps([
 const quoteStore = useQuotesStore()
 const userStore = useUserStore()
 const notificationStore = useNotificationStore()
-const commentForm = computed(() => quoteStore.$state.addedComment)
+const commentForm = ref({
+  body: '',
+  user_id: null
+})
 const userId = computed(() => userStore.$state.user)
 const src = ref('white')
 const showAllcomments = ref(false)

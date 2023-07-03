@@ -3,7 +3,7 @@ import IconClose from './icons/IconClose.vue'
 import MovieInput from './MovieInput.vue'
 import { useMoviesStore } from '../stores/movies/index'
 import { computed, ref, onMounted, watch } from 'vue'
-import { Form, useForm, useField, ErrorMessage } from 'vee-validate'
+import { Form, useForm, useField } from 'vee-validate'
 import TheButton from './TheButton.vue'
 import { useUserStore } from '../stores/user/index'
 import MovieTextarea from './MovieTextarea.vue'
@@ -163,7 +163,7 @@ const uploadedImage = ref(
 
 <template>
   <div
-    class="h-auto top-2.5 w-full md:top-[8%] md:left-[30%] 2xl:left-[24%] xl:w-37 2xl:w-60 absolute text-white bg-modal md:w-31 rounded-xl"
+    class="h-auto top-0 w-full md:top-[8%] md:left-[30%] 2xl:left-[24%] xl:w-37 2xl:w-60 absolute text-white bg-modal md:w-31 rounded-xl"
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.5 px-3.5">
       <div></div>
@@ -228,28 +228,22 @@ const uploadedImage = ref(
           type="text"
           validate="required"
         ></movie-input>
-        <div>
-          <movie-textarea
-            validate="required"
-            name="description.en"
-            rows="4"
-            v-model="movieForm.description.en"
-            label="Movie Description :"
-            :class="{ 'text-[#6C757D]': movieForm.description.en }"
-          ></movie-textarea>
-          <ErrorMessage class="text-[#F15524] text-base ml-5" name="description_en" />
-        </div>
-        <div>
-          <movie-textarea
-            validate="required"
-            name="description.ka"
-            rows="4"
-            v-model="movieForm.description.ka"
-            label="ფილმის აღწერა :"
-            :class="{ 'text-[#6C757D]': movieForm.description.ka }"
-          ></movie-textarea>
-          <ErrorMessage class="text-[#F15524] text-base ml-5" name="description_ka" />
-        </div>
+        <movie-textarea
+          validate="required"
+          name="description.en"
+          rows="4"
+          v-model="movieForm.description.en"
+          label="Movie Description :"
+          :class="{ 'text-[#6C757D]': movieForm.description.en }"
+        ></movie-textarea>
+        <movie-textarea
+          validate="required"
+          name="description.ka"
+          rows="4"
+          v-model="movieForm.description.ka"
+          label="ფილმის აღწერა :"
+          :class="{ 'text-[#6C757D]': movieForm.description.ka }"
+        ></movie-textarea>
         <movie-image
           :onFileChangeParent="onFileChange"
           :onDropParent="onDrop"

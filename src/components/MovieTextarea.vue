@@ -1,6 +1,8 @@
 <script setup>
-import { Field } from 'vee-validate'
-import { ref, watch } from 'vue'
+import { Field, useField } from 'vee-validate'
+import { ref, watch, computed } from 'vue'
+import IconValid from './icons/IconValid.vue'
+import IconError from './icons/IconError.vue'
 
 const props = defineProps(['name', 'modelValue', 'label', 'lang', 'validate', 'rows', 'class'])
 const emit = defineEmits(['update:modelValue'])
@@ -10,10 +12,32 @@ const internalValue = ref(props.modelValue)
 watch(internalValue, (newValue) => {
   emit('update:modelValue', newValue)
 })
+
+const { meta, errorMessage: error } = useField(() => props.name, props.validate)
+
+const inputClass = computed(() => {
+  if (meta.touched && meta.valid) {
+    return 'border border-[#198754]'
+  } else if (meta.touched && !meta.valid) {
+    return 'border border-red'
+  } else {
+    return 'border border-[#6C757D]'
+  }
+})
+
+const img = computed(() => {
+  if (meta.touched && meta.valid) {
+    return IconValid
+  } else if (meta.touched && !meta.valid) {
+    return IconError
+  } else {
+    return null
+  }
+})
 </script>
 
 <template>
-  <div class="border border-[#6C757D] h-5.375 flex flex-col relative rounded mb-0.625">
+  <div :class="inputClass" class="border h-5.375 flex flex-col relative rounded">
     <p :class="props.class" class="left-4 top-2 pl-1 pt-0.5">{{ label }}</p>
     <Field :name="name" v-model="internalValue" :rules="validate" v-slot="{ field }">
       <textarea
@@ -23,6 +47,8 @@ watch(internalValue, (newValue) => {
         class="bg-transparent outline-none w-full pl-0.813 pt-0.438"
       ></textarea>
     </Field>
-    <p class="absolute right-4 top-2 text-[#6C757D]">Eng</p>
+    <component class="absolute right-12 top-2" v-bind:is="img"></component>
+    <p class="absolute right-4 top-2 text-[#6C757D]">{{ lang }}</p>
   </div>
+  <p class="text-[#F15524] text-base">{{ error }}</p>
 </template>

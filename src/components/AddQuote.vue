@@ -2,7 +2,7 @@
 import IconClose from './icons/IconClose.vue'
 import TheButton from '../components/TheButton.vue'
 import { ref, computed } from 'vue'
-import { Form, ErrorMessage } from 'vee-validate'
+import { Form } from 'vee-validate'
 import { useMoviesStore } from '../stores/movies/index'
 import { useLanguageStore } from '../stores/language/index'
 import MovieImage from './MovieImage.vue'
@@ -88,7 +88,7 @@ const uploadedImage = ref(
 
 <template>
   <div
-    class="h-auto top-2.5 w-full md:top-[8%] xl:w-37 2xl:w-60 absolute text-white bg-modal md:w-31 rounded-xl"
+    class="h-auto top-0 w-full md:top-[8%] xl:w-37 2xl:w-60 absolute text-white bg-modal md:w-31 rounded-xl"
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.5 px-3.5">
       <div></div>
@@ -136,28 +136,22 @@ const uploadedImage = ref(
         </div>
       </div>
       <Form class="relative flex flex-col mt-9 gap-4" @submit="onSubmit">
-        <div>
-          <quote-textarea
-            validate="required|english"
-            name="body.en"
-            rows="4"
-            v-model="quoteForm.body.en"
-            placeholder="Quote in English."
-            lang="Eng"
-          ></quote-textarea>
-          <ErrorMessage class="text-[#F15524] text-base ml-1.25" name="body.en" />
-        </div>
-        <div>
-          <quote-textarea
-            validate="required|georgian"
-            name="body.ka"
-            rows="4"
-            v-model="quoteForm.body.ka"
-            placeholder="ციტატა ქართულ ენაზე"
-            lang="ქარ"
-          ></quote-textarea>
-          <ErrorMessage class="text-[#F15524] text-base ml-1.25" name="body.ka" />
-        </div>
+        <quote-textarea
+          validate="required|english"
+          name="body.en"
+          rows="4"
+          v-model="quoteForm.body.en"
+          placeholder="Quote in English."
+          lang="Eng"
+        ></quote-textarea>
+        <quote-textarea
+          validate="required|georgian"
+          name="body.ka"
+          rows="4"
+          v-model="quoteForm.body.ka"
+          placeholder="ციტატა ქართულ ენაზე"
+          lang="ქარ"
+        ></quote-textarea>
         <movie-image
           :onFileChangeParent="onFileChange"
           :onDropParent="onDrop"

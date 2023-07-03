@@ -56,7 +56,7 @@ const formData = computed(() => loginStore.$state.login)
       <Form @submit="onSubmit" v-slot="{ meta }">
         <the-input
           v-model="formData.username"
-          validate="required"
+          validate="required|minSymbols:3"
           name="username"
           type="text"
           :label="$t('login.email')"
