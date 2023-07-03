@@ -139,7 +139,7 @@ const closeSuccessModal = () => {
           style="display: none"
           @change="onFileChange"
         />
-        <p class="text-xl font-normal" @click="triggerFileInput">
+        <p class="text-xl font-normal cursor-pointer" @click="triggerFileInput">
           {{ $t('profile.upload_photo') }}
         </p>
       </div>
