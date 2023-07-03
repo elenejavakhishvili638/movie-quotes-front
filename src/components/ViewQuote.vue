@@ -102,13 +102,13 @@ const showComments = () => {
 
 <template>
   <div
-    class="h-auto top-[0.625rem] w-full md:top-[8%] md:left-[35%] xl:left-[28%] 2xl:left-[24%] xl:w-[37.563rem] 2xl:w-60 absolute text-white bg-[#11101A] md:w-31.25 rounded-xl"
+    class="h-auto top-0 w-full md:top-[8%] md:left-[35%] xl:left-[28%] 2xl:left-[24%] xl:w-[37.563rem] 2xl:w-60 absolute text-white bg-[#11101A] md:w-31.25 rounded-xl"
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.5 px-3.5">
       <div class="w-5.625 h-10 flex items-center justify-between">
-        <IconEdit @click="openEdit"></IconEdit>
+        <IconEdit @click="openEdit" class="cursor-pointer"></IconEdit>
         <div class="border-r border-r-[#6C757D] h-4"></div>
-        <IconTrash @click="deleteQuote"></IconTrash>
+        <IconTrash @click="deleteQuote" class="cursor-pointer"></IconTrash>
       </div>
       <h1 class="text-2xl font-[500] hidden md:block">View quote</h1>
       <IconClose @click="props.closeViewQuote"></IconClose>
@@ -141,7 +141,11 @@ const showComments = () => {
         </div>
         <div class="flex">
           <p>{{ quote.likes && quote.likes.length }}</p>
-          <IconHeart class="ml-0.75" @click="toggleLike" :filled-color="src"></IconHeart>
+          <IconHeart
+            class="ml-0.75 cursor-pointer"
+            @click="toggleLike"
+            :filled-color="src"
+          ></IconHeart>
         </div>
         <button class="ml-2" @click="showComments">{{ commenText }}</button>
       </div>
