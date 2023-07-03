@@ -5,8 +5,7 @@ import { useMoviesStore } from '../stores/movies'
 import { useQuotesStore } from '../stores/quotes'
 import { useRoute } from 'vue-router'
 import { computed, onMounted, ref } from 'vue'
-import { Form, ErrorMessage, Field } from 'vee-validate'
-// import MovieImage from './MovieImage.vue'
+import { Form, Field } from 'vee-validate'
 import IconCamera from './icons/IconCamera.vue'
 import QuoteTextarea from './QuoteTextarea.vue'
 import TheButton from '../components/TheButton.vue'
@@ -118,7 +117,7 @@ const uploadedImage = ref(
 
 <template>
   <div
-    class="h-auto top-2.5 w-full md:top-[8%] xl:w-37 2xl:w-60 absolute text-white bg-modal md:w-31 rounded-xl"
+    class="h-auto top-0 w-full md:top-[8%] xl:w-37 2xl:w-60 absolute text-white bg-modal md:w-31 rounded-xl"
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.5 px-3.5">
       <IconTrash @click="deleteQuote"></IconTrash>
@@ -144,7 +143,6 @@ const uploadedImage = ref(
             placeholder="Quote in English."
             lang="Eng"
           ></quote-textarea>
-          <ErrorMessage class="text-[#F15524] text-base ml-1.25" name="body.en" />
         </div>
         <div v-if="quoteForm && quoteForm.body">
           <quote-textarea
@@ -155,7 +153,6 @@ const uploadedImage = ref(
             placeholder="ციტატა ქართულ ენაზე"
             lang="ქარ"
           ></quote-textarea>
-          <ErrorMessage class="text-[#F15524] text-base ml-1.25" name="body.ka" />
         </div>
         <Field name="image" v-slot="{ handleChange, validate }">
           <div class="relative flex items-center justify-center">

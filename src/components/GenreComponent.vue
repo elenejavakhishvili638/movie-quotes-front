@@ -59,9 +59,9 @@ const genreRule = computed(() => {
         </div>
       </div>
     </Field>
-    <p class="text-[#F15524] text-base ml-1.25 mt-1">
+    <p class="text-[#F15524] text-base mt-1">
       {{ props.error }}
     </p>
-    <ErrorMessage class="text-[#F15524] text-base ml-1.25 mt-1" name="genre" />
+    <ErrorMessage class="text-[#F15524] text-base mt-1" name="genre" />
   </div>
 </template>

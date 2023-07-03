@@ -109,7 +109,7 @@ const uploadedImage = ref(
 
 <template>
   <div
-    class="h-auto top-[0.625rem] z-10 w-full md:top-[8%] md:left-[25%] xl:left-[28%] 2xl:left-[24%] xl:w-37.5 2xl:w-60 absolute text-white bg-[#11101A] md:w-37.5 rounded-xl"
+    class="h-auto top-0 z-10 w-full md:top-[8%] md:left-[25%] xl:left-[28%] 2xl:left-[24%] xl:w-37.5 2xl:w-60 absolute text-white bg-[#11101A] md:w-37.5 rounded-xl"
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.563 px-3.375">
       <div></div>
@@ -126,28 +126,22 @@ const uploadedImage = ref(
         <p>{{ props.username }}</p>
       </div>
       <Form class="relative flex flex-col mt-2.313 gap-4" @submit="onSubmit">
-        <div>
-          <quote-textarea
-            validate="required|english"
-            name="body.en"
-            rows="4"
-            v-model="quoteForm.body.en"
-            placeholder="Create new quote"
-            lang="Eng"
-          ></quote-textarea>
-          <ErrorMessage class="text-[#F15524] text-base ml-1.25" name="body.en" />
-        </div>
-        <div>
-          <quote-textarea
-            validate="required|georgian"
-            name="body.ka"
-            rows="4"
-            v-model="quoteForm.body.ka"
-            placeholder="ახალი ციტატა"
-            lang="ქარ"
-          ></quote-textarea>
-          <ErrorMessage class="text-[#F15524] text-base ml-1.25" name="body.ka" />
-        </div>
+        <quote-textarea
+          validate="required|english"
+          name="body.en"
+          rows="4"
+          v-model="quoteForm.body.en"
+          placeholder="Create new quote"
+          lang="Eng"
+        ></quote-textarea>
+        <quote-textarea
+          validate="required|georgian"
+          name="body.ka"
+          rows="4"
+          v-model="quoteForm.body.ka"
+          placeholder="ახალი ციტატა"
+          lang="ქარ"
+        ></quote-textarea>
         <movie-image
           :onFileChangeParent="onFileChange"
           :onDropParent="onDrop"
@@ -177,7 +171,7 @@ const uploadedImage = ref(
               </p>
             </div>
           </div>
-          <ErrorMessage class="text-[#F15524] text-base ml-1.25" name="movie" />
+          <ErrorMessage class="text-[#F15524] text-base" name="movie" />
         </Field>
         <the-button class="w-full h-3">{{ $t('texts.post') }}</the-button>
       </Form>

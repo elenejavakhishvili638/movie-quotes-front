@@ -254,16 +254,16 @@ const user = computed(() => userStore.$state.user)
               @click="closeModal(index)"
               class="absolute xl:top-[3.125rem] xl:right-[-11.875rem] right-[1.25rem] top-5 h-12.5 w-[15.625rem] rounded-lg bg-[#24222F] py-2 pl-[2.5rem]"
             >
-              <p class="flex gap-2 mb-2 items-center">
-                <IconEye @click="openViewQuote(quote.id)" class="cursor-pointer"></IconEye>
+              <p @click="openViewQuote(quote.id)" class="flex gap-2 mb-2 items-center">
+                <IconEye class="cursor-pointer"></IconEye>
                 {{ $t('movie.view_quote') }}
               </p>
-              <p class="flex gap-2 mb-2 items-center">
-                <IconEditVue @click="openEditQuote(quote.id)" class="cursor-pointer"></IconEditVue>
+              <p @click="openEditQuote(quote.id)" class="flex gap-2 mb-2 items-center">
+                <IconEditVue class="cursor-pointer"></IconEditVue>
                 {{ $t('movie.edit') }}
               </p>
-              <p class="flex gap-2 mb-2 items-center">
-                <IconTrash @click="deleteQuote(quote.id)" class="cursor-pointer"></IconTrash>
+              <p @click="deleteQuote(quote.id)" class="flex gap-2 mb-2 items-center">
+                <IconTrash class="cursor-pointer"></IconTrash>
                 {{ $t('movie.delete') }}
               </p>
             </div>
