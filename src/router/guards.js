@@ -25,11 +25,11 @@ export const authGuard = async (to, from, next) => {
   const userStore = useUserStore()
   if (to.meta.requiresAuth) {
     const response = await userStore.fetchUserData()
-    userStore.user = response.data.data
-    if (response.data.data.email_verified_at === null) {
+    userStore.user = response?.data?.data
+    if (response?.data?.data?.email_verified_at === null) {
       userStore.userVerified = response.data.data.google_id
     } else {
-      userStore.userVerified = response.data.data.email_verified_at
+      userStore.userVerified = response?.data?.data?.email_verified_at
     }
     if (userStore.user && userStore.userVerified) {
       next()

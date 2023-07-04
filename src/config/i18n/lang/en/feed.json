@@ -10,5 +10,7 @@
     "show_all_comments": "Show all comments",
     "hide_comments": "Hide comments",
     "write_quote": "Write new quote",
-    "choose_movie": "Choose movie"
+    "choose_movie": "Choose movie",
+    "movie": "movie",
+    "write_comment": "Write a comment"
 }

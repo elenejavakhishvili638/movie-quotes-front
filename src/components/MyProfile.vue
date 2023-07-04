@@ -146,7 +146,7 @@ const closeSuccessModal = () => {
       <div class="w-22.75 flex flex-col gap-8">
         <div>
           <p class="mb-0.25 text-base">{{ $t('profile.username') }}</p>
-          <div class="flex justify-between border-b pb-1 text-lg">
+          <div class="flex justify-between border-b pb-1 text-md">
             <p>{{ props.username }}</p>
             <button
               class="text-[#CED4DA]"
@@ -166,7 +166,7 @@ const closeSuccessModal = () => {
         </div>
         <div>
           <p class="mb-0.25 text-base">{{ $t('profile.email') }}</p>
-          <div class="flex justify-between border-b pb-1 text-lg">
+          <div class="flex justify-between border-b pb-1 text-md">
             <p>{{ props.email }}</p>
             <button
               class="text-[#CED4DA]"
@@ -186,7 +186,7 @@ const closeSuccessModal = () => {
         </div>
         <div>
           <p class="mb-0.25 text-base">{{ $t('profile.password') }}</p>
-          <div class="flex justify-between border-b pb-1 text-lg">
+          <div class="flex justify-between border-b pb-1 text-md">
             <p class="tracking-wider">...............</p>
             <button
               class="text-[#CED4DA]"

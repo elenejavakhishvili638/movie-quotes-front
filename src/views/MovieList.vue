@@ -10,12 +10,14 @@ import { useUserStore } from '../stores/user/index'
 import NewMovie from '../components/NewMovie.vue'
 import ModalLayout from '../components/ModalLayout.vue'
 import IconPlus from '../components/icons/IconPlus.vue'
+import IconArrow from '../components/icons/IconArrow.vue'
 
 const moviesStore = useMoviesStore()
 const languageStore = useLanguageStore()
 const searchTerm = ref('')
 const userStore = useUserStore()
 const addMovie = ref(false)
+const searchOpen = ref(false)
 let path = import.meta.env.VITE_BACKEND_URL
 
 onMounted(async () => {
@@ -43,6 +45,14 @@ const closeMovie = () => {
 
 const language = computed(() => languageStore.currentLanguage)
 const user = computed(() => userStore.$state.user)
+
+const toggleSearch = () => {
+  searchOpen.value = true
+}
+
+const closeSearch = () => {
+  searchOpen.value = false
+}
 </script>
 
 <template>
@@ -50,7 +60,7 @@ const user = computed(() => userStore.$state.user)
     <modal-layout v-if="addMovie">
       <new-movie :image="user.image" :username="user.username" :closeMovie="closeMovie"></new-movie>
     </modal-layout>
-    <feed-header :searchBar="false"></feed-header>
+    <feed-header :searchBar="true" :toggle-search="toggleSearch"></feed-header>
     <div class="md:flex md:ml-2.5 lg:ml-4.5">
       <div class="hidden md:block text-white md:ml-2">
         <profile-sidebar></profile-sidebar>
@@ -63,7 +73,7 @@ const user = computed(() => userStore.$state.user)
           </div>
           <div class="flex items-center">
             <div class="mr-2 hidden md:flex md:ml-1.5">
-              <IconSearch class="mr-1"></IconSearch>
+              <IconSearch class="mr-1 cursor-pointer"></IconSearch>
               <input
                 v-model="searchTerm"
                 @input="fetchMovies"
@@ -79,6 +89,22 @@ const user = computed(() => userStore.$state.user)
               <IconPlus class="mr-0.25"></IconPlus>
               {{ $t('movie.add_movie') }}
             </button>
+          </div>
+        </div>
+        <div
+          v-if="searchOpen"
+          class="absolute top-0 left-0 h-48.5 bg-[#12101A] w-full text-white md:hidden"
+        >
+          <div class="border-b border-[#EFEFEF]">
+            <div class="my-1.5 ml-2 flex items-center">
+              <icon-arrow @click="closeSearch" class="mr-1.5 cursor-pointer"></icon-arrow>
+              <input
+                :placeholder="$t('feed.search')"
+                v-model="searchTerm"
+                @input="fetchMovies"
+                class="bg-transparent outline-none"
+              />
+            </div>
           </div>
         </div>
         <div class="text-white grid gap-12 md:grid-cols-fill">

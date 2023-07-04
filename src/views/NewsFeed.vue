@@ -134,7 +134,7 @@ const language = computed(() => languageStore.currentLanguage)
             class="mr-[1.313rem] mr hidden md:flex md:ml-1.5 text-white"
             @click.stop="increase"
           >
-            <icon-search class="mr-0.75"></icon-search>
+            <icon-search class="mr-0.75 cursor-pointer"></icon-search>
             <input
               v-model="searchTerm"
               @input="fetchQuotes"
@@ -151,7 +151,7 @@ const language = computed(() => languageStore.currentLanguage)
           >
             <div class="border-b border-[#EFEFEF]">
               <div class="my-1.5 ml-2 flex items-center">
-                <icon-arrow @click="closeSearch" class="mr-1.5"></icon-arrow>
+                <icon-arrow @click="closeSearch" class="mr-1.5 cursor-pointer"></icon-arrow>
                 <input
                   :placeholder="$t('feed.search')"
                   v-model="searchTerm"

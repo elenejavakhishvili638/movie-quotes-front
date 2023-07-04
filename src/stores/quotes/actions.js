@@ -60,7 +60,7 @@ export default {
     const movieStore = useMoviesStore()
     try {
       await addQuote(data)
-      await this.fetchQuotes()
+      await this.fetchFullList()
       await movieStore.fetchFullList()
       this.addedQuote = {
         user_id: null,

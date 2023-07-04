@@ -23,7 +23,7 @@ const userId = computed(() => userStore.$state.user)
 const moviesStore = useMoviesStore()
 const src = ref('white')
 const showAllcomments = ref(false)
-const commenText = ref('Show all comments')
+const commenText = ref(0)
 
 const toggleLike = async () => {
   if (src.value === 'white') {
@@ -92,10 +92,10 @@ const displayedComments = computed(() => {
 
 const showComments = () => {
   showAllcomments.value = !showAllcomments.value
-  if (commenText.value === 'Show all comments') {
-    commenText.value = 'Hide all comments'
+  if (commenText.value === 0) {
+    commenText.value = 1
   } else {
-    commenText.value = 'Show all comments'
+    commenText.value = 0
   }
 }
 </script>
@@ -110,7 +110,7 @@ const showComments = () => {
         <div class="border-r border-r-[#6C757D] h-4"></div>
         <IconTrash @click="deleteQuote" class="cursor-pointer"></IconTrash>
       </div>
-      <h1 class="text-2xl font-[500] hidden md:block">View quote</h1>
+      <h1 class="text-2xl font-[500] hidden md:block">{{ $t('movie.view_quote') }}</h1>
       <IconClose @click="props.closeViewQuote"></IconClose>
     </div>
     <div class="p-2 gap-6 flex flex-col">
@@ -147,7 +147,9 @@ const showComments = () => {
             :filled-color="src"
           ></IconHeart>
         </div>
-        <button class="ml-2" @click="showComments">{{ commenText }}</button>
+        <button class="ml-2" @click="showComments">
+          {{ commenText === 0 ? $t('feed.show_all_comments') : $t('feed.hide_comments') }}
+        </button>
       </div>
       <div
         v-for="comment in (quote.comments || []).length > 2 && !displayedComments
@@ -181,7 +183,7 @@ const showComments = () => {
         <Form @submit="onSubmit" class="w-19.125 h-10 md:w-full">
           <Field
             class="bg-[#24222F] w-19.125 pl-1 h-10 rounded-lg md:w-full outline-none"
-            placeholder="Wrie a comment"
+            :placeholder="$t('feed.write_comment')"
             name="comment"
             type="text"
             autocomplete="off"

@@ -95,7 +95,8 @@ const toggleInputType = () => {
       ></ClosedEye>
       <CloseInput
         v-if="isWriting && props.name !== 'password' && props.name !== 'password_confirmation'"
-        class="absolute right-[1.8rem] cursor-pointer"
+        :class="img === null ? 'right-[0.5rem]' : 'right-[1.8rem]'"
+        class="absolute cursor-pointer"
         @click="internalValue = ''"
       ></CloseInput>
       <component class="absolute mr-[0.5rem] right-0" v-bind:is="img"></component>
