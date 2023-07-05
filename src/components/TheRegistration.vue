@@ -41,7 +41,7 @@ const formData = computed(() => authStore.$state.form)
 </script>
 
 <template>
-  <section @click.stop class="h-screen md:w-37.5 md:max-h-[47rem] md:rounded-lg overflow-y-scroll">
+  <section @click.stop class="h-screen md:w-37.5 md:h-auto md:rounded-lg overflow-y-scroll">
     <div class="text-white flex flex-col px-2.75 items-center justify-center pt-4.563">
       <div class="text-center mb-2">
         <div class="flex gap-3">

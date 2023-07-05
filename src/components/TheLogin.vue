@@ -94,7 +94,7 @@ const formData = computed(() => loginStore.$state.login)
         <IconGoogle class="mr-0.5"></IconGoogle> {{ $t('login.google') }}
       </button>
       <div class="mb-3.313 mt-2 flex items-center justify-center">
-        <p class="text-[#6C757D] mr-0.25">{{ $t('login.account') }}?</p>
+        <p class="text-[#6C757D] mr-0.25">{{ $t('login.account') }}</p>
         <p @click="openSignup" class="text-[#0D6EFD] border-b border-[#0D6EFD] cursor-pointer">
           {{ $t('login.sign_up') }}
         </p>

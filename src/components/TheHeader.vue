@@ -6,7 +6,7 @@ const props = defineProps(['register', 'login'])
 
 <template>
   <div class="flex justify-between lg:px-4.375 px-1 pt-1.5 items-center">
-    <h2 class="text-cream">MOVIE QUOTES</h2>
+    <h2 class="text-cream">{{ $t('landing.title') }}</h2>
     <div class="flex items-center">
       <language-component class="mr-1.25"></language-component>
       <div class="flex">

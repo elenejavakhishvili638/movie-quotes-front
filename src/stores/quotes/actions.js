@@ -71,8 +71,13 @@ export default {
         },
         image: ''
       }
+      this.errors = {}
     } catch (error) {
-      console.log(this.errors)
+      if (error.response && error.response.data && error.response.data.errors) {
+        this.errors = error.response.data.errors
+      } else {
+        console.log(error)
+      }
     }
   },
 

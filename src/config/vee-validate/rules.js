@@ -41,9 +41,9 @@ defineRule('arrayNotEmpty', (value) => {
 })
 
 defineRule('english', (value) => {
-  return /^[a-zA-Z0-9$@$!%*?&#^-_. +]+$/.test(value)
+  return /^[a-zA-Z0-9$@$!%*?&#^_. +,();-]+$/.test(value)
 })
 
 defineRule('georgian', (value) => {
-  return /^[\u10A0-\u10FF\s0-9$@$!%*?&#^-_. +]+$/.test(value)
+  return /^[\u10A0-\u10FF\s0-9$@$!%*?&#^_.+,();-]+$/.test(value)
 })

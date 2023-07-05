@@ -7,6 +7,7 @@ import feed from './feed.json'
 import movie from './movie.json'
 import profile from './profile.json'
 import notifications from './notifications.json'
+import landing from './landing.json'
 
 const translations = {
   texts,
@@ -17,7 +18,8 @@ const translations = {
   feed,
   movie,
   profile,
-  notifications
+  notifications,
+  landing
 }
 
 export default translations

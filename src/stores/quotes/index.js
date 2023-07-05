@@ -21,7 +21,8 @@ export const useQuotesStore = defineStore({
     addedComment: {
       body: '',
       user_id: null
-    }
+    },
+    errors: {}
   }),
   getters,
   actions

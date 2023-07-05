@@ -146,15 +146,14 @@ const expired = computed(() => store.expired)
       </the-modal>
     </form-layout>
     <div class="bg-background flex flex-col justify-between">
-      <div class="lg:pb-13.25 pb-6.25">
+      <div class="pb-6.25 h-[53rem]">
         <the-header
           :register="() => openModal('registration')"
           :login="() => openModal('login')"
         ></the-header>
-        <div class="mt-8.5 flex flex-col items-center justify-center text-2xl break">
+        <div class="mt-[16rem] flex flex-col items-center justify-center text-2xl break">
           <h1 class="text-cream text-center lg:text-6xl lg:w-43.938 lg:leading-[5.625rem] w-17.563">
-            Find any quote in <br />
-            millions of movie lines
+            {{ $t('landing.text') }}
           </h1>
           <button
             @click="() => openModal('login')"
@@ -171,8 +170,8 @@ const expired = computed(() => store.expired)
         <div
           class="w-19.063 text-white lg:w-47.563 lg:leading-[4.688rem] text-xl lg:text-[3.125rem] font-bold"
         >
-          <h1 class="mb-[0.625rem]">- “You have to leave somethig behind to go forward”</h1>
-          <p class="text-base lg:text-3xl">Interstellar, 2014</p>
+          <h1 class="mb-[0.625rem]">- “{{ $t('landing.quote_one') }}”</h1>
+          <p class="text-base lg:text-3xl">{{ $t('landing.film_one') }}, 2014</p>
         </div>
       </div>
       <div
@@ -182,11 +181,8 @@ const expired = computed(() => store.expired)
         <div
           class="w-19.063 text-white lg:w-47.563 lg:leading-[4.688rem] text-xl lg:text-[3.125rem] font-bold"
         >
-          <h1 class="mb-[0.625rem]">
-            - “I think we’re just gonna have to be secretly in love with earch other and leave it
-            that”
-          </h1>
-          <p class="text-base lg:text-3xl">The Royal Tenenbaums,2001</p>
+          <h1 class="mb-[0.625rem]">- “{{ $t('landing.quote_two') }}”</h1>
+          <p class="text-base lg:text-3xl">{{ $t('landing.film_two') }},2001</p>
         </div>
       </div>
       <div
@@ -196,11 +192,8 @@ const expired = computed(() => store.expired)
         <div
           class="w-19.063 text-white lg:w-47.563 lg:leading-[4.688rem] text-xl lg:text-[3.125rem] font-bold"
         >
-          <h1 class="mb-[0.625rem]">
-            - “I think we’re just gonna have to be secretly in love with earch other and leave it
-            that”
-          </h1>
-          <p class="text-base lg:text-3xl">The Royal Tenenbaums,2001</p>
+          <h1 class="mb-[0.625rem]">- “{{ $t('landing.quote_three') }}”</h1>
+          <p class="text-base lg:text-3xl">{{ $t('landing.film_three') }},2003</p>
         </div>
       </div>
       <the-footer></the-footer>
