@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, computed } from 'vue'
+import { ref, computed } from 'vue'
 import TheFooter from '../components/TheFooter.vue'
 import TheHeader from '../components/TheHeader.vue'
 import image1 from '../assets/images/image1.png'
@@ -16,16 +16,14 @@ import expiredIcon from '../assets/images/logos/expired.png'
 import { useEmailStore } from '../stores/email/index'
 import ForgotPassword from '../components/ForgotPassword.vue'
 import ResetPassword from '../components/ResetPassword.vue'
+import { useLanguageStore } from '../stores/language'
 
 const route = useRoute()
 const router = useRouter()
-const showRegistration = ref(false)
-const showLogin = ref(false)
-const showModal = ref(false)
-const successModal = ref(false)
 const store = useEmailStore()
-const modalState = ref('')
-const emailForPassword = ref(false)
+const modalState = ref('login')
+const modal = ref(null)
+const languageStore = useLanguageStore()
 
 const changeEmailValue = () => {
   router.push({
@@ -37,63 +35,18 @@ const changeEmailValue = () => {
   })
 }
 
-const register = () => {
-  showRegistration.value = true
-}
-
-const login = () => {
-  showLogin.value = true
-  modalState.value = 'login'
-}
-
-const closeRegistration = () => {
-  showRegistration.value = false
-}
-
-const closeLogin = () => {
-  showLogin.value = false
-}
-
-const openModal = () => {
-  showModal.value = true
+const openModal = (modalName) => {
+  modal.value = modalName
+  languageStore.show = false
 }
 
 const closeModal = () => {
-  showModal.value = false
-}
-
-const openSuccessModal = () => {
-  successModal.value = true
-}
-
-const closeSuccessModal = () => {
-  successModal.value = false
-}
-
-const openEmailForPassword = () => {
-  emailForPassword.value = true
-}
-
-const closeEmailForPassword = () => {
-  emailForPassword.value = false
+  modal.value = null
 }
 
 const handleModalChange = (state) => {
   modalState.value = state
 }
-
-watch(
-  () => route.params.modal,
-  (modal) => {
-    if (modal && window.innerWidth >= 768) {
-      showRegistration.value = true
-      showLogin.value = true
-    } else {
-      showRegistration.value = false
-      showLogin.value = false
-    }
-  }
-)
 
 const resend = () => {
   store.resend()
@@ -106,14 +59,14 @@ const expired = computed(() => store.expired)
 
 <template>
   <div>
-    <form-layout :close="closeRegistration" v-if="showRegistration">
+    <form-layout :close="closeModal" v-if="modal === 'registration'">
       <the-registration
-        :closeRegistration="closeRegistration"
-        :openModal="openModal"
-        :login="login"
+        :closeRegistration="closeModal"
+        :openModal="() => openModal('showModal')"
+        :login="() => openModal('login')"
       ></the-registration>
     </form-layout>
-    <form-layout :close="closeModal" v-if="showModal">
+    <form-layout :close="closeModal" v-if="modal === 'showModal'">
       <the-modal :icon="email" :text="$t('modals.text')">
         <a
           :href="'mailto:' + email"
@@ -145,42 +98,45 @@ const expired = computed(() => store.expired)
         </button>
       </the-modal>
     </form-layout>
-    <form-layout :close="closeLogin" v-if="showLogin">
+    <form-layout :close="closeModal" v-if="modal === 'login'">
       <the-login
         v-if="modalState === 'login'"
         @changeModal="handleModalChange"
-        :closeLogin="closeLogin"
-        :register="register"
+        :closeLogin="closeModal"
+        :register="() => openModal('registration')"
       ></the-login>
       <forgot-password
         v-else-if="modalState === 'forgot-password'"
         @changeModal="handleModalChange"
-        :closeLogin="closeLogin"
-        :openEmailForPassword="openEmailForPassword"
+        :closeLogin="closeModal"
+        :openEmailForPassword="() => openModal('emailForPassword')"
       ></forgot-password>
     </form-layout>
     <form-layout :close="changeEmailValue" v-if="emailForPasswordReset">
       <reset-password
         @changeModal="handleModalChange"
-        :showLogin="login"
+        :showLogin="() => openModal('login')"
         :closeResetPassword="changeEmailValue"
-        :openSuccessModal="openSuccessModal"
+        :openSuccessModal="() => openModal('openSuccessModal')"
       ></reset-password>
     </form-layout>
-    <form-layout :close="closeSuccessModal" v-if="successModal">
+    <form-layout :close="closeSuccessModal" v-if="modal === 'openSuccessModal'">
       <the-modal :icon="verified" :header="$t('modals.header_two')" :text="$t('modals.text_three')">
-        <p @click="login" class="text-center w-11.875 rounded-lg bg-red text-white h-2.375 pt-0.5">
+        <p
+          @click="() => openModal('login')"
+          class="text-center w-11.875 rounded-lg bg-red text-white h-2.375 pt-0.5 cursor-pointer"
+        >
           {{ $t('modals.button_three') }}
         </p>
       </the-modal>
     </form-layout>
-    <form-layout :close="closeEmailForPassword" v-if="emailForPassword">
+    <form-layout :close="closeModal" v-if="modal === 'emailForPassword'">
       <the-modal
         :icon="email"
         :header="$t('modals.header_three')"
         :footer="$t('modals.footer')"
         :text="$t('modals.text_four')"
-        :close="closeEmailForPassword"
+        :close="closeModal"
       >
         <a
           :href="'mailto:' + email"
@@ -191,14 +147,17 @@ const expired = computed(() => store.expired)
     </form-layout>
     <div class="bg-background flex flex-col justify-between">
       <div class="lg:pb-13.25 pb-6.25">
-        <the-header :register="register" :login="login"></the-header>
+        <the-header
+          :register="() => openModal('registration')"
+          :login="() => openModal('login')"
+        ></the-header>
         <div class="mt-8.5 flex flex-col items-center justify-center text-2xl break">
           <h1 class="text-cream text-center lg:text-6xl lg:w-43.938 lg:leading-[5.625rem] w-17.563">
             Find any quote in <br />
             millions of movie lines
           </h1>
           <button
-            @click="login"
+            @click="() => openModal('login')"
             class="mt-2 justify-center items-center flex w-109 h-38 rounded text-white text-base border-none bg-red"
           >
             {{ $t('texts.get_started') }}

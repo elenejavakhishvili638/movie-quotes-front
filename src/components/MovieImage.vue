@@ -52,7 +52,7 @@ const imageRules = computed(() => {
       <img
         :src="uploadedImageUrl"
         v-if="uploadedImageUrl"
-        class="ml-1.5 w-11 lg:w-27 h-7 lg:h-9 object-contain border border-dashed border-[#DDCCAA]"
+        class="w-11 lg:w-27 h-7 lg:h-9 object-contain border border-dashed border-[#DDCCAA]"
       />
       <input
         type="file"
@@ -67,9 +67,20 @@ const imageRules = computed(() => {
           'flex flex-col items-center mr-6 lg:mr-[3.375rem] gap-4': uploadedImageUrl
         }"
       >
-        <div class="flex pl-0.25 items-center">
-          <IconCamera></IconCamera>
-          <p class="text-base font-normal ml-[0.813rem] text-center">{{ $t('movie.upload') }}</p>
+        <div class="flex flex-col pl-0.25 items-center">
+          <p v-if="uploadedImageUrl" class="text-[#DDCCAA]">{{ $t('movie.replace_photo') }}</p>
+          <div v-else class="flex items-center md:hidden">
+            <IconCamera></IconCamera>
+            <p class="text-base font-normal ml-[0.813rem] text-center">
+              {{ $t('movie.upload') }}
+            </p>
+          </div>
+          <div class="md:flex items-center hidden">
+            <IconCamera></IconCamera>
+            <p class="text-base font-normal ml-[0.813rem] text-center">
+              {{ $t('movie.upload') }}
+            </p>
+          </div>
         </div>
         <button
           type="button"

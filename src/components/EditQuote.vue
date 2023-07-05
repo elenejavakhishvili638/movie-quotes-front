@@ -120,9 +120,9 @@ const uploadedImage = ref(
     class="h-auto top-0 w-full md:top-[8%] xl:w-37 2xl:w-60 absolute text-white bg-modal md:w-31 rounded-xl"
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.5 px-3.5">
-      <IconTrash @click="deleteQuote"></IconTrash>
+      <IconTrash @click="deleteQuote" class="cursor-pointer"></IconTrash>
       <h1 class="text-2xl font-medium">{{ $t('movie.edit') }}</h1>
-      <IconClose @click="props.closeEditQuote"></IconClose>
+      <IconClose @click="props.closeEditQuote" class="cursor-pointer"></IconClose>
     </div>
     <div class="p-2.25">
       <div class="flex items-center gap-4 mb-2.25">
@@ -155,7 +155,7 @@ const uploadedImage = ref(
           ></quote-textarea>
         </div>
         <Field name="image" v-slot="{ handleChange, validate }">
-          <div class="relative flex items-center justify-center">
+          <div class="relative flex items-center justify-center cursor-pointer">
             <div
               @click="triggerFileInput"
               class="text-center flex flex-col items-center justify-center opacity-[80%] rounded-xl w-[8.438rem] h-5.25 bg-backgroundColor absolute"

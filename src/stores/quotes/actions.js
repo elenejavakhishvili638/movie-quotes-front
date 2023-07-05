@@ -100,6 +100,7 @@ export default {
     const movieStore = useMoviesStore()
     try {
       await deleteQuote(id)
+      await this.fetchQuotes()
       await movieStore.fetchFullList()
     } catch (error) {
       console.log(error)

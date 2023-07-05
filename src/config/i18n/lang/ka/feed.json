@@ -10,5 +10,7 @@
     "show_all_comments": "ყველა კომენტარის ნახვა",
     "hide_comments": "კომენტარების დამალვა",
     "write_quote": "ციტატის დამატება",
-    "choose_movie": "აირჩიე ფილმი"
+    "choose_movie": "აირჩიე ფილმი",
+    "movie": "ფილმი",
+    "write_comment": "დაწერეთ კომენტარი"
 }

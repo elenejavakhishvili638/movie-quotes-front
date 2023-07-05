@@ -109,13 +109,13 @@ const getImagePath = (image) => {
       </div>
     </div>
     <div v-if="notificationStore.notificationOpen" class="text-white">
-      <IconPolygon class="absolute right-[6.3rem] top-16 md:right-[19rem]"></IconPolygon>
+      <IconPolygon class="absolute right-[5.8rem] top-16 md:right-[19.5rem]"></IconPolygon>
       <div
-        class="z-10 p-2 text-xl absolute mt-5.5 rounded-xl top-0 right-0 h-47 bg-black w-full md:w-26 2xl:w-60 md:right-16 px-9 pt-7 overflow-scroll"
+        class="z-10 p-2 text-xl absolute mt-5.5 rounded-xl top-0 right-0 h-47 bg-black w-full md:w-[30rem] 2xl:w-60 md:right-16 px-9 pt-7 overflow-scroll"
       >
         <div class="flex justify-between text-white mb-4 items-center">
           <p class="text-xl md:text-3xl">{{ $t('notifications.notifications') }}</p>
-          <p class="border-b text-base md:text-xl cursor-pointer" @click="readAll">
+          <p class="border-b text-sm md:text-xl cursor-pointer" @click="readAll">
             {{ $t('notifications.mark_all') }}
           </p>
         </div>
@@ -123,13 +123,13 @@ const getImagePath = (image) => {
           v-for="notification in notifications"
           :key="notification.id"
           @click="read(notification.id)"
-          class="mt-2 flex border border-[#6C757D] p-1 rounded gap-3 md:justify-between"
+          class="mt-2 flex border border-[#6C757D] p-1 rounded gap-3 md:justify-between cursor-pointer"
         >
           <div class="md:flex md:gap-6 md:items-center">
             <div class="flex flex-col items-center">
               <img
                 :class="{ 'border-[#198754]': !notification.read_at }"
-                class="bg-[#D9D9D9] rounded-full md:w-20 md:h-5 w-[3.75rem] h-[3.75rem] border-2"
+                class="bg-[#D9D9D9] rounded-full md:w-20 md:h-5 w-[3.75rem] h-[3.75rem] border-2 object-cover"
                 alt="name"
                 :src="notification.actionUser && getImagePath(notification.actionUser.image)"
               />
@@ -185,7 +185,7 @@ const getImagePath = (image) => {
       >
         <icon-search></icon-search>
       </button>
-      <div class="relative">
+      <div class="relative cursor-pointer">
         <div
           class="absolute w-5 h-[1.25rem] md:w-[1.563rem] md:h-[1.563rem] bg-[#E33812] rounded-full left-3 bottom-4 md:left-4 md:bottom-5 flex items-center justify-center text-white text-base"
         >

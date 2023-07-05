@@ -151,7 +151,7 @@ const uploadedImage = ref(
         <Field name="movie" v-slot="{ handleChange }" rules="required">
           <div
             @click="openDropdown"
-            class="bg-[#000000] w-full h-5.375 rounded flex justify-between items-center"
+            class="bg-[#000000] w-full h-5.375 rounded flex justify-between items-center cursor-pointer"
           >
             <div class="flex ml-1">
               <IconMovie></IconMovie>
@@ -165,7 +165,11 @@ const uploadedImage = ref(
             v-if="dropDown"
             class="text-white bg-black p-1.25 top-5 bottom-3 h-7 overflow-y-scroll"
           >
-            <div v-for="movie in movies" :key="movie.id" class="border-b border-b-blue-50 mb-[5px]">
+            <div
+              v-for="movie in movies"
+              :key="movie.id"
+              class="border-b border-b-blue-50 mb-[5px] cursor-pointer"
+            >
               <p @click="selectMovie(movie, handleChange)">
                 {{ movie.title && movie.title[language] }}
               </p>

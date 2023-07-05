@@ -22,8 +22,8 @@ const onSubmit = async () => {
     passwordResetStore.errors = {}
     await passwordResetStore.sendEmail(passwordResetStore.$state.verifyEmail)
     if (Object.keys(errors.value).length === 0) {
-      props.openEmailForPassword()
       props.closeLogin()
+      props.openEmailForPassword()
     }
   } catch (error) {
     console.error(error)

@@ -47,6 +47,17 @@ and also:
 ```bash
 npm run dev
 ```
+4.Now we need to set our env file. Go to the root of your project and execute this command.
+```bash
+cp .env.example .env
+```
+Update the .env file with your database credentials:
+
+Pusher:
+>VITE_PUSHER_KEY=your-pusher-key
+
+>VITE_BACKEND_URL=your-backend-url
+
 ## Development
 ```bash
 npm run dev

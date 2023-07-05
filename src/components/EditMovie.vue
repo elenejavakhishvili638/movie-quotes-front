@@ -168,7 +168,7 @@ const uploadedImage = ref(
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.5 px-3.5">
       <div></div>
       <h1 class="text-2xl font-medium">{{ $t('movie.edit_movie') }}</h1>
-      <IconClose @click="props.closeMovie"></IconClose>
+      <IconClose @click="props.closeMovie" class="cursor-pointer"></IconClose>
     </div>
     <div class="p-2.25">
       <div class="flex items-center mb-2.25 gap-4">
@@ -234,6 +234,7 @@ const uploadedImage = ref(
           rows="4"
           v-model="movieForm.description.en"
           label="Movie Description :"
+          lang="Eng"
           :class="{ 'text-[#6C757D]': movieForm.description.en }"
         ></movie-textarea>
         <movie-textarea
@@ -241,6 +242,7 @@ const uploadedImage = ref(
           name="description.ka"
           rows="4"
           v-model="movieForm.description.ka"
+          lang="ქარ"
           label="ფილმის აღწერა :"
           :class="{ 'text-[#6C757D]': movieForm.description.ka }"
         ></movie-textarea>

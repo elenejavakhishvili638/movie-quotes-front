@@ -139,14 +139,14 @@ const closeSuccessModal = () => {
           style="display: none"
           @change="onFileChange"
         />
-        <p class="text-xl font-normal" @click="triggerFileInput">
+        <p class="text-xl font-normal cursor-pointer" @click="triggerFileInput">
           {{ $t('profile.upload_photo') }}
         </p>
       </div>
       <div class="w-22.75 flex flex-col gap-8">
         <div>
           <p class="mb-0.25 text-base">{{ $t('profile.username') }}</p>
-          <div class="flex justify-between border-b pb-1 text-lg">
+          <div class="flex justify-between border-b pb-1 text-md">
             <p>{{ props.username }}</p>
             <button
               class="text-[#CED4DA]"
@@ -166,9 +166,10 @@ const closeSuccessModal = () => {
         </div>
         <div>
           <p class="mb-0.25 text-base">{{ $t('profile.email') }}</p>
-          <div class="flex justify-between border-b pb-1 text-lg">
+          <div class="flex justify-between border-b pb-1 text-md">
             <p>{{ props.email }}</p>
             <button
+              v-if="props.google === null"
               class="text-[#CED4DA]"
               @click="
                 openEditProfile(
@@ -186,9 +187,10 @@ const closeSuccessModal = () => {
         </div>
         <div>
           <p class="mb-0.25 text-base">{{ $t('profile.password') }}</p>
-          <div class="flex justify-between border-b pb-1 text-lg">
+          <div class="flex justify-between border-b pb-1 text-md">
             <p class="tracking-wider">...............</p>
             <button
+              v-if="props.google === null"
               class="text-[#CED4DA]"
               @click="
                 openEditProfile(

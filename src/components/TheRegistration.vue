@@ -5,6 +5,7 @@ import TheInput from '../components/TheInput.vue'
 import { useAuthStore } from '../stores/registration/index'
 import IconGoogle from './icons/IconGoogle.vue'
 import { computed } from 'vue'
+import IconClose from './icons/IconClose.vue'
 
 const props = defineProps({
   closeRegistration: Function,
@@ -19,8 +20,8 @@ const onSubmit = async () => {
   try {
     await authStore.registerUser(authStore.$state.form)
     if (Object.keys(errors.value).length === 0) {
-      props.openModal()
       props.closeRegistration()
+      props.openModal()
     }
   } catch (error) {
     console.log(error)
@@ -40,10 +41,13 @@ const formData = computed(() => authStore.$state.form)
 </script>
 
 <template>
-  <section @click.stop class="h-screen md:w-37.5 md:h-auto md:rounded-lg overflow-scroll">
+  <section @click.stop class="h-screen md:w-37.5 md:max-h-[47rem] md:rounded-lg overflow-y-scroll">
     <div class="text-white flex flex-col px-2.75 items-center justify-center pt-4.563">
       <div class="text-center mb-2">
-        <h1 class="text-2xl mb-0.75 font-medium">{{ $t('registration.account') }}</h1>
+        <div class="flex gap-3">
+          <h1 class="text-2xl mb-0.75 font-medium">{{ $t('registration.account') }}</h1>
+          <IconClose @click="closeRegistration" class="cursor-pointer md:hidden"></IconClose>
+        </div>
         <p class="text-base text-[#6C757D] font-normal">{{ $t('registration.text') }}</p>
       </div>
       <Form @submit="onSubmit" v-slot="{ meta }">
@@ -99,7 +103,7 @@ const formData = computed(() => authStore.$state.form)
       </button>
       <div class="mb-3.313 mt-2 flex items-center justify-center">
         <p class="text-[#6C757D] mr-0.25">{{ $t('registration.have_account') }}</p>
-        <p @click="openLogin" class="text-[#0D6EFD] border-b border-[#0D6EFD]">
+        <p @click="openLogin" class="text-[#0D6EFD] border-b border-[#0D6EFD] cursor-pointer">
           {{ $t('texts.log_in') }}
         </p>
       </div>

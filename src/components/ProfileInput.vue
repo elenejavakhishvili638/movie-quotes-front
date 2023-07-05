@@ -76,7 +76,9 @@ const submitForm = () => {
 
 <template>
   <div class="modal w-22.75 h-13.188 rounded-xl opacity-1" v-if="modal">
-    <p class="px-4 pt-4 pb-2.75 border-b border-b-[#CED4DA33]">{{ $t('profile.make_changes') }}</p>
+    <p class="px-[3rem] pt-4 pb-2.75 border-b border-b-[#CED4DA33]">
+      {{ $t('profile.make_changes') }}
+    </p>
     <div class="px-1.25 flex justify-between mt-1.5">
       <button type="button" @click="closeModal">{{ $t('profile.cancel') }}</button>
       <button type="button" @click="submitForm" class="bg-[#E31221] py-0.5 rounded w-[4.313rem]">

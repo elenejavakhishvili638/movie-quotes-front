@@ -68,8 +68,12 @@ const language = computed(() => languageStore.currentLanguage)
         autocomplete="off"
         class="bg-transparent outline-none h-3 px-1 py-[0.563rem] w-11.875 lg:w-37.5"
       />
-      <component class="absolute right-14" v-bind:is="img"></component>
-      <p class="absolute right-5 text-[#6C757D]">{{ lang }}</p>
+      <component
+        :class="props.name === 'year' ? 'right-3' : 'right-11'"
+        class="absolute"
+        v-bind:is="img"
+      ></component>
+      <p class="absolute right-3 text-[#6C757D]">{{ lang }}</p>
     </div>
     <p class="text-[#F15524] text-base" v-if="props.errors">
       {{ props.errors[props.name] && props.errors[props.name][0][language] }}

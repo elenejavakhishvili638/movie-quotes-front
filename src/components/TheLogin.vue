@@ -6,6 +6,7 @@ import { useLoginStore } from '../stores/login/index'
 import { useRouter } from 'vue-router'
 import { computed } from 'vue'
 import IconGoogle from './icons/IconGoogle.vue'
+import IconClose from './icons/IconClose.vue'
 
 const props = defineProps({
   closeLogin: Function,
@@ -50,7 +51,10 @@ const formData = computed(() => loginStore.$state.login)
   <section @click.stop class="h-screen md:w-37.5 md:h-auto md:rounded-lg overflow-y-scroll">
     <div class="text-white flex flex-col px-2.75 items-center justify-center pt-4.563">
       <div class="text-center mb-2">
-        <h1 class="text-2xl mb-0.75 font-medium">{{ $t('login.log_in') }}</h1>
+        <div class="flex gap-3">
+          <h1 class="text-2xl mb-0.75 font-medium">{{ $t('login.log_in') }}</h1>
+          <IconClose @click="closeLogin" class="cursor-pointer md:hidden"></IconClose>
+        </div>
         <p class="text-base text-[#6C757D] font-normal">{{ $t('login.text') }}</p>
       </div>
       <Form @submit="onSubmit" v-slot="{ meta }">
@@ -75,7 +79,7 @@ const formData = computed(() => loginStore.$state.login)
         <div class="w-22.5 flex justify-between mb-1">
           <div class="flex justify-center">
             <input type="checkbox" name="remember" />
-            <label class="ml-0.5">{{ $t('login.remember_me') }}</label>
+            <label class="ml-0.5" for="remember">{{ $t('login.remember_me') }}</label>
           </div>
           <p @click="openModal" class="text-[#0D6EFD] cursor-pointer border-b border-[#0D6EFD]">
             {{ $t('login.forgot_password') }}?
@@ -91,7 +95,7 @@ const formData = computed(() => loginStore.$state.login)
       </button>
       <div class="mb-3.313 mt-2 flex items-center justify-center">
         <p class="text-[#6C757D] mr-0.25">{{ $t('login.account') }}?</p>
-        <p @click="openSignup" class="text-[#0D6EFD] border-b border-[#0D6EFD]">
+        <p @click="openSignup" class="text-[#0D6EFD] border-b border-[#0D6EFD] cursor-pointer">
           {{ $t('login.sign_up') }}
         </p>
       </div>

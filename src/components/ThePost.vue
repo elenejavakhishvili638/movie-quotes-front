@@ -123,9 +123,8 @@ const language = computed(() => languageStore.currentLanguage)
       </div>
       <div>
         <p class="mb-1">
-          “{{ props.quote }}” movie - <span class="text-cream">{{ props.movie }}.</span> ({{
-            props.year
-          }})
+          “{{ props.quote }} .” {{ $t('feed.movie') }} -
+          <span class="text-cream">{{ props.movie }}.</span> ({{ props.year }})
         </p>
         <img
           :src="path + '/storage/' + props.poster"
@@ -184,7 +183,7 @@ const language = computed(() => languageStore.currentLanguage)
         <Form @submit="onSubmit" class="w-19.125 h-10 md:w-full">
           <Field
             class="bg-[#24222F] w-19 pl-1 h-10 rounded-lg md:w-full outline-none"
-            placeholder="Wrie a comment"
+            :placeholder="$t('feed.write_comment')"
             name="comment"
             type="text"
             autocomplete="off"
