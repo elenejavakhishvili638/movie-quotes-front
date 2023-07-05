@@ -175,6 +175,7 @@ export async function addQuote(data) {
     })
   } catch (error) {
     console.log(error)
+    throw error
   }
 }
 

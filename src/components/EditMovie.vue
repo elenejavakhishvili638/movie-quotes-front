@@ -252,6 +252,7 @@ const uploadedImage = ref(
           :triggerFileInputParent="triggerFileInput"
           :uploadedImageUrl="uploadedImageUrl"
           type="edit"
+          :errors="errors"
         ></movie-image>
         <the-button type="submit" class="w-full">{{ $t('movie.edit_movie') }}</the-button>
       </Form>

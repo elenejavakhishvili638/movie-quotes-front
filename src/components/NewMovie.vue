@@ -223,6 +223,7 @@ const uploadedImage = ref(
           :onDropParent="onDrop"
           :triggerFileInputParent="triggerFileInput"
           :uploadedImageUrl="uploadedImageUrl"
+          :errors="errors"
         ></movie-image>
         <the-button type="submit" class="w-full"> {{ $t('movie.add_movie') }}</the-button>
       </Form>

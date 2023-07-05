@@ -62,10 +62,10 @@ const closeSearch = () => {
     </modal-layout>
     <feed-header :searchBar="true" :toggle-search="toggleSearch"></feed-header>
     <div class="md:flex md:ml-2.5 lg:ml-4.5">
-      <div class="hidden md:block text-white md:ml-2">
+      <div class="hidden md:block text-white md:ml-2 h-screen">
         <profile-sidebar></profile-sidebar>
       </div>
-      <div class="mt-1 mx-2 md:mr-4.5 text-white flex flex-col justify-center md:w-[75%] md:ml-8">
+      <div class="mx-2 md:mr-4.5 text-white flex flex-col justify-start mt-2 md:w-[75%] md:ml-8">
         <div class="flex justify-between mb-2">
           <div class="text-white mb-2">
             <h1 class="text-2xl">{{ $t('movie.my_list') }}</h1>

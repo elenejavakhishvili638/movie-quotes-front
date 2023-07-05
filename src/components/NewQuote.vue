@@ -25,7 +25,7 @@ const imageUrl = ref(null)
 const isDragging = ref(false)
 const user = computed(() => userStore.$state.user)
 let path = import.meta.env.VITE_BACKEND_URL
-
+const errors = computed(() => quoteStore.$state.errors)
 const quoteForm = computed(() => quoteStore.$state.addedQuote)
 
 const triggerFileInput = (fileInput) => {
@@ -95,8 +95,10 @@ const onSubmit = async () => {
     }
 
     await quoteStore.addQuote(formData)
-    await moviesStore.fetchFullList()
-    props.closeQuote()
+    if (Object.keys(errors.value).length === 0) {
+      await moviesStore.fetchFullList()
+      props.closeQuote()
+    }
   } catch (error) {
     console.log(error)
   }
@@ -147,6 +149,7 @@ const uploadedImage = ref(
           :onDropParent="onDrop"
           :triggerFileInputParent="triggerFileInput"
           :uploadedImageUrl="uploadedImageUrl"
+          :errors="errors"
         ></movie-image>
         <Field name="movie" v-slot="{ handleChange }" rules="required">
           <div

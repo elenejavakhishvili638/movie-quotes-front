@@ -2,15 +2,18 @@
 import IconCamera from './icons/IconCamera.vue'
 import { ref, computed } from 'vue'
 import { Field, ErrorMessage } from 'vee-validate'
+import { useLanguageStore } from '../stores/language/index'
 
 const fileInput = ref(null)
+const languageStore = useLanguageStore()
 
 const props = defineProps([
   'onFileChangeParent',
   'onDropParent',
   'triggerFileInputParent',
   'uploadedImageUrl',
-  'type'
+  'type',
+  'errors'
 ])
 
 const triggerFileInput = () => {
@@ -38,6 +41,8 @@ const onDrop = async (event, handleChange, validate) => {
 const imageRules = computed(() => {
   return props.type === 'edit' ? '' : 'required'
 })
+
+const language = computed(() => languageStore.currentLanguage)
 </script>
 
 <template>
@@ -91,6 +96,9 @@ const imageRules = computed(() => {
         </button>
       </div>
     </div>
+    <p class="text-[#F15524] text-base" v-if="props.errors">
+      {{ props.errors.image && props.errors.image[0][language] }}
+    </p>
     <ErrorMessage class="text-[#F15524] text-base ml-5" name="image" />
   </Field>
 </template>
