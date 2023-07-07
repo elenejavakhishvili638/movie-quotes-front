@@ -29,7 +29,7 @@ const uploadedImageUrl = ref(
     <div class="flex items-center mb-1 mt-2">
       <img
         :class="profile"
-        class="bg-[#D9D9D9] rounded-full w-10 h-10 lg:w-3.75 lg:w- lg:h-3.75 object-cover"
+        class="bg-[#D9D9D9] rounded-full w-10 h-10 xl:w-3.75 xl:h-3.75 object-cover"
         :src="uploadedImageUrl"
         alt="name"
       />

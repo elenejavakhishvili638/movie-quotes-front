@@ -73,7 +73,8 @@ export const theme = {
       cream: '#DDCCAA',
       red: '#E31221',
       'border-color': 'rgba(239, 239, 239, 0.3)',
-      modal: '#11101A'
+      modal: '#11101A',
+      feedColor: 'linear-gradient(0deg, rgba(34, 32, 48, 0.2)'
     },
     width: {
       72: '72px',
