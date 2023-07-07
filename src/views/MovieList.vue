@@ -2,7 +2,7 @@
 import FeedHeader from '../components/FeedHeader.vue'
 import IconChatQuote from '../components/icons/IconChatQuote.vue'
 import IconSearch from '../components/icons/IconSearch.vue'
-import { onMounted, computed, ref, watch } from 'vue'
+import { onMounted, computed, ref } from 'vue'
 import { useMoviesStore } from '../stores/movies/index'
 import { useLanguageStore } from '../stores/language/index'
 import ProfileSidebar from '../components/ProfileSidebar.vue'
@@ -21,20 +21,16 @@ const searchOpen = ref(false)
 let path = import.meta.env.VITE_BACKEND_URL
 
 onMounted(async () => {
-  await moviesStore.fetchMovies()
+  await moviesStore.fetchFullList()
 })
 
 const fetchMovies = async () => {
   if (searchTerm.value) {
-    await moviesStore.fetchMovies(searchTerm.value)
+    await moviesStore.filterMovies(searchTerm.value)
   } else {
     await moviesStore.fetchFullList()
   }
 }
-
-watch(searchTerm, (newTerm) => {
-  moviesStore.fetchMovies(newTerm)
-})
 
 const openMovie = () => {
   addMovie.value = true
@@ -108,7 +104,7 @@ const closeSearch = () => {
           </div>
         </div>
         <div class="text-white grid gap-12 md:grid-cols-fill">
-          <div v-for="movie in moviesStore.state" :key="movie.id">
+          <div v-for="movie in moviesStore.filteredMovieList" :key="movie.id">
             <div v-if="movie.id">
               <router-link :to="{ name: 'movie', params: { id: movie.id } }">
                 <img

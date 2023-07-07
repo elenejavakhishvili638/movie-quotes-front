@@ -7,6 +7,7 @@ export const useMoviesStore = defineStore({
   id: 'movie',
   state: () => ({
     movieList: [],
+    filteredMovieList: [],
     movie: {},
     genres: [],
     addedMovie: {

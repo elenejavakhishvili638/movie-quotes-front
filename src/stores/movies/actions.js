@@ -8,21 +8,22 @@ import {
 } from '../../services'
 
 export default {
-  async fetchMovies(searchTerm) {
-    try {
-      if (this.movieList.length > 0 && !searchTerm) {
-        return
-      }
-      const response = await fetchMovies(searchTerm)
-      this.movieList = response.data
-    } catch (error) {
-      console.error(error)
+  filterMovies(searchTerm) {
+    if (searchTerm === '') {
+      this.filteredMovieList = this.movieList
+    } else {
+      this.filteredMovieList = this.movieList.filter(
+        (movie) =>
+          movie.title.en.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          movie.title.ka.toLowerCase().includes(searchTerm.toLowerCase())
+      )
     }
   },
 
   async fetchFullList() {
     const response = await fetchMovies()
     this.movieList = response.data
+    this.filteredMovieList = this.movieList
   },
 
   async fetchMovie(id) {

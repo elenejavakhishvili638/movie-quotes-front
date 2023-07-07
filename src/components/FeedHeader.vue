@@ -80,7 +80,7 @@ const minutesAgo = (dateString) => {
 }
 
 const getImagePath = (image) => {
-  return image.startsWith('images') ? path + '/storage/' + image : image
+  return image && image.startsWith('images') ? path + '/storage/' + image : image
 }
 </script>
 
@@ -131,7 +131,10 @@ const getImagePath = (image) => {
                 :class="{ 'border-[#198754]': !notification.read_at }"
                 class="bg-[#D9D9D9] rounded-full md:w-20 md:h-5 w-[3.75rem] h-[3.75rem] border-2 object-cover"
                 alt="name"
-                :src="notification.actionUser && getImagePath(notification.actionUser.image)"
+                :src="
+                  notification.actionUser &&
+                  getImagePath(notification.actionUser && notification.actionUser.image)
+                "
               />
               <p class="text-[#198754] md:hidden" v-if="!notification.read_at">
                 {{ $t('notifications.new') }}
