@@ -117,7 +117,7 @@ const user = computed(() => userStore.$state.user)
 </script>
 
 <template>
-  <div class="background min-h-[200vh] pb-2">
+  <div class="background min-h-screen pb-2">
     <ModalLayout v-if="editMovie">
       <EditMovie
         :username="user.username"
@@ -153,7 +153,7 @@ const user = computed(() => userStore.$state.user)
       ></EditQuote>
     </ModalLayout>
     <feed-header :searchBar="false"></feed-header>
-    <div class="md:flex md:ml-2.5 lg:ml-4.5">
+    <div class="md:flex md:ml-2.5 2xl:ml-4.5 gap-10">
       <div class="hidden md:block text-white sm:w-[25%] lg:w-[17%]">
         <profile-sidebar></profile-sidebar>
       </div>
@@ -161,15 +161,15 @@ const user = computed(() => userStore.$state.user)
         <h1 class="hidden md:block text-2xl font-[500] mb-2 ml-2">
           {{ $t('movie.movie_desc') }}
         </h1>
-        <div class="mx-2.25 pb-2 md:flex md:gap-5">
+        <div class="mx-2.25 pb-2 xl:flex md:gap-5">
           <div>
             <img
               :src="path + '/storage/' + movie.image"
-              class="w-22.375 h-18.875 border border-[#DDCCAA] xl:w-50.563 xl:h-27.563 rounded-xl object-contain mb-1.5"
+              class="min-w-[22.375rem] w-full h-18.875 border border-[#DDCCAA] xl:w-50.563 xl:h-27.563 rounded-xl object-cover mb-1.5"
             />
           </div>
-          <div class="lg:min-w-36.875">
-            <div class="flex flex-col md:flex-row justify-between">
+          <div class="lg:w-[36rem]">
+            <div class="flex flex-col 2xl:flex-row justify-between">
               <h1 class="text-[#DDCCAA] text-2xl font-[700] md:max-w-18.125 mb-[1.25rem]">
                 {{ movie.title && movie.title[language] }}
                 ({{ movie.year }})
@@ -232,7 +232,7 @@ const user = computed(() => userStore.$state.user)
           <div
             v-for="(quote, index) in movie.quotes"
             :key="quote.id"
-            class="relative md:w-37.5 lg:w-50.563 bg-[#11101A] flex flex-col items-center px-2.188 mb-2.25 md:ml-2.25"
+            class="relative md:w-37.5 2xl:w-50.563 bg-[#11101A] flex flex-col items-center px-2.188 mb-2.25 md:ml-2.25"
           >
             <div
               class="relative border-b border-b-[#54535A] pb-[2.625rem] mb-[1.188rem] flex flex-col md:flex-row items-center md:w-full"

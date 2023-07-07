@@ -72,7 +72,7 @@ const props = defineProps(['username', 'closeQuote', 'image'])
 const movies = computed(() => moviesStore.$state.movieList)
 
 onMounted(async () => {
-  await moviesStore.fetchMovies()
+  await moviesStore.fetchFullList()
 })
 
 const selectMovie = async (movie, handleChange) => {

@@ -69,14 +69,9 @@ export async function updatePassword(data) {
   }
 }
 
-export async function fetchMovies(searchTerm) {
+export async function fetchMovies() {
   try {
-    let response
-    if (searchTerm) {
-      response = await axios.get(`/api/movies?search=${searchTerm}`)
-    } else {
-      response = await axios.get('/api/movies')
-    }
+    let response = await axios.get('/api/movies')
     return response
   } catch (error) {
     console.log(error)

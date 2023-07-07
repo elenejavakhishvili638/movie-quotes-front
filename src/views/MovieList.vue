@@ -2,7 +2,7 @@
 import FeedHeader from '../components/FeedHeader.vue'
 import IconChatQuote from '../components/icons/IconChatQuote.vue'
 import IconSearch from '../components/icons/IconSearch.vue'
-import { onMounted, computed, ref, watch } from 'vue'
+import { onMounted, computed, ref } from 'vue'
 import { useMoviesStore } from '../stores/movies/index'
 import { useLanguageStore } from '../stores/language/index'
 import ProfileSidebar from '../components/ProfileSidebar.vue'
@@ -21,20 +21,16 @@ const searchOpen = ref(false)
 let path = import.meta.env.VITE_BACKEND_URL
 
 onMounted(async () => {
-  await moviesStore.fetchMovies()
+  await moviesStore.fetchFullList()
 })
 
 const fetchMovies = async () => {
   if (searchTerm.value) {
-    await moviesStore.fetchMovies(searchTerm.value)
+    await moviesStore.filterMovies(searchTerm.value)
   } else {
     await moviesStore.fetchFullList()
   }
 }
-
-watch(searchTerm, (newTerm) => {
-  moviesStore.fetchMovies(newTerm)
-})
 
 const openMovie = () => {
   addMovie.value = true
@@ -56,13 +52,13 @@ const closeSearch = () => {
 </script>
 
 <template>
-  <div class="background min-h-135 pb-2">
+  <div class="background min-h-screen pb-2">
     <modal-layout v-if="addMovie">
       <new-movie :image="user.image" :username="user.username" :closeMovie="closeMovie"></new-movie>
     </modal-layout>
     <feed-header :searchBar="true" :toggle-search="toggleSearch"></feed-header>
     <div class="md:flex md:ml-2.5 lg:ml-4.5">
-      <div class="hidden md:block text-white md:ml-2 h-screen">
+      <div class="hidden md:block text-white w-14.5">
         <profile-sidebar></profile-sidebar>
       </div>
       <div class="mx-2 md:mr-4.5 text-white flex flex-col justify-start mt-2 md:w-[75%] md:ml-8">
@@ -108,13 +104,13 @@ const closeSearch = () => {
           </div>
         </div>
         <div class="text-white grid gap-12 md:grid-cols-fill">
-          <div v-for="movie in moviesStore.state" :key="movie.id">
+          <div v-for="movie in moviesStore.filteredMovieList" :key="movie.id">
             <div v-if="movie.id">
               <router-link :to="{ name: 'movie', params: { id: movie.id } }">
                 <img
                   alt="movie"
                   :src="path + '/storage/' + movie.image"
-                  class="sm:w-22 md:w-27 h-19 rounded-xl object-contain border border-[#DDCCAA]"
+                  class="sm:w-22 md:w-27 h-19 rounded-xl object-cover border border-[#DDCCAA]"
                 />
                 <div class="mt-1 w-22">
                   <h1 class="mb-1 text-2xl">

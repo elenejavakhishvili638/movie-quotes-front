@@ -80,18 +80,18 @@ const minutesAgo = (dateString) => {
 }
 
 const getImagePath = (image) => {
-  return image.startsWith('images') ? path + '/storage/' + image : image
+  return image && image.startsWith('images') ? path + '/storage/' + image : image
 }
 </script>
 
 <template>
   <div
-    class="bg-[#22203033] h-[86px] flex justify-between items-center pl-[2rem] pr-[2rem] md:px-[4rem] top-0 sticky w-full"
+    class="bg-[#222030] h-[86px] flex justify-between items-center pl-[2rem] pr-[2rem] md:px-[4rem] top-0 sticky w-full"
   >
     <button @click="openMenu" class="cursor-pointer md:hidden">
       <IconMenu></IconMenu>
     </button>
-    <p class="text-cream hidden md:block">MOVIE QUOTES</p>
+    <p class="text-cream hidden md:block">{{ $t('landing.title') }}</p>
     <div
       v-if="menuOpen"
       @click="closeMenu"
@@ -131,7 +131,10 @@ const getImagePath = (image) => {
                 :class="{ 'border-[#198754]': !notification.read_at }"
                 class="bg-[#D9D9D9] rounded-full md:w-20 md:h-5 w-[3.75rem] h-[3.75rem] border-2 object-cover"
                 alt="name"
-                :src="notification.actionUser && getImagePath(notification.actionUser.image)"
+                :src="
+                  notification.actionUser &&
+                  getImagePath(notification.actionUser && notification.actionUser.image)
+                "
               />
               <p class="text-[#198754] md:hidden" v-if="!notification.read_at">
                 {{ $t('notifications.new') }}
