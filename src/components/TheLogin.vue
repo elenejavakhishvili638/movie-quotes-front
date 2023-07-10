@@ -1,12 +1,12 @@
 <script setup>
 import { Form } from 'vee-validate'
-import TheButton from '../components/TheButton.vue'
-import TheInput from '../components/TheInput.vue'
-import { useLoginStore } from '../stores/login/index'
+import TheButton from '@/components/TheButton.vue'
+import TheInput from '@/components/TheInput.vue'
+import { useLoginStore } from '@/stores/login/index'
 import { useRouter } from 'vue-router'
 import { computed } from 'vue'
-import IconGoogle from './icons/IconGoogle.vue'
-import IconClose from './icons/IconClose.vue'
+import IconGoogle from '@/components/icons/IconGoogle.vue'
+import IconClose from '@/components/icons/IconClose.vue'
 
 const props = defineProps({
   closeLogin: Function,

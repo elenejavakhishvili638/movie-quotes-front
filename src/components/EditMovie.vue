@@ -1,15 +1,15 @@
 <script setup>
-import IconClose from './icons/IconClose.vue'
-import MovieInput from './MovieInput.vue'
-import { useMoviesStore } from '../stores/movies/index'
+import IconClose from '@/components/icons/IconClose.vue'
+import MovieInput from '@/components/MovieInput.vue'
+import { useMoviesStore } from '@/stores/movies/index'
 import { computed, ref, onMounted, watch } from 'vue'
 import { Form, useForm, useField } from 'vee-validate'
-import TheButton from './TheButton.vue'
-import { useUserStore } from '../stores/user/index'
-import MovieTextarea from './MovieTextarea.vue'
+import TheButton from '@/components/TheButton.vue'
+import { useUserStore } from '@/stores/user/index'
+import MovieTextarea from '@/components/MovieTextarea.vue'
 import { useRoute } from 'vue-router'
-import GenreComponent from './GenreComponent.vue'
-import MovieImage from './MovieImage.vue'
+import GenreComponent from '@/components/GenreComponent.vue'
+import MovieImage from '@/components/MovieImage.vue'
 
 const props = defineProps(['username', 'closeMovie', 'movie', 'image'])
 const movieStore = useMoviesStore()
@@ -39,26 +39,6 @@ watch(tagGenres, () => {
   validateTagGenres()
 })
 
-const deepEqual = (obj1, obj2) => {
-  if (obj1 === obj2) return true
-
-  if (typeof obj1 !== 'object' || obj1 === null || typeof obj2 !== 'object' || obj2 === null) {
-    return false
-  }
-
-  let keys1 = Object.keys(obj1)
-  let keys2 = Object.keys(obj2)
-
-  if (keys1.length !== keys2.length) return false
-
-  for (let key of keys1) {
-    if (!keys2.includes(key)) return false
-    if (!deepEqual(obj1[key], obj2[key])) return false
-  }
-
-  return true
-}
-
 onMounted(async () => {
   try {
     await movieStore.fetchGenres()
@@ -82,11 +62,7 @@ const removeTag = (id) => {
 }
 
 const onSubmit = async () => {
-  if (
-    deepEqual(props.movie, movieForm.value) &&
-    !imageUrl.value &&
-    Object.keys(tagGenres.value).length === 0
-  ) {
+  if (!imageUrl.value && Object.keys(tagGenres.value).length === 0) {
     return
   }
   const id = route.params.id

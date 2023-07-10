@@ -1,8 +1,8 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { useMoviesStore } from '../stores/movies/index'
+import { useMoviesStore } from '@/stores/movies/index'
 import { ErrorMessage, Field } from 'vee-validate'
-import { useLanguageStore } from '../stores/language/index'
+import { useLanguageStore } from '@/stores/language/index'
 
 const props = defineProps(['error', 'filter', 'remove', 'tagGenres', 'type'])
 
@@ -12,7 +12,7 @@ const genres = computed(() => movieStore.$state.genres)
 const genreModal = ref(false)
 
 const openGenreModal = () => {
-  genreModal.value = true
+  genreModal.value = !genreModal.value
 }
 
 const closeGenreModal = () => {

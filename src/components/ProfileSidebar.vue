@@ -1,9 +1,9 @@
 <script setup>
 import { useRoute } from 'vue-router'
-import { useUserStore } from '../stores/user/index'
+import { useUserStore } from '@/stores/user/index'
 import { computed, ref } from 'vue'
-import ProfileCamera from './icons/ProfileCamera.vue'
-import ProfileHome from './icons/ProfileHome.vue'
+import ProfileCamera from '@/components/icons/ProfileCamera.vue'
+import ProfileHome from '@/components/icons/ProfileHome.vue'
 
 const props = defineProps(['close'])
 let path = import.meta.env.VITE_BACKEND_URL

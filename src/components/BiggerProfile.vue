@@ -1,14 +1,14 @@
 <script setup>
 import { ref, computed } from 'vue'
-import { useUpdateUserStore } from '../stores/updateUser/index'
+import { useUpdateUserStore } from '@/stores/updateUser/index'
 import { Form, Field } from 'vee-validate'
-import { useUserStore } from '../stores/user'
-import TheInput from '../components/TheInput.vue'
-import ProfileValidation from './ProfileValidation.vue'
-import { useLanguageStore } from '../stores/language/index'
-import { useNotificationStore } from '../stores/notification'
-import IconTick from './icons/IconTick.vue'
-import IconExit from './icons/IconExit.vue'
+import { useUserStore } from '@/stores/user'
+import TheInput from '@/components/TheInput.vue'
+import ProfileValidation from '@/components/ProfileValidation.vue'
+import { useLanguageStore } from '@/stores/language/index'
+import { useNotificationStore } from '@/stores/notification'
+import IconTick from '@/components/icons/IconTick.vue'
+import IconExit from '@/components/icons/IconExit.vue'
 
 const props = defineProps(['username', 'email', 'google', 'user'])
 
@@ -19,6 +19,7 @@ const newPassword = ref(false)
 const openButtons = ref(false)
 const successModal = ref(false)
 const userStore = useUserStore()
+const userData = computed(() => userStore.user)
 const updateUserStore = useUpdateUserStore()
 const languageStore = useLanguageStore()
 const formData = computed(() => updateUserStore.form)
@@ -166,7 +167,7 @@ const language = computed(() => languageStore.currentLanguage)
                 name="oldName"
                 type="text"
                 disabled
-                :value="props.username"
+                v-model="userData.username"
                 class="text-charcoal w-33 h-3 rounded px-0.5 py-1 outline-none bg-cyanBlue"
               />
 

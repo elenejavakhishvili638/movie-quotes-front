@@ -1,8 +1,8 @@
 <script setup>
-import IconCamera from './icons/IconCamera.vue'
+import IconCamera from '@/components/icons/IconCamera.vue'
 import { ref, computed } from 'vue'
 import { Field, ErrorMessage } from 'vee-validate'
-import { useLanguageStore } from '../stores/language/index'
+import { useLanguageStore } from '@/stores/language/index'
 
 const fileInput = ref(null)
 const languageStore = useLanguageStore()

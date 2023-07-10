@@ -1,14 +1,14 @@
 <script setup>
-import IconClose from './icons/IconClose.vue'
-import TheButton from '../components/TheButton.vue'
+import IconClose from '@/components/icons/IconClose.vue'
+import TheButton from '@/components/TheButton.vue'
 import { ref, computed } from 'vue'
 import { Form } from 'vee-validate'
-import { useMoviesStore } from '../stores/movies/index'
-import { useLanguageStore } from '../stores/language/index'
-import MovieImage from './MovieImage.vue'
-import QuoteTextarea from './QuoteTextarea.vue'
-import { useQuotesStore } from '../stores/quotes'
-import { useUserStore } from '../stores/user/index'
+import { useMoviesStore } from '@/stores/movies/index'
+import { useLanguageStore } from '@/stores/language/index'
+import MovieImage from '@/components/MovieImage.vue'
+import QuoteTextarea from '@/components/QuoteTextarea.vue'
+import { useQuotesStore } from '@/stores/quotes'
+import { useUserStore } from '@/stores/user/index'
 
 const userStore = useUserStore()
 const quoteStore = useQuotesStore()

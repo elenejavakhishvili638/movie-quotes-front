@@ -1,16 +1,16 @@
 <script setup>
-import IconClose from './icons/IconClose.vue'
-import TheButton from '../components/TheButton.vue'
+import IconClose from '@/components/icons/IconClose.vue'
+import TheButton from '@/components/TheButton.vue'
 import { ref, computed, onMounted } from 'vue'
 import { Form, ErrorMessage, Field } from 'vee-validate'
-import IconVector from './icons/IconVector.vue'
-import IconMovie from './icons/IconMovie.vue'
-import { useMoviesStore } from '../stores/movies/index'
-import { useLanguageStore } from '../stores/language/index'
-import MovieImage from './MovieImage.vue'
-import QuoteTextarea from './QuoteTextarea.vue'
-import { useQuotesStore } from '../stores/quotes'
-import { useUserStore } from '../stores/user/index'
+import IconVector from '@/components/icons/IconVector.vue'
+import IconMovie from '@/components/icons/IconMovie.vue'
+import { useMoviesStore } from '@/stores/movies/index'
+import { useLanguageStore } from '@/stores/language/index'
+import MovieImage from '@/components/MovieImage.vue'
+import QuoteTextarea from '@/components/QuoteTextarea.vue'
+import { useQuotesStore } from '@/stores/quotes'
+import { useUserStore } from '@/stores/user/index'
 
 const language = computed(() => languageStore.currentLanguage)
 const userStore = useUserStore()
@@ -111,7 +111,7 @@ const uploadedImage = ref(
 
 <template>
   <div
-    class="h-auto top-0 z-10 w-full md:top-[8%] md:left-[25%] xl:left-[28%] 2xl:left-[24%] xl:w-37.5 2xl:w-60 absolute text-white bg-[#11101A] md:w-37.5 rounded-xl"
+    class="h-auto top-0 z-10 w-full md:top-[8%] md:left-[30%] xl:left-[23%] 2xl:left-[24%] xl:w-60 2xl:w-60 absolute text-white bg-[#11101A] md:w-37.5 rounded-xl"
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.563 px-3.375">
       <div></div>

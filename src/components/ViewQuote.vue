@@ -1,15 +1,15 @@
 <script setup>
-import IconClose from './icons/IconClose.vue'
-import IconTrash from './icons/IconTrash.vue'
-import IconEdit from './icons/IconEdit.vue'
+import IconClose from '@/components/icons/IconClose.vue'
+import IconTrash from '@/components/icons/IconTrash.vue'
+import IconEdit from '@/components/icons/IconEdit.vue'
 import { computed, onMounted, ref } from 'vue'
-import { useQuotesStore } from '../stores/quotes'
-import IconComment from './icons/IconComment.vue'
-import IconHeart from './icons/IconHeart.vue'
-import { useUserStore } from '../stores/user'
+import { useQuotesStore } from '@/stores/quotes'
+import IconComment from '@/components/icons/IconComment.vue'
+import IconHeart from '@/components/icons/IconHeart.vue'
+import { useUserStore } from '@/stores/user'
 import { Form, Field } from 'vee-validate'
 import { useRoute } from 'vue-router'
-import { useMoviesStore } from '../stores/movies'
+import { useMoviesStore } from '@/stores/movies'
 
 const route = useRoute()
 const props = defineProps(['closeViewQuote', 'id', 'movie', 'image', 'username'])

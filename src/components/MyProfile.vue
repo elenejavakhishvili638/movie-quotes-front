@@ -1,13 +1,13 @@
 <script setup>
 import { ref, computed } from 'vue'
-import { useUpdateUserStore } from '../stores/updateUser'
-import { useUserStore } from '../stores/user'
-import ProfileInput from './ProfileInput.vue'
+import { useUpdateUserStore } from '@/stores/updateUser'
+import { useUserStore } from '@/stores/user'
+import ProfileInput from '@/components/ProfileInput.vue'
 import { Form } from 'vee-validate'
-import IconTick from './icons/IconTick.vue'
-import IconExit from './icons/IconExit.vue'
-import ModalLayout from './ModalLayout.vue'
-import IconArrow from './icons/IconArrow.vue'
+import IconTick from '@/components/icons/IconTick.vue'
+import IconExit from '@/components/icons/IconExit.vue'
+import ModalLayout from '@/components/ModalLayout.vue'
+import IconArrow from '@/components/icons/IconArrow.vue'
 
 const props = defineProps(['username', 'email', 'google', 'user'])
 const fileInput = ref(null)

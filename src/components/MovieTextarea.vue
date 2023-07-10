@@ -1,8 +1,8 @@
 <script setup>
 import { Field, useField } from 'vee-validate'
 import { ref, watch, computed } from 'vue'
-import IconValid from './icons/IconValid.vue'
-import IconError from './icons/IconError.vue'
+import IconValid from '@/components/icons/IconValid.vue'
+import IconError from '@/components/icons/IconError.vue'
 
 const props = defineProps(['name', 'modelValue', 'label', 'lang', 'validate', 'rows', 'class'])
 const emit = defineEmits(['update:modelValue'])

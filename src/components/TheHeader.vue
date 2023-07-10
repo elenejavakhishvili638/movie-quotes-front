@@ -1,5 +1,5 @@
 <script setup>
-import LanguageComponent from './LanguageComponent.vue'
+import LanguageComponent from '@/components/LanguageComponent.vue'
 
 const props = defineProps(['register', 'login'])
 </script>

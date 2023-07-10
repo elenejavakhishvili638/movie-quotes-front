@@ -1,17 +1,17 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import IconMenu from './icons/IconMenu.vue'
-import IconSearch from './icons/IconSearch.vue'
-import IconPolygon from './icons/IconPolygon.vue'
-import LanguageComponent from './LanguageComponent.vue'
-import { useLoginStore } from '../stores/login/index'
+import IconMenu from '@/components/icons/IconMenu.vue'
+import IconSearch from '@/components/icons/IconSearch.vue'
+import IconPolygon from '@/components/icons/IconPolygon.vue'
+import LanguageComponent from '@/components/LanguageComponent.vue'
+import { useLoginStore } from '@/stores/login/index'
 import { useRouter } from 'vue-router'
-import { useUserStore } from '../stores/user'
-import ProfileSidebar from './ProfileSidebar.vue'
-import IconChatQuote from './icons/IconChatQuote.vue'
-import { useNotificationStore } from '../stores/notification'
-import IconFilledHeart from './icons/IconFilledHeart.vue'
-import IconBell from './icons/IconBell.vue'
+import { useUserStore } from '@/stores/user'
+import ProfileSidebar from '@/components/ProfileSidebar.vue'
+import IconChatQuote from '@/components/icons/IconChatQuote.vue'
+import { useNotificationStore } from '@/stores/notification'
+import IconFilledHeart from '@/components/icons/IconFilledHeart.vue'
+import IconBell from '@/components/icons/IconBell.vue'
 
 const props = defineProps(['searchBar', 'toggleSearch'])
 

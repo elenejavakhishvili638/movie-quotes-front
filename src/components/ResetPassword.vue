@@ -1,10 +1,9 @@
 <script setup>
 import { Form } from 'vee-validate'
-import TheButton from './TheButton.vue'
-import TheInput from './TheInput.vue'
-import IconBackVue from './icons/IconBack.vue'
-
-import { usePasswordResetStore } from '../stores/UpdatePassword/index'
+import TheButton from '@/components/TheButton.vue'
+import TheInput from '@/components/TheInput.vue'
+import IconBackVue from '@/components/icons/IconBack.vue'
+import { usePasswordResetStore } from '@/stores/UpdatePassword/index'
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 

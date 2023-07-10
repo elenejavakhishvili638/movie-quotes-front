@@ -1,12 +1,12 @@
 <script setup>
-import IconComment from './icons/IconComment.vue'
-import IconHeart from './icons/IconHeart.vue'
+import IconComment from '@/components/icons/IconComment.vue'
+import IconHeart from '@/components/icons/IconHeart.vue'
 import { Form, Field } from 'vee-validate'
-import { useQuotesStore } from '../stores/quotes/index'
-import { useUserStore } from '../stores/user'
+import { useQuotesStore } from '@/stores/quotes/index'
+import { useUserStore } from '@/stores/user'
 import { computed, onMounted, ref } from 'vue'
-import { useNotificationStore } from '../stores/notification'
-import { useLanguageStore } from '../stores/language/index'
+import { useNotificationStore } from '@/stores/notification'
+import { useLanguageStore } from '@/stores/language/index'
 
 const props = defineProps([
   'quote',

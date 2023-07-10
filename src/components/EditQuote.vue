@@ -1,15 +1,15 @@
 <script setup>
-import IconTrash from './icons/IconTrash.vue'
-import IconClose from './icons/IconClose.vue'
-import { useMoviesStore } from '../stores/movies'
-import { useQuotesStore } from '../stores/quotes'
+import IconTrash from '@/components/icons/IconTrash.vue'
+import IconClose from '@/components/icons/IconClose.vue'
+import { useMoviesStore } from '@/stores/movies'
+import { useQuotesStore } from '@/stores/quotes'
 import { useRoute } from 'vue-router'
 import { computed, onMounted, ref } from 'vue'
 import { Form, Field } from 'vee-validate'
-import IconCamera from './icons/IconCamera.vue'
-import QuoteTextarea from './QuoteTextarea.vue'
-import TheButton from '../components/TheButton.vue'
-import { useUserStore } from '../stores/user/index'
+import IconCamera from '@/components/icons/IconCamera.vue'
+import QuoteTextarea from '@/components/QuoteTextarea.vue'
+import TheButton from '@/components/TheButton.vue'
+import { useUserStore } from '@/stores/user/index'
 
 const props = defineProps(['closeEditQuote', 'id', 'movie', 'image', 'username'])
 const route = useRoute()
@@ -35,28 +35,8 @@ onMounted(async () => {
   }
 })
 
-const deepEqual = (obj1, obj2) => {
-  if (obj1 === obj2) return true
-
-  if (typeof obj1 !== 'object' || obj1 === null || typeof obj2 !== 'object' || obj2 === null) {
-    return false
-  }
-
-  let keys1 = Object.keys(obj1)
-  let keys2 = Object.keys(obj2)
-
-  if (keys1.length !== keys2.length) return false
-
-  for (let key of keys1) {
-    if (!keys2.includes(key)) return false
-    if (!deepEqual(obj1[key], obj2[key])) return false
-  }
-
-  return true
-}
-
 const onSubmit = async () => {
-  if (deepEqual(quote.value, quoteForm.value) && !imageUrl.value) {
+  if (!imageUrl.value) {
     return
   }
 

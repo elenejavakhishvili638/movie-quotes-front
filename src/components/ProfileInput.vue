@@ -1,10 +1,10 @@
 <script setup>
 import { Field, ErrorMessage, useField } from 'vee-validate'
 import { watch, ref, computed } from 'vue'
-import { useUpdateUserStore } from '../stores/updateUser'
-import IconValid from './icons/IconValid.vue'
-import IconError from './icons/IconError.vue'
-import { useLanguageStore } from '../stores/language/index'
+import { useUpdateUserStore } from '@/stores/updateUser'
+import IconValid from '@/components/icons/IconValid.vue'
+import IconError from '@/components/icons/IconError.vue'
+import { useLanguageStore } from '@/stores/language/index'
 
 const props = defineProps(['text', 'name', 'modelValue', 'type', 'validation', 'close'])
 const emit = defineEmits(['update:modelValue', 'submitForm'])

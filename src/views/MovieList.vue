@@ -1,16 +1,16 @@
 <script setup>
-import FeedHeader from '../components/FeedHeader.vue'
-import IconChatQuote from '../components/icons/IconChatQuote.vue'
-import IconSearch from '../components/icons/IconSearch.vue'
+import FeedHeader from '@/components/FeedHeader.vue'
+import IconChatQuote from '@/components/icons/IconChatQuote.vue'
+import IconSearch from '@/components/icons/IconSearch.vue'
 import { onMounted, computed, ref } from 'vue'
-import { useMoviesStore } from '../stores/movies/index'
-import { useLanguageStore } from '../stores/language/index'
-import ProfileSidebar from '../components/ProfileSidebar.vue'
-import { useUserStore } from '../stores/user/index'
-import NewMovie from '../components/NewMovie.vue'
-import ModalLayout from '../components/ModalLayout.vue'
-import IconPlus from '../components/icons/IconPlus.vue'
-import IconArrow from '../components/icons/IconArrow.vue'
+import { useMoviesStore } from '@/stores/movies/index'
+import { useLanguageStore } from '@/stores/language/index'
+import ProfileSidebar from '@/components/ProfileSidebar.vue'
+import { useUserStore } from '@/stores/user/index'
+import NewMovie from '@/components/NewMovie.vue'
+import ModalLayout from '@/components/ModalLayout.vue'
+import IconPlus from '@/components/icons/IconPlus.vue'
+import IconArrow from '@/components/icons/IconArrow.vue'
 
 const moviesStore = useMoviesStore()
 const languageStore = useLanguageStore()
@@ -57,7 +57,7 @@ const closeSearch = () => {
       <new-movie :image="user.image" :username="user.username" :closeMovie="closeMovie"></new-movie>
     </modal-layout>
     <feed-header :searchBar="true" :toggle-search="toggleSearch"></feed-header>
-    <div class="md:flex md:ml-2.5 lg:ml-4.5">
+    <div class="md:flex ml-2.5 xl:ml-4.5">
       <div class="hidden md:block text-white w-14.5">
         <profile-sidebar></profile-sidebar>
       </div>

@@ -1,6 +1,6 @@
 <script setup>
 import { RouterLink } from 'vue-router'
-import gandalf from '../assets/images/gandalf.png'
+import gandalf from '@/assets/images/gandalf.png'
 </script>
 
 <template>

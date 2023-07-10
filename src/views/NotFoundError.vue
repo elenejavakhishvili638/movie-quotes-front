@@ -1,6 +1,6 @@
 <script setup>
 import { RouterLink } from 'vue-router'
-import ghost from '../assets/images/ghost.png'
+import ghost from '@/assets/images/ghost.png'
 </script>
 
 <template>
