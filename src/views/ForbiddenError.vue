@@ -4,7 +4,7 @@ import gandalf from '../assets/images/gandalf.png'
 </script>
 
 <template>
-  <div class="h-[100vh] text-white flex flex-col gap-8 items-center justify-center">
+  <div class="h-screen text-white flex flex-col gap-8 items-center justify-center">
     <img :src="gandalf" class="bg-union bg-no-repeat bg-center" />
     <h1 class="font-[700] text-2xl md:text-5xl">You shall not pass!</h1>
     <p class="text-center text-base font-[500] md:text-2xl">

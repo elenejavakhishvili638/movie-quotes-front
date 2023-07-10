@@ -169,7 +169,7 @@ const closeSuccessModal = () => {
           <div class="flex justify-between border-b pb-1 text-md">
             <p>{{ props.email }}</p>
             <button
-              v-if="props.google"
+              v-if="!props.google"
               class="text-cyanBlue"
               @click="
                 openEditProfile(
@@ -190,7 +190,7 @@ const closeSuccessModal = () => {
           <div class="flex justify-between border-b pb-1 text-md">
             <p class="tracking-wider">...............</p>
             <button
-              v-if="props.google"
+              v-if="!props.google"
               class="text-cyanBlue"
               @click="
                 openEditProfile(

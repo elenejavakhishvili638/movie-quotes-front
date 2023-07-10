@@ -28,7 +28,7 @@ const fileInput = ref(null)
 onMounted(async () => {
   try {
     await quoteStore.fetchQuote(props.id)
-    quoteForm.value = JSON.parse(JSON.stringify(quote.value))
+    quoteForm.value = quote.value
     uploadedImageUrl.value = path + '/storage/' + (quoteForm.value && quoteForm.value.image)
   } catch (error) {
     console.log(error)

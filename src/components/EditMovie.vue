@@ -19,7 +19,7 @@ let path = import.meta.env.VITE_BACKEND_URL
 
 const user = computed(() => userStore.$state.user)
 const genres = computed(() => movieStore.$state.genres)
-const movieForm = ref(JSON.parse(JSON.stringify(props.movie)))
+const movieForm = ref(props.movie)
 const genreNames = movieForm.value.genres.map((genre) => genre)
 const imageUrl = ref(null)
 const isDragging = ref(false)

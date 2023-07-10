@@ -42,7 +42,6 @@ onMounted(async () => {
   const id = route.params.id
   try {
     await moviesStore.fetchMovie(id)
-    console.log(movie.value)
   } catch (error) {
     console.log(error)
   }

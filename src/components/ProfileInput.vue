@@ -115,7 +115,7 @@ const submitForm = () => {
         class="pl-0.5 relative z-10 flex items-center justify-between h-3 w-22.75 bg-[#CED4DA] rounded focus:shadow-custom-focus"
       >
         <Field
-          rules="required|confirmed:password"
+          rules="required|confirmed:@password"
           v-model="userStore.password_confirmation"
           name="password_confirmation"
           type="password"
