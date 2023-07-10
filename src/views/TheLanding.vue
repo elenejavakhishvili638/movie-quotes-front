@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import TheFooter from '../components/TheFooter.vue'
 import TheHeader from '../components/TheHeader.vue'
 import image1 from '../assets/images/image1.png'
@@ -24,6 +24,7 @@ const store = useEmailStore()
 const modalState = ref('login')
 const modal = ref(null)
 const languageStore = useLanguageStore()
+const verifedModal = ref(false)
 
 const changeEmailValue = () => {
   router.push({
@@ -53,8 +54,12 @@ const resend = () => {
 }
 
 const emailForPasswordReset = computed(() => store.email)
-const emailVerified = computed(() => store.emailVerified)
 const expired = computed(() => store.expired)
+onMounted(() => {
+  if (route.query.email_verified) {
+    verifedModal.value = true
+  }
+})
 </script>
 
 <template>
@@ -75,7 +80,7 @@ const expired = computed(() => store.expired)
         >
       </the-modal>
     </form-layout>
-    <form-layout :close="closeModal" v-if="emailVerified">
+    <form-layout :close="closeModal" v-if="verifedModal">
       <the-modal :icon="verified" :header="$t('modals.header')" :text="$t('modals.text_two')">
         <router-link
           :to="{ name: 'feed' }"

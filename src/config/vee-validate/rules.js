@@ -1,9 +1,14 @@
 import { defineRule } from 'vee-validate'
-import { required, min, email, confirmed, between } from '@vee-validate/rules'
+import { required, min, email, confirmed } from '@vee-validate/rules'
 
 defineRule('required', required)
 
-defineRule('minmax', between)
+defineRule('minmax', (value, [min, max]) => {
+  if (!value || value.length < min || value.length > max) {
+    return false
+  }
+  return true
+})
 
 defineRule('minSymbols', min)
 
