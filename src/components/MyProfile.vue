@@ -105,9 +105,9 @@ const closeSuccessModal = () => {
 <template>
   <div class="mt-[1.563rem]">
     <ModalLayout v-if="successModal" class="items-baseline pt-1">
-      <div class="bg-[#BADBCC] z-10 w-26 h-14 flex items-center justify-around rounded">
+      <div class="bg-lightGreen z-10 w-26 h-14 flex items-center justify-around rounded">
         <IconTick></IconTick>
-        <p class="text-[#0F5132] text-base">{{ $t('profile.changes_success') }}</p>
+        <p class="text-successGreen text-base">{{ $t('profile.changes_success') }}</p>
         <IconExit @click="closeSuccessModal" class="cursor-pointer"></IconExit>
       </div>
     </ModalLayout>
@@ -149,7 +149,7 @@ const closeSuccessModal = () => {
           <div class="flex justify-between border-b pb-1 text-md">
             <p>{{ props.username }}</p>
             <button
-              class="text-[#CED4DA]"
+              class="text-cyanBlue"
               @click="
                 openEditProfile(
                   'username',
@@ -169,8 +169,8 @@ const closeSuccessModal = () => {
           <div class="flex justify-between border-b pb-1 text-md">
             <p>{{ props.email }}</p>
             <button
-              v-if="props.google === null"
-              class="text-[#CED4DA]"
+              v-if="props.google"
+              class="text-cyanBlue"
               @click="
                 openEditProfile(
                   'email',
@@ -190,8 +190,8 @@ const closeSuccessModal = () => {
           <div class="flex justify-between border-b pb-1 text-md">
             <p class="tracking-wider">...............</p>
             <button
-              v-if="props.google === null"
-              class="text-[#CED4DA]"
+              v-if="props.google"
+              class="text-cyanBlue"
               @click="
                 openEditProfile(
                   'password',

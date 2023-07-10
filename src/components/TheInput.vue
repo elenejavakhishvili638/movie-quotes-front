@@ -76,7 +76,7 @@ const toggleInputType = () => {
     >
     <div
       :class="inputClass"
-      class="relative z-0 flex items-center justify-between h-2.375 bg-[#CED4DA] rounded"
+      class="relative z-0 flex items-center justify-between h-2.375 bg-cyanBlue rounded"
     >
       <Field
         class="bg-transparent w-full outline-none py-0.438 pl-0.813 rounded focus:shadow-custom-focus text-black"
