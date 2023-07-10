@@ -82,7 +82,7 @@ watch(searchTerm, (newTerm) => {
 })
 
 const increase = () => {
-  increaseSearch.value = true
+  increaseSearch.value = !increaseSearch.value
 }
 const decrease = () => {
   increaseSearch.value = false

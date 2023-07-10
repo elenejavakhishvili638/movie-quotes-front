@@ -136,7 +136,7 @@ const language = computed(() => languageStore.currentLanguage)
             <p>{{ props.comments.length }}</p>
             <IconComment class="ml-0.75"></IconComment>
           </div>
-          <div class="flex">
+          <div class="flex cursor-pointer">
             <p>{{ props.likes.length }}</p>
             <IconHeart class="ml-0.75" @click="toggleLike" :filled-color="src"></IconHeart>
           </div>

@@ -49,7 +49,6 @@ const router = createRouter({
       component: TheLanding,
       beforeEnter: (to, from, next) => {
         const emailStore = useEmailStore()
-        console.log(emailStore.expired)
         const { id, hash } = to.params
         const { expires, signature } = to.query
         axios

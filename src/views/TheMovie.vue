@@ -42,6 +42,7 @@ onMounted(async () => {
   const id = route.params.id
   try {
     await moviesStore.fetchMovie(id)
+    console.log(movie.value)
   } catch (error) {
     console.log(error)
   }
@@ -182,13 +183,13 @@ const user = computed(() => userStore.$state.user)
                 <IconTrash @click="deleteMovie" class="cursor-pointer"></IconTrash>
               </div>
             </div>
-            <div class="flex gap-2 my-1.5">
+            <div class="flex gap-2 my-1.5 flex-wrap">
               <div
                 class="px-[0.688rem] py-[0.375rem] bg-[#6C757D] rounded"
                 v-for="genre in movie.genres"
                 :key="genre.id"
               >
-                <p class="font-[700] text-lg">{{ genre.name }}</p>
+                <p class="font-[700] text-lg">{{ genre.name[language] }}</p>
               </div>
             </div>
             <p class="mb-1.25 text-[#CED4DA] text-lg font-[700]">
