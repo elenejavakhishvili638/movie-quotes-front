@@ -21,7 +21,7 @@ const quote = computed(() => quoteStore.$state.quote)
 const user = computed(() => userStore.$state.user)
 const quoteForm = ref(null)
 const imageUrl = ref(null)
-// const isDragging = ref(false)
+const isDragging = ref(false)
 const uploadedImageUrl = ref(null)
 const fileInput = ref(null)
 
@@ -93,6 +93,38 @@ const onFileChange = async (e, handleChange, validate) => {
 const uploadedImage = ref(
   props.image && props.image.startsWith('images') ? path + '/storage/' + props.image : props.image
 )
+
+const onDragOver = (event) => {
+  event.preventDefault()
+  event.dataTransfer.dropEffect = 'copy'
+}
+
+const onDragLeave = (event) => {
+  event.preventDefault()
+}
+
+// const onDrop = async (event, handleChange, validate) => {
+//   event.preventDefault()
+//   await props.onDropParent(event, handleChange, validate)
+// }
+
+const onDrop = async (event, handleChange, validate) => {
+  event.preventDefault()
+  isDragging.value = false
+  const files = event.dataTransfer.files
+
+  if (files.length > 0) {
+    const file = files[0]
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      uploadedImageUrl.value = e.target.result
+    }
+    reader.readAsDataURL(file)
+    imageUrl.value = file
+  }
+  handleChange('true')
+  await validate()
+}
 </script>
 
 <template>
@@ -137,6 +169,9 @@ const uploadedImage = ref(
         <Field name="image" v-slot="{ handleChange, validate }">
           <div class="relative flex items-center justify-center cursor-pointer">
             <div
+              @dragover.prevent="onDragOver"
+              @dragleave.prevent="onDragLeave"
+              @drop.prevent="onDrop($event, handleChange, validate)"
               @click="triggerFileInput"
               class="text-center flex flex-col items-center justify-center opacity-[80%] rounded-xl w-[8.438rem] h-5.25 bg-backgroundColor absolute"
             >

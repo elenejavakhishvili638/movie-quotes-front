@@ -130,7 +130,7 @@ const uploadedImage = ref(
               v-for="genre in props.movie.genres"
               :key="genre.id"
             >
-              <p class="font-[700] text-xs lg:text-lg">{{ genre.name }}</p>
+              <p class="font-[700] text-xs lg:text-lg">{{ genre.name[language] }}</p>
             </div>
           </div>
         </div>

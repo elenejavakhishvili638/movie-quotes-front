@@ -38,7 +38,7 @@ const language = computed(() => languageStore.currentLanguage)
     >
       <p class="ml-1 cursor-pointer" v-if="tagGenres.length === 0">{{ $t('movie.genres') }}:</p>
       <div
-        class="text-white text-xs ml-1 bg-[#6C757D] py-0.25 px-0.25 rounded min-w-[5rem] flex items-center justify-center"
+        class="text-white text-sm ml-1 bg-[#6C757D] py-0.25 px-0.25 rounded min-w-[5rem] flex items-center justify-center"
         v-for="(tag, index) in tagGenres"
         :key="index"
       >

@@ -48,8 +48,12 @@ onMounted(async () => {
 })
 
 const filterGenres = async (name) => {
+  console.log(tagGenres.value)
   genres.value.forEach((genre) => {
-    if (genre.name === name && !tagGenres.value.some((tagGenre) => tagGenre.name === name)) {
+    if (
+      genre.name === name &&
+      !tagGenres.value.some((tagGenre) => JSON.stringify(tagGenre.name) === JSON.stringify(name))
+    ) {
       tagGenres.value.push(genre)
     }
   })
