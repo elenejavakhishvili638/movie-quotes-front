@@ -136,11 +136,7 @@ const language = computed(() => languageStore.currentLanguage)
       <IconExit @click="closeSuccessModal" class="cursor-pointer"></IconExit>
     </div>
     <p class="ml-3.813 mb-7.938 mt-2 text-2xl font-medium">{{ $t('profile.profile') }}</p>
-    <Form
-      class="md:w-37.5 xl:w-62.375 bg-modal flex flex-col items-center"
-      @submit="onSubmit"
-      v-slot="meta"
-    >
+    <Form class="md:w-37.5 xl:w-62.375 bg-modal flex flex-col items-center" @submit="onSubmit">
       <div
         class="absolute flex flex-col items-center top-36"
         v-if="!notificationStore.notificationOpen"
@@ -278,15 +274,12 @@ const language = computed(() => languageStore.currentLanguage)
           {{ $t('profile.cancel') }}
         </button>
         <button
-          :disabled="!meta.valid"
           :class="{
             'text-sm': language === 'ka',
-            'text-lg': language === 'en',
-            'bg-red': meta.valid,
-            'bg-[#EC4C57]': !meta.valid
+            'text-lg': language === 'en'
           }"
           type="submit"
-          class="rounded px-1 py-0.25 h-3 w-[12rem]"
+          class="bg-red rounded px-1 py-0.25 h-3 w-[12rem]"
         >
           {{ $t('profile.save_changes') }}
         </button>

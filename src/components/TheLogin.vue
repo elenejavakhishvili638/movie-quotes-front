@@ -57,7 +57,7 @@ const formData = computed(() => loginStore.$state.login)
         </div>
         <p class="text-base text-[#6C757D] font-normal">{{ $t('login.text') }}</p>
       </div>
-      <Form @submit="onSubmit" v-slot="{ meta }">
+      <Form @submit="onSubmit" v-slot="{ meta }" class="w-11/12 md:w-[75%]">
         <the-input
           v-model="formData.username"
           validate="required|minSymbols:3"
@@ -76,7 +76,7 @@ const formData = computed(() => loginStore.$state.login)
           :placeholder="$t('login.password_placeholder')"
           :errors="errors"
         ></the-input>
-        <div class="w-22.5 flex justify-between mb-1">
+        <div class="w-full flex justify-between mb-1">
           <div class="flex justify-center">
             <input type="checkbox" name="remember" />
             <label class="ml-0.5" for="remember">{{ $t('login.remember_me') }}</label>
@@ -86,13 +86,14 @@ const formData = computed(() => loginStore.$state.login)
           </p>
         </div>
         <the-button :disabled="!meta.valid">{{ $t('login.sign_in') }}</the-button>
+        <button
+          type="button"
+          @click="googleSignIn"
+          class="flex justify-center items-center w-full border border-white rounded-lg h-2.375"
+        >
+          <IconGoogle class="mr-0.5"></IconGoogle> {{ $t('login.google') }}
+        </button>
       </Form>
-      <button
-        @click="googleSignIn"
-        class="flex justify-center items-center w-22.5 border border-white rounded-lg h-2.375"
-      >
-        <IconGoogle class="mr-0.5"></IconGoogle> {{ $t('login.google') }}
-      </button>
       <div class="mb-3.313 mt-2 flex items-center justify-center">
         <p class="text-[#6C757D] mr-0.25">{{ $t('login.account') }}</p>
         <p @click="openSignup" class="text-[#0D6EFD] border-b border-[#0D6EFD] cursor-pointer">

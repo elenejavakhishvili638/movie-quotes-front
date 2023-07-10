@@ -50,7 +50,7 @@ const formData = computed(() => authStore.$state.form)
         </div>
         <p class="text-base text-[#6C757D] font-normal">{{ $t('registration.text') }}</p>
       </div>
-      <Form @submit="onSubmit" v-slot="{ meta }">
+      <Form @submit="onSubmit" v-slot="{ meta }" class="w-11/12 md:w-[75%]">
         <the-input
           v-model="formData.username"
           name="username"
@@ -93,14 +93,15 @@ const formData = computed(() => authStore.$state.form)
         <the-button type="submit" :disabled="!meta.valid">{{
           $t('registration.get_started')
         }}</the-button>
+        <button
+          @click="googleSignUp"
+          type="button"
+          class="flex justify-center items-center w-full border border-white rounded-lg h-2.375"
+        >
+          <IconGoogle class="mr-0.5"></IconGoogle>
+          {{ $t('registration.google') }}
+        </button>
       </Form>
-      <button
-        @click="googleSignUp"
-        class="flex justify-center items-center w-22.5 border border-white rounded-lg h-2.375"
-      >
-        <IconGoogle class="mr-0.5"></IconGoogle>
-        {{ $t('registration.google') }}
-      </button>
       <div class="mb-3.313 mt-2 flex items-center justify-center">
         <p class="text-[#6C757D] mr-0.25">{{ $t('registration.have_account') }}</p>
         <p @click="openLogin" class="text-[#0D6EFD] border-b border-[#0D6EFD] cursor-pointer">

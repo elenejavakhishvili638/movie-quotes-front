@@ -101,9 +101,9 @@ const toggleInputType = () => {
       ></CloseInput>
       <component class="absolute mr-[0.5rem] right-0" v-bind:is="img"></component>
     </div>
-    <p class="text-[#F15524] text-base mt-[0.375rem]" v-if="errors">
+    <p class="text-[#F15524] text-base mt-[0.375rem] w-22.5" v-if="errors">
       {{ errors[props.name] && errors[props.name][0][language] }}
     </p>
-    <ErrorMessage class="text-[#F15524] text-base mt-[0.375rem]" :name="name" />
+    <ErrorMessage class="text-[#F15524] text-base mt-[0.375rem] w-22.5" :name="name" />
   </div>
 </template>

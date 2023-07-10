@@ -143,7 +143,7 @@ const closeSuccessModal = () => {
           {{ $t('profile.upload_photo') }}
         </p>
       </div>
-      <div class="w-22.75 flex flex-col gap-8">
+      <div class="w-22.75 flex flex-col gap-8 p-0.5">
         <div>
           <p class="mb-0.25 text-base">{{ $t('profile.username') }}</p>
           <div class="flex justify-between border-b pb-1 text-md">
