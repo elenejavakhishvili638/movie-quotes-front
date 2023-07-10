@@ -157,7 +157,7 @@ const expired = computed(() => store.expired)
           </h1>
           <button
             @click="() => openModal('login')"
-            class="mt-2 justify-center items-center flex w-109 h-38 rounded text-white text-base border-none bg-red"
+            class="text-xl mt-2 px-[0.563rem] py-[1.063rem] justify-center items-center flex w-[8.313rem] h-3 rounded text-white border-none bg-red"
           >
             {{ $t('texts.get_started') }}
           </button>
