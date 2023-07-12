@@ -8,12 +8,12 @@ import IconComment from '@/components/icons/IconComment.vue'
 import IconHeart from '@/components/icons/IconHeart.vue'
 import { useUserStore } from '@/stores/user'
 import { Form, Field } from 'vee-validate'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useMoviesStore } from '@/stores/movies'
 
 const route = useRoute()
 const props = defineProps(['closeViewQuote', 'id', 'movie', 'image', 'username'])
-const emit = defineEmits(['editQuote'])
+// const emit = defineEmits(['editQuote'])
 const quoteStore = useQuotesStore()
 const userStore = useUserStore()
 let path = import.meta.env.VITE_BACKEND_URL
@@ -24,20 +24,22 @@ const moviesStore = useMoviesStore()
 const src = ref('white')
 const showAllcomments = ref(false)
 const commenText = ref(0)
+const paramId = route.query.quoteId
+const router = useRouter()
 
 const toggleLike = async () => {
   if (src.value === 'white') {
     src.value = '#F3426C'
-    await quoteStore.likeQuote(props.id, { user_id: userId.value.id }, 'movie')
+    await quoteStore.likeQuote(Number(paramId), { user_id: userId.value.id }, 'movie')
   } else {
     src.value = 'white'
-    await quoteStore.unlikeQuote(props.id, { user_id: userId.value.id }, 'movie')
+    await quoteStore.unlikeQuote(Number(paramId), { user_id: userId.value.id }, 'movie')
   }
 }
 
 onMounted(async () => {
   try {
-    await quoteStore.fetchQuote(props.id)
+    await quoteStore.fetchQuoteId(paramId)
     const likedQuote = quote.value.likes.find((like) => like.user_id === userId.value.id)
     if (likedQuote) {
       src.value = '#F3426C'
@@ -56,20 +58,26 @@ const onSubmit = async () => {
       user_id: userId.value.id
     }
     commentForm.value.body = ''
-    await quoteStore.addComment(data, props.id, 'movie')
+    await quoteStore.addComment(data, Number(paramId), 'movie')
   } catch (error) {
     console.log(error)
   }
 }
 
 const openEdit = async () => {
-  props.closeViewQuote()
-  emit('editQuote', props.id)
+  // await props.closeViewQuote()
+  // console.log('ss')
+  // emit('editQuote', paramId)
+  router.replace({
+    name: 'editQuote',
+    params: { id: route.params.id },
+    query: { quoteId: paramId }
+  })
 }
 
 const deleteQuote = async () => {
   try {
-    await quoteStore.deleteQuote(props.id)
+    await quoteStore.deleteQuote(Number(paramId))
     const movieId = route.params.id
     await moviesStore.updateMovie(movieId)
     props.closeViewQuote()

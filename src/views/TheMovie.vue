@@ -32,11 +32,11 @@ const movie = computed(() => moviesStore.$state.movie)
 let path = import.meta.env.VITE_BACKEND_URL
 
 const openedModalId = ref(null)
-const editMovie = ref(false)
-const addQuote = ref(false)
-const viewQuote = ref(false)
+// const editMovie = ref(false)
+// const addQuote = ref(false)
+// const viewQuoteModal = ref(false)
+// const editQuoteModal = ref(false)
 const quoteId = ref(null)
-const editQuote = ref(false)
 
 onMounted(async () => {
   const id = route.params.id
@@ -48,27 +48,36 @@ onMounted(async () => {
 })
 
 const openMovie = () => {
-  editMovie.value = true
+  router.push({ name: 'editMovie' })
 }
 const closeMovie = () => {
-  editMovie.value = false
+  router.back()
 }
+const editMovie = computed(() => route.path === `/movie/${route.params.id}/edit-movie`)
 
 const openQuote = () => {
-  addQuote.value = true
+  router.push({ name: 'addQuote' })
 }
 const closeQuote = () => {
-  addQuote.value = false
+  router.back()
 }
+const addQuote = computed(() => route.path === `/movie/${route.params.id}/add-quote`)
 
 const openViewQuote = (id) => {
-  viewQuote.value = true
+  // viewQuoteModal.value = true
+  router.push({
+    name: 'viewQuote',
+    params: { id: route.params.id },
+    query: { quoteId: id }
+  })
   quoteId.value = id
 }
 
 const closeViewQuote = () => {
-  viewQuote.value = false
+  // viewQuoteModal.value = false
+  router.back()
 }
+const viewQuote = computed(() => route.path === `/movie/${route.params.id}/view-quote`)
 
 const openModal = (id) => {
   if (openedModalId.value === id) {
@@ -83,13 +92,22 @@ const closeModal = () => {
 }
 
 const openEditQuote = (id) => {
-  editQuote.value = true
+  // console.log(id)
+  // editQuoteModal.value = true
+  // router.push({
+  //   name: 'editQuote',
+  //   params: { id: route.params.id },
+  //   query: { quoteId: id }
+  // })
   quoteId.value = id
 }
 
 const closeEditQuote = () => {
-  editQuote.value = false
+  // editQuoteModal.value = false
+  router.back()
 }
+
+const editQuote = computed(() => route.path === `/movie/${route.params.id}/edit-quote`)
 
 const deleteMovie = async () => {
   const id = route.params.id

@@ -105,7 +105,6 @@ export default {
     const movieStore = useMoviesStore()
     try {
       await deleteQuote(id)
-      await this.fetchQuotes()
       await movieStore.fetchFullList()
     } catch (error) {
       console.log(error)
@@ -129,13 +128,14 @@ export default {
       if (type === 'movie') {
         const foundQuote = movieStore.movie.quotes.find((quote) => quote.id === id)
         foundQuote.likes.push(data)
+        this.quote.likes.push(data)
         await like(id, data)
+        await this.fetchQuoteId(id)
         await movieStore.fetchFullList()
       } else {
         const foundQuote = this.quoteList.find((quote) => quote.id === id)
         foundQuote.likes.push(data)
         await like(id, data)
-        await this.fetchFullList()
       }
     } catch (error) {
       console.log(error)
@@ -149,10 +149,16 @@ export default {
       if (type === 'movie') {
         const foundQuote = movieStore.movie.quotes.find((quote) => quote.id === id)
         const likeIndex = foundQuote.likes.findIndex((like) => like.user_id === user_id)
+        const liked = this.quote.likes.findIndex((like) => like.user_id === user_id)
+        if (liked !== -1) {
+          this.quote.likes.splice(likeIndex, 1)
+        }
         if (likeIndex !== -1) {
           foundQuote.likes.splice(likeIndex, 1)
         }
         await unlike(id)
+        await this.fetchQuoteId(id)
+        await this.fetchFullList()
       } else {
         const foundQuote = this.quoteList.find((quote) => quote.id === id)
         const likeIndex = foundQuote.likes.findIndex((like) => like.user_id === user_id)
@@ -160,7 +166,6 @@ export default {
           foundQuote.likes.splice(likeIndex, 1)
         }
         await unlike(id)
-        await this.fetchFullList()
       }
     } catch (error) {
       console.log(error)

@@ -11,13 +11,15 @@ import NewMovie from '@/components/NewMovie.vue'
 import ModalLayout from '@/components/ModalLayout.vue'
 import IconPlus from '@/components/icons/IconPlus.vue'
 import IconArrow from '@/components/icons/IconArrow.vue'
+import { useRouter, useRoute } from 'vue-router'
 
 const moviesStore = useMoviesStore()
 const languageStore = useLanguageStore()
 const searchTerm = ref('')
 const userStore = useUserStore()
-const addMovie = ref(false)
 const searchOpen = ref(false)
+const router = useRouter()
+const route = useRoute()
 let path = import.meta.env.VITE_BACKEND_URL
 
 onMounted(async () => {
@@ -33,11 +35,13 @@ const fetchMovies = async () => {
 }
 
 const openMovie = () => {
-  addMovie.value = true
+  router.push({ name: 'newMovie' })
 }
 const closeMovie = () => {
-  addMovie.value = false
+  router.back()
 }
+
+const addMovie = computed(() => route.path === '/movie-list/new-movie')
 
 const language = computed(() => languageStore.currentLanguage)
 const user = computed(() => userStore.$state.user)

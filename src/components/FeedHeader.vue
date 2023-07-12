@@ -86,7 +86,7 @@ const getImagePath = (image) => {
 
 <template>
   <div
-    class="bg-[#222030] h-[86px] flex justify-between items-center pl-[2rem] pr-[2rem] md:px-[4rem] top-0 sticky w-full"
+    class="bg-[#222030] h-[86px] flex justify-between items-center pl-[2rem] pr-[2rem] md:px-[4rem] top-0 sticky w-full z-10"
   >
     <button @click="openMenu" class="cursor-pointer md:hidden">
       <IconMenu></IconMenu>

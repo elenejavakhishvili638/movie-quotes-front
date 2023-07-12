@@ -24,10 +24,11 @@ const imageUrl = ref(null)
 const isDragging = ref(false)
 const uploadedImageUrl = ref(null)
 const fileInput = ref(null)
+const paramId = route.query.quoteId
 
 onMounted(async () => {
   try {
-    await quoteStore.fetchQuote(props.id)
+    await quoteStore.fetchQuoteId(paramId)
     quoteForm.value = quote.value
     uploadedImageUrl.value = path + '/storage/' + (quoteForm.value && quoteForm.value.image)
   } catch (error) {
@@ -36,10 +37,6 @@ onMounted(async () => {
 })
 
 const onSubmit = async () => {
-  if (!imageUrl.value) {
-    return
-  }
-
   const id = route.params.id
   try {
     const formData = new FormData()
@@ -53,7 +50,7 @@ const onSubmit = async () => {
       formData.append('image', imageUrl.value)
     }
 
-    await quoteStore.editQuote(formData, props.id)
+    await quoteStore.editQuote(formData, paramId)
     props.closeEditQuote()
     await moviesStore.fetchMovieId(id)
   } catch (error) {
@@ -63,7 +60,7 @@ const onSubmit = async () => {
 
 const deleteQuote = async () => {
   try {
-    await quoteStore.deleteQuote(props.id)
+    await quoteStore.deleteQuote(paramId)
     const movieId = route.params.id
     await moviesStore.updateMovie(movieId)
     props.closeEditQuote()
@@ -102,11 +99,6 @@ const onDragOver = (event) => {
 const onDragLeave = (event) => {
   event.preventDefault()
 }
-
-// const onDrop = async (event, handleChange, validate) => {
-//   event.preventDefault()
-//   await props.onDropParent(event, handleChange, validate)
-// }
 
 const onDrop = async (event, handleChange, validate) => {
   event.preventDefault()

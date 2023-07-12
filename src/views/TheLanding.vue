@@ -38,7 +38,18 @@ const changeEmailValue = () => {
 
 const openModal = (modalName) => {
   modal.value = modalName
+  if (modalName === 'login') {
+    router.push({ name: 'login' })
+  }
+  if (modalName === 'registration') {
+    router.push({ name: 'registration' })
+  }
   languageStore.show = false
+}
+// const openLogin = computed(() => route.path === '/login')
+// const openRegistration = computed(() => route.path === '/registration')
+const home = () => {
+  router.push('/')
 }
 
 const closeModal = () => {
@@ -64,9 +75,9 @@ onMounted(() => {
 
 <template>
   <div>
-    <form-layout :close="closeModal" v-if="modal === 'registration'">
+    <form-layout :close="home" v-if="route.path === '/registration'">
       <the-registration
-        :closeRegistration="closeModal"
+        :closeRegistration="home"
         :openModal="() => openModal('showModal')"
         :login="() => openModal('login')"
       ></the-registration>
@@ -103,17 +114,17 @@ onMounted(() => {
         </button>
       </the-modal>
     </form-layout>
-    <form-layout :close="closeModal" v-if="modal === 'login'">
+    <form-layout :close="home" v-if="route.path === '/login'">
       <the-login
         v-if="modalState === 'login'"
         @changeModal="handleModalChange"
-        :closeLogin="closeModal"
+        :closeLogin="home"
         :register="() => openModal('registration')"
       ></the-login>
       <forgot-password
         v-else-if="modalState === 'forgot-password'"
         @changeModal="handleModalChange"
-        :closeLogin="closeModal"
+        :closeLogin="home"
         :openEmailForPassword="() => openModal('emailForPassword')"
       ></forgot-password>
     </form-layout>

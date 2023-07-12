@@ -19,12 +19,11 @@ let path = import.meta.env.VITE_BACKEND_URL
 
 const user = computed(() => userStore.$state.user)
 const genres = computed(() => movieStore.$state.genres)
-const movieForm = ref(props.movie)
-const genreNames = movieForm.value.genres.map((genre) => genre)
+const movieForm = computed(() => movieStore.$state.movie)
+const tagGenres = ref([])
 const imageUrl = ref(null)
 const isDragging = ref(false)
-const tagGenres = ref([...genreNames])
-const uploadedImageUrl = ref(path + '/storage/' + movieForm.value.image)
+const uploadedImageUrl = ref(null)
 const form = useForm()
 const errors = computed(() => movieStore.$state.editErrors)
 
@@ -40,15 +39,22 @@ watch(tagGenres, () => {
 })
 
 onMounted(async () => {
+  const id = route.params.id
   try {
     await movieStore.fetchGenres()
+    await movieStore.fetchMovie(id)
+    if (movieForm.value.genres) {
+      tagGenres.value = movieForm.value.genres
+    }
+    if (movieForm.value.image) {
+      uploadedImageUrl.value = path + '/storage/' + movieForm.value.image
+    }
   } catch (err) {
     console.log(err)
   }
 })
 
 const filterGenres = async (name) => {
-  console.log(tagGenres.value)
   genres.value.forEach((genre) => {
     if (
       genre.name === name &&
@@ -143,7 +149,7 @@ const uploadedImage = ref(
 
 <template>
   <div
-    class="h-auto top-0 w-full md:top-[8%] md:left-[30%] 2xl:left-[24%] xl:w-37 2xl:w-60 absolute text-white bg-modal md:w-31 rounded-xl"
+    class="h-auto top-0 w-full md:top-[8%] md:left-[23%] 2xl:left-[24%] xl:w-60 2xl:w-60 absolute text-white bg-modal md:w-31 rounded-xl"
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.5 px-3.5">
       <div></div>
@@ -161,6 +167,7 @@ const uploadedImage = ref(
       </div>
       <Form @submit="onSubmit" class="flex flex-col gap-6">
         <movie-input
+          v-if="movieForm.title"
           v-model="movieForm.title.en"
           name="title.en"
           label="Movie name"
@@ -170,6 +177,7 @@ const uploadedImage = ref(
           :errors="errors"
         ></movie-input>
         <movie-input
+          v-if="movieForm.title"
           v-model="movieForm.title.ka"
           name="title.ka"
           label="ფილმის სახელი"
@@ -179,6 +187,7 @@ const uploadedImage = ref(
           :errors="errors"
         ></movie-input>
         <genre-component
+          v-if="movieForm.genres"
           :error="tagGenresError"
           :filter="filterGenres"
           :remove="removeTag"
@@ -186,6 +195,7 @@ const uploadedImage = ref(
           type="edit"
         ></genre-component>
         <movie-input
+          v-if="movieForm.year"
           v-model="movieForm.year"
           name="year"
           label="წელი/year"
@@ -193,6 +203,7 @@ const uploadedImage = ref(
           validate="required"
         ></movie-input>
         <movie-input
+          v-if="movieForm.director"
           v-model="movieForm.director.en"
           name="director.en"
           label="Director"
@@ -201,6 +212,7 @@ const uploadedImage = ref(
           validate="required"
         ></movie-input>
         <movie-input
+          v-if="movieForm.director"
           v-model="movieForm.director.ka"
           name="director.ka"
           label="რეჟისორი"
@@ -209,6 +221,7 @@ const uploadedImage = ref(
           validate="required"
         ></movie-input>
         <movie-textarea
+          v-if="movieForm.description"
           validate="required"
           name="description.en"
           rows="4"
@@ -218,6 +231,7 @@ const uploadedImage = ref(
           :class="{ 'text-[#6C757D]': movieForm.description.en }"
         ></movie-textarea>
         <movie-textarea
+          v-if="movieForm.description"
           validate="required"
           name="description.ka"
           rows="4"

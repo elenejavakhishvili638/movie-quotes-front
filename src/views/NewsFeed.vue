@@ -12,15 +12,17 @@ import IconPencil from '@/components/icons/IconPencil.vue'
 import IconArrow from '@/components/icons/IconArrow.vue'
 import ModalLayout from '@/components/ModalLayout.vue'
 import instantiatePusher from '@/helpers/instantiatePusher'
+import { useRouter, useRoute } from 'vue-router'
 
 const increaseSearch = ref(false)
-const addQuote = ref(false)
 const userStore = useUserStore()
 const languageStore = useLanguageStore()
 const searchTerm = ref('')
 const quotesStore = useQuotesStore()
 const searchOpen = ref(false)
 const page = ref(1)
+const router = useRouter()
+const route = useRoute()
 
 const user = computed(() => userStore.$state.user)
 
@@ -33,6 +35,7 @@ const handleScroll = async () => {
 }
 
 const handleCommentSent = (data) => {
+  console.log(data)
   let quote = quotesStore.state.find((q) => q.id === data.comment.quote_id)
   if (quote) {
     quote.comments.push(data.comment)
@@ -40,6 +43,10 @@ const handleCommentSent = (data) => {
 }
 
 const handleLikeSent = (data) => {
+  if (data.like.user_id === user.value.id) {
+    return
+  }
+
   let quote = quotesStore.state.find((q) => q.id === data.like.quote_id)
   if (quote) {
     quote.likes.push(data.like)
@@ -87,12 +94,15 @@ const increase = () => {
 const decrease = () => {
   increaseSearch.value = false
 }
+
 const openQuote = () => {
-  addQuote.value = true
+  router.push({ name: 'newQuote' })
 }
 const closeQuote = () => {
-  addQuote.value = false
+  router.back()
 }
+
+const addQuote = computed(() => route.path === '/news-feed/new-quote')
 
 const toggleSearch = () => {
   searchOpen.value = true

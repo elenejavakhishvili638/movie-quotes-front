@@ -67,7 +67,7 @@ const formData = computed(() => passwordResetStore.$state.updatePassword)
           type="password"
           :label="$t('registration.confirm_password')"
           :placeholder="$t('registration.confirm_password_placeholder')"
-          validate="required|confirmed:password"
+          validate="required|confirmed:@password"
           :errors="errors"
         ></the-input>
         <the-button type="submit" :disabled="!meta.valid">{{
