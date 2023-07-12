@@ -6,10 +6,11 @@ import { computed, ref, onMounted, watch } from 'vue'
 import { Form, useForm, useField } from 'vee-validate'
 import TheButton from '@/components/TheButton.vue'
 import { useUserStore } from '@/stores/user/index'
-import MovieTextarea from '@/components/MovieTextarea.vue'
+import TheTextarea from '@/components/TheTextarea.vue'
 import { useRoute } from 'vue-router'
 import GenreComponent from '@/components/GenreComponent.vue'
 import MovieImage from '@/components/MovieImage.vue'
+import { cloneDeep } from 'lodash'
 
 const props = defineProps(['username', 'closeMovie', 'movie', 'image'])
 const movieStore = useMoviesStore()
@@ -19,7 +20,7 @@ let path = import.meta.env.VITE_BACKEND_URL
 
 const user = computed(() => userStore.$state.user)
 const genres = computed(() => movieStore.$state.genres)
-const movieForm = computed(() => movieStore.$state.movie)
+const movieForm = ref(movieStore.$state.movie)
 const tagGenres = ref([])
 const imageUrl = ref(null)
 const isDragging = ref(false)
@@ -43,6 +44,7 @@ onMounted(async () => {
   try {
     await movieStore.fetchGenres()
     await movieStore.fetchMovie(id)
+    movieForm.value = cloneDeep(movieStore.$state.movie)
     if (movieForm.value.genres) {
       tagGenres.value = movieForm.value.genres
     }
@@ -220,7 +222,7 @@ const uploadedImage = ref(
           type="text"
           validate="required"
         ></movie-input>
-        <movie-textarea
+        <the-textarea
           v-if="movieForm.description"
           validate="required"
           name="description.en"
@@ -229,8 +231,8 @@ const uploadedImage = ref(
           label="Movie Description :"
           lang="Eng"
           :class="{ 'text-[#6C757D]': movieForm.description.en }"
-        ></movie-textarea>
-        <movie-textarea
+        ></the-textarea>
+        <the-textarea
           v-if="movieForm.description"
           validate="required"
           name="description.ka"
@@ -239,7 +241,7 @@ const uploadedImage = ref(
           lang="ქარ"
           label="ფილმის აღწერა :"
           :class="{ 'text-[#6C757D]': movieForm.description.ka }"
-        ></movie-textarea>
+        ></the-textarea>
         <movie-image
           :onFileChangeParent="onFileChange"
           :onDropParent="onDrop"

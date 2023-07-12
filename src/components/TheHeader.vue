@@ -12,7 +12,7 @@ const props = defineProps(['register', 'login'])
       <div class="flex">
         <button
           @click="props.register"
-          class="mr-0.5 justify-center items-center flex px-0.625 h-2 md:w-6 rounded text-white text-sm xl:text-base border-none bg-red"
+          class="mr-0.5 justify-center items-center flex px-0.625 h-2 md:w-6 rounded text-white text-sm border-none bg-red"
         >
           {{ $t('texts.sign_up') }}
         </button>

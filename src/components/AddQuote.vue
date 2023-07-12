@@ -6,7 +6,7 @@ import { Form } from 'vee-validate'
 import { useMoviesStore } from '@/stores/movies/index'
 import { useLanguageStore } from '@/stores/language/index'
 import MovieImage from '@/components/MovieImage.vue'
-import QuoteTextarea from '@/components/QuoteTextarea.vue'
+import TheTextarea from '@/components/TheTextarea.vue'
 import { useQuotesStore } from '@/stores/quotes'
 import { useUserStore } from '@/stores/user/index'
 
@@ -136,22 +136,22 @@ const uploadedImage = ref(
         </div>
       </div>
       <Form class="relative flex flex-col mt-9 gap-4" @submit="onSubmit">
-        <quote-textarea
+        <the-textarea
           validate="required|english"
           name="body.en"
           rows="4"
           v-model="quoteForm.body.en"
           placeholder="Quote in English."
           lang="Eng"
-        ></quote-textarea>
-        <quote-textarea
+        ></the-textarea>
+        <the-textarea
           validate="required|georgian"
           name="body.ka"
           rows="4"
           v-model="quoteForm.body.ka"
           placeholder="ციტატა ქართულ ენაზე"
           lang="ქარ"
-        ></quote-textarea>
+        ></the-textarea>
         <movie-image
           :onFileChangeParent="onFileChange"
           :onDropParent="onDrop"

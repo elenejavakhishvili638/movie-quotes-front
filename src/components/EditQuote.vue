@@ -7,7 +7,7 @@ import { useRoute } from 'vue-router'
 import { computed, onMounted, ref } from 'vue'
 import { Form, Field } from 'vee-validate'
 import IconCamera from '@/components/icons/IconCamera.vue'
-import QuoteTextarea from '@/components/QuoteTextarea.vue'
+import TheTextarea from '@/components/TheTextarea.vue'
 import TheButton from '@/components/TheButton.vue'
 import { useUserStore } from '@/stores/user/index'
 
@@ -139,24 +139,24 @@ const onDrop = async (event, handleChange, validate) => {
       </div>
       <Form class="relative flex flex-col mt-9 gap-4" @submit="onSubmit">
         <div v-if="quoteForm && quoteForm.body">
-          <quote-textarea
+          <the-textarea
             validate="required|english"
             name="body.en"
             rows="4"
             v-model="quoteForm.body.en"
             placeholder="Quote in English."
             lang="Eng"
-          ></quote-textarea>
+          ></the-textarea>
         </div>
         <div v-if="quoteForm && quoteForm.body">
-          <quote-textarea
+          <the-textarea
             validate="required|georgian"
             name="body.ka"
             rows="4"
             v-model="quoteForm.body.ka"
             placeholder="ციტატა ქართულ ენაზე"
             lang="ქარ"
-          ></quote-textarea>
+          ></the-textarea>
         </div>
         <Field name="image" v-slot="{ handleChange, validate }">
           <div class="relative flex items-center justify-center cursor-pointer">

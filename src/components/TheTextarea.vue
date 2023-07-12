@@ -11,7 +11,8 @@ const props = defineProps([
   'validate',
   'rows',
   'class',
-  'placeholder'
+  'placeholder',
+  'label'
 ])
 const emit = defineEmits(['update:modelValue'])
 
@@ -45,6 +46,7 @@ const img = computed(() => {
 
 <template>
   <div :class="inputClass" class="h-5.375 flex flex-col relative rounded mb-0.75 text-xl">
+    <p :class="props.class" class="left-4 top-2 pl-1 pt-0.5">{{ label }}</p>
     <Field :name="name" v-model="internalValue" :rules="validate" v-slot="{ field }">
       <textarea
         v-bind="field"

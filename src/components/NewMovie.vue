@@ -6,7 +6,7 @@ import { computed, ref, onMounted, watch } from 'vue'
 import { Form, useField, useForm } from 'vee-validate'
 import TheButton from '@/components/TheButton.vue'
 import { useUserStore } from '@/stores/user/index'
-import MovieTextarea from '@/components/MovieTextarea.vue'
+import TheTextarea from '@/components/TheTextarea.vue'
 import GenreComponent from '@/components/GenreComponent.vue'
 import MovieImage from '@/components/MovieImage.vue'
 
@@ -200,7 +200,7 @@ const uploadedImage = ref(
           type="text"
           validate="required|georgian"
         ></movie-input>
-        <movie-textarea
+        <the-textarea
           validate="required|english"
           name="description.en"
           rows="4"
@@ -208,8 +208,8 @@ const uploadedImage = ref(
           v-model="movieForm.description.en"
           label="Movie Description :"
           :class="{ 'text-[#6C757D]': movieForm.description.en }"
-        ></movie-textarea>
-        <movie-textarea
+        ></the-textarea>
+        <the-textarea
           validate="required|georgian"
           name="description.ka"
           rows="4"
@@ -217,7 +217,7 @@ const uploadedImage = ref(
           v-model="movieForm.description.ka"
           label="ფილმის აღწერა :"
           :class="{ 'text-[#6C757D]': movieForm.description.ka }"
-        ></movie-textarea>
+        ></the-textarea>
         <movie-image
           :onFileChangeParent="onFileChange"
           :onDropParent="onDrop"

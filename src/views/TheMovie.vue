@@ -86,6 +86,11 @@ const closeModal = () => {
 }
 
 const openEditQuote = (id) => {
+  router.push({
+    name: 'editQuote',
+    params: { id: route.params.id },
+    query: { quoteId: id }
+  })
   quoteId.value = id
 }
 

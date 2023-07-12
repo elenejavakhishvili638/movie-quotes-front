@@ -10,9 +10,6 @@ import TheLogin from '@/components/TheLogin.vue'
 import FormLayout from '@/components/FormLayout.vue'
 import { useRoute, useRouter } from 'vue-router'
 import TheModal from '@/components/TheModal.vue'
-// import email from '@/assets/images/logos/email.png'
-// import verified from '@/assets/images/logos/verifed.png'
-// import expiredIcon from '@/assets/images/logos/expired.png'
 import IconEmail from '@/components/icons/IconEmail.vue'
 import IconExpired from '@/components/icons/IconExpired.vue'
 import IconVerified from '@/components/icons/IconVerified.vue'
@@ -90,7 +87,7 @@ onMounted(() => {
           <icon-email></icon-email>
         </template>
         <a
-          :href="'mailto:' + email"
+          :href="'mailto:' + store.email"
           class="text-center w-11.875 rounded-lg bg-red text-white h-2.375 pt-0.5"
           >{{ $t('modals.button') }}</a
         >
@@ -143,7 +140,7 @@ onMounted(() => {
         :openSuccessModal="() => openModal('openSuccessModal')"
       ></reset-password>
     </form-layout>
-    <form-layout :close="closeSuccessModal" v-if="modal === 'openSuccessModal'">
+    <form-layout :close="closeModal" v-if="modal === 'openSuccessModal'">
       <the-modal :header="$t('modals.header_two')" :text="$t('modals.text_three')">
         <template v-slot:icon>
           <icon-verified></icon-verified>
@@ -167,7 +164,7 @@ onMounted(() => {
           <icon-email class="mt-2"></icon-email>
         </template>
         <a
-          :href="'mailto:' + email"
+          :href="'mailto:' + store.email"
           class="text-center w-11.875 rounded-lg bg-red text-white h-2.375 pt-0.5"
           >{{ $t('modals.button') }}</a
         >
