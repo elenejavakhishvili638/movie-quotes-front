@@ -86,12 +86,12 @@ const getImagePath = (image) => {
 
 <template>
   <div
-    class="bg-[#222030] h-[86px] flex justify-between items-center pl-[2rem] pr-[2rem] md:px-[4rem] top-0 sticky w-full z-10"
+    class="bg-[#222030] h-[86px] flex justify-between items-center pl-[2rem] pr-[2rem] md:px-[4rem] top-0 sticky w-full"
   >
     <button @click="openMenu" class="cursor-pointer md:hidden">
       <IconMenu></IconMenu>
     </button>
-    <p class="text-cream hidden md:block">{{ $t('landing.title') }}</p>
+    <p class="text-cream hidden md:block md:text-md uppercase">{{ $t('landing.title') }}</p>
     <div
       v-if="menuOpen"
       @click="closeMenu"
@@ -190,7 +190,7 @@ const getImagePath = (image) => {
       </button>
       <div class="relative cursor-pointer">
         <div
-          class="absolute w-5 h-[1.25rem] md:w-[1.563rem] md:h-[1.563rem] bg-[#E33812] rounded-full left-3 bottom-4 md:left-4 md:bottom-5 flex items-center justify-center text-white text-base"
+          class="absolute w-5 h-[1.25rem] md:w-[1.563rem] md:h-[1.563rem] bg-[#E33812] rounded-full left-3 bottom-4 md:left-4 md:bottom-5 flex items-center justify-center text-white text-sm md:text-base"
         >
           {{ unreadMessages }}
         </div>
@@ -199,7 +199,7 @@ const getImagePath = (image) => {
       <language-component type="feed"></language-component>
       <button
         @click="logout"
-        class="hidden md:block mr-2 justify-center items-center w-[5rem] h-32 border border-white rounded text-white text-sm"
+        class="hidden md:block mr-2 justify-center items-center w-[5rem] h-32 border border-white rounded text-white text-sm md:text-base"
       >
         {{ $t('login.log_out') }}
       </button>

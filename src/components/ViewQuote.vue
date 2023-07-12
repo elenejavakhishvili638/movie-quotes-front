@@ -13,7 +13,6 @@ import { useMoviesStore } from '@/stores/movies'
 
 const route = useRoute()
 const props = defineProps(['closeViewQuote', 'id', 'movie', 'image', 'username'])
-// const emit = defineEmits(['editQuote'])
 const quoteStore = useQuotesStore()
 const userStore = useUserStore()
 let path = import.meta.env.VITE_BACKEND_URL
@@ -65,9 +64,6 @@ const onSubmit = async () => {
 }
 
 const openEdit = async () => {
-  // await props.closeViewQuote()
-  // console.log('ss')
-  // emit('editQuote', paramId)
   router.replace({
     name: 'editQuote',
     params: { id: route.params.id },
@@ -110,7 +106,7 @@ const showComments = () => {
 
 <template>
   <div
-    class="h-auto top-0 w-full md:top-[8%] md:left-[35%] xl:left-[28%] 2xl:left-[24%] xl:w-[37.563rem] 2xl:w-60 absolute text-white bg-[#11101A] md:w-31.25 rounded-xl"
+    class="h-auto top-0 w-full md:top-[8%] md:left-[35%] xl:left-[28%] 2xl:left-[24%] xl:w-[37.563rem] 2xl:w-60 absolute text-white bg-modal md:w-31.25 rounded-xl"
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.5 px-3.5">
       <div class="w-5.625 h-10 flex items-center justify-between">
@@ -188,9 +184,9 @@ const showComments = () => {
         <div class="flex items-center mr-0.75">
           <img class="bg-[#D9D9D9] rounded-full w-10 h-10" alt="name" :src="uploadedImage" />
         </div>
-        <Form @submit="onSubmit" class="w-19.125 h-10 md:w-full">
+        <Form @submit="onSubmit" class="w-full h-10">
           <Field
-            class="bg-[#24222F] w-19.125 pl-1 h-10 rounded-lg md:w-full outline-none"
+            class="bg-[#24222F] w-full pl-1 h-10 rounded-lg outline-none"
             :placeholder="$t('feed.write_comment')"
             name="comment"
             type="text"

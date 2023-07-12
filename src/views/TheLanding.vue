@@ -10,9 +10,12 @@ import TheLogin from '@/components/TheLogin.vue'
 import FormLayout from '@/components/FormLayout.vue'
 import { useRoute, useRouter } from 'vue-router'
 import TheModal from '@/components/TheModal.vue'
-import email from '@/assets/images/logos/email.png'
-import verified from '@/assets/images/logos/verifed.png'
-import expiredIcon from '@/assets/images/logos/expired.png'
+// import email from '@/assets/images/logos/email.png'
+// import verified from '@/assets/images/logos/verifed.png'
+// import expiredIcon from '@/assets/images/logos/expired.png'
+import IconEmail from '@/components/icons/IconEmail.vue'
+import IconExpired from '@/components/icons/IconExpired.vue'
+import IconVerified from '@/components/icons/IconVerified.vue'
 import { useEmailStore } from '@/stores/email/index'
 import ForgotPassword from '@/components/ForgotPassword.vue'
 import ResetPassword from '@/components/ResetPassword.vue'
@@ -46,8 +49,7 @@ const openModal = (modalName) => {
   }
   languageStore.show = false
 }
-// const openLogin = computed(() => route.path === '/login')
-// const openRegistration = computed(() => route.path === '/registration')
+
 const home = () => {
   router.push('/')
 }
@@ -83,7 +85,10 @@ onMounted(() => {
       ></the-registration>
     </form-layout>
     <form-layout :close="closeModal" v-if="modal === 'showModal'">
-      <the-modal :icon="email" :text="$t('modals.text')">
+      <the-modal :text="$t('modals.text')">
+        <template v-slot:icon>
+          <icon-email></icon-email>
+        </template>
         <a
           :href="'mailto:' + email"
           class="text-center w-11.875 rounded-lg bg-red text-white h-2.375 pt-0.5"
@@ -92,7 +97,10 @@ onMounted(() => {
       </the-modal>
     </form-layout>
     <form-layout :close="closeModal" v-if="verifedModal">
-      <the-modal :icon="verified" :header="$t('modals.header')" :text="$t('modals.text_two')">
+      <the-modal :header="$t('modals.header')" :text="$t('modals.text_two')">
+        <template v-slot:icon>
+          <icon-verified></icon-verified>
+        </template>
         <router-link
           :to="{ name: 'feed' }"
           class="text-center w-11.875 rounded-lg bg-red text-white h-2.375 pt-0.5"
@@ -101,11 +109,10 @@ onMounted(() => {
       </the-modal>
     </form-layout>
     <form-layout :close="closeModal" v-if="expired">
-      <the-modal
-        :icon="expiredIcon"
-        :header="$t('modals.header_four')"
-        :text="$t('modals.text_five')"
-      >
+      <the-modal :header="$t('modals.header_four')" :text="$t('modals.text_five')">
+        <template v-slot:icon>
+          <icon-expired></icon-expired>
+        </template>
         <button
           class="text-cen ter w-11.875 rounded-lg bg-red text-white h-2.375 pt-0.25"
           @click="resend"
@@ -137,7 +144,10 @@ onMounted(() => {
       ></reset-password>
     </form-layout>
     <form-layout :close="closeSuccessModal" v-if="modal === 'openSuccessModal'">
-      <the-modal :icon="verified" :header="$t('modals.header_two')" :text="$t('modals.text_three')">
+      <the-modal :header="$t('modals.header_two')" :text="$t('modals.text_three')">
+        <template v-slot:icon>
+          <icon-verified></icon-verified>
+        </template>
         <p
           @click="() => openModal('login')"
           class="text-center w-11.875 rounded-lg bg-red text-white h-2.375 pt-0.5 cursor-pointer"
@@ -148,12 +158,14 @@ onMounted(() => {
     </form-layout>
     <form-layout :close="closeModal" v-if="modal === 'emailForPassword'">
       <the-modal
-        :icon="email"
         :header="$t('modals.header_three')"
         :footer="$t('modals.footer')"
         :text="$t('modals.text_four')"
         :close="closeModal"
       >
+        <template v-slot:icon>
+          <icon-email class="mt-2"></icon-email>
+        </template>
         <a
           :href="'mailto:' + email"
           class="text-center w-11.875 rounded-lg bg-red text-white h-2.375 pt-0.5"
@@ -173,7 +185,7 @@ onMounted(() => {
           </h1>
           <button
             @click="() => openModal('login')"
-            class="text-xl mt-2 px-[0.563rem] py-[1.063rem] justify-center items-center flex w-[8.313rem] h-3 rounded text-white border-none bg-red"
+            class="text-base md:text-xl mt-2 px-[0.563rem] py-[1.063rem] justify-center items-center flex w-[8.313rem] h-3 rounded text-white border-none bg-red"
           >
             {{ $t('texts.get_started') }}
           </button>

@@ -35,7 +35,6 @@ const handleScroll = async () => {
 }
 
 const handleCommentSent = (data) => {
-  console.log(data)
   let quote = quotesStore.state.find((q) => q.id === data.comment.quote_id)
   if (quote) {
     quote.comments.push(data.comment)

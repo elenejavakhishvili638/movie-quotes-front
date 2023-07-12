@@ -32,10 +32,6 @@ const movie = computed(() => moviesStore.$state.movie)
 let path = import.meta.env.VITE_BACKEND_URL
 
 const openedModalId = ref(null)
-// const editMovie = ref(false)
-// const addQuote = ref(false)
-// const viewQuoteModal = ref(false)
-// const editQuoteModal = ref(false)
 const quoteId = ref(null)
 
 onMounted(async () => {
@@ -64,7 +60,6 @@ const closeQuote = () => {
 const addQuote = computed(() => route.path === `/movie/${route.params.id}/add-quote`)
 
 const openViewQuote = (id) => {
-  // viewQuoteModal.value = true
   router.push({
     name: 'viewQuote',
     params: { id: route.params.id },
@@ -74,7 +69,6 @@ const openViewQuote = (id) => {
 }
 
 const closeViewQuote = () => {
-  // viewQuoteModal.value = false
   router.back()
 }
 const viewQuote = computed(() => route.path === `/movie/${route.params.id}/view-quote`)
@@ -92,18 +86,10 @@ const closeModal = () => {
 }
 
 const openEditQuote = (id) => {
-  // console.log(id)
-  // editQuoteModal.value = true
-  // router.push({
-  //   name: 'editQuote',
-  //   params: { id: route.params.id },
-  //   query: { quoteId: id }
-  // })
   quoteId.value = id
 }
 
 const closeEditQuote = () => {
-  // editQuoteModal.value = false
   router.back()
 }
 

@@ -8,10 +8,10 @@ const closeModal = () => {
 
 <template>
   <div
-    class="h-screen w-full rounded-lg md:w-33.625 md:h-25.875 bg flex flex-col justify-center items-center"
+    class="h-screen w-full rounded-lg md:w-33.625 md:h-25.875 bg flex flex-col justify-center items-center mb-1.313"
   >
-    <img :src="props.icon" class="mb-1.313 mt-2.5" />
-    <h1 class="text-white text-3xl font-medium mb-1.313">{{ props.header }}</h1>
+    <slot name="icon"></slot>
+    <h1 class="text-white text-3xl font-medium mt-2.5 mb-1.313">{{ props.header }}</h1>
     <p class="w-22.313 text-center text-white text-base mb-2.5">{{ props.text }}</p>
     <slot></slot>
     <p

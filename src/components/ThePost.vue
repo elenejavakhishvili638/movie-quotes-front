@@ -115,7 +115,7 @@ const language = computed(() => languageStore.currentLanguage)
     <div class="w-22 my-1.5 md:w-28.25 xl:w-55.5">
       <div class="flex items-center mb-0.875">
         <img
-          class="bg-[#D9D9D9] rounded-full w-10 h-10 object-cover"
+          class="bg-[#D9D9D9] rounded-full w-10 h-10 object-fit"
           alt="name"
           :src="uploadedImageUrl"
         />

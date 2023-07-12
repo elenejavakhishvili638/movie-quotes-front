@@ -149,7 +149,7 @@ const uploadedImage = ref(
 
 <template>
   <div
-    class="h-auto top-0 w-full md:top-[8%] md:left-[23%] 2xl:left-[24%] xl:w-60 2xl:w-60 absolute text-white bg-modal md:w-31 rounded-xl"
+    class="h-auto top-0 w-full md:top-[8%] md:left-[30%] 2xl:left-[24%] xl:w-60 2xl:w-60 absolute text-white bg-modal md:w-31 rounded-xl"
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.5 px-3.5">
       <div></div>
