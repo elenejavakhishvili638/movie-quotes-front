@@ -56,11 +56,13 @@ export default {
     }
   },
 
-  async addQuote(data) {
+  async addQuote(data, type) {
     const movieStore = useMoviesStore()
     try {
       await addQuote(data)
-      await this.fetchFullList()
+      if (type === 'feed') {
+        await this.fetchFullList()
+      }
       await movieStore.fetchFullList()
       this.addedQuote = {
         user_id: null,

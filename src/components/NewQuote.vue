@@ -94,7 +94,7 @@ const onSubmit = async () => {
       formData.append('image', imageUrl.value)
     }
 
-    await quoteStore.addQuote(formData)
+    await quoteStore.addQuote(formData, 'feed')
     if (Object.keys(errors.value).length === 0) {
       await moviesStore.fetchFullList()
       props.closeQuote()

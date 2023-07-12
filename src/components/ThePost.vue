@@ -115,7 +115,7 @@ const language = computed(() => languageStore.currentLanguage)
     <div class="w-22 my-1.5 md:w-28.25 xl:w-55.5">
       <div class="flex items-center mb-0.875">
         <img
-          class="bg-[#D9D9D9] rounded-full w-10 h-10 object-fit"
+          class="bg-[#D9D9D9] rounded-full w-10 h-10 object-cover"
           alt="name"
           :src="uploadedImageUrl"
         />
@@ -128,7 +128,7 @@ const language = computed(() => languageStore.currentLanguage)
         </p>
         <img
           :src="path + '/storage/' + props.poster"
-          class="bg-[#D9D9D9] rounded-lg w-22 h-12.5 md:w-full md:h-31 object-cover"
+          class="bg-[#D9D9D9] rounded-lg w-22 h-12.5 md:w-full md:h-31 object-fill"
           alt="film"
         />
         <div class="flex my-1.25 border-b border-color pb-2 text-xl">
