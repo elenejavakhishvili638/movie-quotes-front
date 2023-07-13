@@ -1,10 +1,9 @@
 <script setup>
 import { Form } from 'vee-validate'
-import TheButton from './TheButton.vue'
-import TheInput from './TheInput.vue'
-import IconBackVue from './icons/IconBack.vue'
-
-import { usePasswordResetStore } from '../stores/UpdatePassword/index'
+import TheButton from '@/components/TheButton.vue'
+import TheInput from '@/components/TheInput.vue'
+import IconBackVue from '@/components/icons/IconBack.vue'
+import { usePasswordResetStore } from '@/stores/UpdatePassword/index'
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -68,7 +67,7 @@ const formData = computed(() => passwordResetStore.$state.updatePassword)
           type="password"
           :label="$t('registration.confirm_password')"
           :placeholder="$t('registration.confirm_password_placeholder')"
-          validate="required|confirmed:password"
+          validate="required|confirmed:@password"
           :errors="errors"
         ></the-input>
         <the-button type="submit" :disabled="!meta.valid">{{

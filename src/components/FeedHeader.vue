@@ -1,17 +1,17 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import IconMenu from './icons/IconMenu.vue'
-import IconSearch from './icons/IconSearch.vue'
-import IconPolygon from './icons/IconPolygon.vue'
-import LanguageComponent from './LanguageComponent.vue'
-import { useLoginStore } from '../stores/login/index'
+import IconMenu from '@/components/icons/IconMenu.vue'
+import IconSearch from '@/components/icons/IconSearch.vue'
+import IconPolygon from '@/components/icons/IconPolygon.vue'
+import LanguageComponent from '@/components/LanguageComponent.vue'
+import { useLoginStore } from '@/stores/login/index'
 import { useRouter } from 'vue-router'
-import { useUserStore } from '../stores/user'
-import ProfileSidebar from './ProfileSidebar.vue'
-import IconChatQuote from './icons/IconChatQuote.vue'
-import { useNotificationStore } from '../stores/notification'
-import IconFilledHeart from './icons/IconFilledHeart.vue'
-import IconBell from './icons/IconBell.vue'
+import { useUserStore } from '@/stores/user'
+import ProfileSidebar from '@/components/ProfileSidebar.vue'
+import IconChatQuote from '@/components/icons/IconChatQuote.vue'
+import { useNotificationStore } from '@/stores/notification'
+import IconFilledHeart from '@/components/icons/IconFilledHeart.vue'
+import IconBell from '@/components/icons/IconBell.vue'
 
 const props = defineProps(['searchBar', 'toggleSearch'])
 
@@ -91,7 +91,7 @@ const getImagePath = (image) => {
     <button @click="openMenu" class="cursor-pointer md:hidden">
       <IconMenu></IconMenu>
     </button>
-    <p class="text-cream hidden md:block">{{ $t('landing.title') }}</p>
+    <p class="text-cream hidden md:block md:text-md uppercase">{{ $t('landing.title') }}</p>
     <div
       v-if="menuOpen"
       @click="closeMenu"
@@ -190,7 +190,7 @@ const getImagePath = (image) => {
       </button>
       <div class="relative cursor-pointer">
         <div
-          class="absolute w-5 h-[1.25rem] md:w-[1.563rem] md:h-[1.563rem] bg-[#E33812] rounded-full left-3 bottom-4 md:left-4 md:bottom-5 flex items-center justify-center text-white text-base"
+          class="absolute w-5 h-[1.25rem] md:w-[1.563rem] md:h-[1.563rem] bg-[#E33812] rounded-full left-3 bottom-4 md:left-4 md:bottom-5 flex items-center justify-center text-white text-sm md:text-base"
         >
           {{ unreadMessages }}
         </div>
@@ -199,7 +199,7 @@ const getImagePath = (image) => {
       <language-component type="feed"></language-component>
       <button
         @click="logout"
-        class="hidden md:block mr-2 justify-center items-center w-[5rem] h-32 border border-white rounded text-white text-sm"
+        class="hidden md:block mr-2 justify-center items-center w-[5rem] h-32 border border-white rounded text-white text-sm md:text-base"
       >
         {{ $t('login.log_out') }}
       </button>

@@ -1,13 +1,13 @@
 <script setup>
 import { ref, computed } from 'vue'
-import { useUpdateUserStore } from '../stores/updateUser'
-import { useUserStore } from '../stores/user'
-import ProfileInput from './ProfileInput.vue'
+import { useUpdateUserStore } from '@/stores/updateUser'
+import { useUserStore } from '@/stores/user'
+import ProfileInput from '@/components/ProfileInput.vue'
 import { Form } from 'vee-validate'
-import IconTick from './icons/IconTick.vue'
-import IconExit from './icons/IconExit.vue'
-import ModalLayout from './ModalLayout.vue'
-import IconArrow from './icons/IconArrow.vue'
+import IconTick from '@/components/icons/IconTick.vue'
+import IconExit from '@/components/icons/IconExit.vue'
+import ModalLayout from '@/components/ModalLayout.vue'
+import IconArrow from '@/components/icons/IconArrow.vue'
 
 const props = defineProps(['username', 'email', 'google', 'user'])
 const fileInput = ref(null)
@@ -105,9 +105,9 @@ const closeSuccessModal = () => {
 <template>
   <div class="mt-[1.563rem]">
     <ModalLayout v-if="successModal" class="items-baseline pt-1">
-      <div class="bg-[#BADBCC] z-10 w-26 h-14 flex items-center justify-around rounded">
+      <div class="bg-lightGreen z-10 w-26 h-14 flex items-center justify-around rounded">
         <IconTick></IconTick>
-        <p class="text-[#0F5132] text-base">{{ $t('profile.changes_success') }}</p>
+        <p class="text-successGreen text-base">{{ $t('profile.changes_success') }}</p>
         <IconExit @click="closeSuccessModal" class="cursor-pointer"></IconExit>
       </div>
     </ModalLayout>
@@ -143,20 +143,20 @@ const closeSuccessModal = () => {
           {{ $t('profile.upload_photo') }}
         </p>
       </div>
-      <div class="w-22.75 flex flex-col gap-8">
+      <div class="w-22.75 flex flex-col gap-8 p-0.5">
         <div>
           <p class="mb-0.25 text-base">{{ $t('profile.username') }}</p>
           <div class="flex justify-between border-b pb-1 text-md">
             <p>{{ props.username }}</p>
             <button
-              class="text-[#CED4DA]"
+              class="text-cyanBlue"
               @click="
                 openEditProfile(
                   'username',
                   'updatedUsername',
                   $t('profile.new_username'),
                   'text',
-                  'required|minmax:3,15|lowercase_and_numbers_only'
+                  'required|min:3|max:15|lowercase_and_numbers_only'
                 )
               "
             >
@@ -169,8 +169,8 @@ const closeSuccessModal = () => {
           <div class="flex justify-between border-b pb-1 text-md">
             <p>{{ props.email }}</p>
             <button
-              v-if="props.google === null"
-              class="text-[#CED4DA]"
+              v-if="!props.google"
+              class="text-cyanBlue"
               @click="
                 openEditProfile(
                   'email',
@@ -190,15 +190,15 @@ const closeSuccessModal = () => {
           <div class="flex justify-between border-b pb-1 text-md">
             <p class="tracking-wider">...............</p>
             <button
-              v-if="props.google === null"
-              class="text-[#CED4DA]"
+              v-if="!props.google"
+              class="text-cyanBlue"
               @click="
                 openEditProfile(
                   'password',
                   'updatedPassword',
                   $t('profile.new_password'),
                   'password',
-                  'required|lowercase_and_numbers_only|minmax:8,15'
+                  'required|lowercase_and_numbers_only|min:8|max:15'
                 )
               "
             >

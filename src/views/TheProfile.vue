@@ -1,9 +1,9 @@
 <script setup>
-import ProfileSidebar from '../components/ProfileSidebar.vue'
-import FeedHeader from '../components/FeedHeader.vue'
-import MyProfile from '../components/MyProfile.vue'
-import BiggerProfile from '../components/BiggerProfile.vue'
-import { useUserStore } from '../stores/user/index'
+import ProfileSidebar from '@/components/ProfileSidebar.vue'
+import FeedHeader from '@/components/FeedHeader.vue'
+import MyProfile from '@/components/MyProfile.vue'
+import BiggerProfile from '@/components/BiggerProfile.vue'
+import { useUserStore } from '@/stores/user/index'
 import { computed } from 'vue'
 
 const userStore = useUserStore()

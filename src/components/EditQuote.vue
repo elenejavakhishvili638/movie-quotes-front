@@ -1,15 +1,15 @@
 <script setup>
-import IconTrash from './icons/IconTrash.vue'
-import IconClose from './icons/IconClose.vue'
-import { useMoviesStore } from '../stores/movies'
-import { useQuotesStore } from '../stores/quotes'
+import IconTrash from '@/components/icons/IconTrash.vue'
+import IconClose from '@/components/icons/IconClose.vue'
+import { useMoviesStore } from '@/stores/movies'
+import { useQuotesStore } from '@/stores/quotes'
 import { useRoute } from 'vue-router'
 import { computed, onMounted, ref } from 'vue'
 import { Form, Field } from 'vee-validate'
-import IconCamera from './icons/IconCamera.vue'
-import QuoteTextarea from './QuoteTextarea.vue'
-import TheButton from '../components/TheButton.vue'
-import { useUserStore } from '../stores/user/index'
+import IconCamera from '@/components/icons/IconCamera.vue'
+import TheTextarea from '@/components/TheTextarea.vue'
+import TheButton from '@/components/TheButton.vue'
+import { useUserStore } from '@/stores/user/index'
 
 const props = defineProps(['closeEditQuote', 'id', 'movie', 'image', 'username'])
 const route = useRoute()
@@ -21,45 +21,22 @@ const quote = computed(() => quoteStore.$state.quote)
 const user = computed(() => userStore.$state.user)
 const quoteForm = ref(null)
 const imageUrl = ref(null)
-// const isDragging = ref(false)
+const isDragging = ref(false)
 const uploadedImageUrl = ref(null)
 const fileInput = ref(null)
+const paramId = route.query.quoteId
 
 onMounted(async () => {
   try {
-    await quoteStore.fetchQuote(props.id)
-    quoteForm.value = JSON.parse(JSON.stringify(quote.value))
+    await quoteStore.fetchQuoteId(paramId)
+    quoteForm.value = quote.value
     uploadedImageUrl.value = path + '/storage/' + (quoteForm.value && quoteForm.value.image)
   } catch (error) {
     console.log(error)
   }
 })
 
-const deepEqual = (obj1, obj2) => {
-  if (obj1 === obj2) return true
-
-  if (typeof obj1 !== 'object' || obj1 === null || typeof obj2 !== 'object' || obj2 === null) {
-    return false
-  }
-
-  let keys1 = Object.keys(obj1)
-  let keys2 = Object.keys(obj2)
-
-  if (keys1.length !== keys2.length) return false
-
-  for (let key of keys1) {
-    if (!keys2.includes(key)) return false
-    if (!deepEqual(obj1[key], obj2[key])) return false
-  }
-
-  return true
-}
-
 const onSubmit = async () => {
-  if (deepEqual(quote.value, quoteForm.value) && !imageUrl.value) {
-    return
-  }
-
   const id = route.params.id
   try {
     const formData = new FormData()
@@ -73,7 +50,7 @@ const onSubmit = async () => {
       formData.append('image', imageUrl.value)
     }
 
-    await quoteStore.editQuote(formData, props.id)
+    await quoteStore.editQuote(formData, paramId)
     props.closeEditQuote()
     await moviesStore.fetchMovieId(id)
   } catch (error) {
@@ -83,7 +60,7 @@ const onSubmit = async () => {
 
 const deleteQuote = async () => {
   try {
-    await quoteStore.deleteQuote(props.id)
+    await quoteStore.deleteQuote(paramId)
     const movieId = route.params.id
     await moviesStore.updateMovie(movieId)
     props.closeEditQuote()
@@ -113,6 +90,33 @@ const onFileChange = async (e, handleChange, validate) => {
 const uploadedImage = ref(
   props.image && props.image.startsWith('images') ? path + '/storage/' + props.image : props.image
 )
+
+const onDragOver = (event) => {
+  event.preventDefault()
+  event.dataTransfer.dropEffect = 'copy'
+}
+
+const onDragLeave = (event) => {
+  event.preventDefault()
+}
+
+const onDrop = async (event, handleChange, validate) => {
+  event.preventDefault()
+  isDragging.value = false
+  const files = event.dataTransfer.files
+
+  if (files.length > 0) {
+    const file = files[0]
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      uploadedImageUrl.value = e.target.result
+    }
+    reader.readAsDataURL(file)
+    imageUrl.value = file
+  }
+  handleChange('true')
+  await validate()
+}
 </script>
 
 <template>
@@ -135,28 +139,31 @@ const uploadedImage = ref(
       </div>
       <Form class="relative flex flex-col mt-9 gap-4" @submit="onSubmit">
         <div v-if="quoteForm && quoteForm.body">
-          <quote-textarea
+          <the-textarea
             validate="required|english"
             name="body.en"
             rows="4"
             v-model="quoteForm.body.en"
             placeholder="Quote in English."
             lang="Eng"
-          ></quote-textarea>
+          ></the-textarea>
         </div>
         <div v-if="quoteForm && quoteForm.body">
-          <quote-textarea
+          <the-textarea
             validate="required|georgian"
             name="body.ka"
             rows="4"
             v-model="quoteForm.body.ka"
             placeholder="ციტატა ქართულ ენაზე"
             lang="ქარ"
-          ></quote-textarea>
+          ></the-textarea>
         </div>
         <Field name="image" v-slot="{ handleChange, validate }">
           <div class="relative flex items-center justify-center cursor-pointer">
             <div
+              @dragover.prevent="onDragOver"
+              @dragleave.prevent="onDragLeave"
+              @drop.prevent="onDrop($event, handleChange, validate)"
               @click="triggerFileInput"
               class="text-center flex flex-col items-center justify-center opacity-[80%] rounded-xl w-[8.438rem] h-5.25 bg-backgroundColor absolute"
             >

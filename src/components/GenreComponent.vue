@@ -1,16 +1,18 @@
 <script setup>
 import { computed, ref } from 'vue'
-import { useMoviesStore } from '../stores/movies/index'
+import { useMoviesStore } from '@/stores/movies/index'
 import { ErrorMessage, Field } from 'vee-validate'
+import { useLanguageStore } from '@/stores/language/index'
 
 const props = defineProps(['error', 'filter', 'remove', 'tagGenres', 'type'])
 
 const movieStore = useMoviesStore()
+const languageStore = useLanguageStore()
 const genres = computed(() => movieStore.$state.genres)
 const genreModal = ref(false)
 
 const openGenreModal = () => {
-  genreModal.value = true
+  genreModal.value = !genreModal.value
 }
 
 const closeGenreModal = () => {
@@ -25,6 +27,7 @@ const handleClick = (name, handleChange) => {
 const genreRule = computed(() => {
   return props.type === 'edit' ? '' : 'required'
 })
+const language = computed(() => languageStore.currentLanguage)
 </script>
 
 <template>
@@ -33,13 +36,13 @@ const genreRule = computed(() => {
       @click="openGenreModal"
       class="flex gap-1 w-full border border-[#6C757D] h-12 rounded items-center overflow-x-scroll"
     >
-      <p class="ml-1 cursor-pointer" v-if="tagGenres.length === 0">Genres:</p>
+      <p class="ml-1 cursor-pointer" v-if="tagGenres.length === 0">{{ $t('movie.genres') }}:</p>
       <div
-        class="text-white text-xs ml-1 bg-[#6C757D] py-0.25 px-0.25 rounded min-w-[5rem] flex items-center justify-center"
+        class="text-white text-sm ml-1 bg-[#6C757D] py-0.25 px-0.25 rounded min-w-[5rem] flex items-center justify-center"
         v-for="(tag, index) in tagGenres"
         :key="index"
       >
-        {{ tag.name }}
+        {{ tag.name[language] }}
         <span @click="props.remove(tag.id)" class="ml-0.25 cursor-pointer text-xs">x</span>
       </div>
     </div>
@@ -55,7 +58,7 @@ const genreRule = computed(() => {
           :key="index"
           @click="handleClick(tag.name, handleChange)"
         >
-          {{ tag.name }}
+          {{ tag.name[language] }}
         </div>
       </div>
     </Field>

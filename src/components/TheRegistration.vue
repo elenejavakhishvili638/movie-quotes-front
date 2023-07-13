@@ -1,11 +1,11 @@
 <script setup>
 import { Form } from 'vee-validate'
-import TheButton from '../components/TheButton.vue'
-import TheInput from '../components/TheInput.vue'
-import { useAuthStore } from '../stores/registration/index'
-import IconGoogle from './icons/IconGoogle.vue'
+import TheButton from '@/components/TheButton.vue'
+import TheInput from '@/components/TheInput.vue'
+import { useAuthStore } from '@/stores/registration/index'
+import IconGoogle from '@/components/icons/IconGoogle.vue'
 import { computed } from 'vue'
-import IconClose from './icons/IconClose.vue'
+import IconClose from '@/components/icons/IconClose.vue'
 
 const props = defineProps({
   closeRegistration: Function,
@@ -50,14 +50,14 @@ const formData = computed(() => authStore.$state.form)
         </div>
         <p class="text-base text-[#6C757D] font-normal">{{ $t('registration.text') }}</p>
       </div>
-      <Form @submit="onSubmit" v-slot="{ meta }">
+      <Form @submit="onSubmit" v-slot="{ meta }" class="w-11/12 md:w-[75%]">
         <the-input
           v-model="formData.username"
           name="username"
           type="text"
           :label="$t('registration.name')"
           :placeholder="$t('registration.name_placeholder')"
-          validate="required|minmax:3,15|lowercase_and_numbers_only"
+          validate="required|min:3|max:15|lowercase_and_numbers_only"
           :errors="errors"
         ></the-input>
 
@@ -77,7 +77,7 @@ const formData = computed(() => authStore.$state.form)
           type="password"
           :label="$t('registration.password')"
           :placeholder="$t('registration.password_placeholder')"
-          validate="required|lowercase_and_numbers_only|minmax:8,15"
+          validate="required|lowercase_and_numbers_only|min:8|max:15"
           :errors="errors"
         ></the-input>
 
@@ -87,20 +87,21 @@ const formData = computed(() => authStore.$state.form)
           type="password"
           :label="$t('registration.confirm_password')"
           :placeholder="$t('registration.confirm_password_placeholder')"
-          validate="required|confirmed:password"
+          validate="required|confirmed:@password"
           :errors="errors"
         ></the-input>
         <the-button type="submit" :disabled="!meta.valid">{{
           $t('registration.get_started')
         }}</the-button>
+        <button
+          @click="googleSignUp"
+          type="button"
+          class="flex justify-center items-center w-full border border-white rounded-lg h-2.375"
+        >
+          <IconGoogle class="mr-0.5"></IconGoogle>
+          {{ $t('registration.google') }}
+        </button>
       </Form>
-      <button
-        @click="googleSignUp"
-        class="flex justify-center items-center w-22.5 border border-white rounded-lg h-2.375"
-      >
-        <IconGoogle class="mr-0.5"></IconGoogle>
-        {{ $t('registration.google') }}
-      </button>
       <div class="mb-3.313 mt-2 flex items-center justify-center">
         <p class="text-[#6C757D] mr-0.25">{{ $t('registration.have_account') }}</p>
         <p @click="openLogin" class="text-[#0D6EFD] border-b border-[#0D6EFD] cursor-pointer">

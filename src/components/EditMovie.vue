@@ -1,15 +1,16 @@
 <script setup>
-import IconClose from './icons/IconClose.vue'
-import MovieInput from './MovieInput.vue'
-import { useMoviesStore } from '../stores/movies/index'
+import IconClose from '@/components/icons/IconClose.vue'
+import MovieInput from '@/components/MovieInput.vue'
+import { useMoviesStore } from '@/stores/movies/index'
 import { computed, ref, onMounted, watch } from 'vue'
 import { Form, useForm, useField } from 'vee-validate'
-import TheButton from './TheButton.vue'
-import { useUserStore } from '../stores/user/index'
-import MovieTextarea from './MovieTextarea.vue'
+import TheButton from '@/components/TheButton.vue'
+import { useUserStore } from '@/stores/user/index'
+import TheTextarea from '@/components/TheTextarea.vue'
 import { useRoute } from 'vue-router'
-import GenreComponent from './GenreComponent.vue'
-import MovieImage from './MovieImage.vue'
+import GenreComponent from '@/components/GenreComponent.vue'
+import MovieImage from '@/components/MovieImage.vue'
+import { cloneDeep } from 'lodash'
 
 const props = defineProps(['username', 'closeMovie', 'movie', 'image'])
 const movieStore = useMoviesStore()
@@ -19,12 +20,11 @@ let path = import.meta.env.VITE_BACKEND_URL
 
 const user = computed(() => userStore.$state.user)
 const genres = computed(() => movieStore.$state.genres)
-const movieForm = ref(JSON.parse(JSON.stringify(props.movie)))
-const genreNames = movieForm.value.genres.map((genre) => genre)
+const movieForm = ref(movieStore.$state.movie)
+const tagGenres = ref([])
 const imageUrl = ref(null)
 const isDragging = ref(false)
-const tagGenres = ref([...genreNames])
-const uploadedImageUrl = ref(path + '/storage/' + movieForm.value.image)
+const uploadedImageUrl = ref(null)
 const form = useForm()
 const errors = computed(() => movieStore.$state.editErrors)
 
@@ -39,29 +39,18 @@ watch(tagGenres, () => {
   validateTagGenres()
 })
 
-const deepEqual = (obj1, obj2) => {
-  if (obj1 === obj2) return true
-
-  if (typeof obj1 !== 'object' || obj1 === null || typeof obj2 !== 'object' || obj2 === null) {
-    return false
-  }
-
-  let keys1 = Object.keys(obj1)
-  let keys2 = Object.keys(obj2)
-
-  if (keys1.length !== keys2.length) return false
-
-  for (let key of keys1) {
-    if (!keys2.includes(key)) return false
-    if (!deepEqual(obj1[key], obj2[key])) return false
-  }
-
-  return true
-}
-
 onMounted(async () => {
+  const id = route.params.id
   try {
     await movieStore.fetchGenres()
+    await movieStore.fetchMovie(id)
+    movieForm.value = cloneDeep(movieStore.$state.movie)
+    if (movieForm.value.genres) {
+      tagGenres.value = movieForm.value.genres
+    }
+    if (movieForm.value.image) {
+      uploadedImageUrl.value = path + '/storage/' + movieForm.value.image
+    }
   } catch (err) {
     console.log(err)
   }
@@ -69,7 +58,10 @@ onMounted(async () => {
 
 const filterGenres = async (name) => {
   genres.value.forEach((genre) => {
-    if (genre.name === name && !tagGenres.value.some((tagGenre) => tagGenre.name === name)) {
+    if (
+      genre.name === name &&
+      !tagGenres.value.some((tagGenre) => JSON.stringify(tagGenre.name) === JSON.stringify(name))
+    ) {
       tagGenres.value.push(genre)
     }
   })
@@ -82,11 +74,7 @@ const removeTag = (id) => {
 }
 
 const onSubmit = async () => {
-  if (
-    deepEqual(props.movie, movieForm.value) &&
-    !imageUrl.value &&
-    Object.keys(tagGenres.value).length === 0
-  ) {
+  if (!imageUrl.value && Object.keys(tagGenres.value).length === 0) {
     return
   }
   const id = route.params.id
@@ -163,7 +151,7 @@ const uploadedImage = ref(
 
 <template>
   <div
-    class="h-auto top-0 w-full md:top-[8%] md:left-[30%] 2xl:left-[24%] xl:w-37 2xl:w-60 absolute text-white bg-modal md:w-31 rounded-xl"
+    class="h-auto top-0 w-full md:top-[8%] md:left-[30%] 2xl:left-[24%] xl:w-60 2xl:w-60 absolute text-white bg-modal md:w-31 rounded-xl"
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.5 px-3.5">
       <div></div>
@@ -181,6 +169,7 @@ const uploadedImage = ref(
       </div>
       <Form @submit="onSubmit" class="flex flex-col gap-6">
         <movie-input
+          v-if="movieForm.title"
           v-model="movieForm.title.en"
           name="title.en"
           label="Movie name"
@@ -190,6 +179,7 @@ const uploadedImage = ref(
           :errors="errors"
         ></movie-input>
         <movie-input
+          v-if="movieForm.title"
           v-model="movieForm.title.ka"
           name="title.ka"
           label="ფილმის სახელი"
@@ -199,6 +189,7 @@ const uploadedImage = ref(
           :errors="errors"
         ></movie-input>
         <genre-component
+          v-if="movieForm.genres"
           :error="tagGenresError"
           :filter="filterGenres"
           :remove="removeTag"
@@ -206,6 +197,7 @@ const uploadedImage = ref(
           type="edit"
         ></genre-component>
         <movie-input
+          v-if="movieForm.year"
           v-model="movieForm.year"
           name="year"
           label="წელი/year"
@@ -213,6 +205,7 @@ const uploadedImage = ref(
           validate="required"
         ></movie-input>
         <movie-input
+          v-if="movieForm.director"
           v-model="movieForm.director.en"
           name="director.en"
           label="Director"
@@ -221,6 +214,7 @@ const uploadedImage = ref(
           validate="required"
         ></movie-input>
         <movie-input
+          v-if="movieForm.director"
           v-model="movieForm.director.ka"
           name="director.ka"
           label="რეჟისორი"
@@ -228,7 +222,8 @@ const uploadedImage = ref(
           type="text"
           validate="required"
         ></movie-input>
-        <movie-textarea
+        <the-textarea
+          v-if="movieForm.description"
           validate="required"
           name="description.en"
           rows="4"
@@ -236,8 +231,9 @@ const uploadedImage = ref(
           label="Movie Description :"
           lang="Eng"
           :class="{ 'text-[#6C757D]': movieForm.description.en }"
-        ></movie-textarea>
-        <movie-textarea
+        ></the-textarea>
+        <the-textarea
+          v-if="movieForm.description"
           validate="required"
           name="description.ka"
           rows="4"
@@ -245,7 +241,7 @@ const uploadedImage = ref(
           lang="ქარ"
           label="ფილმის აღწერა :"
           :class="{ 'text-[#6C757D]': movieForm.description.ka }"
-        ></movie-textarea>
+        ></the-textarea>
         <movie-image
           :onFileChangeParent="onFileChange"
           :onDropParent="onDrop"

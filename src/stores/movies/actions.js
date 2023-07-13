@@ -117,7 +117,6 @@ export default {
     } catch (error) {
       if (error.response && error.response.data && error.response.data.errors) {
         this.editErrors = error.response.data.errors
-        console.log(this.editErrors, error.response.data.errors)
       } else {
         console.log(error)
       }

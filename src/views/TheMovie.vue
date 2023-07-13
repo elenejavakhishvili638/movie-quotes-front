@@ -1,25 +1,25 @@
 <script setup>
 import { onMounted, computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useMoviesStore } from '../stores/movies/index'
-import FeedHeader from '../components/FeedHeader.vue'
-import { useLanguageStore } from '../stores/language/index'
-import IconComment from '../components/icons/IconComment.vue'
-import IconHeart from '../components/icons/IconHeart.vue'
-import IconDots from '../components/icons/IconDots.vue'
-import ProfileSidebar from '../components/ProfileSidebar.vue'
-import IconTrash from '../components/icons/IconTrash.vue'
-import IconEditVue from '../components/icons/IconEdit.vue'
-import IconEye from '../components/icons/IconEye.vue'
-import EditMovie from '../components/EditMovie.vue'
-import { useUserStore } from '../stores/user/index'
-import AddQuote from '../components/AddQuote.vue'
-import { useQuotesStore } from '../stores/quotes'
-import ViewQuote from '../components/ViewQuote.vue'
-import ModalLayout from '../components/ModalLayout.vue'
-import EditQuote from '../components/EditQuote.vue'
-import IconPlus from '../components/icons/IconPlus.vue'
-import { useNotificationStore } from '../stores/notification'
+import { useMoviesStore } from '@/stores/movies/index'
+import FeedHeader from '@/components/FeedHeader.vue'
+import { useLanguageStore } from '@/stores/language/index'
+import IconComment from '@/components/icons/IconComment.vue'
+import IconHeart from '@/components/icons/IconHeart.vue'
+import IconDots from '@/components/icons/IconDots.vue'
+import ProfileSidebar from '@/components/ProfileSidebar.vue'
+import IconTrash from '@/components/icons/IconTrash.vue'
+import IconEditVue from '@/components/icons/IconEdit.vue'
+import IconEye from '@/components/icons/IconEye.vue'
+import EditMovie from '@/components/EditMovie.vue'
+import { useUserStore } from '@/stores/user/index'
+import AddQuote from '@/components/AddQuote.vue'
+import { useQuotesStore } from '@/stores/quotes'
+import ViewQuote from '@/components/ViewQuote.vue'
+import ModalLayout from '@/components/ModalLayout.vue'
+import EditQuote from '@/components/EditQuote.vue'
+import IconPlus from '@/components/icons/IconPlus.vue'
+import { useNotificationStore } from '@/stores/notification'
 
 const moviesStore = useMoviesStore()
 const route = useRoute()
@@ -32,11 +32,7 @@ const movie = computed(() => moviesStore.$state.movie)
 let path = import.meta.env.VITE_BACKEND_URL
 
 const openedModalId = ref(null)
-const editMovie = ref(false)
-const addQuote = ref(false)
-const viewQuote = ref(false)
 const quoteId = ref(null)
-const editQuote = ref(false)
 
 onMounted(async () => {
   const id = route.params.id
@@ -48,27 +44,34 @@ onMounted(async () => {
 })
 
 const openMovie = () => {
-  editMovie.value = true
+  router.push({ name: 'editMovie' })
 }
 const closeMovie = () => {
-  editMovie.value = false
+  router.back()
 }
+const editMovie = computed(() => route.name === 'editMovie')
 
 const openQuote = () => {
-  addQuote.value = true
+  router.push({ name: 'addQuote' })
 }
 const closeQuote = () => {
-  addQuote.value = false
+  router.back()
 }
+const addQuote = computed(() => route.name === 'addQuote')
 
 const openViewQuote = (id) => {
-  viewQuote.value = true
+  router.push({
+    name: 'viewQuote',
+    params: { id: route.params.id },
+    query: { quoteId: id }
+  })
   quoteId.value = id
 }
 
 const closeViewQuote = () => {
-  viewQuote.value = false
+  router.back()
 }
+const viewQuote = computed(() => route.name === 'viewQuote')
 
 const openModal = (id) => {
   if (openedModalId.value === id) {
@@ -83,13 +86,19 @@ const closeModal = () => {
 }
 
 const openEditQuote = (id) => {
-  editQuote.value = true
+  router.push({
+    name: 'editQuote',
+    params: { id: route.params.id },
+    query: { quoteId: id }
+  })
   quoteId.value = id
 }
 
 const closeEditQuote = () => {
-  editQuote.value = false
+  router.back()
 }
+
+const editQuote = computed(() => route.name === 'editQuote')
 
 const deleteMovie = async () => {
   const id = route.params.id
@@ -165,7 +174,7 @@ const user = computed(() => userStore.$state.user)
           <div>
             <img
               :src="path + '/storage/' + movie.image"
-              class="min-w-[22.375rem] w-full h-18.875 border border-[#DDCCAA] xl:w-50.563 xl:h-27.563 rounded-xl object-cover mb-1.5"
+              class="min-w-[20rem] w-full h-18.875 border border-[#DDCCAA] xl:w-50.563 xl:h-27.563 rounded-xl object-cover mb-1.5"
             />
           </div>
           <div class="lg:w-[36rem]">
@@ -182,13 +191,13 @@ const user = computed(() => userStore.$state.user)
                 <IconTrash @click="deleteMovie" class="cursor-pointer"></IconTrash>
               </div>
             </div>
-            <div class="flex gap-2 my-1.5">
+            <div class="flex gap-2 my-1.5 flex-wrap">
               <div
                 class="px-[0.688rem] py-[0.375rem] bg-[#6C757D] rounded"
                 v-for="genre in movie.genres"
                 :key="genre.id"
               >
-                <p class="font-[700] text-lg">{{ genre.name }}</p>
+                <p class="font-[700] text-lg">{{ genre.name[language] }}</p>
               </div>
             </div>
             <p class="mb-1.25 text-[#CED4DA] text-lg font-[700]">

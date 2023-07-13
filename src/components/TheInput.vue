@@ -1,11 +1,11 @@
 <script setup>
 import { Field, ErrorMessage, useField } from 'vee-validate'
 import { ref, watch, computed } from 'vue'
-import IconValid from './icons/IconValid.vue'
-import IconError from './icons/IconError.vue'
-import CloseInput from './icons/CloseInput.vue'
-import { useLanguageStore } from '../stores/language/index'
-import ClosedEye from './icons/ClosedEye.vue'
+import IconValid from '@/components/icons/IconValid.vue'
+import IconError from '@/components/icons/IconError.vue'
+import CloseInput from '@/components/icons/CloseInput.vue'
+import { useLanguageStore } from '@/stores/language/index'
+import ClosedEye from '@/components/icons/ClosedEye.vue'
 
 const props = defineProps([
   'placeholder',
@@ -76,7 +76,7 @@ const toggleInputType = () => {
     >
     <div
       :class="inputClass"
-      class="relative z-0 flex items-center justify-between h-2.375 bg-[#CED4DA] rounded"
+      class="relative z-0 flex items-center justify-between h-2.375 bg-cyanBlue rounded"
     >
       <Field
         class="bg-transparent w-full outline-none py-0.438 pl-0.813 rounded focus:shadow-custom-focus text-black"
@@ -101,9 +101,9 @@ const toggleInputType = () => {
       ></CloseInput>
       <component class="absolute mr-[0.5rem] right-0" v-bind:is="img"></component>
     </div>
-    <p class="text-[#F15524] text-base mt-[0.375rem]" v-if="errors">
+    <p class="text-[#F15524] text-base mt-[0.375rem] w-22.5" v-if="errors">
       {{ errors[props.name] && errors[props.name][0][language] }}
     </p>
-    <ErrorMessage class="text-[#F15524] text-base mt-[0.375rem]" :name="name" />
+    <ErrorMessage class="text-[#F15524] text-base mt-[0.375rem] w-22.5" :name="name" />
   </div>
 </template>

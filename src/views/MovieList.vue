@@ -1,23 +1,25 @@
 <script setup>
-import FeedHeader from '../components/FeedHeader.vue'
-import IconChatQuote from '../components/icons/IconChatQuote.vue'
-import IconSearch from '../components/icons/IconSearch.vue'
+import FeedHeader from '@/components/FeedHeader.vue'
+import IconChatQuote from '@/components/icons/IconChatQuote.vue'
+import IconSearch from '@/components/icons/IconSearch.vue'
 import { onMounted, computed, ref } from 'vue'
-import { useMoviesStore } from '../stores/movies/index'
-import { useLanguageStore } from '../stores/language/index'
-import ProfileSidebar from '../components/ProfileSidebar.vue'
-import { useUserStore } from '../stores/user/index'
-import NewMovie from '../components/NewMovie.vue'
-import ModalLayout from '../components/ModalLayout.vue'
-import IconPlus from '../components/icons/IconPlus.vue'
-import IconArrow from '../components/icons/IconArrow.vue'
+import { useMoviesStore } from '@/stores/movies/index'
+import { useLanguageStore } from '@/stores/language/index'
+import ProfileSidebar from '@/components/ProfileSidebar.vue'
+import { useUserStore } from '@/stores/user/index'
+import NewMovie from '@/components/NewMovie.vue'
+import ModalLayout from '@/components/ModalLayout.vue'
+import IconPlus from '@/components/icons/IconPlus.vue'
+import IconArrow from '@/components/icons/IconArrow.vue'
+import { useRouter, useRoute } from 'vue-router'
 
 const moviesStore = useMoviesStore()
 const languageStore = useLanguageStore()
 const searchTerm = ref('')
 const userStore = useUserStore()
-const addMovie = ref(false)
 const searchOpen = ref(false)
+const router = useRouter()
+const route = useRoute()
 let path = import.meta.env.VITE_BACKEND_URL
 
 onMounted(async () => {
@@ -33,11 +35,13 @@ const fetchMovies = async () => {
 }
 
 const openMovie = () => {
-  addMovie.value = true
+  router.push({ name: 'newMovie' })
 }
 const closeMovie = () => {
-  addMovie.value = false
+  router.back()
 }
+
+const addMovie = computed(() => route.name === 'newMovie')
 
 const language = computed(() => languageStore.currentLanguage)
 const user = computed(() => userStore.$state.user)
@@ -57,7 +61,7 @@ const closeSearch = () => {
       <new-movie :image="user.image" :username="user.username" :closeMovie="closeMovie"></new-movie>
     </modal-layout>
     <feed-header :searchBar="true" :toggle-search="toggleSearch"></feed-header>
-    <div class="md:flex md:ml-2.5 lg:ml-4.5">
+    <div class="md:flex md:ml-2.5 xl:ml-4.5">
       <div class="hidden md:block text-white w-14.5">
         <profile-sidebar></profile-sidebar>
       </div>
@@ -112,7 +116,7 @@ const closeSearch = () => {
                   :src="path + '/storage/' + movie.image"
                   class="sm:w-22 md:w-27 h-19 rounded-xl object-cover border border-[#DDCCAA]"
                 />
-                <div class="mt-1 w-22">
+                <div class="mt-1 sm:w-22">
                   <h1 class="mb-1 text-2xl">
                     {{ movie.title && movie.title[language] }} ({{ movie.year }})
                   </h1>

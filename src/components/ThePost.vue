@@ -1,12 +1,12 @@
 <script setup>
-import IconComment from './icons/IconComment.vue'
-import IconHeart from './icons/IconHeart.vue'
+import IconComment from '@/components/icons/IconComment.vue'
+import IconHeart from '@/components/icons/IconHeart.vue'
 import { Form, Field } from 'vee-validate'
-import { useQuotesStore } from '../stores/quotes/index'
-import { useUserStore } from '../stores/user'
+import { useQuotesStore } from '@/stores/quotes/index'
+import { useUserStore } from '@/stores/user'
 import { computed, onMounted, ref } from 'vue'
-import { useNotificationStore } from '../stores/notification'
-import { useLanguageStore } from '../stores/language/index'
+import { useNotificationStore } from '@/stores/notification'
+import { useLanguageStore } from '@/stores/language/index'
 
 const props = defineProps([
   'quote',
@@ -128,7 +128,7 @@ const language = computed(() => languageStore.currentLanguage)
         </p>
         <img
           :src="path + '/storage/' + props.poster"
-          class="bg-[#D9D9D9] rounded-lg w-22 h-12.5 md:w-full md:h-31 object-cover"
+          class="bg-[#D9D9D9] rounded-lg w-22 h-12.5 md:w-full md:h-31 object-fill"
           alt="film"
         />
         <div class="flex my-1.25 border-b border-color pb-2 text-xl">
@@ -136,7 +136,7 @@ const language = computed(() => languageStore.currentLanguage)
             <p>{{ props.comments.length }}</p>
             <IconComment class="ml-0.75"></IconComment>
           </div>
-          <div class="flex">
+          <div class="flex cursor-pointer">
             <p>{{ props.likes.length }}</p>
             <IconHeart class="ml-0.75" @click="toggleLike" :filled-color="src"></IconHeart>
           </div>

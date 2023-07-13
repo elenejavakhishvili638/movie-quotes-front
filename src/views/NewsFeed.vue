@@ -1,26 +1,28 @@
 <script setup>
-import IconSearch from '../components/icons/IconSearch.vue'
-import FeedHeader from '../components/FeedHeader.vue'
-import { useQuotesStore } from '../stores/quotes/index'
+import IconSearch from '@/components/icons/IconSearch.vue'
+import FeedHeader from '@/components/FeedHeader.vue'
+import { useQuotesStore } from '@/stores/quotes/index'
 import { onMounted, computed, ref, watch, onBeforeUnmount, onUnmounted } from 'vue'
-import { useUserStore } from '../stores/user/index'
-import ProfileSidebar from '../components/ProfileSidebar.vue'
-import ThePost from '../components/ThePost.vue'
-import { useLanguageStore } from '../stores/language/index'
-import NewQuote from '../components/NewQuote.vue'
-import IconPencil from '../components/icons/IconPencil.vue'
-import IconArrow from '../components/icons/IconArrow.vue'
-import ModalLayout from '../components/ModalLayout.vue'
-import instantiatePusher from '../helpers/instantiatePusher'
+import { useUserStore } from '@/stores/user/index'
+import ProfileSidebar from '@/components/ProfileSidebar.vue'
+import ThePost from '@/components/ThePost.vue'
+import { useLanguageStore } from '@/stores/language/index'
+import NewQuote from '@/components/NewQuote.vue'
+import IconPencil from '@/components/icons/IconPencil.vue'
+import IconArrow from '@/components/icons/IconArrow.vue'
+import ModalLayout from '@/components/ModalLayout.vue'
+import instantiatePusher from '@/helpers/instantiatePusher'
+import { useRouter, useRoute } from 'vue-router'
 
 const increaseSearch = ref(false)
-const addQuote = ref(false)
 const userStore = useUserStore()
 const languageStore = useLanguageStore()
 const searchTerm = ref('')
 const quotesStore = useQuotesStore()
 const searchOpen = ref(false)
 const page = ref(1)
+const router = useRouter()
+const route = useRoute()
 
 const user = computed(() => userStore.$state.user)
 
@@ -41,7 +43,8 @@ const handleCommentSent = (data) => {
 
 const handleLikeSent = (data) => {
   let quote = quotesStore.state.find((q) => q.id === data.like.quote_id)
-  if (quote) {
+  let liked = quote.likes && quote.likes.find((like) => like.user_id === data.like.user_id)
+  if (!liked) {
     quote.likes.push(data.like)
   }
 }
@@ -82,17 +85,20 @@ watch(searchTerm, (newTerm) => {
 })
 
 const increase = () => {
-  increaseSearch.value = true
+  increaseSearch.value = !increaseSearch.value
 }
 const decrease = () => {
   increaseSearch.value = false
 }
+
 const openQuote = () => {
-  addQuote.value = true
+  router.push({ name: 'newQuote' })
 }
 const closeQuote = () => {
-  addQuote.value = false
+  router.back()
 }
+
+const addQuote = computed(() => route.path === '/news-feed/new-quote')
 
 const toggleSearch = () => {
   searchOpen.value = true

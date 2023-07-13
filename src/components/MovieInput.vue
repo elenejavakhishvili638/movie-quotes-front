@@ -1,9 +1,9 @@
 <script setup>
 import { Field, useField } from 'vee-validate'
 import { ref, watch, computed } from 'vue'
-import { useLanguageStore } from '../stores/language/index'
-import IconValid from './icons/IconValid.vue'
-import IconError from './icons/IconError.vue'
+import { useLanguageStore } from '@/stores/language/index'
+import IconValid from '@/components/icons/IconValid.vue'
+import IconError from '@/components/icons/IconError.vue'
 
 const props = defineProps(['name', 'modelValue', 'label', 'lang', 'type', 'validate', 'errors'])
 const emit = defineEmits(['update:modelValue'])
@@ -66,7 +66,7 @@ const language = computed(() => languageStore.currentLanguage)
         :type="props.type"
         :rules="props.validate"
         autocomplete="off"
-        class="bg-transparent outline-none h-3 px-1 py-[0.563rem] w-11.875 lg:w-37.5"
+        class="bg-transparent outline-none h-3 px-1 py-[0.563rem] w-11.875 xl:w-37.5"
       />
       <component
         :class="props.name === 'year' ? 'right-3' : 'right-11'"

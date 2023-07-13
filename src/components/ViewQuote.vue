@@ -1,19 +1,18 @@
 <script setup>
-import IconClose from './icons/IconClose.vue'
-import IconTrash from './icons/IconTrash.vue'
-import IconEdit from './icons/IconEdit.vue'
+import IconClose from '@/components/icons/IconClose.vue'
+import IconTrash from '@/components/icons/IconTrash.vue'
+import IconEdit from '@/components/icons/IconEdit.vue'
 import { computed, onMounted, ref } from 'vue'
-import { useQuotesStore } from '../stores/quotes'
-import IconComment from './icons/IconComment.vue'
-import IconHeart from './icons/IconHeart.vue'
-import { useUserStore } from '../stores/user'
+import { useQuotesStore } from '@/stores/quotes'
+import IconComment from '@/components/icons/IconComment.vue'
+import IconHeart from '@/components/icons/IconHeart.vue'
+import { useUserStore } from '@/stores/user'
 import { Form, Field } from 'vee-validate'
-import { useRoute } from 'vue-router'
-import { useMoviesStore } from '../stores/movies'
+import { useRoute, useRouter } from 'vue-router'
+import { useMoviesStore } from '@/stores/movies'
 
 const route = useRoute()
 const props = defineProps(['closeViewQuote', 'id', 'movie', 'image', 'username'])
-const emit = defineEmits(['editQuote'])
 const quoteStore = useQuotesStore()
 const userStore = useUserStore()
 let path = import.meta.env.VITE_BACKEND_URL
@@ -24,20 +23,22 @@ const moviesStore = useMoviesStore()
 const src = ref('white')
 const showAllcomments = ref(false)
 const commenText = ref(0)
+const paramId = route.query.quoteId
+const router = useRouter()
 
 const toggleLike = async () => {
   if (src.value === 'white') {
     src.value = '#F3426C'
-    await quoteStore.likeQuote(props.id, { user_id: userId.value.id }, 'movie')
+    await quoteStore.likeQuote(Number(paramId), { user_id: userId.value.id }, 'movie')
   } else {
     src.value = 'white'
-    await quoteStore.unlikeQuote(props.id, { user_id: userId.value.id }, 'movie')
+    await quoteStore.unlikeQuote(Number(paramId), { user_id: userId.value.id }, 'movie')
   }
 }
 
 onMounted(async () => {
   try {
-    await quoteStore.fetchQuote(props.id)
+    await quoteStore.fetchQuoteId(paramId)
     const likedQuote = quote.value.likes.find((like) => like.user_id === userId.value.id)
     if (likedQuote) {
       src.value = '#F3426C'
@@ -56,20 +57,23 @@ const onSubmit = async () => {
       user_id: userId.value.id
     }
     commentForm.value.body = ''
-    await quoteStore.addComment(data, props.id, 'movie')
+    await quoteStore.addComment(data, Number(paramId), 'movie')
   } catch (error) {
     console.log(error)
   }
 }
 
 const openEdit = async () => {
-  props.closeViewQuote()
-  emit('editQuote', props.id)
+  router.replace({
+    name: 'editQuote',
+    params: { id: route.params.id },
+    query: { quoteId: paramId }
+  })
 }
 
 const deleteQuote = async () => {
   try {
-    await quoteStore.deleteQuote(props.id)
+    await quoteStore.deleteQuote(Number(paramId))
     const movieId = route.params.id
     await moviesStore.updateMovie(movieId)
     props.closeViewQuote()
@@ -102,7 +106,7 @@ const showComments = () => {
 
 <template>
   <div
-    class="h-auto top-0 w-full md:top-[8%] md:left-[35%] xl:left-[28%] 2xl:left-[24%] xl:w-[37.563rem] 2xl:w-60 absolute text-white bg-[#11101A] md:w-31.25 rounded-xl"
+    class="h-auto top-0 w-full md:top-[8%] md:left-[35%] xl:left-[28%] 2xl:left-[24%] xl:w-[37.563rem] 2xl:w-60 absolute text-white bg-modal md:w-31.25 rounded-xl"
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.5 px-3.5">
       <div class="w-5.625 h-10 flex items-center justify-between">
@@ -180,9 +184,9 @@ const showComments = () => {
         <div class="flex items-center mr-0.75">
           <img class="bg-[#D9D9D9] rounded-full w-10 h-10" alt="name" :src="uploadedImage" />
         </div>
-        <Form @submit="onSubmit" class="w-19.125 h-10 md:w-full">
+        <Form @submit="onSubmit" class="w-full h-10">
           <Field
-            class="bg-[#24222F] w-19.125 pl-1 h-10 rounded-lg md:w-full outline-none"
+            class="bg-[#24222F] w-full pl-1 h-10 rounded-lg outline-none"
             :placeholder="$t('feed.write_comment')"
             name="comment"
             type="text"

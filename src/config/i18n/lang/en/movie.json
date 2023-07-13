@@ -15,5 +15,6 @@
     "delete": "Delete",
     "save_changes": "Save changes",
     "change_photo": "Change photo",
-    "replace_photo": "Replace photo"
+    "replace_photo": "Replace photo",
+    "genres": "Genres"
 }

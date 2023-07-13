@@ -1,14 +1,14 @@
 <script setup>
-import IconClose from './icons/IconClose.vue'
-import MovieInput from './MovieInput.vue'
-import { useMoviesStore } from '../stores/movies/index'
+import IconClose from '@/components/icons/IconClose.vue'
+import MovieInput from '@/components/MovieInput.vue'
+import { useMoviesStore } from '@/stores/movies/index'
 import { computed, ref, onMounted, watch } from 'vue'
 import { Form, useField, useForm } from 'vee-validate'
-import TheButton from './TheButton.vue'
-import { useUserStore } from '../stores/user/index'
-import MovieTextarea from './MovieTextarea.vue'
-import GenreComponent from './GenreComponent.vue'
-import MovieImage from './MovieImage.vue'
+import TheButton from '@/components/TheButton.vue'
+import { useUserStore } from '@/stores/user/index'
+import TheTextarea from '@/components/TheTextarea.vue'
+import GenreComponent from '@/components/GenreComponent.vue'
+import MovieImage from '@/components/MovieImage.vue'
 
 const props = defineProps(['username', 'closeMovie', 'image'])
 const movieStore = useMoviesStore()
@@ -136,7 +136,7 @@ const uploadedImage = ref(
 
 <template>
   <div
-    class="h-auto top-0 w-full md:top-[8%] md:left-[35%] xl:left-[28%] 2xl:left-[24%] xl:w-37.5 2xl:w-60 absolute text-white bg-[#11101A] md:w-37.5 rounded-xl"
+    class="h-auto top-0 w-full md:top-[8%] md:left-[26%] xl:left-[23%] 2xl:left-[24%] xl:w-60 2xl:w-60 absolute text-white bg-[#11101A] md:w-37.5 rounded-xl"
   >
     <div class="flex items-center justify-between border-b border-[#EFEFEF33] py-1.563 px-3.375">
       <div></div>
@@ -200,7 +200,7 @@ const uploadedImage = ref(
           type="text"
           validate="required|georgian"
         ></movie-input>
-        <movie-textarea
+        <the-textarea
           validate="required|english"
           name="description.en"
           rows="4"
@@ -208,8 +208,8 @@ const uploadedImage = ref(
           v-model="movieForm.description.en"
           label="Movie Description :"
           :class="{ 'text-[#6C757D]': movieForm.description.en }"
-        ></movie-textarea>
-        <movie-textarea
+        ></the-textarea>
+        <the-textarea
           validate="required|georgian"
           name="description.ka"
           rows="4"
@@ -217,7 +217,7 @@ const uploadedImage = ref(
           v-model="movieForm.description.ka"
           label="ფილმის აღწერა :"
           :class="{ 'text-[#6C757D]': movieForm.description.ka }"
-        ></movie-textarea>
+        ></the-textarea>
         <movie-image
           :onFileChangeParent="onFileChange"
           :onDropParent="onDrop"

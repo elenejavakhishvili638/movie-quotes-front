@@ -74,7 +74,13 @@ export const theme = {
       red: '#E31221',
       'border-color': 'rgba(239, 239, 239, 0.3)',
       modal: '#11101A',
-      feedColor: 'linear-gradient(0deg, rgba(34, 32, 48, 0.2)'
+      feedColor: 'linear-gradient(0deg, rgba(34, 32, 48, 0.2)',
+      cyanBlue: '#CED4DA',
+      charcoal: '#212529',
+      greenCyan: '#198754',
+      lightBrown: '#9C9A9A',
+      lightGreen: '#BADBCC',
+      successGreen: '#0F5132'
     },
     width: {
       72: '72px',

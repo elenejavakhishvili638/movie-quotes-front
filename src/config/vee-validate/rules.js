@@ -1,37 +1,19 @@
 import { defineRule } from 'vee-validate'
+import { required, min, email, confirmed, max } from '@vee-validate/rules'
 
-defineRule('required', (value) => {
-  return !!value && !!value.length
-})
+defineRule('required', required)
 
-defineRule('minmax', (value, [min, max]) => {
-  if (!value || value.length < min || value.length > max) {
-    return false
-  }
-  return true
-})
+defineRule('min', min)
 
-defineRule('minSymbols', (value, [min]) => {
-  if (!value || value.length < min) {
-    return false
-  }
-  return true
-})
+defineRule('max', max)
 
 defineRule('lowercase_and_numbers_only', (value) => {
   return /^[a-z0-9]+$/.test(value)
 })
 
-defineRule('email', (value) => {
-  return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value)
-})
+defineRule('email', email)
 
-defineRule('confirmed', (value, [target], ctx) => {
-  if (value === ctx.form[target]) {
-    return true
-  }
-  return false
-})
+defineRule('confirmed', confirmed)
 
 defineRule('arrayNotEmpty', (value) => {
   if ((value && value.length === 0) || value === undefined) {
