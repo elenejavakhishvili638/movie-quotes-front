@@ -61,7 +61,7 @@ const closeSearch = () => {
       <new-movie :image="user.image" :username="user.username" :closeMovie="closeMovie"></new-movie>
     </modal-layout>
     <feed-header :searchBar="true" :toggle-search="toggleSearch"></feed-header>
-    <div class="md:flex ml-2.5 xl:ml-4.5">
+    <div class="md:flex md:ml-2.5 xl:ml-4.5">
       <div class="hidden md:block text-white w-14.5">
         <profile-sidebar></profile-sidebar>
       </div>
@@ -116,7 +116,7 @@ const closeSearch = () => {
                   :src="path + '/storage/' + movie.image"
                   class="sm:w-22 md:w-27 h-19 rounded-xl object-cover border border-[#DDCCAA]"
                 />
-                <div class="mt-1 w-22">
+                <div class="mt-1 sm:w-22">
                   <h1 class="mb-1 text-2xl">
                     {{ movie.title && movie.title[language] }} ({{ movie.year }})
                   </h1>

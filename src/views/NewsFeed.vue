@@ -42,12 +42,9 @@ const handleCommentSent = (data) => {
 }
 
 const handleLikeSent = (data) => {
-  if (data.like.user_id === user.value.id) {
-    return
-  }
-
   let quote = quotesStore.state.find((q) => q.id === data.like.quote_id)
-  if (quote) {
+  let liked = quote.likes && quote.likes.find((like) => like.user_id === data.like.user_id)
+  if (!liked) {
     quote.likes.push(data.like)
   }
 }

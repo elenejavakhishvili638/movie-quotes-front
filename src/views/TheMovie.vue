@@ -174,7 +174,7 @@ const user = computed(() => userStore.$state.user)
           <div>
             <img
               :src="path + '/storage/' + movie.image"
-              class="min-w-[22.375rem] w-full h-18.875 border border-[#DDCCAA] xl:w-50.563 xl:h-27.563 rounded-xl object-cover mb-1.5"
+              class="min-w-[20rem] w-full h-18.875 border border-[#DDCCAA] xl:w-50.563 xl:h-27.563 rounded-xl object-cover mb-1.5"
             />
           </div>
           <div class="lg:w-[36rem]">
