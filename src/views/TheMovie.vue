@@ -49,7 +49,7 @@ const openMovie = () => {
 const closeMovie = () => {
   router.back()
 }
-const editMovie = computed(() => route.path === `/movie/${route.params.id}/edit-movie`)
+const editMovie = computed(() => route.name === 'editMovie')
 
 const openQuote = () => {
   router.push({ name: 'addQuote' })
@@ -57,7 +57,7 @@ const openQuote = () => {
 const closeQuote = () => {
   router.back()
 }
-const addQuote = computed(() => route.path === `/movie/${route.params.id}/add-quote`)
+const addQuote = computed(() => route.name === 'addQuote')
 
 const openViewQuote = (id) => {
   router.push({
@@ -71,7 +71,7 @@ const openViewQuote = (id) => {
 const closeViewQuote = () => {
   router.back()
 }
-const viewQuote = computed(() => route.path === `/movie/${route.params.id}/view-quote`)
+const viewQuote = computed(() => route.name === 'viewQuote')
 
 const openModal = (id) => {
   if (openedModalId.value === id) {
@@ -98,7 +98,7 @@ const closeEditQuote = () => {
   router.back()
 }
 
-const editQuote = computed(() => route.path === `/movie/${route.params.id}/edit-quote`)
+const editQuote = computed(() => route.name === 'editQuote')
 
 const deleteMovie = async () => {
   const id = route.params.id

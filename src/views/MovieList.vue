@@ -41,7 +41,7 @@ const closeMovie = () => {
   router.back()
 }
 
-const addMovie = computed(() => route.path === '/movie-list/new-movie')
+const addMovie = computed(() => route.name === 'newMovie')
 
 const language = computed(() => languageStore.currentLanguage)
 const user = computed(() => userStore.$state.user)

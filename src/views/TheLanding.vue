@@ -74,7 +74,7 @@ onMounted(() => {
 
 <template>
   <div>
-    <form-layout :close="home" v-if="route.path === '/registration'">
+    <form-layout :close="home" v-if="route.name === 'registration'">
       <the-registration
         :closeRegistration="home"
         :openModal="() => openModal('showModal')"
@@ -118,7 +118,7 @@ onMounted(() => {
         </button>
       </the-modal>
     </form-layout>
-    <form-layout :close="home" v-if="route.path === '/login'">
+    <form-layout :close="home" v-if="route.name === 'login'">
       <the-login
         v-if="modalState === 'login'"
         @changeModal="handleModalChange"
