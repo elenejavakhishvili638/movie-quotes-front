@@ -156,7 +156,7 @@ const closeSuccessModal = () => {
                   'updatedUsername',
                   $t('profile.new_username'),
                   'text',
-                  'required|minmax:3,15|lowercase_and_numbers_only'
+                  'required|min:3|max:15|lowercase_and_numbers_only'
                 )
               "
             >
@@ -198,7 +198,7 @@ const closeSuccessModal = () => {
                   'updatedPassword',
                   $t('profile.new_password'),
                   'password',
-                  'required|lowercase_and_numbers_only|minmax:8,15'
+                  'required|lowercase_and_numbers_only|min:8|max:15'
                 )
               "
             >

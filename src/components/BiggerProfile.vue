@@ -189,7 +189,7 @@ const language = computed(() => languageStore.currentLanguage)
                 name="username"
                 type="text"
                 :label="$t('profile.new_username')"
-                validate="minmax:3,15|lowercase_and_numbers_only"
+                validate="min:3|max:15|lowercase_and_numbers_only"
                 :errors="errors"
               >
               </the-input>
@@ -252,7 +252,7 @@ const language = computed(() => languageStore.currentLanguage)
                 name="password"
                 type="password"
                 :label="$t('profile.new_password')"
-                validate="lowercase_and_numbers_only|minmax:8,15"
+                validate="lowercase_and_numbers_only|min:8|max:15"
                 :errors="errors"
               >
               </the-input>

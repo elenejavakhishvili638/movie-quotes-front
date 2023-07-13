@@ -1,16 +1,11 @@
 import { defineRule } from 'vee-validate'
-import { required, min, email, confirmed } from '@vee-validate/rules'
+import { required, min, email, confirmed, max } from '@vee-validate/rules'
 
 defineRule('required', required)
 
-defineRule('minmax', (value, [min, max]) => {
-  if (!value || value.length < min || value.length > max) {
-    return false
-  }
-  return true
-})
+defineRule('min', min)
 
-defineRule('minSymbols', min)
+defineRule('max', max)
 
 defineRule('lowercase_and_numbers_only', (value) => {
   return /^[a-z0-9]+$/.test(value)
