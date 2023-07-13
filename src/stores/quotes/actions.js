@@ -150,22 +150,21 @@ export default {
     try {
       if (type === 'movie') {
         const foundQuote = movieStore.movie.quotes.find((quote) => quote.id === id)
-        const likeIndex = foundQuote.likes.findIndex((like) => like.user_id === user_id)
-        const liked = this.quote.likes.findIndex((like) => like.user_id === user_id)
-        if (liked !== -1) {
-          this.quote.likes.splice(likeIndex, 1)
+        if (foundQuote) {
+          foundQuote.likes = foundQuote.likes.filter((like) => like.user_id !== user_id)
         }
-        if (likeIndex !== -1) {
-          foundQuote.likes.splice(likeIndex, 1)
+        const liked = this.quote.likes.find((like) => like.user_id === user_id)
+        if (liked) {
+          this.quote.likes = this.quote.likes.filter((like) => like.user_id !== user_id)
         }
         await unlike(id)
         await this.fetchQuoteId(id)
         await this.fetchFullList()
       } else {
         const foundQuote = this.quoteList.find((quote) => quote.id === id)
-        const likeIndex = foundQuote.likes.findIndex((like) => like.user_id === user_id)
-        if (likeIndex !== -1) {
-          foundQuote.likes.splice(likeIndex, 1)
+        const liked = foundQuote.likes.find((like) => like.user_id === user_id)
+        if (liked) {
+          foundQuote.likes = foundQuote.likes.filter((like) => like.user_id !== user_id)
         }
         await unlike(id)
       }
