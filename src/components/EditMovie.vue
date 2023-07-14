@@ -11,6 +11,7 @@ import { useRoute } from 'vue-router'
 import GenreComponent from '@/components/GenreComponent.vue'
 import MovieImage from '@/components/MovieImage.vue'
 import { cloneDeep } from 'lodash'
+import profileImage from '@/assets/images/profile.png'
 
 const props = defineProps(['username', 'closeMovie', 'movie', 'image'])
 const movieStore = useMoviesStore()
@@ -145,7 +146,9 @@ const onDrop = async (event, handleChange, validate) => {
 }
 
 const uploadedImage = ref(
-  props.image && props.image.startsWith('images') ? path + '/storage/' + props.image : props.image
+  props.image && props.image.startsWith('images')
+    ? path + '/storage/' + props.image
+    : props.image || profileImage
 )
 </script>
 

@@ -8,6 +8,7 @@ import IconTick from '@/components/icons/IconTick.vue'
 import IconExit from '@/components/icons/IconExit.vue'
 import ModalLayout from '@/components/ModalLayout.vue'
 import IconArrow from '@/components/icons/IconArrow.vue'
+import profileImage from '@/assets/images/profile.png'
 
 const props = defineProps(['username', 'email', 'google', 'user'])
 const fileInput = ref(null)
@@ -25,7 +26,7 @@ const imageUrl = ref(null)
 const uploadedImageUrl = ref(
   props.user.image && props.user.image.startsWith('images')
     ? path + '/storage/' + props.user.image
-    : props.user.image
+    : props.user.image || profileImage
 )
 
 const userStore = useUserStore()

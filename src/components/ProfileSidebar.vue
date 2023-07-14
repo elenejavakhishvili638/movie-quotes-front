@@ -4,6 +4,7 @@ import { useUserStore } from '@/stores/user/index'
 import { computed, ref } from 'vue'
 import ProfileCamera from '@/components/icons/ProfileCamera.vue'
 import ProfileHome from '@/components/icons/ProfileHome.vue'
+import profileImage from '@/assets/images/profile.png'
 
 const props = defineProps(['close'])
 let path = import.meta.env.VITE_BACKEND_URL
@@ -20,7 +21,7 @@ const user = computed(() => userStore.$state.user)
 const uploadedImageUrl = ref(
   user.value.image && user.value.image.startsWith('images')
     ? path + '/storage/' + user.value.image
-    : user.value.image
+    : user.value.image || profileImage
 )
 </script>
 

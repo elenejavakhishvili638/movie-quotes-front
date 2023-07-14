@@ -12,6 +12,7 @@ import IconChatQuote from '@/components/icons/IconChatQuote.vue'
 import { useNotificationStore } from '@/stores/notification'
 import IconFilledHeart from '@/components/icons/IconFilledHeart.vue'
 import IconBell from '@/components/icons/IconBell.vue'
+import profileImage from '@/assets/images/profile.png'
 
 const props = defineProps(['searchBar', 'toggleSearch'])
 
@@ -80,7 +81,7 @@ const minutesAgo = (dateString) => {
 }
 
 const getImagePath = (image) => {
-  return image && image.startsWith('images') ? path + '/storage/' + image : image
+  return image && image.startsWith('images') ? path + '/storage/' + image : image || profileImage
 }
 </script>
 
