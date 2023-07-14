@@ -9,6 +9,7 @@ import MovieImage from '@/components/MovieImage.vue'
 import TheTextarea from '@/components/TheTextarea.vue'
 import { useQuotesStore } from '@/stores/quotes'
 import { useUserStore } from '@/stores/user/index'
+import profileImage from '@/assets/images/profile.png'
 
 const userStore = useUserStore()
 const quoteStore = useQuotesStore()
@@ -82,7 +83,9 @@ const onSubmit = async () => {
 }
 
 const uploadedImage = ref(
-  props.image && props.image.startsWith('images') ? path + '/storage/' + props.image : props.image
+  props.image && props.image.startsWith('images')
+    ? path + '/storage/' + props.image
+    : props.image || profileImage
 )
 </script>
 

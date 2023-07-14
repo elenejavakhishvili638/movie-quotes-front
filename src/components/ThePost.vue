@@ -7,6 +7,7 @@ import { useUserStore } from '@/stores/user'
 import { computed, onMounted, ref } from 'vue'
 import { useNotificationStore } from '@/stores/notification'
 import { useLanguageStore } from '@/stores/language/index'
+import profileImage from '@/assets/images/profile.png'
 
 const props = defineProps([
   'quote',
@@ -81,17 +82,17 @@ const onSubmit = async () => {
 const uploadedImageUrl = ref(
   props.userImage && props.userImage.startsWith('images')
     ? path + '/storage/' + props.userImage
-    : props.userImage
+    : props.userImage || profileImage
 )
 
 const authUserImage = ref(
   props.authImage && props.authImage.startsWith('images')
     ? path + '/storage/' + props.authImage
-    : props.authImage
+    : props.authImage || profileImage
 )
 
 const getImagePath = (image) => {
-  return image && image.startsWith('images') ? path + '/storage/' + image : image
+  return image && image.startsWith('images') ? path + '/storage/' + image : image || profileImage
 }
 
 const displayedComments = computed(() => {

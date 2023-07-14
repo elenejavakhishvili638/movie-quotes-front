@@ -10,6 +10,7 @@ import { useUserStore } from '@/stores/user'
 import { Form, Field } from 'vee-validate'
 import { useRoute, useRouter } from 'vue-router'
 import { useMoviesStore } from '@/stores/movies'
+import profileImage from '@/assets/images/profile.png'
 
 const route = useRoute()
 const props = defineProps(['closeViewQuote', 'id', 'movie', 'image', 'username'])
@@ -83,11 +84,13 @@ const deleteQuote = async () => {
 }
 
 const uploadedImage = ref(
-  props.image && props.image.startsWith('images') ? path + '/storage/' + props.image : props.image
+  props.image && props.image.startsWith('images')
+    ? path + '/storage/' + props.image
+    : props.image || profileImage
 )
 
 const getImagePath = (image) => {
-  return image && image.startsWith('images') ? path + '/storage/' + image : image
+  return image && image.startsWith('images') ? path + '/storage/' + image : image || profileImage
 }
 
 const displayedComments = computed(() => {

@@ -10,6 +10,7 @@ import IconCamera from '@/components/icons/IconCamera.vue'
 import TheTextarea from '@/components/TheTextarea.vue'
 import TheButton from '@/components/TheButton.vue'
 import { useUserStore } from '@/stores/user/index'
+import profileImage from '@/assets/images/profile.png'
 
 const props = defineProps(['closeEditQuote', 'id', 'movie', 'image', 'username'])
 const route = useRoute()
@@ -88,7 +89,9 @@ const onFileChange = async (e, handleChange, validate) => {
 }
 
 const uploadedImage = ref(
-  props.image && props.image.startsWith('images') ? path + '/storage/' + props.image : props.image
+  props.image && props.image.startsWith('images')
+    ? path + '/storage/' + props.image
+    : props.image || profileImage
 )
 
 const onDragOver = (event) => {
@@ -159,11 +162,13 @@ const onDrop = async (event, handleChange, validate) => {
           ></the-textarea>
         </div>
         <Field name="image" v-slot="{ handleChange, validate }">
-          <div class="relative flex items-center justify-center cursor-pointer">
+          <div
+            @dragover.prevent="onDragOver"
+            @dragleave.prevent="onDragLeave"
+            @drop.prevent="onDrop($event, handleChange, validate)"
+            class="relative flex items-center justify-center cursor-pointer"
+          >
             <div
-              @dragover.prevent="onDragOver"
-              @dragleave.prevent="onDragLeave"
-              @drop.prevent="onDrop($event, handleChange, validate)"
               @click="triggerFileInput"
               class="text-center flex flex-col items-center justify-center opacity-[80%] rounded-xl w-[8.438rem] h-5.25 bg-backgroundColor absolute"
             >

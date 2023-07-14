@@ -59,8 +59,11 @@ const handleModalChange = (state) => {
   modalState.value = state
 }
 
-const resend = () => {
-  store.resend()
+const resend = async () => {
+  await store.resend()
+  verifedModal.value = false
+  store.expired = false
+  home()
 }
 
 const emailForPasswordReset = computed(() => store.email)
